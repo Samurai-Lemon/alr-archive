@@ -908,6 +908,57 @@ footer a:hover {
 .alr-sb-badge-s3 { color: #b07828 !important; background: #180e04 !important; border-color: #3a2c0e !important; }
 .alr-sb-badge-s4 { color: #c45a3a !important; background: #1e1008 !important; border-color: #4a2010 !important; }
 
+// ─── SIDEBAR DROPDOWNS ────────────────────────────────────
+.alr-sb-group {
+  width: 100%;
+}
+
+.alr-sb-group summary {
+  list-style: none !important;
+}
+
+.alr-sb-group summary::-webkit-details-marker {
+  display: none;
+}
+
+.alr-sb-group-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 16px;
+  font-size: 12px;
+  color: #6b6860;
+  cursor: pointer;
+  border-left: 2px solid transparent;
+  user-select: none;
+}
+
+.alr-sb-group-title:hover {
+  color: #b8b4a8;
+  background: #1e1d18;
+}
+
+.alr-sb-chevron {
+  margin-left: auto;
+  font-size: 11px;
+  color: #3a3830;
+  transition: transform 0.15s ease;
+  display: inline-block;
+}
+
+details[open] .alr-sb-chevron {
+  transform: rotate(90deg);
+}
+
+.alr-sb-group-items {
+  display: flex;
+  flex-direction: column;
+}
+
+.alr-sb-item-child {
+  padding-left: 28px !important;
+}
+
 // ─── SCROLLBAR ─────────────────────────────────────────────
 ::-webkit-scrollbar {
   width: 4px;
