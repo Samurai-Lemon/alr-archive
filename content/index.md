@@ -1,8 +1,4 @@
 ---
-title: ALR Initiative — Archive
----
----
-title: ALR Initiative — Archive
 ---
 
 <div class="alr-home">
