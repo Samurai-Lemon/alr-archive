@@ -280,7 +280,7 @@ article a:hover {
   border-left-width: 3px !important;
   border-left-style: solid !important;
   border-top: none !important;
-  border-right: none !important;
+out: none !important;
   border-bottom: none !important;
 }
 
@@ -855,10 +855,10 @@ footer a:hover {
   font-size: 9px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #3a3830;
+  color: #6b6860;
   padding: 0 16px;
   margin-bottom: 4px;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .alr-sb-item {
