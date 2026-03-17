@@ -132,8 +132,7 @@ body {
 .sidebar.left {
   background: #141410 !important;
   border-right: 0.5px solid #222018 !important;
-  padding: 16px 0 !important;
-  padding-top: 12px !important;
+  padding: 0 !important;
   gap: 0 !important;
   margin-top: 0 !important;
 }
@@ -146,66 +145,6 @@ body {
 .sidebar.left a:hover {
   color: #b8b4a8 !important;
   border-bottom: none !important;
-}
-
-.explorer {
-  background: transparent !important;
-  padding: 0 !important;
-  width: 100% !important;
-}
-
-.explorer-title {
-  font-size: 9px !important;
-  letter-spacing: 0.14em !important;
-  text-transform: uppercase !important;
-  color: #3a3830 !important;
-  font-weight: 400 !important;
-  padding: 0 16px !important;
-  margin-bottom: 6px !important;
-}
-
-.folder-outer > div > button,
-.folder-container > button {
-  font-size: 12px !important;
-  color: #6b6860 !important;
-  padding: 5px 16px !important;
-  width: 100% !important;
-  text-align: left !important;
-  background: transparent !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-}
-
-.folder-outer > div > button:hover,
-.folder-container > button:hover {
-  color: #b8b4a8 !important;
-  background: #1e1d18 !important;
-}
-
-.folder-outer li > a,
-.folder-outer > ul > li > a {
-  font-size: 12px !important;
-  color: #6b6860 !important;
-  padding: 4px 16px !important;
-  display: block !important;
-  border-bottom: none !important;
-  text-decoration: none !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-}
-
-.folder-outer li > a:hover {
-  color: #b8b4a8 !important;
-  background: #1e1d18 !important;
-  border-bottom: none !important;
-}
-
-.folder-outer li > a.active {
-  color: #f0ece0 !important;
-  background: #201e18 !important;
-  border-left: 2px solid #cc785c !important;
 }
 
 // ─── MAIN CONTENT ─────────────────────────────────────────
@@ -898,6 +837,76 @@ footer a:hover {
   color: #3a3830;
   margin-top: 1px;
 }
+
+// ─── ALR SIDEBAR NAV ──────────────────────────────────────
+.alr-sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+  padding: 8px 0;
+}
+
+.alr-sb-section {
+  margin-bottom: 18px;
+}
+
+.alr-sb-label {
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #3a3830;
+  padding: 0 16px;
+  margin-bottom: 4px;
+  font-weight: 400;
+}
+
+.alr-sb-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 16px;
+  font-size: 12px;
+  color: #6b6860;
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  cursor: pointer;
+  border-bottom: none !important;
+}
+
+.alr-sb-item:hover {
+  color: #b8b4a8 !important;
+  background: #1e1d18;
+  border-bottom: none !important;
+}
+
+.alr-sb-item.active {
+  color: #f0ece0 !important;
+  border-left-color: #cc785c;
+  background: #201e18;
+}
+
+.alr-sb-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.alr-sb-badge {
+  margin-left: auto;
+  font-size: 9px;
+  color: #5a5248;
+  background: #201e18;
+  border: 0.5px solid #3a3428;
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+
+.alr-sb-badge-s1 { color: #1d9e75 !important; background: #06120d !important; border-color: #0e4030 !important; }
+.alr-sb-badge-s2 { color: #c49030 !important; background: #1a1208 !important; border-color: #4a3010 !important; }
+.alr-sb-badge-s3 { color: #b07828 !important; background: #180e04 !important; border-color: #3a2c0e !important; }
+.alr-sb-badge-s4 { color: #c45a3a !important; background: #1e1008 !important; border-color: #4a2010 !important; }
 
 // ─── SCROLLBAR ─────────────────────────────────────────────
 ::-webkit-scrollbar {

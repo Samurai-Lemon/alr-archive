@@ -34,7 +34,7 @@ export const defaultContentPageLayout: PageLayout = {
     Component.TagList(),
   ],
   left: [
-    Component.Explorer(),
+    Component.ALRSidebar(),
   ],
   right: [
     Component.Graph(),
@@ -50,7 +50,7 @@ export const defaultListPageLayout: PageLayout = {
     Component.ContentMeta(),
   ],
   left: [
-    Component.Explorer(),
+    Component.ALRSidebar(),
   ],
   right: [],
 }
