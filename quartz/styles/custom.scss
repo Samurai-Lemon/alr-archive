@@ -272,11 +272,11 @@ article a:hover {
   padding-top: 14px !important;
 }
 
-.page[data-slug="index"] .sidebar.right {
+body[data-slug="index"] .sidebar.right {
   display: none !important;
 }
 
-.page[data-slug="index"] > #quartz-body {
+body[data-slug="index"] #quartz-body {
   grid-template-columns: 220px minmax(0, 1fr) !important;
 }
 
