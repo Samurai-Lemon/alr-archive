@@ -195,7 +195,6 @@ article.popover-hint {
   background: #0f0f12 !important;
 }
 
-// Breadcrumbs
 .breadcrumb-container {
   font-size: 11px !important;
   color: #44444f !important;
@@ -213,7 +212,6 @@ article.popover-hint {
   border-bottom: none !important;
 }
 
-// Content meta
 p.content-meta {
   color: #44444f !important;
   font-size: 11px !important;
@@ -222,7 +220,6 @@ p.content-meta {
   margin-bottom: 20px !important;
 }
 
-// Article title
 h1.article-title {
   font-size: 22px !important;
   font-weight: 500 !important;
@@ -230,7 +227,14 @@ h1.article-title {
   margin-bottom: 4px !important;
 }
 
-// Headings
+h1, h2, h3, h4, h5, h6 {
+  color: #c8c8d8 !important;
+}
+
+h1.article-title {
+  color: #e0dff0 !important;
+}
+
 article h1 {
   font-size: 22px !important;
   font-weight: 500 !important;
@@ -255,15 +259,6 @@ article h3 {
   margin-bottom: 6px !important;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  color: #c8c8d8 !important;
-}
-
-h1.article-title {
-  color: #e0dff0 !important;
-}
-
-// Body text
 article p {
   font-size: 13px !important;
   color: #7a7a8e !important;
@@ -282,7 +277,6 @@ article ol {
   margin-bottom: 12px !important;
 }
 
-// Links
 article a {
   color: #7f77dd !important;
   border-bottom: 0.5px solid #3c3489 !important;
@@ -400,7 +394,6 @@ article a:hover {
   gap: 12px !important;
 }
 
-// Graph
 .graph {
   border: 0.5px solid #1e1e24 !important;
   border-radius: 8px !important;
@@ -411,7 +404,6 @@ article a:hover {
   background: #0c0c0f !important;
 }
 
-// Table of contents
 .toc {
   background: #111116 !important;
   border: 0.5px solid #1e1e28 !important;
@@ -445,7 +437,6 @@ article a:hover {
   margin: 6px 0 0 !important;
 }
 
-// Backlinks
 .backlinks {
   background: #111116 !important;
   border: 0.5px solid #1e1e28 !important;
@@ -730,9 +721,8 @@ footer a:hover {
   font-size: 9px;
   padding: 1px 5px;
   border-radius: 2px;
-  border: 0.5px solid;
+  border: 0.5px solid #3c3882;
   color: #9f99e0;
-  border-color: #3c3882;
   background: #0e0c1a;
 }
 
@@ -766,7 +756,6 @@ footer a:hover {
 
 .alr-real-rcc {
   font-size: 11px;
-  color: #6060788;
   color: #44444f;
   margin-bottom: 3px;
 }
@@ -856,7 +845,6 @@ footer a:hover {
 
 .alr-person-name {
   font-size: 11px;
-  color: #8080988;
   color: #707088;
 }
 
