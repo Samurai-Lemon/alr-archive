@@ -40,32 +40,32 @@ const ALRSidebar: QuartzComponent = (_props: QuartzComponentProps) => {
           ECHO-001
           <span class="alr-sb-badge alr-sb-badge-s1">S1</span>
         </a>
-        <a href="/alr-archive/Echoes/Entities/ECHO-002-Dreamwalker" class="alr-sb-item">
+        <a href="/alr-archive/Echoes/Entities/ECHO-002-%E2%80%94-Dreamwalker" class="alr-sb-item">
           <span class="alr-sb-dot" style="background:#cc785c;"></span>
           ECHO-002
           <span class="alr-sb-badge alr-sb-badge-s1">S1</span>
         </a>
-        <a href="/alr-archive/Echoes/Entities/ECHO-003-Nightmare-Stalker" class="alr-sb-item">
+        <a href="/alr-archive/Echoes/Entities/ECHO-003-%E2%80%94-Nightmare-Stalker" class="alr-sb-item">
           <span class="alr-sb-dot" style="background:#c45a3a;"></span>
           ECHO-003
           <span class="alr-sb-badge alr-sb-badge-s4">S4</span>
         </a>
-        <a href="/alr-archive/Echoes/Objects/ECHO-005-The-Blood-Painting" class="alr-sb-item">
+        <a href="/alr-archive/Echoes/Objects/ECHO-005-%E2%80%94-The-Blood-Painting" class="alr-sb-item">
           <span class="alr-sb-dot" style="background:#c45a3a;"></span>
           ECHO-005
           <span class="alr-sb-badge alr-sb-badge-s4">S4</span>
         </a>
-        <a href="/alr-archive/Echoes/Locations/ECHO-006-The-Waiting-Room" class="alr-sb-item">
+        <a href="/alr-archive/Echoes/Locations/ECHO-006-%E2%80%94-The-Waiting-Room" class="alr-sb-item">
           <span class="alr-sb-dot" style="background:#85b7eb;"></span>
           ECHO-006
           <span class="alr-sb-badge alr-sb-badge-s2">S2</span>
         </a>
-        <a href="/alr-archive/Echoes/Phenomena/ECHO-031-Those-Who-Sleep" class="alr-sb-item">
+        <a href="/alr-archive/Echoes/Phenomena/ECHO-031-%E2%80%94-Those-Who-Sleep" class="alr-sb-item">
           <span class="alr-sb-dot" style="background:#d4a840;"></span>
           ECHO-031
           <span class="alr-sb-badge alr-sb-badge-s3">S3</span>
         </a>
-        <a href="/alr-archive/Echoes/Phenomena/ECHO-047-A-Hollow-Bloom" class="alr-sb-item">
+        <a href="/alr-archive/Echoes/Phenomena/ECHO-047-%E2%80%94-A-Hollow-Bloom" class="alr-sb-item">
           <span class="alr-sb-dot" style="background:#d4a840;"></span>
           ECHO-047
           <span class="alr-sb-badge alr-sb-badge-s2">S2</span>
@@ -74,7 +74,7 @@ const ALRSidebar: QuartzComponent = (_props: QuartzComponentProps) => {
 
       <div class="alr-sb-section">
         <div class="alr-sb-label">Realities</div>
-        <a href="/alr-archive/Reality-Reports/Reality-Investigation-Report-R-019" class="alr-sb-item">
+        <a href="/alr-archive/Reality-Reports/Reality-Investigation-Report-%E2%80%94-R-019" class="alr-sb-item">
           <span class="alr-sb-dot" style="background:#4a4840;"></span>
           R-019
         </a>
@@ -90,7 +90,7 @@ const ALRSidebar: QuartzComponent = (_props: QuartzComponentProps) => {
           <span class="alr-sb-dot" style="background:#4a4840;"></span>
           Echo Scanner Unit
         </a>
-        <a href="/alr-archive/Equipment/A.L.I.C.E" class="alr-sb-item">
+        <a href="/alr-archive/Equipment/A.L.I.C.E_" class="alr-sb-item">
           <span class="alr-sb-dot" style="background:#4a4840;"></span>
           A.L.I.C.E.
         </a>
