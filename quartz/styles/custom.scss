@@ -959,6 +959,71 @@ details[open] .alr-sb-chevron {
   padding-left: 28px !important;
 }
 
+// ─── REGISTRY TABLE ───────────────────────────────────────
+.alr-registry {
+  border: 0.5px solid #26251f;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 16px;
+}
+
+.alr-registry-header {
+  display: grid;
+  grid-template-columns: 1fr 80px 80px 80px 60px 60px;
+  padding: 8px 16px;
+  background: #181714;
+  border-bottom: 0.5px solid #26251f;
+  gap: 8px;
+}
+
+.alr-registry-header span {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #4a4840;
+  font-weight: 500;
+}
+
+.alr-registry-row {
+  display: grid;
+  grid-template-columns: 1fr 80px 80px 80px 60px 60px;
+  padding: 8px 16px;
+  border-bottom: 0.5px solid #1e1c18;
+  align-items: center;
+  gap: 8px;
+}
+
+.alr-registry-row:last-child {
+  border-bottom: none;
+}
+
+.alr-registry-row:hover {
+  background: #1e1d18;
+}
+
+.alr-reg-col-file {
+  font-size: 12px;
+}
+
+.alr-reg-col-file a {
+  color: #cc785c !important;
+  border-bottom: none !important;
+}
+
+.alr-reg-col-file a:hover {
+  color: #e09478 !important;
+}
+
+.alr-reg-col {
+  font-size: 11px;
+  color: #4a4840;
+}
+
+.alr-reg-muted {
+  font-size: 11px;
+  color: #4a4840;
+}
+
 // ─── SCROLLBAR ─────────────────────────────────────────────
 ::-webkit-scrollbar {
   width: 4px;

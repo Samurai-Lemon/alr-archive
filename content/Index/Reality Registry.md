@@ -7,7 +7,7 @@ file.link AS "FILE",
 rts AS "RTS",
 rds AS "RDS",
 rcc AS "RCC"
-FROM "06_Reality Reports"
+FROM "Reality Reports"
 WHERE rts
 SORT file.name ASC
 ```
