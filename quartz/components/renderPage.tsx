@@ -71,7 +71,6 @@ function renderTranscludes(
   componentData: QuartzComponentProps,
   visited: Set<FullSlug>,
 ) {
-  // process transcludes in componentData
   visit(root, "element", (node, _index, _parent) => {
     if (node.tagName === "blockquote") {
       const classNames = (node.properties?.className ?? []) as string[]
@@ -109,7 +108,6 @@ function renderTranscludes(
 
         let blockRef = node.properties.dataBlock as string | undefined
         if (blockRef?.startsWith("#^")) {
-          // block transclude
           blockRef = blockRef.slice("#^".length)
           let blockNode = page.blocks?.[blockRef]
           if (blockNode) {
@@ -135,25 +133,20 @@ function renderTranscludes(
             ]
           }
         } else if (blockRef?.startsWith("#") && page.htmlAst) {
-          // header transclude
           blockRef = blockRef.slice(1)
           let startIdx = undefined
           let startDepth = undefined
           let endIdx = undefined
           for (const [i, el] of page.htmlAst.children.entries()) {
-            // skip non-headers
             if (!(el.type === "element" && el.tagName.match(headerRegex))) continue
             const depth = Number(el.tagName.substring(1))
 
-            // lookin for our blockref
             if (startIdx === undefined || startDepth === undefined) {
-              // skip until we find the blockref that matches
               if (el.properties?.id === blockRef) {
                 startIdx = i
                 startDepth = depth
               }
             } else if (depth <= startDepth) {
-              // looking for new header that is same level or higher
               endIdx = i
               break
             }
@@ -177,7 +170,6 @@ function renderTranscludes(
             },
           ]
         } else if (page.htmlAst) {
-          // page transclude
           node.children = [
             {
               type: "element",
@@ -219,13 +211,10 @@ export function renderPage(
   components: RenderComponents,
   pageResources: StaticResources,
 ): string {
-  // make a deep copy of the tree so we don't remove the transclusion references
-  // for the file cached in contentMap in build.ts
   const root = clone(componentData.tree) as Root
   const visited = new Set<FullSlug>([slug])
   renderTranscludes(root, cfg, slug, componentData, visited)
 
-  // set componentData.tree to the edited html that has transclusions rendered
   componentData.tree = root
 
   const {
@@ -264,15 +253,17 @@ export function renderPage(
       <Head {...componentData} />
       <body data-slug={slug}>
         <div id="quartz-root" class="page">
+          <div id="quartz-header">
+            <Header {...componentData}>
+              {header.map((HeaderComponent) => (
+                <HeaderComponent {...componentData} />
+              ))}
+            </Header>
+          </div>
           <Body {...componentData}>
             {LeftComponent}
             <div class="center">
               <div class="page-header">
-                <Header {...componentData}>
-                  {header.map((HeaderComponent) => (
-                    <HeaderComponent {...componentData} />
-                  ))}
-                </Header>
                 <div class="popover-hint">
                   {beforeBody.map((BodyComponent) => (
                     <BodyComponent {...componentData} />
@@ -288,8 +279,8 @@ export function renderPage(
               </div>
             </div>
             {RightComponent}
-            <Footer {...componentData} />
           </Body>
+          <Footer {...componentData} />
         </div>
       </body>
       {pageResources.js
