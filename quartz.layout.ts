@@ -5,16 +5,9 @@ export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [
     Component.PageTitle(),
-    Component.Flex({
-      components: [
-        {
-          Component: Component.Search(),
-          grow: true,
-        },
-        { Component: Component.Darkmode() },
-        { Component: Component.ReaderMode() },
-      ],
-    }),
+    Component.Search(),
+    Component.Darkmode(),
+    Component.ReaderMode(),
   ],
   afterBody: [],
   footer: Component.Footer({
