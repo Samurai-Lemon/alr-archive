@@ -306,6 +306,10 @@ article a:hover {
   display: none !important;
 }
 
+.page[data-slug="index"] #quartz-body .center {
+  padding-top: 14px !important;
+}
+
 // ─── CALLOUTS ─────────────────────────────────────────────
 .callout {
   border-radius: 0 8px 8px 0 !important;
