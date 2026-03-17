@@ -288,6 +288,20 @@ article a:hover {
   border-bottom-color: #7f77dd !important;
 }
 
+// ─── HOMEPAGE OVERRIDES ───────────────────────────────────
+.page[data-slug="index"] h1.article-title {
+  display: none !important;
+}
+
+.page[data-slug="index"] p.content-meta {
+  display: none !important;
+}
+
+.page[data-slug="index"] .page-header {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
 // ─── CALLOUTS ─────────────────────────────────────────────
 .callout {
   border-radius: 0 8px 8px 0 !important;
