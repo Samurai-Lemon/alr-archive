@@ -117,9 +117,10 @@ body {
 }
 
 // ─── LEFT SIDEBAR ─────────────────────────────────────────
-#quartz-body .sidebar.left {
+#quartz-body .sidebar.left,
+.sidebar.left {
   background: #090909 !important;
-  border-right: 0.5px solid #181820 !important;
+  border-right: 0.5px solid #1a1a22 !important;
   padding: 16px 0 !important;
   gap: 0 !important;
 }
@@ -148,6 +149,9 @@ body {
   width: 100% !important;
   text-align: left !important;
   background: transparent !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
 }
 
 .folder-outer > div > button:hover,
@@ -164,6 +168,9 @@ body {
   display: block !important;
   border-bottom: none !important;
   text-decoration: none !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
 }
 
 .folder-outer li > a:hover {
@@ -246,6 +253,14 @@ article h3 {
   color: #b0b0c4 !important;
   margin-top: 18px !important;
   margin-bottom: 6px !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #c8c8d8 !important;
+}
+
+h1.article-title {
+  color: #e0dff0 !important;
 }
 
 // Body text
@@ -377,7 +392,8 @@ article a:hover {
 }
 
 // ─── RIGHT SIDEBAR ─────────────────────────────────────────
-#quartz-body .sidebar.right {
+#quartz-body .sidebar.right,
+.sidebar.right {
   background: #0c0c0f !important;
   border-left: 0.5px solid #1e1e24 !important;
   padding: 16px !important;
