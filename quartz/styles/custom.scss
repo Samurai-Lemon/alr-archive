@@ -302,6 +302,10 @@ article a:hover {
   padding-top: 0 !important;
 }
 
+.page[data-slug="index"] .popover-hint > .page-header {
+  display: none !important;
+}
+
 // ─── CALLOUTS ─────────────────────────────────────────────
 .callout {
   border-radius: 0 8px 8px 0 !important;

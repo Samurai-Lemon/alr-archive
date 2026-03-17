@@ -1,9 +1,5 @@
 ---
 ---
----
-title: The Archive
----
-
 <div class="alr-home">
 
 <div class="alr-hero">
