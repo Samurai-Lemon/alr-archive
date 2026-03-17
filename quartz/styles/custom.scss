@@ -2,13 +2,28 @@
 
 // ─── TOPBAR ───────────────────────────────────────────────
 #quartz-header {
+  width: 100% !important;
   background: #0a0a0d !important;
   border-bottom: 0.5px solid #1e1e24 !important;
   display: flex !important;
   align-items: center !important;
   padding: 0 18px !important;
-  height: 48px !important;
+  min-height: 48px !important;
   gap: 16px !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 100 !important;
+}
+
+#quartz-header header {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+  width: 100% !important;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
 #quartz-header .page-title {
@@ -24,39 +39,47 @@
   color: #c8c0f0 !important;
   border-bottom: none !important;
   text-decoration: none !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
 }
 
 #quartz-header .search {
   flex: 1 !important;
-  max-width: 400px !important;
+  max-width: 380px !important;
 }
 
-#quartz-header .search .search-bar {
+#quartz-header .search-bar {
   background: #141418 !important;
   border: 0.5px solid #1e1e24 !important;
   border-radius: 6px !important;
   height: 30px !important;
 }
 
-#quartz-header .search .search-bar input {
+#quartz-header .search-bar input {
   color: #c8c8d4 !important;
   font-size: 12px !important;
 }
 
-#quartz-header .search .search-bar input::placeholder {
+#quartz-header .search-bar input::placeholder {
   color: #44444f !important;
 }
 
-#quartz-header .darkmode svg,
-#quartz-header .readermode svg {
-  color: #44444f !important;
-  fill: #44444f !important;
+#quartz-header .darkmode {
+  opacity: 0.4 !important;
+  flex-shrink: 0 !important;
 }
 
-#quartz-header .darkmode:hover svg,
-#quartz-header .readermode:hover svg {
-  color: #9090a4 !important;
-  fill: #9090a4 !important;
+#quartz-header .darkmode:hover {
+  opacity: 0.8 !important;
+}
+
+#quartz-header .readermode {
+  opacity: 0.4 !important;
+  flex-shrink: 0 !important;
+}
+
+#quartz-header .readermode:hover {
+  opacity: 0.8 !important;
 }
 
 // ─── BASE ─────────────────────────────────────────────────
@@ -320,7 +343,6 @@ article a:hover {
   margin-bottom: 4px !important;
 }
 
-// Collapsed callout toggle
 .callout.is-collapsible .callout-title {
   cursor: pointer !important;
 }
