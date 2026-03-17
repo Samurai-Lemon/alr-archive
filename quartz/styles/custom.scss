@@ -272,6 +272,14 @@ article a:hover {
   padding-top: 14px !important;
 }
 
+.page[data-slug="index"] .sidebar.right {
+  display: none !important;
+}
+
+.page[data-slug="index"] > #quartz-body {
+  grid-template-columns: 220px minmax(0, 1fr) !important;
+}
+
 // ─── CALLOUTS ─────────────────────────────────────────────
 .callout {
   border-radius: 0 8px 8px 0 !important;
@@ -280,7 +288,7 @@ article a:hover {
   border-left-width: 3px !important;
   border-left-style: solid !important;
   border-top: none !important;
-out: none !important;
+  border-right: none !important;
   border-bottom: none !important;
 }
 
