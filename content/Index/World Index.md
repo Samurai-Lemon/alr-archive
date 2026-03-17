@@ -9,7 +9,7 @@ status: maintained
 
 > [!info] Archive Directory
 > Maintained by the [[ALR Initiative]].
-> This archive preserves records of realities that have become part of [[The Unwritten]]. The [[ALR Initiative]] investigates collapsed worlds, documents anomalous remnants known as [[Echoes]], and preserves knowledge of realities that no longer continue.
+> This archive preserves records of realities that have become part of [[The Unwritten]]. The [[ALR Initiative]] investigates collapsed worlds, documents anomalous remnants known as [[ECHOES]], and preserves knowledge of realities that no longer continue.
 
 ---
 
@@ -26,7 +26,7 @@ status: maintained
 > [!abstract] Fundamental Phenomena
 > Fundamental phenomena that define how realities behave and collapse.
 > - [[The Unwritten]]
-> - [[Echoes]]
+> - [[ECHOES]]
 > - [[The Weight of Words]]
 > - [[Declarations]]
 

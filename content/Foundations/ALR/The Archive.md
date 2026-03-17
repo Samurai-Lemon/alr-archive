@@ -17,7 +17,7 @@ status: active
 
 The Archive is the primary headquarters and operational center of the [[ALR Initiative]]. It serves as the location where investigation records, anomaly documentation, and research materials are preserved and studied.
 
-All documentation produced by the Initiative — including Reality Investigation Reports and [[Echoes]] records — is maintained within the Archive.
+All documentation produced by the Initiative — including Reality Investigation Reports and [[ECHOES]] records — is maintained within the Archive.
 
 The Archive functions as both a research environment and a long-term repository for the historical records of realities that have entered the state known as [[The Unwritten]].
 
@@ -35,7 +35,7 @@ Within the Archive are preserved records describing:
 
 - civilizations that existed in collapsed realities
 - environmental surveys of lost worlds
-- documented [[Echoes]]
+- documented [[ECHOES]]
 - research analysis produced by Initiative personnel
 - official Reality Investigation Reports [[Reality Registry]]
 
@@ -86,6 +86,6 @@ The Archive is associated with an anomalous phenomenon classified as:
 
 **[[ECHO-000 — The Archive]]**
 
-This anomaly represents the earliest recorded [[Echoes|Echo]] encountered by the [[ALR Initiative]] and remains closely connected to the environment in which the Archive operates.
+This anomaly represents the earliest recorded [[ECHOES|Echo]] encountered by the [[ALR Initiative]] and remains closely connected to the environment in which the Archive operates.
 
 Further research into the nature of this anomaly remains ongoing.

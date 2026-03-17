@@ -9,7 +9,7 @@ title: ALR Initiative — Archive
 
 ## Registries
 
-- [[Echoes]] — Documented Echo anomalies
+- [[ECHOES]] — Documented Echo anomalies
 - [[Reality Registry]] — Investigated collapsed realities
 
 ## About

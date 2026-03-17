@@ -11,7 +11,7 @@
 
 The **ALR Initiative** (Archive of Lost Realities Initiative) is an archival authority responsible for investigating and documenting realities that have entered the state known as [[The Unwritten]].
 
-The Initiative preserves records of collapsed worlds, their civilizations, and anomalous phenomena that persist after reality collapse. These phenomena are cataloged as [[Echoes]] within [[The Archive]].
+The Initiative preserves records of collapsed worlds, their civilizations, and anomalous phenomena that persist after reality collapse. These phenomena are cataloged as [[ECHOES]] within [[The Archive]].
 
 Through structured documentation and investigation reports, the Initiative ensures that realities lost to collapse remain preserved within the historical record.
 
@@ -56,7 +56,7 @@ The Initiative conducts several primary activities:
 
 - performing investigations of collapsing or collapsed realities
 - documenting environmental and civilizational conditions
-- cataloging anomalous phenomena known as [[Echoes]]
+- cataloging anomalous phenomena known as [[ECHOES]]
 - maintaining records through Reality Investigation Reports
 - preserving recovered information within [[The Archive]]
 
@@ -93,7 +93,7 @@ Personnel responsible for conducting investigations of unstable or collapsed rea
 
 **Echo Research Division**
 
-Personnel responsible for studying anomalous phenomena known as [[Echoes]].
+Personnel responsible for studying anomalous phenomena known as [[ECHOES]].
 
 - Senior Researchers
 - Researchers
