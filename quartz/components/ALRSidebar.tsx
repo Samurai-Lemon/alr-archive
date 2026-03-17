@@ -121,6 +121,52 @@ const ALRSidebar: QuartzComponent = (_props: QuartzComponentProps) => {
       </div>
 
       <div class="alr-sb-section">
+        <div class="alr-sb-label">Systems</div>
+        <a href="/alr-archive/Systems/The-Unwritten" class="alr-sb-item">
+          <span class="alr-sb-dot" style="background:#4a4840;"></span>
+          The Unwritten
+        </a>
+        <a href="/alr-archive/Systems/Reality-Tier-System-(RTS)" class="alr-sb-item">
+          <span class="alr-sb-dot" style="background:#4a4840;"></span>
+          Reality Tier System
+        </a>
+        <a href="/alr-archive/Systems/Reality-Divergence-Scale-(RDS)" class="alr-sb-item">
+          <span class="alr-sb-dot" style="background:#4a4840;"></span>
+          Reality Divergence Scale
+        </a>
+        <a href="/alr-archive/Systems/Reality-Collapse-Classification-(RCC)" class="alr-sb-item">
+          <span class="alr-sb-dot" style="background:#4a4840;"></span>
+          Reality Collapse Classification
+        </a>
+        <a href="/alr-archive/Systems/Echo-Classification-(EC)" class="alr-sb-item">
+          <span class="alr-sb-dot" style="background:#4a4840;"></span>
+          Echo Classification
+        </a>
+        <a href="/alr-archive/Systems/Echo-Stability-Classification-(ESC)" class="alr-sb-item">
+          <span class="alr-sb-dot" style="background:#4a4840;"></span>
+          Echo Stability Classification
+        </a>
+
+        <details class="alr-sb-group">
+          <summary class="alr-sb-group-title">
+            <span class="alr-sb-dot" style="background:#4a4840;"></span>
+            Interactions
+            <span class="alr-sb-chevron">›</span>
+          </summary>
+          <div class="alr-sb-group-items">
+            <a href="/alr-archive/Systems/Interactions/Declarations" class="alr-sb-item alr-sb-item-child">
+              <span class="alr-sb-dot" style="background:#4a4840;"></span>
+              Declarations
+            </a>
+            <a href="/alr-archive/Systems/Interactions/The-Weight-of-Words" class="alr-sb-item alr-sb-item-child">
+              <span class="alr-sb-dot" style="background:#4a4840;"></span>
+              The Weight of Words
+            </a>
+          </div>
+        </details>
+      </div>
+
+      <div class="alr-sb-section">
         <div class="alr-sb-label">Equipment</div>
         <a href="/alr-archive/Equipment/Lastlight-Recorder" class="alr-sb-item">
           <span class="alr-sb-dot" style="background:#4a4840;"></span>
