@@ -676,6 +676,13 @@ footer a:hover {
   font-size: 10px;
   color: #7a5040;
   cursor: pointer;
+  text-decoration: none;
+  border-bottom: none !important;
+}
+
+.alr-card-head-action:hover {
+  color: #cc785c !important;
+  border-bottom: none !important;
 }
 
 .alr-echo-row {
