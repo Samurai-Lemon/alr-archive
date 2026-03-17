@@ -1,3 +1,241 @@
 @use "./base.scss";
 
-// put your custom CSS here!
+// ALR Initiative — Custom Theme
+
+// Hide default header, use custom styling
+.quartz-root {
+  font-family: "Inter", sans-serif;
+}
+
+// Sidebar
+.left.sidebar {
+  background: #090909;
+  border-right: 0.5px solid #181820;
+  padding: 16px 0;
+}
+
+.page-title {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #c8c0f0 !important;
+  letter-spacing: 0.04em;
+  padding: 0 16px;
+  border-bottom: 0.5px solid #181820;
+  padding-bottom: 14px;
+  margin-bottom: 8px;
+}
+
+// Search bar
+.search {
+  background: #141418 !important;
+  border: 0.5px solid #1e1e24 !important;
+  border-radius: 6px !important;
+}
+
+.search input {
+  color: #c8c8d4 !important;
+}
+
+// Explorer / file tree
+.explorer {
+  color: #55555f;
+}
+
+.explorer button {
+  color: #55555f !important;
+  font-size: 12px !important;
+}
+
+.explorer a {
+  color: #6b6b7a !important;
+  font-size: 12px !important;
+}
+
+.explorer a:hover {
+  color: #a8a8bc !important;
+  background: #141418 !important;
+}
+
+.folder-title {
+  color: #55555f !important;
+  font-size: 12px !important;
+}
+
+// Main content area
+.center {
+  background: #0f0f12;
+}
+
+article {
+  background: #0f0f12;
+}
+
+// Page title
+h1 {
+  color: #e0dff0 !important;
+  font-weight: 500 !important;
+  font-size: 22px !important;
+}
+
+h2 {
+  color: #c8c8d8 !important;
+  font-weight: 500 !important;
+  font-size: 18px !important;
+  border-bottom: 0.5px solid #1a1a22 !important;
+  padding-bottom: 4px;
+}
+
+h3 {
+  color: #b0b0c4 !important;
+  font-weight: 500 !important;
+  font-size: 16px !important;
+}
+
+// Body text
+p, li {
+  color: #7a7a8e !important;
+  font-size: 13px !important;
+  line-height: 1.7 !important;
+}
+
+// Internal links
+a {
+  color: #7f77dd !important;
+  text-decoration: none !important;
+  border-bottom: 0.5px solid #3c3489 !important;
+}
+
+a:hover {
+  color: #afa9ec !important;
+  border-bottom-color: #7f77dd !important;
+}
+
+// Callouts
+.callout {
+  border-radius: 0 8px 8px 0 !important;
+  font-size: 12px !important;
+}
+
+.callout[data-callout="info"] {
+  background: #090e1a !important;
+  border-left-color: #185fa5 !important;
+  color: #85b7eb !important;
+}
+
+.callout[data-callout="warning"] {
+  background: #120d04 !important;
+  border-left-color: #854f0b !important;
+  color: #ef9f27 !important;
+}
+
+.callout[data-callout="note"] {
+  background: #0b0a1a !important;
+  border-left-color: #3c3489 !important;
+  color: #afa9ec !important;
+}
+
+.callout[data-callout="abstract"] {
+  background: #090e1a !important;
+  border-left-color: #185fa5 !important;
+  color: #85b7eb !important;
+}
+
+.callout[data-callout="example"] {
+  background: #0b0a1a !important;
+  border-left-color: #534ab7 !important;
+  color: #afa9ec !important;
+}
+
+.callout-title {
+  font-size: 10px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  opacity: 0.7;
+}
+
+.callout-title-inner {
+  color: inherit !important;
+}
+
+// Right sidebar
+.right.sidebar {
+  background: #0c0c0f;
+  border-left: 0.5px solid #1e1e24;
+}
+
+.toc {
+  font-size: 11px !important;
+  color: #44444f !important;
+}
+
+.toc a {
+  color: #44444f !important;
+  border-bottom: none !important;
+  font-size: 11px !important;
+}
+
+.toc a:hover {
+  color: #9090a4 !important;
+}
+
+// Graph view
+.graph {
+  background: #0c0c0f !important;
+  border: 0.5px solid #1e1e24 !important;
+  border-radius: 8px !important;
+}
+
+// YAML frontmatter tags
+.tag {
+  background: #12101e !important;
+  border: 0.5px solid #3c3882 !important;
+  color: #9f99e0 !important;
+  font-size: 10px !important;
+  border-radius: 3px !important;
+  padding: 1px 6px !important;
+}
+
+// Footer
+.footer {
+  background: #090909 !important;
+  border-top: 0.5px solid #1a1a20 !important;
+  color: #2a2a34 !important;
+  font-size: 10px !important;
+}
+
+.footer a {
+  color: #33333c !important;
+  border-bottom: none !important;
+}
+
+// Metadata line (date, read time)
+.content-meta {
+  color: #44444f !important;
+  font-size: 11px !important;
+}
+
+// Horizontal rule
+hr {
+  border-color: #1a1a22 !important;
+}
+
+// Code blocks
+pre {
+  background: #0c0c10 !important;
+  border: 0.5px solid #1e1e28 !important;
+  border-radius: 8px !important;
+}
+
+code {
+  background: #111116 !important;
+  color: #afa9ec !important;
+  font-size: 12px !important;
+  border-radius: 3px !important;
+  padding: 1px 4px !important;
+}
+
+// Page background
+body {
+  background: #0f0f12 !important;
+}
