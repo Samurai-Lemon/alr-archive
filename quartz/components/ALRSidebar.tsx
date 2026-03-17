@@ -22,7 +22,7 @@ const ALRSidebar: QuartzComponent = (_props: QuartzComponentProps) => {
       <div class="alr-sb-section">
         <div class="alr-sb-label">Registries</div>
         <a href="/alr-archive/Index/ECHO-Registry" class="alr-sb-item">
-          <span class="alr-sb-dot" style="background:#7f77dd;"></span>
+          <span class="alr-sb-dot" style="background:#cc785c;"></span>
           Echo Registry
           <span class="alr-sb-badge">7</span>
         </a>
@@ -90,7 +90,7 @@ const ALRSidebar: QuartzComponent = (_props: QuartzComponentProps) => {
           <span class="alr-sb-dot" style="background:#4a4840;"></span>
           Echo Scanner Unit
         </a>
-        <a href="/alr-archive/Equipment/A-L-I-C-E-" class="alr-sb-item">
+        <a href="/alr-archive/Equipment/A.L.I.C.E" class="alr-sb-item">
           <span class="alr-sb-dot" style="background:#4a4840;"></span>
           A.L.I.C.E.
         </a>
