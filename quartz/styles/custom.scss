@@ -548,6 +548,324 @@ footer a:hover {
   border-bottom: none !important;
 }
 
+// ─── HOMEPAGE ─────────────────────────────────────────────
+.alr-home {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.alr-hero {
+  background: #0c0c10;
+  border: 0.5px solid #1e1e28;
+  border-radius: 10px;
+  padding: 28px 28px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.alr-hero-accent {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: #3c3489;
+  border-radius: 10px 10px 0 0;
+}
+
+.alr-eyebrow {
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #7f77dd;
+  margin-bottom: 10px;
+}
+
+.alr-hero-title {
+  font-size: 22px;
+  font-weight: 500;
+  color: #e0dff0;
+  margin-bottom: 8px;
+}
+
+.alr-hero-sub {
+  font-size: 13px;
+  color: #55555f;
+  line-height: 1.7;
+  max-width: 520px;
+  margin-bottom: 20px;
+}
+
+.alr-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.alr-stat {
+  background: #111116;
+  border: 0.5px solid #1e1e28;
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.alr-stat-num {
+  font-size: 20px;
+  font-weight: 500;
+  color: #c8c0f0;
+  margin-bottom: 2px;
+}
+
+.alr-stat-num.alr-red { color: #993c1d !important; }
+.alr-stat-num.alr-muted { color: #44444f !important; }
+
+.alr-stat-lbl {
+  font-size: 10px;
+  color: #44444f;
+}
+
+.alr-mission {
+  background: #0c0c10;
+  border: 0.5px solid #1e1e28;
+  border-radius: 10px;
+  padding: 18px 20px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.alr-mission-title {
+  font-size: 12px;
+  font-weight: 500;
+  color: #9090a8;
+  margin-bottom: 4px;
+}
+
+.alr-mission-desc {
+  font-size: 11px;
+  color: #3c3c4e;
+  line-height: 1.6;
+}
+
+.alr-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 14px;
+}
+
+.alr-card-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.alr-card {
+  background: #0c0c10;
+  border: 0.5px solid #1e1e28;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.alr-card-full {
+  width: 100%;
+}
+
+.alr-card-wide {
+  width: 100%;
+}
+
+.alr-card-head {
+  padding: 10px 16px;
+  border-bottom: 0.5px solid #1a1a22;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.alr-card-head-title {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #55556a;
+}
+
+.alr-card-head-action {
+  font-size: 10px;
+  color: #3c3870;
+  cursor: pointer;
+}
+
+.alr-echo-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  border-bottom: 0.5px solid #131318;
+}
+
+.alr-echo-row:last-child { border-bottom: none; }
+
+.alr-echo-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.alr-echo-id {
+  font-size: 10px;
+  color: #44444f;
+  width: 58px;
+  flex-shrink: 0;
+  font-family: var(--codeFont);
+}
+
+.alr-echo-name {
+  font-size: 12px;
+  color: #a0a0b8;
+  flex: 1;
+}
+
+.alr-etag {
+  font-size: 9px;
+  padding: 1px 5px;
+  border-radius: 2px;
+  border: 0.5px solid;
+  color: #9f99e0;
+  border-color: #3c3882;
+  background: #0e0c1a;
+}
+
+.alr-et-ent { color: #9f99e0 !important; border-color: #3c3882 !important; background: #0e0c1a !important; }
+.alr-et-obj { color: #5dcaa5 !important; border-color: #0e4030 !important; background: #06120d !important; }
+.alr-et-loc { color: #85b7eb !important; border-color: #0e2840 !important; background: #060c16 !important; }
+.alr-et-phn { color: #ef9f27 !important; border-color: #4a3010 !important; background: #120e06 !important; }
+.alr-et-evt { color: #f09595 !important; border-color: #501313 !important; background: #130808 !important; }
+.alr-es-s1 { color: #1d9e75 !important; border-color: #0e4030 !important; background: #06120d !important; }
+.alr-es-s2 { color: #ba7517 !important; border-color: #4a3010 !important; background: #120e06 !important; }
+.alr-es-s3 { color: #854f0b !important; border-color: #3a2c0e !important; background: #100c04 !important; }
+.alr-es-s4 { color: #993c1d !important; border-color: #3d2010 !important; background: #130806 !important; }
+
+.alr-real-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 16px;
+  border-bottom: 0.5px solid #131318;
+}
+
+.alr-real-row:last-child { border-bottom: none; }
+
+.alr-real-id {
+  font-size: 11px;
+  color: #7f77dd;
+  font-family: var(--codeFont);
+  width: 44px;
+  flex-shrink: 0;
+}
+
+.alr-real-rcc {
+  font-size: 11px;
+  color: #6060788;
+  color: #44444f;
+  margin-bottom: 3px;
+}
+
+.alr-real-tags {
+  display: flex;
+  gap: 4px;
+}
+
+.alr-rtag {
+  font-size: 9px;
+  padding: 1px 5px;
+  border-radius: 2px;
+  border: 0.5px solid #1e1e28;
+  color: #44444f;
+  background: #111116;
+}
+
+.alr-rtag-echo {
+  color: #7f77dd !important;
+  border-color: #2e2a44 !important;
+}
+
+.alr-notice-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 9px 16px;
+  border-bottom: 0.5px solid #131318;
+}
+
+.alr-notice-row:last-child { border-bottom: none; }
+
+.alr-notice-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+.alr-notice-text {
+  font-size: 12px;
+  color: #55556a;
+  line-height: 1.5;
+}
+
+.alr-notice-time {
+  font-size: 10px;
+  color: #33333c;
+  margin-top: 2px;
+}
+
+.alr-personnel {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  padding: 12px 16px;
+}
+
+.alr-person {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  background: #111116;
+  border: 0.5px solid #1a1a22;
+  border-radius: 8px;
+}
+
+.alr-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.alr-av-inv { background: #1a1828; color: #7f77dd; }
+.alr-av-res { background: #0a1618; color: #1d9e75; }
+.alr-av-ops { background: #0e1220; color: #378add; }
+.alr-av-dev { background: #160e08; color: #ba7517; }
+
+.alr-person-name {
+  font-size: 11px;
+  color: #8080988;
+  color: #707088;
+}
+
+.alr-person-div {
+  font-size: 9px;
+  color: #33333c;
+  margin-top: 1px;
+}
+
 // ─── SCROLLBAR ─────────────────────────────────────────────
 ::-webkit-scrollbar {
   width: 4px;
