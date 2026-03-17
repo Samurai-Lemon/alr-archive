@@ -9,11 +9,11 @@ const ALRSidebar: QuartzComponent = (_props: QuartzComponentProps) => {
           <span class="alr-sb-dot" style="background:#6b6860;"></span>
           Home
         </a>
-        <a href="/Foundations/ALR/The-Archive" class="alr-sb-item">
+        <a href="/alr-archive/Foundations/ALR/The-Archive" class="alr-sb-item">
           <span class="alr-sb-dot" style="background:#6b6860;"></span>
           The Archive
         </a>
-        <a href="/Foundations/ALR/ALR-Initiative" class="alr-sb-item">
+        <a href="/alr-archive/Foundations/ALR/ALR-Initiative" class="alr-sb-item">
           <span class="alr-sb-dot" style="background:#6b6860;"></span>
           ALR Initiative
         </a>
@@ -21,12 +21,12 @@ const ALRSidebar: QuartzComponent = (_props: QuartzComponentProps) => {
 
       <div class="alr-sb-section">
         <div class="alr-sb-label">Registries</div>
-        <a href="/Index/ECHO-Registry" class="alr-sb-item">
+        <a href="/alr-archive/Index/ECHO-Registry" class="alr-sb-item">
           <span class="alr-sb-dot" style="background:#6b6860;"></span>
           Echo Registry
           <span class="alr-sb-badge">7</span>
         </a>
-        <a href="/Index/Reality-Registry" class="alr-sb-item">
+        <a href="/alr-archive/Index/Reality-Registry" class="alr-sb-item">
           <span class="alr-sb-dot" style="background:#6b6860;"></span>
           Reality Registry
           <span class="alr-sb-badge">2</span>
@@ -43,17 +43,17 @@ const ALRSidebar: QuartzComponent = (_props: QuartzComponentProps) => {
             <span class="alr-sb-chevron">›</span>
           </summary>
           <div class="alr-sb-group-items">
-            <a href="/Echoes/Entities/ECHO-001-The-Watchers" class="alr-sb-item alr-sb-item-child">
+            <a href="/alr-archive/Echoes/Entities/ECHO-001-The-Watchers" class="alr-sb-item alr-sb-item-child">
               <span class="alr-sb-dot" style="background:#cc785c;"></span>
               ECHO-001
               <span class="alr-sb-badge alr-sb-badge-s1">S1</span>
             </a>
-            <a href="/Echoes/Entities/ECHO-002-%E2%80%94-Dreamwalker" class="alr-sb-item alr-sb-item-child">
+            <a href="/alr-archive/Echoes/Entities/ECHO-002-%E2%80%94-Dreamwalker" class="alr-sb-item alr-sb-item-child">
               <span class="alr-sb-dot" style="background:#cc785c;"></span>
               ECHO-002
               <span class="alr-sb-badge alr-sb-badge-s1">S1</span>
             </a>
-            <a href="/Echoes/Entities/ECHO-003-%E2%80%94-Nightmare-Stalker" class="alr-sb-item alr-sb-item-child">
+            <a href="/alr-archive/Echoes/Entities/ECHO-003-%E2%80%94-Nightmare-Stalker" class="alr-sb-item alr-sb-item-child">
               <span class="alr-sb-dot" style="background:#c45a3a;"></span>
               ECHO-003
               <span class="alr-sb-badge alr-sb-badge-s4">S4</span>
@@ -68,7 +68,7 @@ const ALRSidebar: QuartzComponent = (_props: QuartzComponentProps) => {
             <span class="alr-sb-chevron">›</span>
           </summary>
           <div class="alr-sb-group-items">
-            <a href="/Echoes/Objects/ECHO-005-%E2%80%94-The-Blood-Painting" class="alr-sb-item alr-sb-item-child">
+            <a href="/alr-archive/Echoes/Objects/ECHO-005-%E2%80%94-The-Blood-Painting" class="alr-sb-item alr-sb-item-child">
               <span class="alr-sb-dot" style="background:#c45a3a;"></span>
               ECHO-005
               <span class="alr-sb-badge alr-sb-badge-s4">S4</span>
@@ -83,7 +83,7 @@ const ALRSidebar: QuartzComponent = (_props: QuartzComponentProps) => {
             <span class="alr-sb-chevron">›</span>
           </summary>
           <div class="alr-sb-group-items">
-            <a href="/Echoes/Locations/ECHO-006-%E2%80%94-The-Waiting-Room" class="alr-sb-item alr-sb-item-child">
+            <a href="/alr-archive/Echoes/Locations/ECHO-006-%E2%80%94-The-Waiting-Room" class="alr-sb-item alr-sb-item-child">
               <span class="alr-sb-dot" style="background:#85b7eb;"></span>
               ECHO-006
               <span class="alr-sb-badge alr-sb-badge-s2">S2</span>
@@ -98,12 +98,12 @@ const ALRSidebar: QuartzComponent = (_props: QuartzComponentProps) => {
             <span class="alr-sb-chevron">›</span>
           </summary>
           <div class="alr-sb-group-items">
-            <a href="/Echoes/Phenomena/ECHO-031-%E2%80%94-Those-Who-Sleep" class="alr-sb-item alr-sb-item-child">
+            <a href="/alr-archive/Echoes/Phenomena/ECHO-031-%E2%80%94-Those-Who-Sleep" class="alr-sb-item alr-sb-item-child">
               <span class="alr-sb-dot" style="background:#d4a840;"></span>
               ECHO-031
               <span class="alr-sb-badge alr-sb-badge-s3">S3</span>
             </a>
-            <a href="/Echoes/Phenomena/ECHO-047-%E2%80%94-A-Hollow-Bloom" class="alr-sb-item alr-sb-item-child">
+            <a href="/alr-archive/Echoes/Phenomena/ECHO-047-%E2%80%94-A-Hollow-Bloom" class="alr-sb-item alr-sb-item-child">
               <span class="alr-sb-dot" style="background:#d4a840;"></span>
               ECHO-047
               <span class="alr-sb-badge alr-sb-badge-s2">S2</span>
@@ -114,7 +114,7 @@ const ALRSidebar: QuartzComponent = (_props: QuartzComponentProps) => {
 
       <div class="alr-sb-section">
         <div class="alr-sb-label">Realities</div>
-        <a href="/Reality-Reports/Reality-Investigation-Report-%E2%80%94-R-019" class="alr-sb-item">
+        <a href="/alr-archive/Reality-Reports/Reality-Investigation-Report-%E2%80%94-R-019" class="alr-sb-item">
           <span class="alr-sb-dot" style="background:#6b6860;"></span>
           R-019
         </a>
@@ -122,27 +122,27 @@ const ALRSidebar: QuartzComponent = (_props: QuartzComponentProps) => {
 
       <div class="alr-sb-section">
         <div class="alr-sb-label">Systems</div>
-        <a href="/Systems/The-Unwritten" class="alr-sb-item">
+        <a href="/alr-archive/Systems/The-Unwritten" class="alr-sb-item">
           <span class="alr-sb-dot" style="background:#6b6860;"></span>
           The Unwritten
         </a>
-        <a href="/Systems/Reality-Tier-System-(RTS)" class="alr-sb-item">
+        <a href="/alr-archive/Systems/Reality-Tier-System-(RTS)" class="alr-sb-item">
           <span class="alr-sb-dot" style="background:#6b6860;"></span>
           Reality Tier System
         </a>
-        <a href="/Systems/Reality-Divergence-Scale-(RDS)" class="alr-sb-item">
+        <a href="/alr-archive/Systems/Reality-Divergence-Scale-(RDS)" class="alr-sb-item">
           <span class="alr-sb-dot" style="background:#6b6860;"></span>
           Reality Divergence Scale
         </a>
-        <a href="/Systems/Reality-Collapse-Classification-(RCC)" class="alr-sb-item">
+        <a href="/alr-archive/Systems/Reality-Collapse-Classification-(RCC)" class="alr-sb-item">
           <span class="alr-sb-dot" style="background:#6b6860;"></span>
           Reality Collapse Classification
         </a>
-        <a href="/Systems/Echo-Classification-(EC)" class="alr-sb-item">
+        <a href="/alr-archive/Systems/Echo-Classification-(EC)" class="alr-sb-item">
           <span class="alr-sb-dot" style="background:#6b6860;"></span>
           Echo Classification
         </a>
-        <a href="/Systems/Echo-Stability-Classification-(ESC)" class="alr-sb-item">
+        <a href="/alr-archive/Systems/Echo-Stability-Classification-(ESC)" class="alr-sb-item">
           <span class="alr-sb-dot" style="background:#6b6860;"></span>
           Echo Stability Classification
         </a>
@@ -154,11 +154,11 @@ const ALRSidebar: QuartzComponent = (_props: QuartzComponentProps) => {
             <span class="alr-sb-chevron">›</span>
           </summary>
           <div class="alr-sb-group-items">
-            <a href="/Systems/Interactions/Declarations" class="alr-sb-item alr-sb-item-child">
+            <a href="/alr-archive/Systems/Interactions/Declarations" class="alr-sb-item alr-sb-item-child">
               <span class="alr-sb-dot" style="background:#6b6860;"></span>
               Declarations
             </a>
-            <a href="/Systems/Interactions/The-Weight-of-Words" class="alr-sb-item alr-sb-item-child">
+            <a href="/alr-archive/Systems/Interactions/The-Weight-of-Words" class="alr-sb-item alr-sb-item-child">
               <span class="alr-sb-dot" style="background:#6b6860;"></span>
               The Weight of Words
             </a>
@@ -168,15 +168,15 @@ const ALRSidebar: QuartzComponent = (_props: QuartzComponentProps) => {
 
       <div class="alr-sb-section">
         <div class="alr-sb-label">Equipment</div>
-        <a href="/Equipment/Lastlight-Recorder" class="alr-sb-item">
+        <a href="/alr-archive/Equipment/Lastlight-Recorder" class="alr-sb-item">
           <span class="alr-sb-dot" style="background:#6b6860;"></span>
           Lastlight Recorder
         </a>
-        <a href="/Equipment/Echo-Scanner-Unit" class="alr-sb-item">
+        <a href="/alr-archive/Equipment/Echo-Scanner-Unit" class="alr-sb-item">
           <span class="alr-sb-dot" style="background:#6b6860;"></span>
           Echo Scanner Unit
         </a>
-        <a href="/Equipment/A.L.I.C.E_" class="alr-sb-item">
+        <a href="/alr-archive/Equipment/A.L.I.C.E_" class="alr-sb-item">
           <span class="alr-sb-dot" style="background:#6b6860;"></span>
           A.L.I.C.E.
         </a>
