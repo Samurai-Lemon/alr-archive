@@ -1,8 +1,37 @@
 @use "./base.scss";
 
-// ─── TOPBAR ───────────────────────────────────────────────
+// ─── GRID LAYOUT FIX ──────────────────────────────────────
+.page > #quartz-body {
+  grid-template-columns: 220px auto 200px !important;
+  column-gap: 0 !important;
+}
+
+.page {
+  max-width: 100% !important;
+  margin: 0 !important;
+}
+
+#quartz-root {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
 #quartz-header {
   width: 100% !important;
+}
+
+#quartz-body {
+  flex: 1 !important;
+}
+
+.sidebar {
+  padding: 16px 0 !important;
+  top: 48px !important;
+  height: calc(100vh - 48px) !important;
+}
+
+// ─── TOPBAR ───────────────────────────────────────────────
+#quartz-header {
   background: #0a0a0d !important;
   border-bottom: 0.5px solid #1e1e24 !important;
   display: flex !important;
