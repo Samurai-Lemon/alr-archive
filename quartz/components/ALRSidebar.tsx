@@ -234,21 +234,20 @@ const ALRSidebar: QuartzComponent = (_props: QuartzComponentProps) => {
         }
 
         function initALRSidebar() {
-          var track = document.getElementById('alr-toggle-track');
-          if (track) {
-            syncToggleState();
-            track.addEventListener('click', function() {
-              var btn = document.querySelector('button.darkmode');
-              if (btn) {
-                btn.click();
-                setTimeout(syncToggleState, 50);
-              }
-            });
-          }
-
+          syncToggleState();
           var observer = new MutationObserver(syncToggleState);
           observer.observe(document.documentElement, { attributes: true, attributeFilter: ['saved-theme'] });
         }
+
+        document.addEventListener('click', function(e) {
+          if (e.target.closest('#alr-toggle-track')) {
+            var btn = document.querySelector('button.darkmode');
+            if (btn) {
+              btn.click();
+              setTimeout(syncToggleState, 50);
+            }
+          }
+        });
 
         document.addEventListener('DOMContentLoaded', initALRSidebar);
         document.addEventListener('nav', initALRSidebar);
