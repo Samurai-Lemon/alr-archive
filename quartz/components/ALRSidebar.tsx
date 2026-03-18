@@ -199,7 +199,7 @@ const ALRSidebar: QuartzComponent = (_props: QuartzComponentProps) => {
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
             <span class="alr-sb-text alr-sb-darkmode-label">Dark mode</span>
-            <div class="darkmode alr-sb-darkmode-toggle" id="alr-darkmode-slot"></div>
+            <div class="alr-sb-darkmode-toggle" id="alr-darkmode-slot"></div>
           </div>
         </div>
 
@@ -208,13 +208,12 @@ const ALRSidebar: QuartzComponent = (_props: QuartzComponentProps) => {
       <script dangerouslySetInnerHTML={{__html: `
         function toggleALRSidebar() {
           var wrapper = document.getElementById('alr-sidebar-wrapper');
-          var btn = document.getElementById('alr-collapse-btn');
-          var body = document.querySelector('#quartz-body');
+          var quartzBody = document.getElementById('quartz-body');
           var collapsed = wrapper.classList.toggle('alr-collapsed');
           if (collapsed) {
-            body.style.gridTemplateColumns = '48px minmax(0,1fr)';
+            quartzBody.classList.add('alr-sidebar-collapsed');
           } else {
-            body.style.gridTemplateColumns = '220px minmax(0,1fr)';
+            quartzBody.classList.remove('alr-sidebar-collapsed');
           }
         }
 
