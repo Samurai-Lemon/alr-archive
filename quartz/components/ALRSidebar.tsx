@@ -224,10 +224,8 @@ const ALRSidebar: QuartzComponent = (_props: QuartzComponentProps) => {
         function syncToggleState() {
           var track = document.getElementById('alr-toggle-track');
           if (!track) return;
-          var isDark = document.documentElement.getAttribute('saved-theme') === 'dark'
-            || document.body.getAttribute('saved-theme') === 'dark'
-            || document.documentElement.classList.contains('dark')
-            || (!document.documentElement.getAttribute('saved-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          var savedTheme = document.documentElement.getAttribute('saved-theme');
+          var isDark = savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
           if (isDark) {
             track.classList.add('alr-toggle-on');
           } else {
@@ -235,7 +233,7 @@ const ALRSidebar: QuartzComponent = (_props: QuartzComponentProps) => {
           }
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
+        function initALRSidebar() {
           var track = document.getElementById('alr-toggle-track');
           if (track) {
             syncToggleState();
@@ -249,9 +247,11 @@ const ALRSidebar: QuartzComponent = (_props: QuartzComponentProps) => {
           }
 
           var observer = new MutationObserver(syncToggleState);
-          observer.observe(document.documentElement, { attributes: true, attributeFilter: ['saved-theme', 'class'] });
-          observer.observe(document.body, { attributes: true, attributeFilter: ['saved-theme', 'class'] });
-        });
+          observer.observe(document.documentElement, { attributes: true, attributeFilter: ['saved-theme'] });
+        }
+
+        document.addEventListener('DOMContentLoaded', initALRSidebar);
+        document.addEventListener('nav', initALRSidebar);
       `}} />
     </div>
   )
