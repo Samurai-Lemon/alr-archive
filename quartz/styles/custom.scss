@@ -251,14 +251,14 @@ article a:hover {
 }
 
 // ─── HOMEPAGE OVERRIDES ───────────────────────────────────
-.page[data-slug="index"] h1.article-title { display: none !important; }
-.page[data-slug="index"] p.content-meta { display: none !important; }
-.page[data-slug="index"] .breadcrumb-container { display: none !important; }
-.page[data-slug="index"] .popover-hint { padding-top: 0 !important; margin-top: 0 !important; }
-.page[data-slug="index"] article { padding-top: 0 !important; margin-top: 0 !important; }
-.page[data-slug="index"] #quartz-body .center { padding-top: 0 !important; padding-bottom: 28px !important; }
+body[data-slug="index"] h1.article-title { display: none !important; }
+body[data-slug="index"] p.content-meta { display: none !important; }
+body[data-slug="index"] .breadcrumb-container { display: none !important; }
+body[data-slug="index"] .popover-hint { padding-top: 0 !important; margin-top: 0 !important; }
+body[data-slug="index"] article { padding-top: 0 !important; margin-top: 0 !important; }
+body[data-slug="index"] #quartz-body .center { padding-top: 0 !important; padding-bottom: 28px !important; }
 
-.page[data-slug="index"] .page-header {
+body[data-slug="index"] .page-header {
   display: none !important;
   height: 0 !important;
   min-height: 0 !important;
