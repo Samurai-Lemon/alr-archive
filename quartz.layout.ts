@@ -9,7 +9,12 @@ export const sharedPageComponents: SharedLayout = {
     Component.Darkmode(),
     Component.ReaderMode(),
   ],
-  afterBody: [],
+  afterBody: [
+    Component.ConditionalRender({
+      component: Component.Graph(),
+      condition: (page) => page.fileData.slug !== "index",
+    }),
+  ],
   footer: Component.Footer({
     links: {
       GitHub: "https://github.com/Samurai-Lemon/alr-archive",
@@ -27,16 +32,7 @@ export const defaultContentPageLayout: PageLayout = {
   left: [
     Component.ALRSidebar(),
   ],
-  right: [
-    Component.ConditionalRender({
-      component: Component.Graph(),
-      condition: (page) => page.fileData.slug !== "index",
-    }),
-    Component.ConditionalRender({
-      component: Component.Backlinks(),
-      condition: (page) => page.fileData.slug !== "index",
-    }),
-  ],
+  right: [],
 }
 
 export const defaultListPageLayout: PageLayout = {
