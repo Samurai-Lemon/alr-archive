@@ -218,7 +218,7 @@ const ALRSidebar: QuartzComponent = (_props: QuartzComponentProps) => {
         }
 
         function toggleALRDarkmode() {
-          var btn = document.querySelector('#quartz-header .darkmode button');
+          var btn = document.querySelector('button.darkmode');
           if (btn) btn.click();
         }
 
