@@ -934,17 +934,25 @@ details[open] .alr-sb-chevron {
 // ─── SIDEBAR BOTTOM ───────────────────────────────────────
 .alr-sb-bottom {
   margin-top: auto;
-  padding: 12px 0;
-  border-top: 0.5px solid #222018;
+  padding: 10px 10px 12px;
   flex-shrink: 0;
+  border-top: 0.5px solid #222018;
 }
 
 .alr-sb-darkmode-row {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 16px;
-  color: #4a4840;
+  gap: 10px;
+  padding: 10px 12px;
+  background: #1e1d18;
+  border: 0.5px solid #26251f;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.alr-sb-darkmode-row:hover {
+  background: #262420;
 }
 
 .alr-sb-darkmode-label {
@@ -955,13 +963,14 @@ details[open] .alr-sb-chevron {
 
 .alr-sb-darkmode-toggle {
   flex-shrink: 0;
+  margin-left: auto;
 }
 
 // ─── TOGGLE SWITCH ────────────────────────────────────────
 .alr-toggle-track {
-  width: 32px;
-  height: 18px;
-  border-radius: 9px;
+  width: 36px;
+  height: 20px;
+  border-radius: 10px;
   background: #2a2824;
   border: 0.5px solid #3a3428;
   position: relative;
@@ -977,17 +986,17 @@ details[open] .alr-sb-chevron {
 
 .alr-toggle-thumb {
   position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 12px;
-  height: 12px;
+  top: 3px;
+  left: 3px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
   background: #4a4840;
   transition: transform 0.2s ease, background 0.2s ease;
 }
 
 .alr-toggle-on .alr-toggle-thumb {
-  transform: translateX(14px);
+  transform: translateX(16px);
   background: #f0ece0;
 }
 
@@ -1036,13 +1045,15 @@ details[open] .alr-sb-chevron {
   display: flex;
   align-items: center;
   justify-content: center;
+  border-top: 0.5px solid #222018;
 }
 
 .alr-collapsed .alr-sb-darkmode-row {
-  width: 48px !important;
-  padding: 0 !important;
+  width: 40px !important;
+  padding: 8px 0 !important;
   justify-content: center !important;
   gap: 0 !important;
+  border-radius: 8px !important;
 }
 
 .alr-collapsed .alr-sb-darkmode-row > svg {
@@ -1053,6 +1064,7 @@ details[open] .alr-sb-chevron {
   display: flex !important;
   justify-content: center !important;
   width: auto !important;
+  margin-left: 0 !important;
 }
 
 // ─── REGISTRY TABLE ───────────────────────────────────────
@@ -1181,6 +1193,8 @@ details[open] .alr-sb-chevron {
   .alr-sb-darkmode-label { color: #7a7068 !important; }
   .alr-sb-chevron { color: #a09888 !important; }
   .alr-sb-badge { background: #e8e3d8 !important; border-color: #d8d0c4 !important; color: #a09888 !important; }
+  .alr-sb-darkmode-row { background: #e8e3d8 !important; border-color: #d8d0c4 !important; }
+  .alr-sb-darkmode-row:hover { background: #ddd8cc !important; }
 
   .alr-toggle-track { background: #2a2824 !important; border-color: #3a3428 !important; }
   .alr-toggle-track.alr-toggle-on { background: #cc785c !important; border-color: #a85c42 !important; }
