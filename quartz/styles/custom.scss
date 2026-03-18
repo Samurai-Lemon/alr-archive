@@ -54,6 +54,12 @@
   min-width: 0 !important;
 }
 
+// ─── HIDE RIGHT SIDEBAR ───────────────────────────────────
+#quartz-body .sidebar.right,
+.sidebar.right {
+  display: none !important;
+}
+
 // ─── TOPBAR ───────────────────────────────────────────────
 #quartz-header {
   background: #111110 !important;
@@ -155,6 +161,7 @@ body {
 #quartz-body .center {
   background: #1a1915 !important;
   padding: 0 32px 28px !important;
+  overflow-x: hidden !important;
 }
 
 .page-header {
@@ -351,15 +358,6 @@ body[data-slug="index"] .page-header {
 
 .callout.is-collapsible .callout-title {
   cursor: pointer !important;
-}
-
-// ─── RIGHT SIDEBAR ─────────────────────────────────────────
-#quartz-body .sidebar.right,
-.sidebar.right {
-  background: #161612 !important;
-  border-left: 0.5px solid #26251f !important;
-  padding: 16px !important;
-  gap: 12px !important;
 }
 
 // ─── GRAPH (AFTER BODY) ───────────────────────────────────
