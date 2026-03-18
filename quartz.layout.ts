@@ -23,25 +23,11 @@ export const defaultContentPageLayout: PageLayout = {
       component: Component.ALRBanner(),
       condition: (page) => page.fileData.slug !== "index",
     }),
-    Component.ConditionalRender({
-      component: Component.Breadcrumbs(),
-      condition: (page) => page.fileData.slug !== "index",
-    }),
-    Component.ConditionalRender({
-      component: Component.ArticleTitle(),
-      condition: (page) => page.fileData.slug !== "index",
-    }),
-    Component.ConditionalRender({
-      component: Component.ContentMeta(),
-      condition: (page) => page.fileData.slug !== "index",
-    }),
-    Component.TagList(),
   ],
   left: [
     Component.ALRSidebar(),
   ],
-  right: [],
-  afterBody: [
+  right: [
     Component.ConditionalRender({
       component: Component.Graph(),
       condition: (page) => page.fileData.slug !== "index",
@@ -59,7 +45,6 @@ export const defaultListPageLayout: PageLayout = {
       component: Component.ALRBanner(),
       condition: (page) => page.fileData.slug !== "index",
     }),
-    Component.Breadcrumbs(),
     Component.ArticleTitle(),
     Component.ContentMeta(),
   ],
