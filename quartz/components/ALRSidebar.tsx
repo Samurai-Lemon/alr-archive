@@ -217,14 +217,16 @@ const ALRSidebar: QuartzComponent = (_props: QuartzComponentProps) => {
           }
         }
 
+        function toggleALRDarkmode() {
+          var btn = document.querySelector('#quartz-header .darkmode button');
+          if (btn) btn.click();
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
-          var darkmodeBtn = document.querySelector('#quartz-header .darkmode');
           var slot = document.getElementById('alr-darkmode-slot');
-          if (darkmodeBtn && slot) {
-            slot.appendChild(darkmodeBtn.cloneNode(true));
-            slot.firstChild.addEventListener('click', function() {
-              darkmodeBtn.click();
-            });
+          if (slot) {
+            slot.innerHTML = '<button class="alr-dm-btn" title="Toggle dark mode"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>';
+            slot.querySelector('.alr-dm-btn').addEventListener('click', toggleALRDarkmode);
           }
         });
       `}} />

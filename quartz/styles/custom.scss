@@ -971,14 +971,21 @@ details[open] .alr-sb-chevron {
   flex-shrink: 0;
 }
 
-.alr-sb-darkmode-toggle button,
-.alr-sb-darkmode-toggle .darkmode-toggle {
-  opacity: 0.6;
+.alr-dm-btn {
+  background: none !important;
+  border: none !important;
+  cursor: pointer !important;
+  color: #4a4840 !important;
+  padding: 2px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 4px !important;
+  transition: color 0.15s ease !important;
 }
 
-.alr-sb-darkmode-toggle button:hover,
-.alr-sb-darkmode-toggle .darkmode-toggle:hover {
-  opacity: 1;
+.alr-dm-btn:hover {
+  color: #cc785c !important;
 }
 
 // ─── SIDEBAR COLLAPSED STATE ──────────────────────────────
