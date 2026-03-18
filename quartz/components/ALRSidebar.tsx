@@ -7,7 +7,7 @@ const ALRSidebar: QuartzComponent = (_props: QuartzComponentProps) => {
 
         <div class="alr-sb-topbar">
           <span class="alr-sb-site-label">ALR</span>
-          <button class="alr-sb-collapse-btn" id="alr-collapse-btn" onClick="toggleALRSidebar()" title="Collapse sidebar">
+          <button class="alr-sb-collapse-btn" id="alr-collapse-btn" onClick={"toggleALRSidebar()" as any} title="Collapse sidebar">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
