@@ -7,13 +7,16 @@
   width: 100% !important;
 }
 
-#quartz-body.alr-sidebar-collapsed {
+#quartz-body.alr-sidebar-collapsed,
+.page > #quartz-body.alr-sidebar-collapsed {
   grid-template-columns: 48px minmax(0, 1fr) !important;
 }
 
 #quartz-body.alr-sidebar-collapsed .sidebar.left {
   width: 48px !important;
   min-width: 48px !important;
+  max-width: 48px !important;
+  flex: 0 0 48px !important;
   overflow: hidden !important;
 }
 
