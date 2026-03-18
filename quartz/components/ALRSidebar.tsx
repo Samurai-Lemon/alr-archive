@@ -195,11 +195,15 @@ const ALRSidebar: QuartzComponent = (_props: QuartzComponentProps) => {
 
         <div class="alr-sb-bottom">
           <div class="alr-sb-darkmode-row">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;color:#4a4840;">
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
             <span class="alr-sb-text alr-sb-darkmode-label">Dark mode</span>
-            <div class="alr-sb-darkmode-toggle" id="alr-darkmode-slot"></div>
+            <div class="alr-sb-darkmode-toggle" id="alr-darkmode-slot">
+              <div class="alr-toggle-track" id="alr-toggle-track">
+                <div class="alr-toggle-thumb" id="alr-toggle-thumb"></div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -217,17 +221,36 @@ const ALRSidebar: QuartzComponent = (_props: QuartzComponentProps) => {
           }
         }
 
-        function toggleALRDarkmode() {
-          var btn = document.querySelector('button.darkmode');
-          if (btn) btn.click();
+        function syncToggleState() {
+          var track = document.getElementById('alr-toggle-track');
+          if (!track) return;
+          var isDark = document.documentElement.getAttribute('saved-theme') === 'dark'
+            || document.body.getAttribute('saved-theme') === 'dark'
+            || document.documentElement.classList.contains('dark')
+            || (!document.documentElement.getAttribute('saved-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          if (isDark) {
+            track.classList.add('alr-toggle-on');
+          } else {
+            track.classList.remove('alr-toggle-on');
+          }
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-          var slot = document.getElementById('alr-darkmode-slot');
-          if (slot) {
-            slot.innerHTML = '<button class="alr-dm-btn" title="Toggle dark mode"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>';
-            slot.querySelector('.alr-dm-btn').addEventListener('click', toggleALRDarkmode);
+          var track = document.getElementById('alr-toggle-track');
+          if (track) {
+            syncToggleState();
+            track.addEventListener('click', function() {
+              var btn = document.querySelector('button.darkmode');
+              if (btn) {
+                btn.click();
+                setTimeout(syncToggleState, 50);
+              }
+            });
           }
+
+          var observer = new MutationObserver(syncToggleState);
+          observer.observe(document.documentElement, { attributes: true, attributeFilter: ['saved-theme', 'class'] });
+          observer.observe(document.body, { attributes: true, attributeFilter: ['saved-theme', 'class'] });
         });
       `}} />
     </div>
