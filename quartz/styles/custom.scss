@@ -150,7 +150,12 @@ body {
 // ─── MAIN CONTENT ─────────────────────────────────────────
 #quartz-body .center {
   background: #1a1915 !important;
-  padding: 28px 32px !important;
+  padding: 0 32px 28px !important;
+}
+
+.page-header {
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 article.popover-hint {
@@ -161,6 +166,7 @@ article.popover-hint {
   font-size: 11px !important;
   color: #4a4840 !important;
   margin-bottom: 16px !important;
+  padding-top: 16px !important;
 }
 
 .breadcrumb-container a {
