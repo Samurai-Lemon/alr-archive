@@ -1270,6 +1270,28 @@ details[open] .alr-sb-chevron {
     border-top-color: #d8d0c4 !important;
   }
   footer p, footer a { color: #a09888 !important; }
+
+  // ─── BANNER LIGHT MODE ──────────────────────────────────
+  .alr-banner-svg .alr-banner-bg {
+    fill: #2a2218 !important;
+  }
+
+  .alr-banner-svg .alr-banner-title {
+    fill: #f5f0e8 !important;
+  }
+
+  .alr-banner-svg .alr-banner-sub {
+    fill: #9a8878 !important;
+  }
+
+  .alr-banner-svg .alr-banner-eyebrow {
+    fill: #cc785c !important;
+  }
+
+  .alr-banner-svg .alr-banner-status2,
+  .alr-banner-svg .alr-banner-status3 {
+    fill: #7a6858 !important;
+  }
 }
 
 // ─── SCROLLBAR ─────────────────────────────────────────────

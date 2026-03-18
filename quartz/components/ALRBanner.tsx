@@ -2,12 +2,12 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 
 const ALRBanner: QuartzComponent = (_props: QuartzComponentProps) => {
   return (
-    <svg width="100%" viewBox="0 0 680 180" xmlns="http://www.w3.org/2000/svg" style="display:block;margin-bottom:20px;">
+    <svg class="alr-banner-svg" width="100%" viewBox="0 0 680 180" xmlns="http://www.w3.org/2000/svg" style="display:block;margin-bottom:20px;">
       <defs>
         <clipPath id="bc2"><rect x="0" y="0" width="680" height="180"/></clipPath>
       </defs>
       <g clip-path="url(#bc2)">
-        <rect x="0" y="0" width="680" height="180" fill="#0f0e0b"/>
+        <rect class="alr-banner-bg" x="0" y="0" width="680" height="180" fill="#0f0e0b"/>
         <line x1="0" y1="30" x2="680" y2="30" stroke="#cc785c" stroke-width="0.3" opacity="0.15"/>
         <line x1="0" y1="60" x2="680" y2="60" stroke="#cc785c" stroke-width="0.3" opacity="0.15"/>
         <line x1="0" y1="90" x2="680" y2="90" stroke="#cc785c" stroke-width="0.3" opacity="0.15"/>
@@ -58,12 +58,12 @@ const ALRBanner: QuartzComponent = (_props: QuartzComponentProps) => {
           <path d="M 531.0 468.5 L 384.0 467.5 L 283.0 400.5 L 271.0 403.5 L 184.0 463.5 L 172.0 468.5 L 26.0 468.5 L 14.5 461.0 L 11.5 454.0 L 14.5 439.0 L 250.5 39.0 L 269.0 13.5 L 285.0 11.5 L 298.5 24.0 L 542.5 438.0 L 545.5 446.0 L 544.5 458.0 L 531.0 468.5 Z M 448.5 429.0 L 480.0 428.5 L 484.5 425.0 L 484.5 419.0 L 287.5 85.0 L 282.0 78.5 L 276.0 78.5 L 77.5 411.0 L 73.5 425.0 L 78.0 428.5 L 96.0 429.5 L 159.0 428.5 L 237.5 376.0 L 237.5 371.0 L 232.0 365.5 L 175.0 328.5 L 170.5 324.0 L 169.5 317.0 L 262.5 155.0 L 271.0 145.5 L 283.0 143.5 L 293.5 151.0 L 389.5 316.0 L 388.5 323.0 L 382.0 329.5 L 325.0 366.5 L 321.5 370.0 L 322.5 377.0 L 395.0 426.5 L 409.0 429.5 L 448.5 429.0 Z M 283.5 345.0 L 332.0 311.5 L 335.5 303.0 L 284.5 217.0 L 276.0 215.5 L 222.5 308.0 L 274.0 344.5 L 283.5 345.0 Z"
             fill="#cc785c" fill-rule="evenodd"/>
         </g>
-        <text x="40" y="82" font-family="Inter, sans-serif" font-size="11" font-weight="400" letter-spacing="0.18em" fill="#cc785c" opacity="0.5">ARCHIVE OF LOST REALITIES INITIATIVE</text>
-        <text x="40" y="112" font-family="Inter, sans-serif" font-size="28" font-weight="500" fill="#f0ece0" opacity="0.9">The Unwritten</text>
-        <text x="40" y="134" font-family="Inter, sans-serif" font-size="12" font-weight="400" fill="#6b6860" opacity="0.8">What remains when a reality stops?</text>
-        <text x="648" y="120" font-family="Inter, sans-serif" font-size="9" letter-spacing="0.12em" fill="#cc785c" opacity="0.35" text-anchor="end">REALITY COLLAPSE DETECTED</text>
-        <text x="648" y="134" font-family="Inter, sans-serif" font-size="9" letter-spacing="0.12em" fill="#4a4840" opacity="0.5" text-anchor="end">RCC-1 — SILENT COLLAPSE</text>
-        <text x="648" y="148" font-family="Inter, sans-serif" font-size="9" letter-spacing="0.12em" fill="#4a4840" opacity="0.3" text-anchor="end">CYCLE 7 — ARCHIVE OPERATIONS</text>
+        <text class="alr-banner-eyebrow" x="40" y="82" font-family="Inter, sans-serif" font-size="11" font-weight="400" letter-spacing="0.18em" fill="#cc785c" opacity="0.5">ARCHIVE OF LOST REALITIES INITIATIVE</text>
+        <text class="alr-banner-title" x="40" y="112" font-family="Inter, sans-serif" font-size="28" font-weight="500" fill="#f0ece0" opacity="0.9">The Unwritten</text>
+        <text class="alr-banner-sub" x="40" y="134" font-family="Inter, sans-serif" font-size="12" font-weight="400" fill="#6b6860" opacity="0.8">What remains when a reality stops?</text>
+        <text class="alr-banner-status1" x="648" y="120" font-family="Inter, sans-serif" font-size="9" letter-spacing="0.12em" fill="#cc785c" opacity="0.35" text-anchor="end">REALITY COLLAPSE DETECTED</text>
+        <text class="alr-banner-status2" x="648" y="134" font-family="Inter, sans-serif" font-size="9" letter-spacing="0.12em" fill="#4a4840" opacity="0.5" text-anchor="end">RCC-1 — SILENT COLLAPSE</text>
+        <text class="alr-banner-status3" x="648" y="148" font-family="Inter, sans-serif" font-size="9" letter-spacing="0.12em" fill="#4a4840" opacity="0.3" text-anchor="end">CYCLE 7 — ARCHIVE OPERATIONS</text>
       </g>
     </svg>
   )
