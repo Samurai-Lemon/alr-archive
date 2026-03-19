@@ -36,6 +36,7 @@
 
 #quartz-header {
   width: 100% !important;
+  overflow: visible !important;
 }
 
 #quartz-body {
@@ -72,6 +73,7 @@
   position: sticky !important;
   top: 0 !important;
   z-index: 100 !important;
+  overflow: visible !important;
 }
 
 #quartz-header header {
@@ -83,6 +85,7 @@
   border: none !important;
   padding: 0 !important;
   margin: 0 !important;
+  overflow: visible !important;
 }
 
 #quartz-header .page-title {
@@ -139,6 +142,7 @@
   gap: 4px;
   flex-shrink: 0;
   margin-left: 0;
+  position: relative;
 }
 
 .alr-topnav-link {
@@ -176,16 +180,15 @@
 
 .alr-topnav-dropdown-menu {
   display: none;
-  position: absolute;
-  top: 100%;
-  right: 0;
-  padding-top: 8px;
+  position: fixed;
+  top: 48px;
+  padding-top: 4px;
   background: transparent;
-  z-index: 200;
-  min-width: 240px;
+  z-index: 9999;
+  min-width: 260px;
 }
 
-.alr-topnav-dropdown:hover .alr-topnav-dropdown-menu {
+.alr-topnav-dropdown-menu.alr-dropdown-open {
   display: flex;
   flex-direction: column;
 }
@@ -195,7 +198,7 @@
   border: 0.5px solid #26251f;
   border-radius: 8px;
   padding: 4px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
 }
@@ -205,10 +208,11 @@
   color: #6b6860;
   text-decoration: none;
   border-bottom: none !important;
-  padding: 7px 12px;
+  padding: 8px 12px;
   border-radius: 5px;
   transition: color 0.15s ease, background 0.15s ease;
   white-space: nowrap;
+  display: block;
 }
 
 .alr-topnav-dropdown-item:hover {
