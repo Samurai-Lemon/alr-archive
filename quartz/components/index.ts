@@ -25,6 +25,7 @@ import Flex from "./Flex"
 import ConditionalRender from "./ConditionalRender"
 import ALRSidebar from "./ALRSidebar"
 import ALRBanner from "./ALRBanner"
+import ALRTopNav from "./ALRTopNav"
 
 export {
   ArticleTitle,
@@ -54,4 +55,5 @@ export {
   ConditionalRender,
   ALRSidebar,
   ALRBanner,
+  ALRTopNav,
 }

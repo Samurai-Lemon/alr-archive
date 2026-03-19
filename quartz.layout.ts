@@ -6,6 +6,7 @@ export const sharedPageComponents: SharedLayout = {
   header: [
     Component.PageTitle(),
     Component.Search(),
+    Component.ALRTopNav(),
     Component.Darkmode(),
     Component.ReaderMode(),
   ],
