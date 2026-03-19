@@ -15,6 +15,7 @@ const ALRTopNav: QuartzComponent = (_props: QuartzComponentProps) => {
           </div>
         </div>
       </div>
+      <a href="/alr-archive/Submit" class="alr-topnav-link">Submit</a>
       <a href="/alr-archive/About" class="alr-topnav-link">About</a>
 
       <script dangerouslySetInnerHTML={{__html: `
