@@ -1263,6 +1263,7 @@ details[open] .alr-sb-chevron {
   padding: 18px 20px;
   margin-bottom: 14px;
   background: #181714;
+  overflow: hidden;
 }
 
 .alr-submit-section-label {
@@ -1386,6 +1387,7 @@ details[open] .alr-sb-chevron {
   width: 100%;
   border-collapse: collapse;
   border: none !important;
+  overflow: hidden;
 }
 
 .alr-submit-declaration-table tr,
@@ -1393,11 +1395,13 @@ details[open] .alr-sb-chevron {
   border: none !important;
   padding: 0 !important;
   background: transparent !important;
+  text-align: left !important;
+  vertical-align: top !important;
 }
 
 .alr-submit-checkbox-cell {
   width: 20px !important;
-  vertical-align: top;
+  vertical-align: top !important;
   padding-top: 2px !important;
 }
 
@@ -1417,6 +1421,7 @@ details[open] .alr-sb-chevron {
   cursor: pointer;
   padding-left: 10px;
   display: block;
+  text-align: left !important;
 }
 
 .alr-submit-actions {
