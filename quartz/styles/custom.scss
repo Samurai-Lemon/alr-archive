@@ -1699,6 +1699,15 @@ details[open] .alr-sb-chevron {
     display: none !important;
   }
 
+  // Fix article grid-area offset
+  article.popover-hint {
+    grid-area: unset !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+  }
+
   // Content full width with equal padding
   #quartz-body .center {
     padding: 0 16px 28px 16px !important;
