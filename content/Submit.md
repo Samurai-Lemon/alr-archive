@@ -122,7 +122,9 @@
   <div class="alr-submit-section">
     <div class="alr-submit-section-label">Declaration</div>
     <div class="alr-submit-declaration">
-      <input type="checkbox" id="declaration" name="declaration" required style="accent-color:#cc785c;margin-right:10px;flex-shrink:0;" />
+      <div class="alr-submit-checkbox-wrap">
+        <input class="alr-submit-checkbox" type="checkbox" id="declaration" name="declaration" required />
+      </div>
       <label for="declaration" class="alr-submit-declaration-text">I confirm that this submission is original documentation and that I have reviewed the Echo Entry Format guidelines. I understand that submission does not guarantee inclusion in the archive.</label>
     </div>
   </div>
