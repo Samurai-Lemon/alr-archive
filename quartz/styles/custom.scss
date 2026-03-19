@@ -104,7 +104,7 @@
 
 #quartz-header .search {
   flex: 1 !important;
-  max-width: 380px !important;
+  max-width: 280px !important;
 }
 
 #quartz-header .search-bar {
@@ -137,8 +137,8 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  margin-left: auto;
   flex-shrink: 0;
+  margin-left: 0;
 }
 
 .alr-topnav-link {
@@ -161,15 +161,6 @@
 .alr-topnav-link.active {
   color: #cc785c !important;
   background: #201e18;
-}
-
-:root[saved-theme="light"] .alr-topnav-link {
-  color: #a09888 !important;
-}
-
-:root[saved-theme="light"] .alr-topnav-link:hover {
-  color: #a85c42 !important;
-  background: #e8e3d8 !important;
 }
 
 // ─── BASE ─────────────────────────────────────────────────
