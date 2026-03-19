@@ -1382,33 +1382,32 @@ details[open] .alr-sb-chevron {
   color: #d8d4c8;
 }
 
-.alr-submit-declaration {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
+.alr-submit-declaration-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: none !important;
 }
 
-.alr-submit-checkbox-wrap {
-  display: flex;
-  align-items: flex-start;
-  flex-shrink: 0;
-  padding-top: 2px;
-}
-
-.alr-submit-checkbox-wrap p {
-  margin: 0 !important;
+.alr-submit-declaration-table tr,
+.alr-submit-declaration-table td {
+  border: none !important;
   padding: 0 !important;
-  display: contents !important;
+  background: transparent !important;
+}
+
+.alr-submit-checkbox-cell {
+  width: 20px !important;
+  vertical-align: top;
+  padding-top: 2px !important;
 }
 
 .alr-submit-checkbox {
   accent-color: #cc785c;
-  flex-shrink: 0;
-  margin: 0;
   width: 14px;
   height: 14px;
   cursor: pointer;
   display: block !important;
+  margin: 0 !important;
 }
 
 .alr-submit-declaration-text {
@@ -1416,6 +1415,8 @@ details[open] .alr-sb-chevron {
   color: #6b6860;
   line-height: 1.6;
   cursor: pointer;
+  padding-left: 10px;
+  display: block;
 }
 
 .alr-submit-actions {
@@ -1640,6 +1641,7 @@ details[open] .alr-sb-chevron {
   .alr-submit-input::placeholder,
   .alr-submit-textarea::placeholder { color: #a09888 !important; }
   .alr-submit-select option { background: #e8e3d8 !important; color: #2a2420 !important; }
+  .alr-submit-declaration-table td { background: transparent !important; }
 }
 
 // ─── SCROLLBAR ─────────────────────────────────────────────
