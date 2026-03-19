@@ -1696,13 +1696,16 @@ details[open] .alr-sb-chevron {
     display: none !important;
   }
 
-  // Center content with consistent padding
+  // Centered content with padding
   #quartz-body .center {
-    padding: 0 20px 28px !important;
-    max-width: 600px !important;
+    padding: 0 16px 28px !important;
+  }
+
+  #quartz-body .center article,
+  #quartz-body .center .alr-home {
+    max-width: 560px !important;
     margin: 0 auto !important;
     width: 100% !important;
-    box-sizing: border-box !important;
   }
 
   .alr-stats {
