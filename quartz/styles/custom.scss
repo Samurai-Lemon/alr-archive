@@ -449,19 +449,6 @@ body[data-slug="index"] .page-header {
   cursor: pointer !important;
 }
 
-// ─── GRAPH (AFTER BODY) ───────────────────────────────────
-.graph {
-  border: 0.5px solid #26251f !important;
-  border-radius: 8px !important;
-  overflow: hidden !important;
-  margin-top: 24px !important;
-  max-width: 400px !important;
-}
-
-.graph > .graph-outer {
-  background: #161612 !important;
-}
-
 // ─── TAGS ──────────────────────────────────────────────────
 a.tag {
   font-size: 10px !important;
@@ -1395,6 +1382,16 @@ details[open] .alr-sb-chevron {
   color: #d8d4c8;
 }
 
+.alr-submit-checkbox {
+  accent-color: #cc785c;
+  flex-shrink: 0;
+  margin: 0;
+  margin-top: 2px;
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+
 .alr-submit-declaration {
   display: flex;
   align-items: flex-start;
@@ -1578,9 +1575,6 @@ details[open] .alr-sb-chevron {
   .callout[data-callout="abstract"] { background: #ede8de !important; }
   .callout[data-callout="example"] { background: #ede8de !important; }
   .callout[data-callout="warning"] { background: #f0ead8 !important; }
-
-  .graph { border-color: #d8d0c4 !important; }
-  .graph > .graph-outer { background: #ede8de !important; }
 
   footer {
     background: #ede8de !important;
