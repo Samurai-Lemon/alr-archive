@@ -36,7 +36,7 @@ const ALRTopNav: QuartzComponent = (_props: QuartzComponentProps) => {
           var menu = document.getElementById('alr-resources-menu');
           var menuBtn = document.getElementById('alr-mobile-menu-btn');
           var overlay = document.getElementById('alr-mobile-overlay');
-          var sidebar = document.querySelector('.alr-sidebar-wrapper');
+          var sidebar = document.querySelector('.sidebar.left');
 
           // Dropdown hover
           if (dropdown && menu) {
@@ -58,29 +58,36 @@ const ALRTopNav: QuartzComponent = (_props: QuartzComponentProps) => {
 
           // Mobile sidebar toggle
           function openSidebar() {
+            sidebar = document.querySelector('.sidebar.left');
             if (sidebar) sidebar.classList.add('alr-mobile-open');
             if (overlay) overlay.classList.add('alr-mobile-overlay-open');
             document.body.style.overflow = 'hidden';
           }
 
           function closeSidebar() {
+            sidebar = document.querySelector('.sidebar.left');
             if (sidebar) sidebar.classList.remove('alr-mobile-open');
             if (overlay) overlay.classList.remove('alr-mobile-overlay-open');
             document.body.style.overflow = '';
           }
 
           if (menuBtn) {
-            menuBtn.addEventListener('click', function() {
-              if (sidebar && sidebar.classList.contains('alr-mobile-open')) {
+            menuBtn.removeEventListener('click', menuBtn._alrHandler);
+            menuBtn._alrHandler = function() {
+              var sb = document.querySelector('.sidebar.left');
+              if (sb && sb.classList.contains('alr-mobile-open')) {
                 closeSidebar();
               } else {
                 openSidebar();
               }
-            });
+            };
+            menuBtn.addEventListener('click', menuBtn._alrHandler);
           }
 
           if (overlay) {
-            overlay.addEventListener('click', closeSidebar);
+            overlay.removeEventListener('click', overlay._alrHandler);
+            overlay._alrHandler = closeSidebar;
+            overlay.addEventListener('click', overlay._alrHandler);
           }
 
           // Close sidebar on navigation
