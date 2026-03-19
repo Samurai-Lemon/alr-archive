@@ -121,16 +121,10 @@
 
   <div class="alr-submit-section">
     <div class="alr-submit-section-label">Declaration</div>
-    <table class="alr-submit-declaration-table">
-      <tr>
-        <td class="alr-submit-checkbox-cell">
-          <input class="alr-submit-checkbox" type="checkbox" id="declaration" name="declaration" required />
-        </td>
-        <td>
-          <label for="declaration" class="alr-submit-declaration-text">I confirm that this submission is original documentation and that I have reviewed the Echo Entry Format guidelines. I understand that submission does not guarantee inclusion in the archive.</label>
-        </td>
-      </tr>
-    </table>
+    <div style="display:flex;align-items:flex-start;gap:10px;">
+      <input class="alr-submit-checkbox" type="checkbox" id="declaration" name="declaration" required style="margin-top:3px;flex-shrink:0;accent-color:#cc785c;width:14px;height:14px;cursor:pointer;" />
+      <label for="declaration" style="font-size:12px;color:#6b6860;line-height:1.6;cursor:pointer;text-align:left;">I confirm that this submission is original documentation and that I have reviewed the Echo Entry Format guidelines. I understand that submission does not guarantee inclusion in the archive.</label>
+    </div>
   </div>
 
   <div class="alr-submit-actions">
