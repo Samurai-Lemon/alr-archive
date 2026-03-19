@@ -1696,8 +1696,13 @@ details[open] .alr-sb-chevron {
     display: none !important;
   }
 
+  // Center content with consistent padding
   #quartz-body .center {
-    padding: 0 16px 28px !important;
+    padding: 0 20px 28px !important;
+    max-width: 600px !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
 
   .alr-stats {
