@@ -249,11 +249,13 @@
   background: rgba(0, 0, 0, 0.6);
   z-index: 100;
   opacity: 0;
+  pointer-events: none;
   transition: opacity 0.25s ease;
 }
 
 .alr-mobile-overlay.alr-mobile-overlay-open {
   opacity: 1;
+  pointer-events: auto;
 }
 
 // ─── BASE ─────────────────────────────────────────────────
@@ -1676,9 +1678,10 @@ details[open] .alr-sb-chevron {
     display: none !important;
   }
 
-  // Show overlay
+  // Show overlay but keep non-interactive until open
   .alr-mobile-overlay {
     display: block !important;
+    pointer-events: none !important;
   }
 
   // Header adjustments
@@ -1692,7 +1695,7 @@ details[open] .alr-sb-chevron {
     flex: 1 !important;
   }
 
-  // Hide sidebar from grid, make it slide in
+  // Remove sidebar from grid flow, make it slide in
   .page > #quartz-body {
     grid-template-columns: minmax(0, 1fr) !important;
   }
@@ -1708,10 +1711,12 @@ details[open] .alr-sb-chevron {
     transform: translateX(-100%) !important;
     transition: transform 0.25s ease !important;
     border-right: 0.5px solid #222018 !important;
+    pointer-events: none !important;
   }
 
   .sidebar.left.alr-mobile-open {
     transform: none !important;
+    pointer-events: auto !important;
   }
 
   // Remove collapse button on mobile
