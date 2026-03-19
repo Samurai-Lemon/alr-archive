@@ -95,7 +95,7 @@
 
 <div class="alr-grid">
 <div class="alr-card alr-card-wide">
-<div class="alr-card-head"><span class="alr-card-head-title">Recent echoes</span><a href="https://samurai-lemon.github.io/alr-archive/Index/ECHO-Registry" class="alr-card-head-action">View all</a></div>
+<div class="alr-card-head"><span class="alr-card-head-title">Recent echoes</span><a href="/alr-archive/Index/ECHO-Registry" class="alr-card-head-action" data-no-popover="true">View all</a></div>
 <div class="alr-echo-row"><div class="alr-echo-dot" style="background:#7f77dd;"></div><div class="alr-echo-id">ECHO-001</div><div class="alr-echo-name">The Watchers</div><span class="alr-etag alr-et-ent">ENT</span><span class="alr-etag alr-es-s1">S1</span></div>
 <div class="alr-echo-row"><div class="alr-echo-dot" style="background:#7f77dd;"></div><div class="alr-echo-id">ECHO-002</div><div class="alr-echo-name">Dreamwalker</div><span class="alr-etag alr-et-ent">ENT</span><span class="alr-etag alr-es-s1">S1</span></div>
 <div class="alr-echo-row"><div class="alr-echo-dot" style="background:#993c1d;"></div><div class="alr-echo-id">ECHO-003</div><div class="alr-echo-name">Nightmare Stalker</div><span class="alr-etag alr-et-ent">ENT</span><span class="alr-etag alr-es-s4">S4</span></div>
@@ -107,7 +107,7 @@
 
 <div class="alr-card-stack">
 <div class="alr-card">
-<div class="alr-card-head"><span class="alr-card-head-title">Reality investigations</span><a href="https://samurai-lemon.github.io/alr-archive/Index/Reality-Registry" class="alr-card-head-action">View all</a></div>
+<div class="alr-card-head"><span class="alr-card-head-title">Reality investigations</span><a href="/alr-archive/Index/Reality-Registry" class="alr-card-head-action" data-no-popover="true">View all</a></div>
 <div class="alr-real-row"><div class="alr-real-id">R-007</div><div class="alr-real-info"><div class="alr-real-rcc">RCC-1 — Silent Collapse</div><div class="alr-real-tags"><span class="alr-rtag">T3</span><span class="alr-rtag">RDS: B</span><span class="alr-rtag alr-rtag-echo">ECHO-031</span></div></div></div>
 <div class="alr-real-row"><div class="alr-real-id">R-019</div><div class="alr-real-info"><div class="alr-real-rcc">RCC-1 — Silent Collapse</div><div class="alr-real-tags"><span class="alr-rtag">T3</span><span class="alr-rtag">RDS: C</span><span class="alr-rtag alr-rtag-echo">ECHO-047</span></div></div></div>
 </div>
