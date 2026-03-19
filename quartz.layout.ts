@@ -10,12 +10,7 @@ export const sharedPageComponents: SharedLayout = {
     Component.Darkmode(),
     Component.ReaderMode(),
   ],
-  afterBody: [
-    Component.ConditionalRender({
-      component: Component.Graph(),
-      condition: (page) => page.fileData.slug !== "index",
-    }),
-  ],
+  afterBody: [],
   footer: Component.Footer({
     links: {
       GitHub: "https://github.com/Samurai-Lemon/alr-archive",
