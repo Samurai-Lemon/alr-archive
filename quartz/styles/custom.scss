@@ -245,7 +245,10 @@
 .alr-mobile-overlay {
   display: none;
   position: fixed;
-  inset: 0;
+  top: 48px;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: rgba(0, 0, 0, 0.6);
   z-index: 100;
   opacity: 0;
@@ -256,6 +259,7 @@
 .alr-mobile-overlay.alr-mobile-overlay-open {
   opacity: 1;
   pointer-events: auto;
+  left: 260px;
 }
 
 // ─── BASE ─────────────────────────────────────────────────
@@ -1618,36 +1622,16 @@ details[open] .alr-sb-chevron {
   .callout[data-callout="warning"] { background: #f0ead8 !important; }
 
   // ─── BANNER LIGHT MODE ──────────────────────────────────
-  .alr-banner-svg .alr-banner-bg {
-    fill: #2a2218 !important;
-  }
-
-  .alr-banner-svg .alr-banner-title {
-    fill: #f5f0e8 !important;
-  }
-
-  .alr-banner-svg .alr-banner-sub {
-    fill: #9a8878 !important;
-  }
-
-  .alr-banner-svg .alr-banner-eyebrow {
-    fill: #cc785c !important;
-  }
-
+  .alr-banner-svg .alr-banner-bg { fill: #2a2218 !important; }
+  .alr-banner-svg .alr-banner-title { fill: #f5f0e8 !important; }
+  .alr-banner-svg .alr-banner-sub { fill: #9a8878 !important; }
+  .alr-banner-svg .alr-banner-eyebrow { fill: #cc785c !important; }
   .alr-banner-svg .alr-banner-status2,
-  .alr-banner-svg .alr-banner-status3 {
-    fill: #7a6858 !important;
-  }
+  .alr-banner-svg .alr-banner-status3 { fill: #7a6858 !important; }
 
   // ─── SUBMIT PAGE LIGHT MODE ───────────────────────────
-  .alr-submit-section {
-    background: #ede8de !important;
-    border-color: #d8d0c4 !important;
-  }
-  .alr-submit-notice {
-    background: #e8e3d8 !important;
-    border-color: #c87858 !important;
-  }
+  .alr-submit-section { background: #ede8de !important; border-color: #d8d0c4 !important; }
+  .alr-submit-notice { background: #e8e3d8 !important; border-color: #c87858 !important; }
   .alr-submit-notice-text { color: #7a7068 !important; }
   .alr-submit-label { color: #7a7068 !important; }
   .alr-submit-declaration-text { color: #7a7068 !important; }
@@ -1682,9 +1666,19 @@ details[open] .alr-sb-chevron {
     pointer-events: none !important;
   }
 
+  // Fix topbar to stay fixed on mobile
   #quartz-header {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
     padding: 0 14px !important;
     gap: 10px !important;
+  }
+
+  // Push body down to account for fixed header
+  #quartz-root {
+    padding-top: 48px !important;
   }
 
   #quartz-header .search {
@@ -1714,7 +1708,6 @@ details[open] .alr-sb-chevron {
   #quartz-body .sidebar.left.alr-mobile-open {
     transform: translateX(0) !important;
     pointer-events: auto !important;
-    left: 0 !important;
   }
 
   .alr-sb-collapse-btn {
