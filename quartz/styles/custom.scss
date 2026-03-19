@@ -1647,7 +1647,6 @@ details[open] .alr-sb-chevron {
     pointer-events: none !important;
   }
 
-  // Fix topbar to stay fixed on mobile
   #quartz-header {
     position: fixed !important;
     top: 0 !important;
@@ -1657,7 +1656,6 @@ details[open] .alr-sb-chevron {
     gap: 10px !important;
   }
 
-  // Push body down to account for fixed header
   #quartz-root {
     padding-top: 48px !important;
   }
@@ -1667,12 +1665,10 @@ details[open] .alr-sb-chevron {
     flex: 1 !important;
   }
 
-  // Single column — no sidebar in grid
   .page > #quartz-body {
     grid-template-columns: minmax(0, 1fr) !important;
   }
 
-  // Hide sidebar completely — removes it from grid flow
   #quartz-body .sidebar.left,
   .sidebar.left {
     display: none !important;
@@ -1687,7 +1683,6 @@ details[open] .alr-sb-chevron {
     pointer-events: none !important;
   }
 
-  // Show sidebar only when open
   .sidebar.left.alr-mobile-open,
   #quartz-body .sidebar.left.alr-mobile-open {
     display: flex !important;
@@ -1699,16 +1694,6 @@ details[open] .alr-sb-chevron {
     display: none !important;
   }
 
-  // Fix article grid-area offset
-  article.popover-hint {
-    grid-area: unset !important;
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    box-sizing: border-box !important;
-  }
-
-  // Content full width with equal padding
   #quartz-body .center {
     padding: 0 16px 28px 16px !important;
   }
@@ -1763,6 +1748,21 @@ details[open] .alr-sb-chevron {
   article h2 { font-size: 14px !important; }
   article h3 { font-size: 13px !important; }
   article p  { font-size: 13px !important; }
+}
+
+// ─── MOBILE ARTICLE GRID-AREA FIX ────────────────────────
+// Must be AFTER the mobile block to win specificity
+@media (max-width: 768px) {
+  .center > article,
+  .center > .page-header,
+  #quartz-body .center > article {
+    grid-area: unset !important;
+    grid-column: 1 !important;
+    grid-row: auto !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+  }
 }
 
 // ─── SCROLLBAR ─────────────────────────────────────────────
