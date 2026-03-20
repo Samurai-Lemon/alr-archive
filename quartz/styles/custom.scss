@@ -1685,6 +1685,32 @@ details[open] .alr-sb-chevron {
   .alr-submit-declaration-table td { background: transparent !important; }
 }
 
+// ─── COMPACT FOOTER ───────────────────────────────────────
+footer {
+  padding: 6px 12px !important;
+  margin: 0 !important;
+  font-size: 10px !important;
+  line-height: 1.4 !important;
+  color: #4a4840 !important;
+}
+
+// remove extra spacing inside
+footer p {
+  margin: 0 !important;
+}
+
+// tighten container if Quartz wraps it
+.page-footer,
+.footer {
+  padding: 4px 0 !important;
+  margin: 0 !important;
+}
+
+// optional: subtle divider instead of big gap
+footer {
+  border-top: 0.5px solid #222018 !important;
+}
+
 // ═══════════════════════════════════════════════
 // ─── MOBILE — CLEAN REBUILD ───────────────────
 // Breakpoint: 800px matches Quartz $mobile var
