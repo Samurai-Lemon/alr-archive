@@ -1636,13 +1636,25 @@ details[open] .alr-sb-chevron {
 // ═══════════════════════════════════════════════
 @media (max-width: 800px) {
 
-  // ─── BODY & ROOT ────────────────────────────
+  // ─── ROOT / PAGE RESET ─────────────────────
   #quartz-root {
     padding-top: 48px !important;
     display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
   }
 
-  // ─── TOPBAR ─────────────────────────────────
+  .page {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    grid-template-columns: none !important;
+    grid-template-areas: none !important;
+  }
+
+  // ─── TOPBAR ────────────────────────────────
   #quartz-header {
     position: fixed !important;
     top: 0 !important;
@@ -1694,7 +1706,7 @@ details[open] .alr-sb-chevron {
     display: none !important;
   }
 
-  // ─── OVERLAY ────────────────────────────────
+  // ─── OVERLAY ───────────────────────────────
   .alr-mobile-overlay {
     display: block !important;
     pointer-events: none !important;
@@ -1708,13 +1720,19 @@ details[open] .alr-sb-chevron {
     pointer-events: auto !important;
   }
 
-  // ─── GRID ───────────────────────────────────
-  .page > #quartz-body {
+  // ─── CRITICAL LAYOUT RESET ─────────────────
+  .page > #quartz-body,
+  #quartz-body {
     display: block !important;
     width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    grid-template-columns: none !important;
+    grid-template-areas: none !important;
   }
 
-  // ─── SIDEBAR ────────────────────────────────
+  // ─── SIDEBAR DRAWER ────────────────────────
   #quartz-body .sidebar.left,
   .sidebar.left {
     display: flex !important;
@@ -1742,33 +1760,44 @@ details[open] .alr-sb-chevron {
     display: none !important;
   }
 
-  // ─── CONTENT ────────────────────────────────
-  // Force content to sit flush and centered
+  // ─── CONTENT WRAPPER ───────────────────────
   #quartz-body .center {
     display: block !important;
     width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
     box-sizing: border-box !important;
-    padding: 0 20px 28px 20px !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
+    padding: 0 16px 28px 16px !important;
+    margin: 0 !important;
     position: relative !important;
     left: 0 !important;
   }
 
-  // Reset article grid-area so it fills center
-  #quartz-body .center article,
-  #quartz-body .center .page-header {
+  // ─── CRITICAL ARTICLE RESET ────────────────
+  #quartz-body .center > article,
+  #quartz-body .center > .popover-hint,
+  .page .center > article,
+  .page .center > .popover-hint {
     display: block !important;
     width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
     box-sizing: border-box !important;
     grid-area: unset !important;
-    margin: 0 !important;
+    margin: 0 auto !important;
     padding: 0 !important;
     position: static !important;
     left: auto !important;
   }
 
-  // ─── HOMEPAGE GRIDS ─────────────────────────
+  #quartz-body .center .page-header {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  // ─── HOMEPAGE GRIDS ────────────────────────
   .alr-stats {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
@@ -1798,7 +1827,7 @@ details[open] .alr-sb-chevron {
     max-width: 100% !important;
   }
 
-  // ─── SUBMIT PAGE ────────────────────────────
+  // ─── SUBMIT PAGE ───────────────────────────
   .alr-submit-row {
     flex-direction: column !important;
   }
@@ -1812,16 +1841,31 @@ details[open] .alr-sb-chevron {
     align-items: flex-start !important;
   }
 
-  // ─── REGISTRY ───────────────────────────────
+  // ─── REGISTRY ──────────────────────────────
   .alr-registry {
     overflow-x: auto !important;
   }
 
-  // ─── TYPOGRAPHY ─────────────────────────────
+  // ─── TYPOGRAPHY ────────────────────────────
   article h1 { font-size: 18px !important; }
   article h2 { font-size: 14px !important; }
   article h3 { font-size: 13px !important; }
   article p  { font-size: 13px !important; }
+
+  // ─── SAFETY ────────────────────────────────
+  html,
+  body {
+    overflow-x: hidden !important;
+  }
+
+  img,
+  svg,
+  video,
+  canvas,
+  iframe {
+    max-width: 100% !important;
+    height: auto !important;
+  }
 }
 
 // ─── SCROLLBAR ─────────────────────────────────────────────
