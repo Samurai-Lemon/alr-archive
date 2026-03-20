@@ -3,7 +3,7 @@
 <div class="alr-submit-header">
   <div class="alr-eyebrow" style="margin-bottom:8px;">Archive of Lost Realities Initiative</div>
   <h1 class="alr-hero-title" style="margin-bottom:8px;">Submit an Echo</h1>
-  <p class="alr-hero-sub" style="margin-bottom:0;">Field investigators and independent researchers may submit Echo documentation for review by the ALR Initiative. All submissions are reviewed before inclusion in the archive. Refer to the <a href="/alr-archive/Archive-Documentation-Format/Echo-Entry-Format">Echo Entry Format</a> guide before completing this form.</p>
+  <p class="alr-hero-sub" style="margin-bottom:0;">Field investigators and independent researchers may submit Echo documentation for review by the ALR Initiative. All submissions are reviewed before inclusion in the archive. Refer to the <a href="/Archive-Documentation-Format/Echo-Entry-Format" class="internal">Echo Entry Format</a> guide before completing this form.</p>
 </div>
 
 <div class="alr-submit-notice">
