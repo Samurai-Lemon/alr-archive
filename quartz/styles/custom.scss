@@ -1654,6 +1654,13 @@ details[open] .alr-sb-chevron {
     right: 0 !important;
     padding: 0 14px !important;
     gap: 10px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  #quartz-header header {
+    overflow: hidden !important;
+    min-width: 0 !important;
   }
 
   #quartz-root {
@@ -1663,6 +1670,12 @@ details[open] .alr-sb-chevron {
   #quartz-header .search {
     max-width: none !important;
     flex: 1 !important;
+    min-width: 0 !important;
+  }
+
+  #quartz-header .search-bar {
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
 
   .page > #quartz-body {
@@ -1694,7 +1707,6 @@ details[open] .alr-sb-chevron {
     display: none !important;
   }
 
-  // Equal padding both sides to center content
   #quartz-body .center {
     padding: 0 16px 28px 48px !important;
   }
