@@ -194,7 +194,14 @@ const ALRSidebar: QuartzComponent = (_props: QuartzComponentProps) => {
         </div>
 
         <div class="alr-sb-bottom">
-          <div class="alr-sb-darkmode-row" id="alr-theme-toggle" role="button" tabIndex={0}>
+          <div
+            class="alr-sb-darkmode-row"
+            id="alr-theme-toggle"
+            role="button"
+            tabIndex={0}
+            aria-label="Toggle theme"
+            title="Toggle theme"
+          >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;color:#4a4840;">
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
@@ -209,7 +216,7 @@ const ALRSidebar: QuartzComponent = (_props: QuartzComponentProps) => {
 
       </div>
 
-      <script dangerouslySetInnerHTML={{__html: `
+      <script dangerouslySetInnerHTML={{ __html: `
         function toggleALRSidebar() {
           var wrapper = document.getElementById('alr-sidebar-wrapper');
           var quartzBody = document.getElementById('quartz-body');
@@ -223,73 +230,87 @@ const ALRSidebar: QuartzComponent = (_props: QuartzComponentProps) => {
           }
         }
 
-        function syncToggleState() {
+        function getALRTheme() {
+          var attrTheme = document.documentElement.getAttribute('saved-theme');
+          if (attrTheme === 'light' || attrTheme === 'dark') return attrTheme;
+
+          var storedTheme = localStorage.getItem('theme');
+          if (storedTheme === 'light' || storedTheme === 'dark') return storedTheme;
+
+          return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+
+        function applyALRTheme(theme) {
+          document.documentElement.setAttribute('saved-theme', theme);
+          localStorage.setItem('theme', theme);
+
+          var track = document.getElementById('alr-toggle-track');
+          if (track) {
+            if (theme === 'dark') {
+              track.classList.add('alr-toggle-on');
+            } else {
+              track.classList.remove('alr-toggle-on');
+            }
+          }
+
+          document.dispatchEvent(new Event('themechange'));
+          window.dispatchEvent(new Event('storage'));
+        }
+
+        function syncALRToggleState() {
           var track = document.getElementById('alr-toggle-track');
           if (!track) return;
 
-          var savedTheme = document.documentElement.getAttribute('saved-theme');
-          var isDark = savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
-
-          if (isDark) {
+          if (getALRTheme() === 'dark') {
             track.classList.add('alr-toggle-on');
           } else {
             track.classList.remove('alr-toggle-on');
           }
         }
 
-        function bindThemeToggle() {
-          var row = document.getElementById('alr-theme-toggle');
-          if (!row) return;
+        function toggleALRTheme() {
+          var nextTheme = getALRTheme() === 'dark' ? 'light' : 'dark';
+          applyALRTheme(nextTheme);
+        }
 
-          if (row.dataset.bound === 'true') return;
+        function bindALRThemeToggle() {
+          var row = document.getElementById('alr-theme-toggle');
+          if (!row || row.dataset.bound === 'true') return;
+
           row.dataset.bound = 'true';
 
           row.addEventListener('click', function(e) {
             e.preventDefault();
-            e.stopPropagation();
-
-            var btn = document.querySelector('button.darkmode');
-            if (btn) {
-              btn.click();
-              setTimeout(syncToggleState, 50);
-            }
+            toggleALRTheme();
           });
 
           row.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault();
-
-              var btn = document.querySelector('button.darkmode');
-              if (btn) {
-                btn.click();
-                setTimeout(syncToggleState, 50);
-              }
+              toggleALRTheme();
             }
           });
 
-          syncToggleState();
+          syncALRToggleState();
         }
 
         function initALRSidebar() {
-          bindThemeToggle();
-          syncToggleState();
+          bindALRThemeToggle();
+          syncALRToggleState();
         }
 
-        function initALRSidebarDeferred() {
+        document.addEventListener('DOMContentLoaded', initALRSidebar);
+        document.addEventListener('nav', function() {
           setTimeout(initALRSidebar, 0);
           setTimeout(initALRSidebar, 50);
-          setTimeout(initALRSidebar, 150);
-        }
+        });
 
-        document.addEventListener('DOMContentLoaded', initALRSidebarDeferred);
-        document.addEventListener('nav', initALRSidebarDeferred);
-
-        var observer = new MutationObserver(syncToggleState);
-        observer.observe(document.documentElement, {
+        var alrThemeObserver = new MutationObserver(syncALRToggleState);
+        alrThemeObserver.observe(document.documentElement, {
           attributes: true,
           attributeFilter: ['saved-theme']
         });
-      `}} />
+      ` }} />
     </div>
   )
 }
