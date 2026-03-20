@@ -216,101 +216,105 @@ const ALRSidebar: QuartzComponent = (_props: QuartzComponentProps) => {
 
       </div>
 
-      <script dangerouslySetInnerHTML={{ __html: `
-        function toggleALRSidebar() {
-          var wrapper = document.getElementById('alr-sidebar-wrapper');
-          var quartzBody = document.getElementById('quartz-body');
-          if (!wrapper || !quartzBody) return;
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+(function () {
+  if (window.__alrSidebarInitialized) {
+    if (window.__alrSyncThemeUI) window.__alrSyncThemeUI();
+    return;
+  }
+  window.__alrSidebarInitialized = true;
 
-          var collapsed = wrapper.classList.toggle('alr-collapsed');
-          if (collapsed) {
-            quartzBody.classList.add('alr-sidebar-collapsed');
-          } else {
-            quartzBody.classList.remove('alr-sidebar-collapsed');
-          }
-        }
+  window.toggleALRSidebar = function toggleALRSidebar() {
+    var wrapper = document.getElementById('alr-sidebar-wrapper');
+    var quartzBody = document.getElementById('quartz-body');
+    if (!wrapper || !quartzBody) return;
 
-        function getALRTheme() {
-          var attrTheme = document.documentElement.getAttribute('saved-theme');
-          if (attrTheme === 'light' || attrTheme === 'dark') return attrTheme;
+    var collapsed = wrapper.classList.toggle('alr-collapsed');
+    if (collapsed) {
+      quartzBody.classList.add('alr-sidebar-collapsed');
+    } else {
+      quartzBody.classList.remove('alr-sidebar-collapsed');
+    }
+  };
 
-          var storedTheme = localStorage.getItem('theme');
-          if (storedTheme === 'light' || storedTheme === 'dark') return storedTheme;
+  function getALRTheme() {
+    var attrTheme = document.documentElement.getAttribute('saved-theme');
+    if (attrTheme === 'light' || attrTheme === 'dark') return attrTheme;
 
-          return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        }
+    var storedTheme = localStorage.getItem('theme');
+    if (storedTheme === 'light' || storedTheme === 'dark') return storedTheme;
 
-        function applyALRTheme(theme) {
-          document.documentElement.setAttribute('saved-theme', theme);
-          localStorage.setItem('theme', theme);
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
 
-          var track = document.getElementById('alr-toggle-track');
-          if (track) {
-            if (theme === 'dark') {
-              track.classList.add('alr-toggle-on');
-            } else {
-              track.classList.remove('alr-toggle-on');
-            }
-          }
+  function applyALRTheme(theme) {
+    document.documentElement.setAttribute('saved-theme', theme);
+    localStorage.setItem('theme', theme);
+    syncALRToggleState();
+  }
 
-          document.dispatchEvent(new Event('themechange'));
-          window.dispatchEvent(new Event('storage'));
-        }
+  function syncALRToggleState() {
+    var track = document.getElementById('alr-toggle-track');
+    if (!track) return;
 
-        function syncALRToggleState() {
-          var track = document.getElementById('alr-toggle-track');
-          if (!track) return;
+    if (getALRTheme() === 'dark') {
+      track.classList.add('alr-toggle-on');
+    } else {
+      track.classList.remove('alr-toggle-on');
+    }
+  }
 
-          if (getALRTheme() === 'dark') {
-            track.classList.add('alr-toggle-on');
-          } else {
-            track.classList.remove('alr-toggle-on');
-          }
-        }
+  function toggleALRTheme() {
+    var nextTheme = getALRTheme() === 'dark' ? 'light' : 'dark';
+    applyALRTheme(nextTheme);
+  }
 
-        function toggleALRTheme() {
-          var nextTheme = getALRTheme() === 'dark' ? 'light' : 'dark';
-          applyALRTheme(nextTheme);
-        }
+  window.__alrSyncThemeUI = syncALRToggleState;
 
-        function bindALRThemeToggle() {
-          var row = document.getElementById('alr-theme-toggle');
-          if (!row || row.dataset.bound === 'true') return;
+  document.addEventListener('click', function (e) {
+    var target = e.target;
+    if (!(target instanceof Element)) return;
 
-          row.dataset.bound = 'true';
+    var toggleRow = target.closest('#alr-theme-toggle');
+    if (!toggleRow) return;
 
-          row.addEventListener('click', function(e) {
-            e.preventDefault();
-            toggleALRTheme();
-          });
+    e.preventDefault();
+    toggleALRTheme();
+  });
 
-          row.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              toggleALRTheme();
-            }
-          });
+  document.addEventListener('keydown', function (e) {
+    var target = e.target;
+    if (!(target instanceof Element)) return;
 
-          syncALRToggleState();
-        }
+    var toggleRow = target.closest('#alr-theme-toggle');
+    if (!toggleRow) return;
 
-        function initALRSidebar() {
-          bindALRThemeToggle();
-          syncALRToggleState();
-        }
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggleALRTheme();
+    }
+  });
 
-        document.addEventListener('DOMContentLoaded', initALRSidebar);
-        document.addEventListener('nav', function() {
-          setTimeout(initALRSidebar, 0);
-          setTimeout(initALRSidebar, 50);
-        });
+  document.addEventListener('nav', function () {
+    setTimeout(syncALRToggleState, 0);
+    setTimeout(syncALRToggleState, 50);
+    setTimeout(syncALRToggleState, 150);
+  });
 
-        var alrThemeObserver = new MutationObserver(syncALRToggleState);
-        alrThemeObserver.observe(document.documentElement, {
-          attributes: true,
-          attributeFilter: ['saved-theme']
-        });
-      ` }} />
+  var observer = new MutationObserver(syncALRToggleState);
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['saved-theme']
+  });
+
+  document.addEventListener('DOMContentLoaded', syncALRToggleState);
+  setTimeout(syncALRToggleState, 0);
+})();
+          `,
+        }}
+      />
     </div>
   )
 }
