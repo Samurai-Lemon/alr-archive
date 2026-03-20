@@ -1800,6 +1800,22 @@ details[open] .alr-sb-chevron {
     flex-direction: column !important;
   }
 
+  // ─── PIN QUARTZ SIDEBAR BOTTOM BLOCK ──────────────────────
+.sidebar.left {
+  display: flex !important;
+  flex-direction: column !important;
+  height: calc(100vh - 48px) !important;
+}
+
+.sidebar.left > .alr-sidebar-wrapper {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+}
+
+.sidebar.left > *:last-child {
+  margin-top: auto !important;
+}
+
   .sidebar.left.alr-mobile-open,
   #quartz-body .sidebar.left.alr-mobile-open {
     transform: translateX(0) !important;
