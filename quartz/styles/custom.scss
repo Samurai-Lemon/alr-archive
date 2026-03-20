@@ -1631,7 +1631,7 @@ details[open] .alr-sb-chevron {
 }
 
 // ─── MOBILE RESPONSIVE ────────────────────────────────────
-@media (max-width: 768px) {
+@media (max-width: 800px) {
 
   .alr-mobile-menu-btn {
     display: flex !important;
@@ -1698,6 +1698,16 @@ details[open] .alr-sb-chevron {
     padding: 0 16px 28px 16px !important;
   }
 
+  // Fix article grid-area offset from base.scss
+  .page .center > article,
+  .page #quartz-body .center > article {
+    grid-area: unset !important;
+    grid-column: 1 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+  }
+
   .alr-stats {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
@@ -1748,21 +1758,6 @@ details[open] .alr-sb-chevron {
   article h2 { font-size: 14px !important; }
   article h3 { font-size: 13px !important; }
   article p  { font-size: 13px !important; }
-}
-
-// ─── MOBILE ARTICLE GRID-AREA FIX ────────────────────────
-// Must be AFTER the mobile block to win specificity
-@media (max-width: 768px) {
-  .center > article,
-  .center > .page-header,
-  #quartz-body .center > article {
-    grid-area: unset !important;
-    grid-column: 1 !important;
-    grid-row: auto !important;
-    width: 100% !important;
-    min-width: 0 !important;
-    margin: 0 !important;
-  }
 }
 
 // ─── SCROLLBAR ─────────────────────────────────────────────
