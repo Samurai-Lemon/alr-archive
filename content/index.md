@@ -135,4 +135,14 @@
 </div>
 </div>
 
+<div class="alr-home-ad-wrap">
+<div class="alr-home-ad-head">
+<span class="alr-home-ad-label">Sponsored • External Signal</span>
+</div>
+<div class="alr-home-ad-box">
+<div class="alr-home-ad-placeholder">Your Ad Here</div>
+</div>
+<div class="alr-home-ad-foot">Archive Initiative — Index Stable</div>
+</div>
+
 </div>

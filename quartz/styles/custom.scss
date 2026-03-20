@@ -285,16 +285,6 @@ body {
   margin-top: 0 !important;
 }
 
-.sidebar.left a {
-  color: #6b6860 !important;
-  border-bottom: none !important;
-}
-
-.sidebar.left a:hover {
-  color: #b8b4a8 !important;
-  border-bottom: none !important;
-}
-
 // ─── PREVENT SIDEBAR HORIZONTAL SCROLL ────────────────────
 #quartz-body .sidebar.left,
 .sidebar.left,
@@ -310,6 +300,16 @@ body {
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
+}
+
+.sidebar.left a {
+  color: #6b6860 !important;
+  border-bottom: none !important;
+}
+
+.sidebar.left a:hover {
+  color: #b8b4a8 !important;
+  border-bottom: none !important;
 }
 
 // ─── MAIN CONTENT ─────────────────────────────────────────
@@ -879,6 +879,64 @@ hr {
   font-size: 9px;
   color: #3a3830;
   margin-top: 1px;
+}
+
+// ─── HOMEPAGE AD SLOT ─────────────────────────────────────
+.alr-home-ad-wrap {
+  width: 100%;
+  max-width: 420px;
+  margin-left: auto;
+  margin-top: 14px;
+  margin-bottom: 6px;
+  padding-top: 8px;
+  border-top: 0.5px solid #222018;
+}
+
+.alr-home-ad-head {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.alr-home-ad-label {
+  font-size: 10px;
+  color: #8a8678;
+  letter-spacing: 0.08em;
+}
+
+.alr-home-ad-box {
+  background: linear-gradient(to bottom, #12110f, #0f0f0d);
+  border: 0.5px solid #26251f;
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.alr-home-ad-placeholder {
+  width: 300px;
+  height: 100px;
+  border: 1px solid #5a5248;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: #b8b4a8;
+  background: rgba(255, 255, 255, 0.03);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.alr-home-ad-foot {
+  margin-top: 8px;
+  text-align: center;
+  font-size: 10px;
+  color: #7a7065;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 // ─── ALR SIDEBAR NAV ──────────────────────────────────────
@@ -1700,12 +1758,29 @@ details[open] .alr-sb-chevron {
   .alr-submit-textarea::placeholder { color: #a09888 !important; }
   .alr-submit-select option { background: #e8e3d8 !important; color: #2a2420 !important; }
   .alr-submit-declaration-table td { background: transparent !important; }
-}
 
-// ─── FIX FOOTER GAP ─────────────────────────
-footer {
-  margin-bottom: 0 !important;
-  padding-bottom: 6px !important;
+  .alr-home-ad-wrap {
+    border-top-color: #d8d0c4 !important;
+  }
+
+  .alr-home-ad-label {
+    color: #8a8175 !important;
+  }
+
+  .alr-home-ad-box {
+    background: #ede8de !important;
+    border-color: #d8d0c4 !important;
+  }
+
+  .alr-home-ad-placeholder {
+    background: rgba(42, 36, 32, 0.03) !important;
+    border-color: #bdb3a6 !important;
+    color: #6d6258 !important;
+  }
+
+  .alr-home-ad-foot {
+    color: #8a8175 !important;
+  }
 }
 
 // ═══════════════════════════════════════════════
@@ -1823,22 +1898,6 @@ footer {
     flex-direction: column !important;
   }
 
-  // ─── PIN QUARTZ SIDEBAR BOTTOM BLOCK ──────────────────────
-.sidebar.left {
-  display: flex !important;
-  flex-direction: column !important;
-  height: calc(100vh - 48px) !important;
-}
-
-.sidebar.left > .alr-sidebar-wrapper {
-  flex: 1 1 auto !important;
-  min-height: 0 !important;
-}
-
-.sidebar.left > *:last-child {
-  margin-top: auto !important;
-}
-
   .sidebar.left.alr-mobile-open,
   #quartz-body .sidebar.left.alr-mobile-open {
     transform: translateX(0) !important;
@@ -1934,6 +1993,16 @@ footer {
   article h2 { font-size: 14px !important; }
   article h3 { font-size: 13px !important; }
   article p  { font-size: 13px !important; }
+
+  .alr-home-ad-wrap {
+    max-width: 100% !important;
+    margin-left: 0 !important;
+  }
+
+  .alr-home-ad-placeholder {
+    width: 100% !important;
+    max-width: 300px !important;
+  }
 
   html,
   body {
