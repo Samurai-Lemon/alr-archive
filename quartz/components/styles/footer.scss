@@ -29,3 +29,36 @@ footer ul {
   gap: 8px !important;
   align-items: center !important;
 }
+
+footer:hover {
+  opacity: 1 !important;
+  color: #8e8376 !important;
+  border-top-color: #3a3428 !important;
+}
+
+
+// ─── LIGHT MODE OVERRIDE (THIS is what fixes your issue) ───
+:root[saved-theme="light"] footer {
+  background: #ede8de !important;
+  border-top: 0.5px solid #d8d0c4 !important;
+  color: #8a8175 !important;
+  opacity: 1 !important;
+}
+
+:root[saved-theme="light"] footer:hover {
+  background: #e8e3d8 !important;
+  border-top-color: #cfc5b7 !important;
+  color: #6d6258 !important;
+}
+
+:root[saved-theme="light"] footer p {
+  color: inherit !important;
+}
+
+:root[saved-theme="light"] footer a {
+  color: #a85c42 !important;
+}
+
+:root[saved-theme="light"] footer a:hover {
+  color: #c87858 !important;
+}
