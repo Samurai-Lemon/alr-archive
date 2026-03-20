@@ -295,6 +295,23 @@ body {
   border-bottom: none !important;
 }
 
+// ─── PREVENT SIDEBAR HORIZONTAL SCROLL ────────────────────
+#quartz-body .sidebar.left,
+.sidebar.left,
+.alr-sidebar-wrapper,
+.alr-sidebar-nav {
+  overflow-x: hidden !important;
+  max-width: 100% !important;
+}
+
+.alr-sb-bottom,
+.alr-sb-darkmode-row {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+}
+
 // ─── MAIN CONTENT ─────────────────────────────────────────
 #quartz-body .center {
   background: #1a1915 !important;
