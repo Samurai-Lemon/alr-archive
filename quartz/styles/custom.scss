@@ -1694,18 +1694,9 @@ details[open] .alr-sb-chevron {
     display: none !important;
   }
 
+  // Equal padding both sides to center content
   #quartz-body .center {
-    padding: 0 16px 28px 16px !important;
-  }
-
-  // Fix article grid-area offset from base.scss
-  .page .center > article,
-  .page #quartz-body .center > article {
-    grid-area: unset !important;
-    grid-column: 1 !important;
-    width: 100% !important;
-    min-width: 0 !important;
-    margin: 0 !important;
+    padding: 0 16px 28px 48px !important;
   }
 
   .alr-stats {
