@@ -1700,31 +1700,6 @@ details[open] .alr-sb-chevron {
   .alr-submit-textarea::placeholder { color: #a09888 !important; }
   .alr-submit-select option { background: #e8e3d8 !important; color: #2a2420 !important; }
   .alr-submit-declaration-table td { background: transparent !important; }
-    // ─── FOOTER — LIGHT MODE FIX ─────────────────────
-  footer {
-    background: #ede8de !important;
-    border-top: 0.5px solid #d8d0c4 !important;
-    color: #8a8175 !important;
-    opacity: 1 !important;
-  }
-
-  footer:hover {
-    background: #e8e3d8 !important;
-    border-top-color: #cfc5b7 !important;
-    color: #6d6258 !important;
-  }
-
-  footer p {
-    color: inherit !important;
-  }
-
-  footer a {
-    color: #a85c42 !important;
-  }
-
-  footer a:hover {
-    color: #c87858 !important;
-  }
 }
 
 // ─── FIX FOOTER GAP ─────────────────────────
