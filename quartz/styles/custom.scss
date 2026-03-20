@@ -44,6 +44,109 @@
   width: 100% !important;
 }
 
+/* 🔥 HEIGHT FIX ADDED HERE */
+#quartz-body {
+  min-height: calc(100vh - 48px) !important;
+}
+
+#quartz-body .center {
+  min-height: calc(100vh - 48px) !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+#quartz-body .center > article,
+#quartz-body .center > .popover-hint {
+  flex: 1 1 auto !important;
+}
+
+.sidebar {
+  padding: 16px 0 !important;
+  top: 48px !important;
+  height: calc(100vh - 48px) !important;
+  overflow-y: auto !important;
+}
+
+#quartz-body .center {
+  min-width: 0 !important;
+}
+
+// ─── HIDE RIGHT SIDEBAR ───────────────────────────────────
+#quartz-body .sidebar.right,
+.sidebar.right {
+  display: none !important;
+}
+
+// ─── TOPBAR ───────────────────────────────────────────────
+#quartz-header {
+  background: #111110 !important;
+  border-bottom: 0.5px solid #26251f !important;
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 18px !important;
+  min-height: 48px !important;
+  gap: 16px !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 102 !important;
+  overflow: visible !important;
+}
+
+#quartz-header header {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+  width: 100% !important;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: visible !important;
+}
+
+#quartz-header .page-title {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #f0ece0 !important;
+  letter-spacing: 0.04em !important;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+}
+
+#quartz-header .page-title a {
+  color: #f0ece0 !important;
+  border-bottom: none !important;
+  text-decoration: none !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+
+#quartz-header .search {
+  flex: 1 !important;
+  max-width: 280px !important;
+}
+
+#quartz-header .search-bar {
+  background: #1e1d18 !important;
+  border: 0.5px solid #26251f !important;
+  border-radius: 6px !important;
+  height: 30px !important;
+}
+
+#quartz-header .search-bar input {
+  color: #d8d4c8 !important;
+  font-size: 12px !important;
+}
+
+#quartz-header .search-bar input::placeholder {
+  color: #4a4840 !important;
+}
+
+#quartz-body {
+  flex: 1 !important;
+  width: 100% !important;
+}
+
 .sidebar {
   padding: 16px 0 !important;
   top: 48px !important;
