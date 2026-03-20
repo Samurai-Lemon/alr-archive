@@ -141,8 +141,6 @@
 </div>
 
 <div class="alr-home-ad-box">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1009528022941792"
-     crossorigin="anonymous"></script>
 <!-- ALR Sponser External Signal 1 -->
 <ins class="adsbygoogle"
      style="display:inline-block;width:300px;height:250px"
