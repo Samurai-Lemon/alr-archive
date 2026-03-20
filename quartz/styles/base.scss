@@ -283,6 +283,12 @@ a {
 
     & .center > article {
       grid-area: grid-center;
+      @media all and ($mobile) {
+        grid-area: unset;
+        width: 100%;
+        min-width: 0;
+        margin: 0;
+      }
     }
 
     & footer {
