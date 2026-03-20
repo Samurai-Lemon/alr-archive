@@ -139,9 +139,20 @@
 <div class="alr-home-ad-head">
 <span class="alr-home-ad-label">Sponsored • External Signal</span>
 </div>
+
 <div class="alr-home-ad-box">
-<div class="alr-home-ad-placeholder">Your Ad Here</div>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1009528022941792"
+     crossorigin="anonymous"></script>
+<!-- ALR Sponser External Signal 1 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-1009528022941792"
+     data-ad-slot="6380168218"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 </div>
+
 <div class="alr-home-ad-foot">Archive Initiative — Index Stable</div>
 </div>
 
