@@ -249,7 +249,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.5);
   z-index: 100;
   opacity: 0;
   pointer-events: none;
@@ -1630,47 +1630,57 @@ details[open] .alr-sb-chevron {
   .alr-submit-declaration-table td { background: transparent !important; }
 }
 
-// ─── MOBILE RESPONSIVE ────────────────────────────────────
+// ═══════════════════════════════════════════════
+// ─── MOBILE — CLEAN REBUILD ───────────────────
+// Breakpoint: 800px matches Quartz $mobile var
+// ═══════════════════════════════════════════════
 @media (max-width: 800px) {
 
-  .alr-mobile-menu-btn {
-    display: flex !important;
-    order: -1;
-  }
-
-  .alr-topnav {
-    display: none !important;
-  }
-
-  .alr-mobile-overlay {
+  // ─── BODY & ROOT ────────────────────────────
+  // Push content below fixed topbar
+  #quartz-root {
+    padding-top: 48px !important;
     display: block !important;
-    pointer-events: none !important;
   }
 
+  // ─── TOPBAR ─────────────────────────────────
+  // Fixed at top, hamburger left, search right, no title
   #quartz-header {
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
     right: 0 !important;
-    padding: 0 14px !important;
+    width: 100% !important;
+    height: 48px !important;
+    min-height: 48px !important;
+    padding: 0 12px !important;
     gap: 10px !important;
+    z-index: 200 !important;
     box-sizing: border-box !important;
+    display: flex !important;
+    align-items: center !important;
     overflow: hidden !important;
   }
 
   #quartz-header header {
-    overflow: hidden !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    width: 100% !important;
     min-width: 0 !important;
+    overflow: hidden !important;
   }
 
-  #quartz-root {
-    padding-top: 48px !important;
+  // Hide page title on mobile
+  #quartz-header .page-title {
+    display: none !important;
   }
 
+  // Search fills remaining space
   #quartz-header .search {
-    max-width: none !important;
     flex: 1 !important;
     min-width: 0 !important;
+    max-width: none !important;
   }
 
   #quartz-header .search-bar {
@@ -1678,39 +1688,80 @@ details[open] .alr-sb-chevron {
     box-sizing: border-box !important;
   }
 
-  .page > #quartz-body {
-    grid-template-columns: minmax(0, 1fr) !important;
+  // Show hamburger button
+  .alr-mobile-menu-btn {
+    display: flex !important;
+    flex-shrink: 0 !important;
+    order: -1 !important;
   }
 
+  // Hide desktop topnav links
+  .alr-topnav {
+    display: none !important;
+  }
+
+  // ─── OVERLAY ────────────────────────────────
+  // Full screen dim behind open sidebar
+  .alr-mobile-overlay {
+    display: block !important;
+    pointer-events: none !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+  }
+
+  .alr-mobile-overlay.alr-mobile-overlay-open {
+    pointer-events: auto !important;
+  }
+
+  // ─── GRID ───────────────────────────────────
+  // Single column — no sidebar column
+  .page > #quartz-body {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  // ─── SIDEBAR ────────────────────────────────
+  // Hidden off screen left, slides in on open
   #quartz-body .sidebar.left,
   .sidebar.left {
-    display: none !important;
+    display: flex !important;
     position: fixed !important;
+    top: 0 !important;
     left: 0 !important;
-    top: 48px !important;
-    width: 260px !important;
-    height: calc(100vh - 48px) !important;
-    z-index: 103 !important;
-    transition: transform 0.25s ease !important;
-    border-right: 0.5px solid #222018 !important;
+    width: 80vw !important;
+    max-width: 300px !important;
+    height: 100vh !important;
+    z-index: 201 !important;
+    transform: translateX(-100%) !important;
+    transition: transform 0.3s ease !important;
+    overflow-y: auto !important;
     pointer-events: none !important;
+    flex-direction: column !important;
   }
 
   .sidebar.left.alr-mobile-open,
   #quartz-body .sidebar.left.alr-mobile-open {
-    display: flex !important;
     transform: translateX(0) !important;
     pointer-events: auto !important;
   }
 
+  // Hide desktop collapse button
   .alr-sb-collapse-btn {
     display: none !important;
   }
 
+  // ─── CONTENT ────────────────────────────────
+  // Full width with equal padding
   #quartz-body .center {
-    padding: 0 16px 28px 48px !important;
+    display: block !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 0 20px 28px 20px !important;
   }
 
+  // ─── HOMEPAGE GRIDS ─────────────────────────
   .alr-stats {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
@@ -1740,6 +1791,7 @@ details[open] .alr-sb-chevron {
     max-width: 100% !important;
   }
 
+  // ─── SUBMIT PAGE ────────────────────────────
   .alr-submit-row {
     flex-direction: column !important;
   }
@@ -1753,10 +1805,12 @@ details[open] .alr-sb-chevron {
     align-items: flex-start !important;
   }
 
+  // ─── REGISTRY ───────────────────────────────
   .alr-registry {
     overflow-x: auto !important;
   }
 
+  // ─── TYPOGRAPHY ─────────────────────────────
   article h1 { font-size: 18px !important; }
   article h2 { font-size: 14px !important; }
   article h3 { font-size: 13px !important; }
