@@ -1637,14 +1637,12 @@ details[open] .alr-sb-chevron {
 @media (max-width: 800px) {
 
   // ─── BODY & ROOT ────────────────────────────
-  // Push content below fixed topbar
   #quartz-root {
     padding-top: 48px !important;
     display: block !important;
   }
 
   // ─── TOPBAR ─────────────────────────────────
-  // Fixed at top, hamburger left, search right, no title
   #quartz-header {
     position: fixed !important;
     top: 0 !important;
@@ -1671,12 +1669,10 @@ details[open] .alr-sb-chevron {
     overflow: hidden !important;
   }
 
-  // Hide page title on mobile
   #quartz-header .page-title {
     display: none !important;
   }
 
-  // Search fills remaining space
   #quartz-header .search {
     flex: 1 !important;
     min-width: 0 !important;
@@ -1688,20 +1684,17 @@ details[open] .alr-sb-chevron {
     box-sizing: border-box !important;
   }
 
-  // Show hamburger button
   .alr-mobile-menu-btn {
     display: flex !important;
     flex-shrink: 0 !important;
     order: -1 !important;
   }
 
-  // Hide desktop topnav links
   .alr-topnav {
     display: none !important;
   }
 
   // ─── OVERLAY ────────────────────────────────
-  // Full screen dim behind open sidebar
   .alr-mobile-overlay {
     display: block !important;
     pointer-events: none !important;
@@ -1716,14 +1709,12 @@ details[open] .alr-sb-chevron {
   }
 
   // ─── GRID ───────────────────────────────────
-  // Single column — no sidebar column
   .page > #quartz-body {
     display: block !important;
     width: 100% !important;
   }
 
   // ─── SIDEBAR ────────────────────────────────
-  // Hidden off screen left, slides in on open
   #quartz-body .sidebar.left,
   .sidebar.left {
     display: flex !important;
@@ -1747,18 +1738,34 @@ details[open] .alr-sb-chevron {
     pointer-events: auto !important;
   }
 
-  // Hide desktop collapse button
   .alr-sb-collapse-btn {
     display: none !important;
   }
 
   // ─── CONTENT ────────────────────────────────
-  // Full width with equal padding
+  // Force content to sit flush and centered
   #quartz-body .center {
     display: block !important;
     width: 100% !important;
     box-sizing: border-box !important;
     padding: 0 20px 28px 20px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    position: relative !important;
+    left: 0 !important;
+  }
+
+  // Reset article grid-area so it fills center
+  #quartz-body .center article,
+  #quartz-body .center .page-header {
+    display: block !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    grid-area: unset !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: static !important;
+    left: auto !important;
   }
 
   // ─── HOMEPAGE GRIDS ─────────────────────────
