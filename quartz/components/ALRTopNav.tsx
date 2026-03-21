@@ -17,8 +17,8 @@ const ALRTopNav: QuartzComponent = (_props: QuartzComponentProps) => {
         <a href="/" class="alr-topnav-link">Archive</a>
 
         <div class="alr-topnav-dropdown" id="alr-resources-dropdown">
-          <span class="alr-topnav-link alr-topnav-dropdown-trigger" id="alr-resources-trigger">Resources ›</span>
-          <div class="alr-topnav-dropdown-menu" id="alr-resources-menu">
+          <span class="alr-topnav-link alr-topnav-dropdown-trigger">Resources ›</span>
+          <div class="alr-topnav-dropdown-menu">
             <div class="alr-topnav-dropdown-menu-inner">
               <a href="/Archive-Documentation-Format/Echo-Entry-Format" class="alr-topnav-dropdown-item">Echo Entry Format</a>
               <a href="/Archive-Documentation-Format/Reality-Investigation-Report-Format" class="alr-topnav-dropdown-item">Reality Investigation Report Format</a>
@@ -29,10 +29,9 @@ const ALRTopNav: QuartzComponent = (_props: QuartzComponentProps) => {
         </div>
 
         <div class="alr-topnav-dropdown" id="alr-protocols-dropdown">
-          <span class="alr-topnav-link alr-topnav-dropdown-trigger" id="alr-protocols-trigger">Protocols ›</span>
-          <div class="alr-topnav-dropdown-menu" id="alr-protocols-menu">
+          <span class="alr-topnav-link alr-topnav-dropdown-trigger">Protocols ›</span>
+          <div class="alr-topnav-dropdown-menu">
             <div class="alr-topnav-dropdown-menu-inner">
-              <a href="/Protocols" class="alr-topnav-dropdown-item">Archive Protocols</a>
               <a href="/Protocols/Terms-of-Submission" class="alr-topnav-dropdown-item">Terms of Submission</a>
               <a href="/Protocols/Privacy" class="alr-topnav-dropdown-item">Privacy</a>
               <a href="/Protocols/License" class="alr-topnav-dropdown-item">License</a>
@@ -46,16 +45,14 @@ const ALRTopNav: QuartzComponent = (_props: QuartzComponentProps) => {
 
       <script dangerouslySetInnerHTML={{__html: `
         function initALRTopNav() {
-          var resourcesDropdown = document.getElementById('alr-resources-dropdown');
-          var resourcesMenu = document.getElementById('alr-resources-menu');
-          var protocolsDropdown = document.getElementById('alr-protocols-dropdown');
-          var protocolsMenu = document.getElementById('alr-protocols-menu');
+          var dropdowns = document.querySelectorAll('.alr-topnav-dropdown');
           var menuBtn = document.getElementById('alr-mobile-menu-btn');
           var overlay = document.getElementById('alr-mobile-overlay');
           var sidebar = document.querySelector('.sidebar.left');
 
-          function bindDropdown(dropdown, menu) {
-            if (!dropdown || !menu) return;
+          dropdowns.forEach(function(dropdown) {
+            var menu = dropdown.querySelector('.alr-topnav-dropdown-menu');
+            if (!menu) return;
 
             var hideTimer = null;
 
@@ -74,10 +71,7 @@ const ALRTopNav: QuartzComponent = (_props: QuartzComponentProps) => {
             dropdown.addEventListener('mouseleave', hideMenu);
             menu.addEventListener('mouseenter', showMenu);
             menu.addEventListener('mouseleave', hideMenu);
-          }
-
-          bindDropdown(resourcesDropdown, resourcesMenu);
-          bindDropdown(protocolsDropdown, protocolsMenu);
+          });
 
           function openSidebar() {
             sidebar = document.querySelector('.sidebar.left');
@@ -94,8 +88,7 @@ const ALRTopNav: QuartzComponent = (_props: QuartzComponentProps) => {
           }
 
           if (menuBtn) {
-            menuBtn.removeEventListener('click', menuBtn._alrHandler);
-            menuBtn._alrHandler = function() {
+            menuBtn.onclick = function() {
               var sb = document.querySelector('.sidebar.left');
               if (sb && sb.classList.contains('alr-mobile-open')) {
                 closeSidebar();
@@ -103,13 +96,10 @@ const ALRTopNav: QuartzComponent = (_props: QuartzComponentProps) => {
                 openSidebar();
               }
             };
-            menuBtn.addEventListener('click', menuBtn._alrHandler);
           }
 
           if (overlay) {
-            overlay.removeEventListener('click', overlay._alrHandler);
-            overlay._alrHandler = closeSidebar;
-            overlay.addEventListener('click', overlay._alrHandler);
+            overlay.onclick = closeSidebar;
           }
 
           var sidebarLinks = document.querySelectorAll('.alr-sb-item');
