@@ -3,7 +3,9 @@
 <div class="alr-submit-header">
   <div class="alr-eyebrow" style="margin-bottom:8px;">Archive of Lost Realities Initiative</div>
   <h1 class="alr-hero-title" style="margin-bottom:8px;">Submit an Echo</h1>
-  <p class="alr-hero-sub" style="margin-bottom:0;">Field investigators and independent researchers may submit Echo documentation for review by the ALR Initiative. All submissions are reviewed before inclusion in the archive. Refer to the <a href="/Archive-Documentation-Format/Echo-Entry-Format" class="internal">Echo Entry Format</a> guide before completing this form.</p>
+  <p class="alr-hero-sub" style="margin-bottom:0;">
+  Field investigators and independent researchers may submit Echo documentation for review by the ALR Initiative. All submissions are processed under Archive Protocols and reviewed prior to inclusion. Refer to the <a href="/Archive-Documentation-Format/Echo-Entry-Format" class="internal">Echo Entry Format</a> guide before completing this form, and ensure compliance with the <a href="/Protocols/Terms-of-Submission" class="internal">Submission Protocol</a> and <a href="/Protocols/License" class="internal">Archive Licensing Protocol</a>.
+  </p>
 </div>
 
 <div class="alr-submit-notice">
@@ -123,7 +125,9 @@
     <div class="alr-submit-section-label">Declaration</div>
     <div style="display:flex;align-items:flex-start;gap:10px;">
       <input class="alr-submit-checkbox" type="checkbox" id="declaration" name="declaration" required style="margin-top:3px;flex-shrink:0;accent-color:#cc785c;width:14px;height:14px;cursor:pointer;" />
-      <label for="declaration" style="font-size:12px;color:#6b6860;line-height:1.6;cursor:pointer;text-align:left;">I confirm that this submission is original documentation and that I have reviewed the Echo Entry Format guidelines. I understand that submission does not guarantee inclusion in the archive.</label>
+      <label for="declaration" style="font-size:12px;color:#6b6860;line-height:1.6;cursor:pointer;text-align:left;">
+      I confirm that this submission is original documentation and that I have reviewed and agree to the <a href="/Protocols/Terms-of-Submission" class="internal">Submission Protocol</a> and <a href="/Protocols/License" class="internal">Archive Licensing Protocol</a>. I acknowledge that submitted material may be modified, classified, and permanently archived by the ALR Initiative, and that submission does not guarantee inclusion.
+      </label>
     </div>
   </div>
 
