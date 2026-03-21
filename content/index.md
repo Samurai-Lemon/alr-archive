@@ -1,5 +1,9 @@
 ---
 ---
+---
+title: Terminal
+---
+
 <svg class="alr-banner-svg" width="100%" viewBox="0 0 680 180" xmlns="http://www.w3.org/2000/svg" style="display:block;margin-bottom:14px;border-radius:10px;overflow:hidden;">
 <defs>
   <clipPath id="bc"><rect x="0" y="0" width="680" height="180"/></clipPath>
