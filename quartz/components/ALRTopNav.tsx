@@ -15,6 +15,7 @@ const ALRTopNav: QuartzComponent = (_props: QuartzComponentProps) => {
 
       <nav class="alr-topnav">
         <a href="/" class="alr-topnav-link">Archive</a>
+
         <div class="alr-topnav-dropdown" id="alr-resources-dropdown">
           <span class="alr-topnav-link alr-topnav-dropdown-trigger" id="alr-resources-trigger">Resources ›</span>
           <div class="alr-topnav-dropdown-menu" id="alr-resources-menu">
@@ -26,37 +27,58 @@ const ALRTopNav: QuartzComponent = (_props: QuartzComponentProps) => {
             </div>
           </div>
         </div>
+
+        <div class="alr-topnav-dropdown" id="alr-protocols-dropdown">
+          <span class="alr-topnav-link alr-topnav-dropdown-trigger" id="alr-protocols-trigger">Protocols ›</span>
+          <div class="alr-topnav-dropdown-menu" id="alr-protocols-menu">
+            <div class="alr-topnav-dropdown-menu-inner">
+              <a href="/Protocols" class="alr-topnav-dropdown-item">Archive Protocols</a>
+              <a href="/Protocols/Terms-of-Submission" class="alr-topnav-dropdown-item">Terms of Submission</a>
+              <a href="/Protocols/Privacy" class="alr-topnav-dropdown-item">Privacy</a>
+              <a href="/Protocols/License" class="alr-topnav-dropdown-item">License</a>
+            </div>
+          </div>
+        </div>
+
         <a href="/Submit" class="alr-topnav-link">Submit</a>
         <a href="/About" class="alr-topnav-link">About</a>
       </nav>
 
       <script dangerouslySetInnerHTML={{__html: `
         function initALRTopNav() {
-          var dropdown = document.getElementById('alr-resources-dropdown');
-          var menu = document.getElementById('alr-resources-menu');
+          var resourcesDropdown = document.getElementById('alr-resources-dropdown');
+          var resourcesMenu = document.getElementById('alr-resources-menu');
+          var protocolsDropdown = document.getElementById('alr-protocols-dropdown');
+          var protocolsMenu = document.getElementById('alr-protocols-menu');
           var menuBtn = document.getElementById('alr-mobile-menu-btn');
           var overlay = document.getElementById('alr-mobile-overlay');
           var sidebar = document.querySelector('.sidebar.left');
 
-          // Dropdown hover
-          if (dropdown && menu) {
+          function bindDropdown(dropdown, menu) {
+            if (!dropdown || !menu) return;
+
             var hideTimer = null;
+
             function showMenu() {
               if (hideTimer) clearTimeout(hideTimer);
               menu.classList.add('alr-dropdown-open');
             }
+
             function hideMenu() {
               hideTimer = setTimeout(function() {
                 menu.classList.remove('alr-dropdown-open');
               }, 100);
             }
+
             dropdown.addEventListener('mouseenter', showMenu);
             dropdown.addEventListener('mouseleave', hideMenu);
             menu.addEventListener('mouseenter', showMenu);
             menu.addEventListener('mouseleave', hideMenu);
           }
 
-          // Mobile sidebar toggle
+          bindDropdown(resourcesDropdown, resourcesMenu);
+          bindDropdown(protocolsDropdown, protocolsMenu);
+
           function openSidebar() {
             sidebar = document.querySelector('.sidebar.left');
             if (sidebar) sidebar.classList.add('alr-mobile-open');
@@ -90,7 +112,6 @@ const ALRTopNav: QuartzComponent = (_props: QuartzComponentProps) => {
             overlay.addEventListener('click', overlay._alrHandler);
           }
 
-          // Close sidebar on navigation
           var sidebarLinks = document.querySelectorAll('.alr-sb-item');
           sidebarLinks.forEach(function(link) {
             link.addEventListener('click', closeSidebar);
