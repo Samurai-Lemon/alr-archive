@@ -2,6 +2,7 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 
 type EchoItem = {
   slug: string
+  href: string
   title: string
   echoId: string
   name: string
@@ -40,19 +41,21 @@ function getDateValue(file: any): number {
 }
 
 function buildEchoItem(file: any): EchoItem {
-  const title = String(file.frontmatter?.title ?? file.slug ?? "")
-  const echoIdMatch = title.match(/ECHO-\d+/i) ?? String(file.slug ?? "").match(/ECHO-\d+/i)
+  const slug = String(file.slug ?? "")
+  const title = String(file.frontmatter?.title ?? slug)
+  const echoIdMatch = title.match(/ECHO-\d+/i) ?? slug.match(/ECHO-\d+/i)
   const echoId = echoIdMatch ? echoIdMatch[0].toUpperCase() : "ECHO-???"
 
   const nameFromTitle = title.replace(/^ECHO-\d+\s*[—-]\s*/i, "").trim()
   const name = nameFromTitle || title
 
-  const ec = String(file.frontmatter?.ec ?? getEcFromSlug(String(file.slug ?? ""))).toUpperCase()
+  const ec = String(file.frontmatter?.ec ?? getEcFromSlug(slug)).toUpperCase()
   const esc = getEscFromFrontmatter(file.frontmatter)
   const dotColor = getDotColor(ec, esc)
 
   return {
-    slug: String(file.slug ?? ""),
+    slug,
+    href: `/${slug}`,
     title,
     echoId,
     name,
@@ -73,60 +76,28 @@ const ALRRecentEchoes: QuartzComponent = ({ allFiles }: QuartzComponentProps & {
     .sort((a, b) => b.sortTime - a.sortTime)
     .slice(0, 7)
 
-  const cardHtml = `
-<div class="alr-card alr-card-wide">
-  <div class="alr-card-head">
-    <span class="alr-card-head-title">Recent echoes</span>
-    <a href="Index/ECHO-Registry" class="alr-card-head-action internal">View all</a>
-  </div>
-  ${echoes
-    .map(
-      (echo) => `
-  <div class="alr-echo-row">
-    <div class="alr-echo-dot" style="background:${echo.dotColor};"></div>
-    <div class="alr-echo-id">${echo.echoId}</div>
-    <div class="alr-echo-name">${echo.name}</div>
-    <span class="alr-etag alr-et-${echo.ec.toLowerCase()}">${echo.ec}</span>
-    <span class="alr-etag alr-es-${echo.esc.toLowerCase()}">${echo.esc}</span>
-  </div>`,
-    )
-    .join("")}
-</div>`.trim()
-
-  const escapedCardHtml = JSON.stringify(cardHtml)
-
   return (
-  <div id="alr-recent-echoes-mount" style={{ display: "none" }}>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
-(function () {
-  function mountALRRecentEchoes() {
-    var slot = document.getElementById("alr-recent-echoes-slot");
-    if (!slot) return;
-    slot.innerHTML = ${escapedCardHtml};
+    <div class="alr-card alr-card-wide" id="alr-recent-echoes-slot">
+      <div class="alr-card-head">
+        <span class="alr-card-head-title">Recent echoes</span>
+        <a href="/Index/ECHO-Registry" class="alr-card-head-action internal">
+          View all
+        </a>
+      </div>
 
-    var internalLinks = slot.querySelectorAll("a.internal");
-    internalLinks.forEach(function(link) {
-      link.addEventListener("click", function() {
-        var mobileSidebar = document.querySelector(".sidebar.left");
-        var overlay = document.getElementById("alr-mobile-overlay");
-        if (mobileSidebar) mobileSidebar.classList.remove("alr-mobile-open");
-        if (overlay) overlay.classList.remove("alr-mobile-overlay-open");
-        document.body.style.overflow = "";
-      });
-    });
-  }
-
-  document.addEventListener("DOMContentLoaded", mountALRRecentEchoes);
-  document.addEventListener("nav", function () {
-    setTimeout(mountALRRecentEchoes, 0);
-  });
-  setTimeout(mountALRRecentEchoes, 0);
-})();
-          `,
-        }}
-      />
+      {echoes.map((echo) => (
+        <div class="alr-echo-row">
+          <div class="alr-echo-dot" style={{ background: echo.dotColor }}></div>
+          <div class="alr-echo-id">{echo.echoId}</div>
+          <div class="alr-echo-name">
+            <a href={echo.href} class="internal">
+              {echo.name}
+            </a>
+          </div>
+          <span class={`alr-etag alr-et-${echo.ec.toLowerCase()}`}>{echo.ec}</span>
+          <span class={`alr-etag alr-es-${echo.esc.toLowerCase()}`}>{echo.esc}</span>
+        </div>
+      ))}
     </div>
   )
 }

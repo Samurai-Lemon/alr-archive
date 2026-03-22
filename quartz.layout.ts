@@ -10,16 +10,7 @@ export const sharedPageComponents: SharedLayout = {
     Component.Darkmode(),
     Component.ReaderMode(),
   ],
-  afterBody: [
-    Component.ConditionalRender({
-      component: Component.ALRRecentEchoes(),
-      condition: (page) => page.fileData.slug === "index",
-    }),
-    Component.ConditionalRender({
-      component: Component.ALRRecentRealities(),
-      condition: (page) => page.fileData.slug === "index",
-    }),
-  ],
+  afterBody: [],
   footer: Component.Footer({
     links: {},
   }),
@@ -27,6 +18,10 @@ export const sharedPageComponents: SharedLayout = {
 
 export const defaultContentPageLayout: PageLayout = {
   beforeBody: [
+    Component.ConditionalRender({
+      component: Component.ALRHomeDashboard(),
+      condition: (page) => page.fileData.slug === "index",
+    }),
     Component.ConditionalRender({
       component: Component.ALRBanner(),
       condition: (page) => page.fileData.slug !== "index",
