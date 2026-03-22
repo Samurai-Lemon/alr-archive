@@ -2090,6 +2090,7 @@ details[open] .alr-sb-chevron {
 
 .alr-banner-wrap {
   position: relative;
+  display: block;
 }
 
 .alr-banner-svg {
@@ -2153,7 +2154,7 @@ details[open] .alr-sb-chevron {
 .alr-banner-subtitle {
   position: absolute;
   left: 40px;
-  top: 126px;
+  top: 108px;
   font-family: Inter, sans-serif;
   font-size: 12px;
   font-weight: 400;
