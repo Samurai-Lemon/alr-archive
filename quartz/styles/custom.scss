@@ -2101,7 +2101,7 @@ details[open] .alr-sb-chevron {
 }
 
 .alr-banner-svg .alr-banner-sub {
-  animation: alrBannerSubPulse 12s ease-in-out infinite;
+  opacity: 0.8;
 }
 
 .alr-banner-svg .alr-banner-eyebrow {
@@ -2210,12 +2210,13 @@ details[open] .alr-sb-chevron {
 @media (prefers-reduced-motion: reduce) {
   .alr-banner-svg .alr-banner-bg,
   .alr-banner-svg .alr-banner-title,
-  .alr-banner-svg .alr-banner-sub,
   .alr-banner-svg .alr-banner-eyebrow,
   .alr-banner-svg .alr-banner-status2,
   .alr-banner-svg .alr-banner-status3,
   .alr-banner-svg circle,
-  .alr-banner-svg line[stroke="#cc785c"][stroke-dasharray="6 4"] {
+  .alr-banner-svg line[stroke="#cc785c"][stroke-dasharray="6 4"],
+  .alr-banner-sub-base,
+  .alr-banner-sub-ghost {
     animation: none !important;
   }
 }
