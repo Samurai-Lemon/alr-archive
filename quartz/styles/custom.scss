@@ -2130,15 +2130,15 @@ details[open] .alr-sb-chevron {
 }
 
 .alr-banner-svg circle:nth-of-type(3n) {
-  animation-duration: 6.4s;
+  animation-duration: 6.6s;
 }
 
 .alr-banner-svg circle:nth-of-type(4n) {
-  animation-duration: 7.1s;
+  animation-duration: 7.4s;
 }
 
 .alr-banner-svg .alr-banner-scanline {
-  animation: alrBannerScanlineDrift 2.2s linear infinite;
+  animation: alrBannerDashFlow 3.2s linear infinite;
 }
 
 @keyframes alrBannerBackgroundShift {
@@ -2205,13 +2205,13 @@ details[open] .alr-sb-chevron {
   }
 }
 
-@keyframes alrBannerScanlineDrift {
+@keyframes alrBannerDashFlow {
   from {
     stroke-dashoffset: 0;
   }
 
   to {
-    stroke-dashoffset: -20;
+    stroke-dashoffset: -10;
   }
 }
 
