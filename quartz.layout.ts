@@ -1,6 +1,8 @@
 import { PageLayout, SharedLayout } from "./quartz/cfg"
 import * as Component from "./quartz/components"
 
+const isHome = (page: any) => page.fileData.slug === "index" || page.fileData.slug === ""
+
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [
@@ -20,11 +22,11 @@ export const defaultContentPageLayout: PageLayout = {
   beforeBody: [
     Component.ConditionalRender({
       component: Component.ALRHomeDashboard(),
-      condition: (page) => page.fileData.slug === "index" || page.fileData.slug === "",
+      condition: isHome,
     }),
     Component.ConditionalRender({
       component: Component.ALRBanner(),
-      condition: (page) => page.fileData.slug !== "index" && page.fileData.slug !== "",
+      condition: (page) => !isHome(page),
     }),
   ],
   left: [
@@ -36,11 +38,21 @@ export const defaultContentPageLayout: PageLayout = {
 export const defaultListPageLayout: PageLayout = {
   beforeBody: [
     Component.ConditionalRender({
-      component: Component.ALRBanner(),
-      condition: (page) => page.fileData.slug !== "index" && page.fileData.slug !== "",
+      component: Component.ALRHomeDashboard(),
+      condition: isHome,
     }),
-    Component.ArticleTitle(),
-    Component.ContentMeta(),
+    Component.ConditionalRender({
+      component: Component.ALRBanner(),
+      condition: (page) => !isHome(page),
+    }),
+    Component.ConditionalRender({
+      component: Component.ArticleTitle(),
+      condition: (page) => !isHome(page),
+    }),
+    Component.ConditionalRender({
+      component: Component.ContentMeta(),
+      condition: (page) => !isHome(page),
+    }),
   ],
   left: [
     Component.ALRSidebar(),
