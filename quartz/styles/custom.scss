@@ -2154,7 +2154,8 @@ details[open] .alr-sb-chevron {
 .alr-banner-subtitle {
   position: absolute;
   left: 40px;
-  top: 108px;
+  top: 72%;
+  transform: translateY(-50%);
   font-family: Inter, sans-serif;
   font-size: 12px;
   font-weight: 400;
