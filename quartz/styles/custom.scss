@@ -2153,9 +2153,8 @@ details[open] .alr-sb-chevron {
 
 .alr-banner-subtitle {
   position: absolute;
-  left: 40px;
-  top: 72%;
-  transform: translateY(-50%);
+  left: 48px; /* <-- shift right to align with SVG text */
+  top: 118px; /* <-- align with original SVG subtitle baseline */
   font-family: Inter, sans-serif;
   font-size: 12px;
   font-weight: 400;
