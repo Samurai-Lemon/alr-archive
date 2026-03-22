@@ -2086,143 +2086,60 @@ details[open] .alr-sb-chevron {
   background: #cc785c;
 }
 
-// ─── ALR BANNER ANIMATION ─────────────────────────────────
+// ─── ALR BANNER ───────────────────────────────────────────
 .alr-banner-svg {
-  position: relative;
-  overflow: hidden;
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .alr-banner-svg .alr-banner-bg {
-  animation: alrBannerBgPulse 10s ease-in-out infinite;
+  animation: alrBannerBackgroundShift 24s ease-in-out infinite;
+  transform-origin: center;
 }
 
 .alr-banner-svg .alr-banner-title {
-  animation: alrBannerTitleFlicker 8s ease-in-out infinite;
+  animation: alrBannerTitlePulse 10s ease-in-out infinite;
+  transform-origin: left center;
+  transform-box: fill-box;
+}
+
+.alr-banner-svg .alr-banner-eyebrow {
+  fill: #cc785c !important;
+  opacity: 1 !important;
 }
 
 .alr-banner-svg .alr-banner-sub {
   opacity: 0.8;
 }
 
-.alr-banner-svg .alr-banner-eyebrow {
-  animation: alrBannerEyebrowPulse 9s ease-in-out infinite;
+.alr-banner-svg .alr-banner-status2 {
+  animation: alrBannerStatusFlicker 9s ease-in-out infinite;
 }
 
-.alr-banner-svg .alr-banner-status2,
 .alr-banner-svg .alr-banner-status3 {
-  animation: alrBannerStatusBlink 6s ease-in-out infinite;
+  animation: alrBannerStatusFlicker 13s ease-in-out infinite;
 }
 
 .alr-banner-svg circle {
-  animation: alrBannerNodePulse 4.5s ease-in-out infinite;
+  animation: alrBannerNodeBlink 8s ease-in-out infinite;
   transform-origin: center;
   transform-box: fill-box;
 }
 
+.alr-banner-svg circle:nth-of-type(2n) {
+  animation-duration: 11s;
+}
+
+.alr-banner-svg circle:nth-of-type(3n) {
+  animation-duration: 14s;
+}
+
 .alr-banner-svg line[stroke="#cc785c"][stroke-dasharray="6 4"] {
-  animation: alrBannerScanline 5s linear infinite;
+  animation: alrBannerScanline 7s linear infinite;
 }
 
-@keyframes alrBannerBgPulse {
-  0%, 100% {
-    opacity: 1;
-    filter: brightness(1);
-  }
-  50% {
-    opacity: 0.98;
-    filter: brightness(1.04);
-  }
-}
-
-@keyframes alrBannerTitleFlicker {
-  0%, 100% {
-    opacity: 0.9;
-  }
-  48% {
-    opacity: 0.9;
-  }
-  49% {
-    opacity: 0.82;
-  }
-  50% {
-    opacity: 0.93;
-  }
-  51% {
-    opacity: 0.86;
-  }
-  52% {
-    opacity: 0.9;
-  }
-}
-
-@keyframes alrBannerSubPulse {
-  0%, 100% {
-    opacity: 0.8;
-  }
-  50% {
-    opacity: 0.95;
-  }
-}
-
-@keyframes alrBannerEyebrowPulse {
-  0%, 100% {
-    opacity: 0.5;
-  }
-  50% {
-    opacity: 0.72;
-  }
-}
-
-@keyframes alrBannerStatusBlink {
-  0%, 100% {
-    opacity: 0.35;
-  }
-  50% {
-    opacity: 0.65;
-  }
-}
-
-@keyframes alrBannerNodePulse {
-  0%, 100% {
-    opacity: 0.18;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.42;
-    transform: scale(1.25);
-  }
-}
-
-@keyframes alrBannerScanline {
-  0% {
-    opacity: 0.18;
-    stroke-dashoffset: 0;
-  }
-  50% {
-    opacity: 0.5;
-  }
-  100% {
-    opacity: 0.18;
-    stroke-dashoffset: -40;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .alr-banner-svg .alr-banner-bg,
-  .alr-banner-svg .alr-banner-title,
-  .alr-banner-svg .alr-banner-eyebrow,
-  .alr-banner-svg .alr-banner-status2,
-  .alr-banner-svg .alr-banner-status3,
-  .alr-banner-svg circle,
-  .alr-banner-svg line[stroke="#cc785c"][stroke-dasharray="6 4"],
-  .alr-banner-sub-base,
-  .alr-banner-sub-ghost {
-    animation: none !important;
-  }
-}
-
-/* === ALR Banner Rare Glitch (Firefox-safe) === */
-
+/* subtitle glitch */
 .alr-banner-sub-glitch {
   transform-box: fill-box;
   transform-origin: left center;
@@ -2234,6 +2151,89 @@ details[open] .alr-sb-chevron {
 
 .alr-banner-sub-ghost {
   animation: alrBannerSubGhostGlitch 28s infinite;
+}
+
+@keyframes alrBannerBackgroundShift {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+
+  50% {
+    filter: brightness(1.03);
+  }
+}
+
+@keyframes alrBannerTitlePulse {
+  0%,
+  100% {
+    opacity: 0.9;
+    transform: translateX(0);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateX(0.4px);
+  }
+}
+
+@keyframes alrBannerStatusFlicker {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+
+  48% {
+    opacity: 0.5;
+  }
+
+  49% {
+    opacity: 0.28;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+
+  84% {
+    opacity: 0.5;
+  }
+
+  85% {
+    opacity: 0.32;
+  }
+
+  86% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes alrBannerNodeBlink {
+  0%,
+  100% {
+    opacity: 0.16;
+  }
+
+  50% {
+    opacity: 0.34;
+  }
+}
+
+@keyframes alrBannerScanline {
+  0% {
+    transform: translateY(-2px);
+    opacity: 0.22;
+  }
+
+  50% {
+    transform: translateY(2px);
+    opacity: 0.45;
+  }
+
+  100% {
+    transform: translateY(-2px);
+    opacity: 0.22;
+  }
 }
 
 @keyframes alrBannerSubBaseGlitch {
@@ -2291,5 +2291,18 @@ details[open] .alr-sb-chevron {
   97.75% {
     opacity: 0;
     transform: translate(0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .alr-banner-svg .alr-banner-bg,
+  .alr-banner-svg .alr-banner-title,
+  .alr-banner-svg .alr-banner-status2,
+  .alr-banner-svg .alr-banner-status3,
+  .alr-banner-svg circle,
+  .alr-banner-svg line[stroke="#cc785c"][stroke-dasharray="6 4"],
+  .alr-banner-sub-base,
+  .alr-banner-sub-ghost {
+    animation: none !important;
   }
 }
