@@ -28,6 +28,7 @@ import ALRBanner from "./ALRBanner"
 import ALRTopNav from "./ALRTopNav"
 import ALRRecentEchoes from "./ALRRecentEchoes"
 import ALRRecentRealities from "./ALRRecentRealities"
+import ALRHomeDashboard from "./ALRHomeDashboard"
 
 export {
   ArticleTitle,
@@ -60,4 +61,5 @@ export {
   ALRTopNav,
   ALRRecentEchoes,
   ALRRecentRealities,
+  ALRHomeDashboard,
 }
