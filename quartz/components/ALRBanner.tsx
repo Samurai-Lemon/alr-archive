@@ -56,18 +56,41 @@ const ALRBanner: QuartzComponent = (_props: QuartzComponentProps) => {
         <rect x="274" y="92" width="30" height="26" fill="#cc785c" opacity="0.02" />
         <rect x="274" y="152" width="20" height="26" fill="#cc785c" opacity="0.02" />
 
+        {/* particles */}
         <circle cx="360" cy="18" r="1.5" fill="#cc785c" opacity="0.3" />
         <circle cx="380" cy="45" r="1" fill="#cc785c" opacity="0.2" />
         <circle cx="355" cy="72" r="2" fill="#cc785c" opacity="0.15" />
         <circle cx="390" cy="98" r="1.5" fill="#cc785c" opacity="0.25" />
         <circle cx="370" cy="130" r="1" fill="#cc785c" opacity="0.18" />
         <circle cx="420" cy="22" r="1.5" fill="#cc785c" opacity="0.12" />
-        <circle cx="440" cy="58" r="1" fill="#cc785c" opacity="0.10" />
+        <circle cx="440" cy="58" r="1" fill="#cc785c" opacity="0.1" />
         <circle cx="460" cy="88" r="2" fill="#cc785c" opacity="0.08" />
         <circle cx="415" cy="115" r="1" fill="#cc785c" opacity="0.12" />
         <circle cx="450" cy="145" r="1.5" fill="#cc785c" opacity="0.09" />
 
+        <circle cx="336" cy="28" r="1" fill="#cc785c" opacity="0.16" />
+        <circle cx="348" cy="44" r="1.3" fill="#cc785c" opacity="0.14" />
+        <circle cx="366" cy="56" r="0.9" fill="#cc785c" opacity="0.18" />
+        <circle cx="402" cy="40" r="1.2" fill="#cc785c" opacity="0.14" />
+        <circle cx="430" cy="36" r="0.9" fill="#cc785c" opacity="0.12" />
+        <circle cx="452" cy="30" r="1.1" fill="#cc785c" opacity="0.11" />
+        <circle cx="472" cy="48" r="0.9" fill="#cc785c" opacity="0.1" />
+        <circle cx="342" cy="86" r="1.1" fill="#cc785c" opacity="0.15" />
+        <circle cx="368" cy="90" r="0.9" fill="#cc785c" opacity="0.13" />
+        <circle cx="408" cy="78" r="1.4" fill="#cc785c" opacity="0.12" />
+        <circle cx="432" cy="84" r="0.8" fill="#cc785c" opacity="0.11" />
+        <circle cx="474" cy="102" r="1.1" fill="#cc785c" opacity="0.09" />
+        <circle cx="350" cy="116" r="1.2" fill="#cc785c" opacity="0.16" />
+        <circle cx="392" cy="124" r="0.9" fill="#cc785c" opacity="0.14" />
+        <circle cx="438" cy="122" r="1.3" fill="#cc785c" opacity="0.12" />
+        <circle cx="468" cy="132" r="0.9" fill="#cc785c" opacity="0.1" />
+        <circle cx="332" cy="144" r="1" fill="#cc785c" opacity="0.12" />
+        <circle cx="386" cy="148" r="1.1" fill="#cc785c" opacity="0.13" />
+        <circle cx="426" cy="152" r="0.8" fill="#cc785c" opacity="0.11" />
+        <circle cx="486" cy="146" r="1" fill="#cc785c" opacity="0.09" />
+
         <line
+          class="alr-banner-scanline"
           x1="320"
           y1="0"
           x2="335"
@@ -125,6 +148,13 @@ const ALRBanner: QuartzComponent = (_props: QuartzComponentProps) => {
             opacity="0.8"
           >
             What remains when a reality stops?
+            <animate
+              attributeName="opacity"
+              values="0.8;0.8;0.45;0.8;0.62;0.8"
+              keyTimes="0;0.967;0.972;0.976;0.979;1"
+              dur="24s"
+              repeatCount="indefinite"
+            />
           </text>
 
           <text
@@ -140,17 +170,16 @@ const ALRBanner: QuartzComponent = (_props: QuartzComponentProps) => {
             What remains when a reality stops?
             <animate
               attributeName="opacity"
-              values="0;0;0;0.22;0.12;0.18;0"
-              keyTimes="0;0.968;0.9715;0.9735;0.9755;0.9775;1"
-              dur="28s"
+              values="0;0;0.28;0.14;0.22;0"
+              keyTimes="0;0.968;0.973;0.976;0.979;1"
+              dur="24s"
               repeatCount="indefinite"
             />
-            <animateTransform
-              attributeName="transform"
-              type="translate"
-              values="0 0;0 0;1.4 0;-1.2 0.2;0.8 -0.1;0 0"
-              keyTimes="0;0.9715;0.9735;0.9755;0.9775;1"
-              dur="28s"
+            <animate
+              attributeName="x"
+              values="40;40;41.6;38.8;40.9;40"
+              keyTimes="0;0.968;0.973;0.976;0.979;1"
+              dur="24s"
               repeatCount="indefinite"
             />
           </text>
