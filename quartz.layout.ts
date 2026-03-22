@@ -3,6 +3,7 @@ import * as Component from "./quartz/components"
 
 const isHome = (page: any) => page.fileData.slug === "index" || page.fileData.slug === ""
 const isEchoRegistry = (page: any) => page.fileData.slug === "Index/ECHO-Registry"
+const isRealityRegistry = (page: any) => page.fileData.slug === "Index/Reality-Registry"
 
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
@@ -30,8 +31,12 @@ export const defaultContentPageLayout: PageLayout = {
       condition: isEchoRegistry,
     }),
     Component.ConditionalRender({
+      component: Component.ALRRealityRegistry(),
+      condition: isRealityRegistry,
+    }),
+    Component.ConditionalRender({
       component: Component.ALRBanner(),
-      condition: (page) => !isHome(page) && !isEchoRegistry(page),
+      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page),
     }),
   ],
   left: [
@@ -51,16 +56,20 @@ export const defaultListPageLayout: PageLayout = {
       condition: isEchoRegistry,
     }),
     Component.ConditionalRender({
+      component: Component.ALRRealityRegistry(),
+      condition: isRealityRegistry,
+    }),
+    Component.ConditionalRender({
       component: Component.ALRBanner(),
-      condition: (page) => !isHome(page) && !isEchoRegistry(page),
+      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page),
     }),
     Component.ConditionalRender({
       component: Component.ArticleTitle(),
-      condition: (page) => !isHome(page) && !isEchoRegistry(page),
+      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page),
     }),
     Component.ConditionalRender({
       component: Component.ContentMeta(),
-      condition: (page) => !isHome(page) && !isEchoRegistry(page),
+      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page),
     }),
   ],
   left: [

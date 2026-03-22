@@ -30,6 +30,7 @@ import ALRRecentEchoes from "./ALRRecentEchoes"
 import ALRRecentRealities from "./ALRRecentRealities"
 import ALRHomeDashboard from "./ALRHomeDashboard"
 import ALREchoRegistry from "./ALREchoRegistry"
+import ALRRealityRegistry from "./ALRRealityRegistry"
 
 export {
   ArticleTitle,
@@ -64,4 +65,5 @@ export {
   ALRRecentRealities,
   ALRHomeDashboard,
   ALREchoRegistry,
+  ALRRealityRegistry,
 }
