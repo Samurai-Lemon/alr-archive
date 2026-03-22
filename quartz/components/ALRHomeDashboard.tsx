@@ -6,6 +6,42 @@ const RecentEchoes = ALRRecentEchoes()
 const RecentRealities = ALRRecentRealities()
 
 const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
+  const { allFiles } = props
+
+  const normalize = (v: unknown) => String(v ?? "").trim().toLowerCase()
+
+  const hasTag = (tags: unknown, target: string) =>
+    Array.isArray(tags) && tags.some((t) => normalize(t) === normalize(target))
+
+  const echoes = allFiles.filter((file) => {
+    const slug = normalize(file.slug)
+    const fm = (file.frontmatter ?? {}) as Record<string, unknown>
+
+    return (
+      hasTag(fm.tags, "echo") ||
+      slug.includes("/echoes/") ||
+      slug.startsWith("echo-")
+    )
+  })
+
+  const realities = allFiles.filter((file) => {
+    const slug = normalize(file.slug)
+    const fm = (file.frontmatter ?? {}) as Record<string, unknown>
+
+    return (
+      hasTag(fm.tags, "reality") ||
+      slug.includes("/realities/") ||
+      slug.startsWith("r-")
+    )
+  })
+
+  const terminalEchoes = echoes.filter((file) => {
+    const fm = (file.frontmatter ?? {}) as Record<string, unknown>
+    return normalize(fm.esc) === "s4"
+  })
+
+  const activeCycle = "7"
+
   return (
     <>
       <svg
@@ -94,19 +130,19 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
           </div>
           <div class="alr-stats">
             <div class="alr-stat">
-              <div class="alr-stat-num">7</div>
+              <div class="alr-stat-num">{echoes.length}</div>
               <div class="alr-stat-lbl">Echoes documented</div>
             </div>
             <div class="alr-stat">
-              <div class="alr-stat-num">2</div>
+              <div class="alr-stat-num">{realities.length}</div>
               <div class="alr-stat-lbl">Realities investigated</div>
             </div>
             <div class="alr-stat">
-              <div class="alr-stat-num alr-red">2</div>
+              <div class="alr-stat-num alr-red">{terminalEchoes.length}</div>
               <div class="alr-stat-lbl">Terminal echoes (S4)</div>
             </div>
             <div class="alr-stat">
-              <div class="alr-stat-num alr-muted">7</div>
+              <div class="alr-stat-num alr-muted">{activeCycle}</div>
               <div class="alr-stat-lbl">Active cycle</div>
             </div>
           </div>
