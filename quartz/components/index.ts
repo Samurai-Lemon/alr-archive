@@ -29,6 +29,7 @@ import ALRTopNav from "./ALRTopNav"
 import ALRRecentEchoes from "./ALRRecentEchoes"
 import ALRRecentRealities from "./ALRRecentRealities"
 import ALRHomeDashboard from "./ALRHomeDashboard"
+import ALREchoRegistry from "./ALREchoRegistry"
 
 export {
   ArticleTitle,
@@ -62,4 +63,5 @@ export {
   ALRRecentEchoes,
   ALRRecentRealities,
   ALRHomeDashboard,
+  ALREchoRegistry,
 }

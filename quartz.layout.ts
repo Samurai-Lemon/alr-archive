@@ -2,6 +2,7 @@ import { PageLayout, SharedLayout } from "./quartz/cfg"
 import * as Component from "./quartz/components"
 
 const isHome = (page: any) => page.fileData.slug === "index" || page.fileData.slug === ""
+const isEchoRegistry = (page: any) => page.fileData.slug === "Index/ECHO-Registry"
 
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
@@ -25,8 +26,12 @@ export const defaultContentPageLayout: PageLayout = {
       condition: isHome,
     }),
     Component.ConditionalRender({
+      component: Component.ALREchoRegistry(),
+      condition: isEchoRegistry,
+    }),
+    Component.ConditionalRender({
       component: Component.ALRBanner(),
-      condition: (page) => !isHome(page),
+      condition: (page) => !isHome(page) && !isEchoRegistry(page),
     }),
   ],
   left: [
@@ -42,16 +47,20 @@ export const defaultListPageLayout: PageLayout = {
       condition: isHome,
     }),
     Component.ConditionalRender({
+      component: Component.ALREchoRegistry(),
+      condition: isEchoRegistry,
+    }),
+    Component.ConditionalRender({
       component: Component.ALRBanner(),
-      condition: (page) => !isHome(page),
+      condition: (page) => !isHome(page) && !isEchoRegistry(page),
     }),
     Component.ConditionalRender({
       component: Component.ArticleTitle(),
-      condition: (page) => !isHome(page),
+      condition: (page) => !isHome(page) && !isEchoRegistry(page),
     }),
     Component.ConditionalRender({
       component: Component.ContentMeta(),
-      condition: (page) => !isHome(page),
+      condition: (page) => !isHome(page) && !isEchoRegistry(page),
     }),
   ],
   left: [
