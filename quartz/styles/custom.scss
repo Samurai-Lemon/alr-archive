@@ -2219,3 +2219,52 @@ details[open] .alr-sb-chevron {
     animation: none !important;
   }
 }
+
+/* === ALR Banner Rare Glitch (Subtitle Only) === */
+
+.alr-banner-sub {
+  position: relative;
+  animation: alrRareGlitch 28s infinite;
+  transform-box: fill-box;
+  transform-origin: left center;
+  will-change: transform, opacity, filter;
+}
+
+@keyframes alrRareGlitch {
+  0%,
+  97%,
+  100% {
+    transform: translate(0, 0) skewX(0deg);
+    opacity: 0.8;
+    filter: none;
+    letter-spacing: normal;
+  }
+
+  97.2% {
+    transform: translate(1px, -0.2px) skewX(4deg);
+    opacity: 0.72;
+    filter: drop-shadow(1px 0 0 rgba(204, 120, 92, 0.18));
+    letter-spacing: 0.02em;
+  }
+
+  97.4% {
+    transform: translate(-1px, 0.35px) skewX(-5deg);
+    opacity: 0.85;
+    filter: drop-shadow(-1px 0 0 rgba(240, 236, 224, 0.12));
+    letter-spacing: 0.01em;
+  }
+
+  97.6% {
+    transform: translate(0.5px, -0.1px) skewX(2deg);
+    opacity: 0.76;
+    filter: drop-shadow(0 0 2px rgba(204, 120, 92, 0.16));
+    letter-spacing: normal;
+  }
+
+  97.8% {
+    transform: translate(0, 0) skewX(0deg);
+    opacity: 0.8;
+    filter: none;
+    letter-spacing: normal;
+  }
+}
