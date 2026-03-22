@@ -23,6 +23,10 @@ export const sharedPageComponents: SharedLayout = {
 export const defaultContentPageLayout: PageLayout = {
   beforeBody: [
     Component.ConditionalRender({
+      component: Component.ALRBanner(),
+      condition: (page) => !isEchoRegistry(page) && !isRealityRegistry(page),
+    }),
+    Component.ConditionalRender({
       component: Component.ALRHomeDashboard(),
       condition: isHome,
     }),
@@ -33,10 +37,6 @@ export const defaultContentPageLayout: PageLayout = {
     Component.ConditionalRender({
       component: Component.ALRRealityRegistry(),
       condition: isRealityRegistry,
-    }),
-    Component.ConditionalRender({
-      component: Component.ALRBanner(),
-      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page),
     }),
   ],
   left: [
@@ -48,6 +48,10 @@ export const defaultContentPageLayout: PageLayout = {
 export const defaultListPageLayout: PageLayout = {
   beforeBody: [
     Component.ConditionalRender({
+      component: Component.ALRBanner(),
+      condition: (page) => !isEchoRegistry(page) && !isRealityRegistry(page),
+    }),
+    Component.ConditionalRender({
       component: Component.ALRHomeDashboard(),
       condition: isHome,
     }),
@@ -58,10 +62,6 @@ export const defaultListPageLayout: PageLayout = {
     Component.ConditionalRender({
       component: Component.ALRRealityRegistry(),
       condition: isRealityRegistry,
-    }),
-    Component.ConditionalRender({
-      component: Component.ALRBanner(),
-      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page),
     }),
     Component.ConditionalRender({
       component: Component.ArticleTitle(),
