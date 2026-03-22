@@ -2087,36 +2087,30 @@ details[open] .alr-sb-chevron {
 }
 
 // ─── ALR BANNER ───────────────────────────────────────────
-
-.alr-banner-wrap {
-  position: relative;
-  display: block;
-}
-
 .alr-banner-svg {
   display: block;
   width: 100%;
   height: auto;
 }
 
-// Background subtle breathing
 .alr-banner-svg .alr-banner-bg {
   animation: alrBannerBackgroundShift 24s ease-in-out infinite;
   transform-origin: center;
 }
 
-// Title pulse (no sideways movement)
 .alr-banner-svg .alr-banner-title {
   animation: alrBannerTitlePulse 10s ease-in-out infinite;
 }
 
-// Eyebrow (force orange)
 .alr-banner-svg .alr-banner-eyebrow {
   fill: #cc785c !important;
   opacity: 1 !important;
 }
 
-// Status flicker
+.alr-banner-svg .alr-banner-sub {
+  opacity: 0.8;
+}
+
 .alr-banner-svg .alr-banner-status2 {
   animation: alrBannerStatusFlicker 9s ease-in-out infinite;
 }
@@ -2125,7 +2119,6 @@ details[open] .alr-sb-chevron {
   animation: alrBannerStatusFlicker 13s ease-in-out infinite;
 }
 
-// Particle dots pulsing
 .alr-banner-svg circle {
   animation: alrBannerNodeBlink 4.2s ease-in-out infinite;
   transform-origin: center;
@@ -2144,57 +2137,9 @@ details[open] .alr-sb-chevron {
   animation-duration: 7.4s;
 }
 
-// Scanline hint (actual movement handled in SVG)
 .alr-banner-svg .alr-banner-scanline {
-  will-change: stroke-dashoffset;
+  animation: alrBannerDashFlow 3.2s linear infinite;
 }
-
-// ─── SUBTITLE GLITCH (HTML OVERLAY — RELIABLE) ─────────────
-
-.alr-banner-subtitle {
-  position: absolute;
-  left: 48px; /* <-- shift right to align with SVG text */
-  top: 118px; /* <-- align with original SVG subtitle baseline */
-  font-family: Inter, sans-serif;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 1;
-  color: #6b6860;
-  pointer-events: none;
-  user-select: none;
-  z-index: 3;
-}
-
-.alr-banner-subtitle-main,
-.alr-banner-subtitle-ghost {
-  position: absolute;
-  left: 0;
-  top: 0;
-  white-space: nowrap;
-}
-
-.alr-banner-subtitle-main {
-  color: #6b6860;
-  opacity: 0.8;
-}
-
-.alr-banner-subtitle-ghost {
-  opacity: 0;
-}
-
-// Orange glitch layer
-.alr-banner-subtitle-ghost-a {
-  color: rgba(204, 120, 92, 0.8);
-  animation: alrSubtitleGlitchA 22s infinite;
-}
-
-// Light glitch layer
-.alr-banner-subtitle-ghost-b {
-  color: rgba(240, 236, 224, 0.55);
-  animation: alrSubtitleGlitchB 22s infinite;
-}
-
-// ─── KEYFRAMES ────────────────────────────────────────────
 
 @keyframes alrBannerBackgroundShift {
   0%,
@@ -2260,69 +2205,23 @@ details[open] .alr-sb-chevron {
   }
 }
 
-// ─── GLITCH KEYFRAMES (RARE, SUBTLE) ──────────────────────
-
-@keyframes alrSubtitleGlitchA {
-  0%,
-  96.8%,
-  100% {
-    opacity: 0;
-    transform: translate(0, 0);
+@keyframes alrBannerDashFlow {
+  from {
+    stroke-dashoffset: 0;
   }
 
-  97.1% {
-    opacity: 0.2;
-    transform: translate(1.4px, 0);
-  }
-
-  97.35% {
-    opacity: 0.08;
-    transform: translate(-1.2px, 0.2px);
-  }
-
-  97.7% {
-    opacity: 0;
-    transform: translate(0, 0);
+  to {
+    stroke-dashoffset: -10;
   }
 }
-
-@keyframes alrSubtitleGlitchB {
-  0%,
-  96.8%,
-  100% {
-    opacity: 0;
-    transform: translate(0, 0);
-  }
-
-  97.18% {
-    opacity: 0.12;
-    transform: translate(-0.9px, 0);
-  }
-
-  97.42% {
-    opacity: 0.06;
-    transform: translate(0.9px, -0.1px);
-  }
-
-  97.7% {
-    opacity: 0;
-    transform: translate(0, 0);
-  }
-}
-
-// ─── REDUCED MOTION ───────────────────────────────────────
 
 @media (prefers-reduced-motion: reduce) {
   .alr-banner-svg .alr-banner-bg,
   .alr-banner-svg .alr-banner-title,
   .alr-banner-svg .alr-banner-status2,
   .alr-banner-svg .alr-banner-status3,
-  .alr-banner-svg circle {
-    animation: none !important;
-  }
-
-  .alr-banner-subtitle-ghost-a,
-  .alr-banner-subtitle-ghost-b {
+  .alr-banner-svg circle,
+  .alr-banner-svg .alr-banner-scanline {
     animation: none !important;
   }
 }
