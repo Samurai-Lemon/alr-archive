@@ -60,7 +60,33 @@ const ALRBanner: QuartzComponent = (_props: QuartzComponentProps) => {
         </g>
         <text class="alr-banner-eyebrow" x="40" y="82" font-family="Inter, sans-serif" font-size="11" font-weight="400" letter-spacing="0.18em" fill="#cc785c" opacity="0.5">ARCHIVE OF LOST REALITIES INITIATIVE</text>
         <text class="alr-banner-title" x="40" y="112" font-family="Inter, sans-serif" font-size="28" font-weight="500" fill="#f0ece0" opacity="0.9">The Unwritten</text>
-        <text class="alr-banner-sub" x="40" y="134" font-family="Inter, sans-serif" font-size="12" font-weight="400" fill="#6b6860" opacity="0.8">What remains when a reality stops?</text>
+        <g class="alr-banner-sub-glitch">
+  <text
+    class="alr-banner-sub alr-banner-sub-base"
+    x="40"
+    y="134"
+    font-family="Inter, sans-serif"
+    font-size="12"
+    font-weight="400"
+    fill="#6b6860"
+    opacity="0.8"
+  >
+    What remains when a reality stops?
+  </text>
+
+  <text
+    class="alr-banner-sub alr-banner-sub-ghost"
+    x="40"
+    y="134"
+    font-family="Inter, sans-serif"
+    font-size="12"
+    font-weight="400"
+    fill="#cc785c"
+    opacity="0"
+  >
+    What remains when a reality stops?
+  </text>
+</g>
         <text class="alr-banner-status1" x="648" y="120" font-family="Inter, sans-serif" font-size="9" letter-spacing="0.12em" fill="#cc785c" opacity="0.35" text-anchor="end">REALITY COLLAPSE DETECTED</text>
         <text class="alr-banner-status2" x="648" y="134" font-family="Inter, sans-serif" font-size="9" letter-spacing="0.12em" fill="#4a4840" opacity="0.5" text-anchor="end">RCC-1 — SILENT COLLAPSE</text>
         <text class="alr-banner-status3" x="648" y="148" font-family="Inter, sans-serif" font-size="9" letter-spacing="0.12em" fill="#4a4840" opacity="0.3" text-anchor="end">CYCLE 7 — ARCHIVE OPERATIONS</text>

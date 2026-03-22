@@ -2220,51 +2220,75 @@ details[open] .alr-sb-chevron {
   }
 }
 
-/* === ALR Banner Rare Glitch (Subtitle Only) === */
+/* === ALR Banner Rare Glitch (Firefox-safe) === */
 
-.alr-banner-sub {
-  position: relative;
-  animation: alrRareGlitch 28s infinite;
+.alr-banner-sub-glitch {
   transform-box: fill-box;
   transform-origin: left center;
-  will-change: transform, opacity, filter;
 }
 
-@keyframes alrRareGlitch {
+.alr-banner-sub-base {
+  animation: alrBannerSubBaseGlitch 28s infinite;
+}
+
+.alr-banner-sub-ghost {
+  animation: alrBannerSubGhostGlitch 28s infinite;
+}
+
+@keyframes alrBannerSubBaseGlitch {
   0%,
-  97%,
+  96.9%,
   100% {
-    transform: translate(0, 0) skewX(0deg);
     opacity: 0.8;
-    filter: none;
-    letter-spacing: normal;
+    transform: translate(0, 0);
   }
 
-  97.2% {
-    transform: translate(1px, -0.2px) skewX(4deg);
-    opacity: 0.72;
-    filter: drop-shadow(1px 0 0 rgba(204, 120, 92, 0.18));
-    letter-spacing: 0.02em;
+  97.15% {
+    opacity: 0.55;
+    transform: translate(0.8px, -0.2px);
   }
 
-  97.4% {
-    transform: translate(-1px, 0.35px) skewX(-5deg);
-    opacity: 0.85;
-    filter: drop-shadow(-1px 0 0 rgba(240, 236, 224, 0.12));
-    letter-spacing: 0.01em;
+  97.35% {
+    opacity: 0.82;
+    transform: translate(-0.9px, 0.25px);
   }
 
-  97.6% {
-    transform: translate(0.5px, -0.1px) skewX(2deg);
-    opacity: 0.76;
-    filter: drop-shadow(0 0 2px rgba(204, 120, 92, 0.16));
-    letter-spacing: normal;
+  97.55% {
+    opacity: 0.68;
+    transform: translate(0.4px, 0);
   }
 
-  97.8% {
-    transform: translate(0, 0) skewX(0deg);
+  97.75% {
     opacity: 0.8;
-    filter: none;
-    letter-spacing: normal;
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes alrBannerSubGhostGlitch {
+  0%,
+  96.9%,
+  100% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+
+  97.15% {
+    opacity: 0.22;
+    transform: translate(1.4px, 0);
+  }
+
+  97.35% {
+    opacity: 0.16;
+    transform: translate(-1.2px, 0.2px);
+  }
+
+  97.55% {
+    opacity: 0.1;
+    transform: translate(0.8px, -0.1px);
+  }
+
+  97.75% {
+    opacity: 0;
+    transform: translate(0, 0);
   }
 }
