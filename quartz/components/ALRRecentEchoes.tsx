@@ -96,7 +96,7 @@ const ALRRecentEchoes: QuartzComponent = ({ allFiles }: QuartzComponentProps & {
   const escapedCardHtml = JSON.stringify(cardHtml)
 
   return (
-    <div id="alr-recent-echoes-mount" style="display:none;">
+  <div id="alr-recent-echoes-mount" style={{ display: "none" }}>
       <script
         dangerouslySetInnerHTML={{
           __html: `
