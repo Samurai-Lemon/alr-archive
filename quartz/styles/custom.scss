@@ -410,12 +410,12 @@ body[data-slug="index"] article { padding-top: 0 !important; margin-top: 0 !impo
 body[data-slug="index"] #quartz-body .center { padding-top: 0 !important; padding-bottom: 28px !important; }
 
 body[data-slug="index"] .page-header {
-  display: none !important;
-  height: 0 !important;
+  display: block !important;
+  height: auto !important;
   min-height: 0 !important;
   margin: 0 !important;
   padding: 0 !important;
-  overflow: hidden !important;
+  overflow: visible !important;
 }
 
 // ─── HOMEPAGE AD SLOT ─────────────────────────────────────
