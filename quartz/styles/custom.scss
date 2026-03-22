@@ -2085,3 +2085,137 @@ details[open] .alr-sb-chevron {
 ::-webkit-scrollbar-thumb:hover {
   background: #cc785c;
 }
+
+// ─── ALR BANNER ANIMATION ─────────────────────────────────
+.alr-banner-svg {
+  position: relative;
+  overflow: hidden;
+}
+
+.alr-banner-svg .alr-banner-bg {
+  animation: alrBannerBgPulse 10s ease-in-out infinite;
+}
+
+.alr-banner-svg .alr-banner-title {
+  animation: alrBannerTitleFlicker 8s ease-in-out infinite;
+}
+
+.alr-banner-svg .alr-banner-sub {
+  animation: alrBannerSubPulse 12s ease-in-out infinite;
+}
+
+.alr-banner-svg .alr-banner-eyebrow {
+  animation: alrBannerEyebrowPulse 9s ease-in-out infinite;
+}
+
+.alr-banner-svg .alr-banner-status2,
+.alr-banner-svg .alr-banner-status3 {
+  animation: alrBannerStatusBlink 6s ease-in-out infinite;
+}
+
+.alr-banner-svg circle {
+  animation: alrBannerNodePulse 4.5s ease-in-out infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+.alr-banner-svg line[stroke="#cc785c"][stroke-dasharray="6 4"] {
+  animation: alrBannerScanline 5s linear infinite;
+}
+
+@keyframes alrBannerBgPulse {
+  0%, 100% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 0.98;
+    filter: brightness(1.04);
+  }
+}
+
+@keyframes alrBannerTitleFlicker {
+  0%, 100% {
+    opacity: 0.9;
+  }
+  48% {
+    opacity: 0.9;
+  }
+  49% {
+    opacity: 0.82;
+  }
+  50% {
+    opacity: 0.93;
+  }
+  51% {
+    opacity: 0.86;
+  }
+  52% {
+    opacity: 0.9;
+  }
+}
+
+@keyframes alrBannerSubPulse {
+  0%, 100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.95;
+  }
+}
+
+@keyframes alrBannerEyebrowPulse {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.72;
+  }
+}
+
+@keyframes alrBannerStatusBlink {
+  0%, 100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.65;
+  }
+}
+
+@keyframes alrBannerNodePulse {
+  0%, 100% {
+    opacity: 0.18;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.42;
+    transform: scale(1.25);
+  }
+}
+
+@keyframes alrBannerScanline {
+  0% {
+    opacity: 0.18;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0.18;
+    stroke-dashoffset: -40;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .alr-banner-svg .alr-banner-bg,
+  .alr-banner-svg .alr-banner-title,
+  .alr-banner-svg .alr-banner-sub,
+  .alr-banner-svg .alr-banner-eyebrow,
+  .alr-banner-svg .alr-banner-status2,
+  .alr-banner-svg .alr-banner-status3,
+  .alr-banner-svg circle,
+  .alr-banner-svg line[stroke="#cc785c"][stroke-dasharray="6 4"] {
+    animation: none !important;
+  }
+}
