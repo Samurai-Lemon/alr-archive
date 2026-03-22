@@ -10,7 +10,16 @@ export const sharedPageComponents: SharedLayout = {
     Component.Darkmode(),
     Component.ReaderMode(),
   ],
-  afterBody: [],
+  afterBody: [
+    Component.ConditionalRender({
+      component: Component.ALRRecentEchoes(),
+      condition: (page) => page.fileData.slug === "index",
+    }),
+    Component.ConditionalRender({
+      component: Component.ALRRecentRealities(),
+      condition: (page) => page.fileData.slug === "index",
+    }),
+  ],
   footer: Component.Footer({
     links: {},
   }),

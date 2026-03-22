@@ -1,7 +1,6 @@
 ---
 title: Terminal
 ---
-
 <svg class="alr-banner-svg" width="100%" viewBox="0 0 680 180" xmlns="http://www.w3.org/2000/svg" style="display:block;margin-bottom:14px;border-radius:10px;overflow:hidden;">
 <defs>
   <clipPath id="bc"><rect x="0" y="0" width="680" height="180"/></clipPath>
@@ -96,23 +95,10 @@ title: Terminal
 </div>
 
 <div class="alr-grid">
-<div class="alr-card alr-card-wide">
-<div class="alr-card-head"><span class="alr-card-head-title">Recent echoes</span><a href="Index/ECHO-Registry" class="alr-card-head-action internal">View all</a></div>
-<div class="alr-echo-row"><div class="alr-echo-dot" style="background:#7f77dd;"></div><div class="alr-echo-id">ECHO-001</div><div class="alr-echo-name">The Watchers</div><span class="alr-etag alr-et-ent">ENT</span><span class="alr-etag alr-es-s1">S1</span></div>
-<div class="alr-echo-row"><div class="alr-echo-dot" style="background:#7f77dd;"></div><div class="alr-echo-id">ECHO-002</div><div class="alr-echo-name">Dreamwalker</div><span class="alr-etag alr-et-ent">ENT</span><span class="alr-etag alr-es-s1">S1</span></div>
-<div class="alr-echo-row"><div class="alr-echo-dot" style="background:#993c1d;"></div><div class="alr-echo-id">ECHO-003</div><div class="alr-echo-name">Nightmare Stalker</div><span class="alr-etag alr-et-ent">ENT</span><span class="alr-etag alr-es-s4">S4</span></div>
-<div class="alr-echo-row"><div class="alr-echo-dot" style="background:#993c1d;"></div><div class="alr-echo-id">ECHO-005</div><div class="alr-echo-name">The Blood Painting</div><span class="alr-etag alr-et-obj">OBJ</span><span class="alr-etag alr-es-s4">S4</span></div>
-<div class="alr-echo-row"><div class="alr-echo-dot" style="background:#378add;"></div><div class="alr-echo-id">ECHO-006</div><div class="alr-echo-name">The Waiting Room</div><span class="alr-etag alr-et-loc">LOC</span><span class="alr-etag alr-es-s2">S2</span></div>
-<div class="alr-echo-row"><div class="alr-echo-dot" style="background:#ba7517;"></div><div class="alr-echo-id">ECHO-031</div><div class="alr-echo-name">Those Who Sleep</div><span class="alr-etag alr-et-phn">PHN</span><span class="alr-etag alr-es-s3">S3</span></div>
-<div class="alr-echo-row"><div class="alr-echo-dot" style="background:#ba7517;"></div><div class="alr-echo-id">ECHO-047</div><div class="alr-echo-name">A Hollow Bloom</div><span class="alr-etag alr-et-phn">PHN</span><span class="alr-etag alr-es-s2">S2</span></div>
-</div>
+<div id="alr-recent-echoes-slot"></div>
 
 <div class="alr-card-stack">
-<div class="alr-card">
-<div class="alr-card-head"><span class="alr-card-head-title">Reality investigations</span><a href="Index/Reality-Registry" class="alr-card-head-action internal">View all</a></div>
-<div class="alr-real-row"><div class="alr-real-id">R-007</div><div class="alr-real-info"><div class="alr-real-rcc">RCC-1 — Silent Collapse</div><div class="alr-real-tags"><span class="alr-rtag">T3</span><span class="alr-rtag">RDS: B</span><span class="alr-rtag alr-rtag-echo">ECHO-031</span></div></div></div>
-<div class="alr-real-row"><div class="alr-real-id">R-019</div><div class="alr-real-info"><div class="alr-real-rcc">RCC-1 — Silent Collapse</div><div class="alr-real-tags"><span class="alr-rtag">T3</span><span class="alr-rtag">RDS: C</span><span class="alr-rtag alr-rtag-echo">ECHO-047</span></div></div></div>
-</div>
+<div id="alr-recent-realities-slot"></div>
 
 <div class="alr-card">
 <div class="alr-card-head"><span class="alr-card-head-title">Archive notices</span></div>
