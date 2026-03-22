@@ -20,11 +20,11 @@ export const defaultContentPageLayout: PageLayout = {
   beforeBody: [
     Component.ConditionalRender({
       component: Component.ALRHomeDashboard(),
-      condition: (page) => page.fileData.slug === "index",
+      condition: (page) => page.fileData.slug === "index" || page.fileData.slug === "",
     }),
     Component.ConditionalRender({
       component: Component.ALRBanner(),
-      condition: (page) => page.fileData.slug !== "index",
+      condition: (page) => page.fileData.slug !== "index" && page.fileData.slug !== "",
     }),
   ],
   left: [
@@ -37,7 +37,7 @@ export const defaultListPageLayout: PageLayout = {
   beforeBody: [
     Component.ConditionalRender({
       component: Component.ALRBanner(),
-      condition: (page) => page.fileData.slug !== "index",
+      condition: (page) => page.fileData.slug !== "index" && page.fileData.slug !== "",
     }),
     Component.ArticleTitle(),
     Component.ContentMeta(),
