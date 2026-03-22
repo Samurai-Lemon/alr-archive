@@ -138,6 +138,21 @@ const ALRBanner: QuartzComponent = (_props: QuartzComponentProps) => {
             opacity="0"
           >
             What remains when a reality stops?
+            <animate
+              attributeName="opacity"
+              values="0;0;0;0.22;0.12;0.18;0"
+              keyTimes="0;0.968;0.9715;0.9735;0.9755;0.9775;1"
+              dur="28s"
+              repeatCount="indefinite"
+            />
+            <animateTransform
+              attributeName="transform"
+              type="translate"
+              values="0 0;0 0;1.4 0;-1.2 0.2;0.8 -0.1;0 0"
+              keyTimes="0;0.9715;0.9735;0.9755;0.9775;1"
+              dur="28s"
+              repeatCount="indefinite"
+            />
           </text>
         </g>
 
