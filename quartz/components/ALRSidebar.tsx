@@ -1,13 +1,216 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 
-const ALRSidebar: QuartzComponent = (_props: QuartzComponentProps) => {
+type FileLike = {
+  slug?: string
+  frontmatter?: Record<string, any>
+}
+
+type EchoItem = {
+  slug: string
+  title: string
+  echoId: string
+  esc: string
+  dotColor: string
+  href: string
+  active: boolean
+}
+
+type SimpleItem = {
+  slug: string
+  title: string
+  href: string
+  active: boolean
+}
+
+function getTitle(file: FileLike): string {
+  return String(file.frontmatter?.title ?? file.slug ?? "")
+}
+
+function getHref(slug: string): string {
+  return `/${slug}`
+}
+
+function getEchoId(file: FileLike): string {
+  const source = `${getTitle(file)} ${String(file.slug ?? "")}`
+  const match = source.match(/ECHO-(\d+)/i)
+  return match ? `ECHO-${match[1]}` : "ECHO-???"
+}
+
+function getEchoSortNum(file: FileLike): number {
+  const source = `${getTitle(file)} ${String(file.slug ?? "")}`
+  const match = source.match(/ECHO-(\d+)/i)
+  return match ? Number(match[1]) : 999999
+}
+
+function getRealityId(file: FileLike): string {
+  const source = `${getTitle(file)} ${String(file.slug ?? "")}`
+  const match = source.match(/R-(\d+)/i)
+  return match ? `R-${match[1]}` : "R-???"
+}
+
+function getRealitySortNum(file: FileLike): number {
+  const source = `${getTitle(file)} ${String(file.slug ?? "")}`
+  const match = source.match(/R-(\d+)/i)
+  return match ? Number(match[1]) : 999999
+}
+
+function getEchoEsc(file: FileLike): string {
+  const esc = String(file.frontmatter?.esc ?? "").toUpperCase().trim()
+  return ["S1", "S2", "S3", "S4"].includes(esc) ? esc : "S1"
+}
+
+function getEchoDotColor(slug: string, esc: string): string {
+  if (esc === "S4") return "#c45a3a"
+  if (slug.startsWith("Echoes/Objects/")) return "#1d9e75"
+  if (slug.startsWith("Echoes/Locations/")) return "#85b7eb"
+  if (slug.startsWith("Echoes/Phenomena/")) return "#d4a840"
+  return "#cc785c"
+}
+
+function buildEchoItem(file: FileLike, currentSlug: string): EchoItem {
+  const slug = String(file.slug ?? "")
+  const esc = getEchoEsc(file)
+  return {
+    slug,
+    title: getTitle(file),
+    echoId: getEchoId(file),
+    esc,
+    dotColor: getEchoDotColor(slug, esc),
+    href: getHref(slug),
+    active: slug === currentSlug,
+  }
+}
+
+function buildSimpleItem(file: FileLike, currentSlug: string): SimpleItem {
+  const slug = String(file.slug ?? "")
+  return {
+    slug,
+    title: getTitle(file),
+    href: getHref(slug),
+    active: slug === currentSlug,
+  }
+}
+
+function alphaTitle(a: FileLike, b: FileLike): number {
+  return getTitle(a).localeCompare(getTitle(b))
+}
+
+function orderBySlug(slug: string, order: string[]): number {
+  const idx = order.indexOf(slug)
+  return idx === -1 ? 999999 : idx
+}
+
+const ALRSidebar: QuartzComponent = ({ allFiles, fileData }: QuartzComponentProps) => {
+  const currentSlug = String(fileData.slug ?? "")
+
+  const files = (allFiles ?? []) as FileLike[]
+
+  const entities = files
+    .filter((f) => String(f.slug ?? "").startsWith("Echoes/Entities/"))
+    .sort((a, b) => getEchoSortNum(a) - getEchoSortNum(b))
+    .map((f) => buildEchoItem(f, currentSlug))
+
+  const objects = files
+    .filter((f) => String(f.slug ?? "").startsWith("Echoes/Objects/"))
+    .sort((a, b) => getEchoSortNum(a) - getEchoSortNum(b))
+    .map((f) => buildEchoItem(f, currentSlug))
+
+  const locations = files
+    .filter((f) => String(f.slug ?? "").startsWith("Echoes/Locations/"))
+    .sort((a, b) => getEchoSortNum(a) - getEchoSortNum(b))
+    .map((f) => buildEchoItem(f, currentSlug))
+
+  const phenomena = files
+    .filter((f) => String(f.slug ?? "").startsWith("Echoes/Phenomena/"))
+    .sort((a, b) => getEchoSortNum(a) - getEchoSortNum(b))
+    .map((f) => buildEchoItem(f, currentSlug))
+
+  const realities = files
+    .filter((f) => {
+      const slug = String(f.slug ?? "")
+      return (
+        slug.startsWith("Reality-Reports/") ||
+        slug.startsWith("Reality Reports/")
+      )
+    })
+    .sort((a, b) => getRealitySortNum(a) - getRealitySortNum(b))
+    .map((f) => ({
+      slug: String(f.slug ?? ""),
+      realityId: getRealityId(f),
+      href: getHref(String(f.slug ?? "")),
+      active: String(f.slug ?? "") === currentSlug,
+    }))
+
+  const systemsOrder = [
+    "Systems/The-Unwritten",
+    "Systems/Reality-Tier-System-(RTS)",
+    "Systems/Reality-Divergence-Scale-(RDS)",
+    "Systems/Reality-Collapse-Classification-(RCC)",
+    "Systems/Echo-Classification-(EC)",
+    "Systems/Echo-Stability-Classification-(ESC)",
+  ]
+
+  const systemInteractionOrder = [
+    "Systems/Interactions/Declarations",
+    "Systems/Interactions/The-Weight-of-Words",
+  ]
+
+  const systems = files
+    .filter((f) => {
+      const slug = String(f.slug ?? "")
+      return slug.startsWith("Systems/") && !slug.startsWith("Systems/Interactions/")
+    })
+    .sort((a, b) => {
+      const diff = orderBySlug(String(a.slug ?? ""), systemsOrder) - orderBySlug(String(b.slug ?? ""), systemsOrder)
+      return diff !== 0 ? diff : alphaTitle(a, b)
+    })
+    .map((f) => buildSimpleItem(f, currentSlug))
+
+  const systemInteractions = files
+    .filter((f) => String(f.slug ?? "").startsWith("Systems/Interactions/"))
+    .sort((a, b) => {
+      const diff =
+        orderBySlug(String(a.slug ?? ""), systemInteractionOrder) -
+        orderBySlug(String(b.slug ?? ""), systemInteractionOrder)
+      return diff !== 0 ? diff : alphaTitle(a, b)
+    })
+    .map((f) => buildSimpleItem(f, currentSlug))
+
+  const equipmentOrder = [
+    "Equipment/Lastlight-Recorder",
+    "Equipment/Echo-Scanner-Unit",
+    "Equipment/A.L.I.C.E_",
+  ]
+
+  const equipment = files
+    .filter((f) => String(f.slug ?? "").startsWith("Equipment/"))
+    .sort((a, b) => {
+      const diff = orderBySlug(String(a.slug ?? ""), equipmentOrder) - orderBySlug(String(b.slug ?? ""), equipmentOrder)
+      return diff !== 0 ? diff : alphaTitle(a, b)
+    })
+    .map((f) => buildSimpleItem(f, currentSlug))
+
+  const protocols = files
+    .filter((f) => String(f.slug ?? "").startsWith("Protocols/"))
+    .sort(alphaTitle)
+    .map((f) => buildSimpleItem(f, currentSlug))
+
+  const echoCount = entities.length + objects.length + locations.length + phenomena.length
+  const realityCount = realities.length
+
+  const hasActiveIn = (items: Array<{ active: boolean }>) => items.some((item) => item.active)
+
   return (
     <div class="alr-sidebar-wrapper" id="alr-sidebar-wrapper">
       <div class="alr-sidebar-nav" id="alr-sidebar-nav">
-
         <div class="alr-sb-topbar">
           <span class="alr-sb-site-label">ALR</span>
-          <button class="alr-sb-collapse-btn" id="alr-collapse-btn" onClick={"toggleALRSidebar()" as any} title="Collapse sidebar">
+          <button
+            class="alr-sb-collapse-btn"
+            id="alr-collapse-btn"
+            onClick={"toggleALRSidebar()" as any}
+            title="Collapse sidebar"
+          >
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
@@ -16,192 +219,164 @@ const ALRSidebar: QuartzComponent = (_props: QuartzComponentProps) => {
 
         <div class="alr-sb-section">
           <div class="alr-sb-label">Archive</div>
-          <a href="/" class="alr-sb-item">
-            <span class="alr-sb-dot" style="background:#6b6860;"></span>
+          <a href="/" class={`alr-sb-item ${currentSlug === "index" || currentSlug === "" ? "active" : ""}`}>
+            <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
             <span class="alr-sb-text">Home</span>
           </a>
-          <a href="/Foundations/ALR/The-Archive" class="alr-sb-item">
-            <span class="alr-sb-dot" style="background:#6b6860;"></span>
+          <a href="/Foundations/ALR/The-Archive" class={`alr-sb-item ${currentSlug === "Foundations/ALR/The-Archive" ? "active" : ""}`}>
+            <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
             <span class="alr-sb-text">The Archive</span>
           </a>
-          <a href="/Foundations/ALR/ALR-Initiative" class="alr-sb-item">
-            <span class="alr-sb-dot" style="background:#6b6860;"></span>
+          <a href="/Foundations/ALR/ALR-Initiative" class={`alr-sb-item ${currentSlug === "Foundations/ALR/ALR-Initiative" ? "active" : ""}`}>
+            <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
             <span class="alr-sb-text">ALR Initiative</span>
           </a>
         </div>
 
         <div class="alr-sb-section">
           <div class="alr-sb-label">Registries</div>
-          <a href="/Index/ECHO-Registry" class="alr-sb-item">
-            <span class="alr-sb-dot" style="background:#6b6860;"></span>
+          <a href="/Index/ECHO-Registry" class={`alr-sb-item ${currentSlug === "Index/ECHO-Registry" ? "active" : ""}`}>
+            <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
             <span class="alr-sb-text">Echo Registry</span>
-            <span class="alr-sb-badge">7</span>
+            <span class="alr-sb-badge">{echoCount}</span>
           </a>
-          <a href="/Index/Reality-Registry" class="alr-sb-item">
-            <span class="alr-sb-dot" style="background:#6b6860;"></span>
+          <a href="/Index/Reality-Registry" class={`alr-sb-item ${currentSlug === "Index/Reality-Registry" ? "active" : ""}`}>
+            <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
             <span class="alr-sb-text">Reality Registry</span>
-            <span class="alr-sb-badge">2</span>
+            <span class="alr-sb-badge">{realityCount}</span>
           </a>
         </div>
 
         <div class="alr-sb-section">
           <div class="alr-sb-label">Echoes</div>
 
-          <details class="alr-sb-group">
-            <summary class="alr-sb-group-title">
-              <span class="alr-sb-dot" style="background:#cc785c;"></span>
+          <details class="alr-sb-group" open={hasActiveIn(entities) || entities.length > 0 ? true : undefined}>
+            <summary class={`alr-sb-group-title ${hasActiveIn(entities) ? "active" : ""}`}>
+              <span class="alr-sb-dot" style={{ background: "#cc785c" }}></span>
               <span class="alr-sb-text">Entities</span>
               <span class="alr-sb-chevron">›</span>
             </summary>
             <div class="alr-sb-group-items">
-              <a href="/Echoes/Entities/ECHO-001-The-Watchers" class="alr-sb-item alr-sb-item-child">
-                <span class="alr-sb-dot" style="background:#cc785c;"></span>
-                <span class="alr-sb-text">ECHO-001</span>
-                <span class="alr-sb-badge alr-sb-badge-s1">S1</span>
-              </a>
-              <a href="/Echoes/Entities/ECHO-002-%E2%80%94-Dreamwalker" class="alr-sb-item alr-sb-item-child">
-                <span class="alr-sb-dot" style="background:#cc785c;"></span>
-                <span class="alr-sb-text">ECHO-002</span>
-                <span class="alr-sb-badge alr-sb-badge-s1">S1</span>
-              </a>
-              <a href="/Echoes/Entities/ECHO-003-%E2%80%94-Nightmare-Stalker" class="alr-sb-item alr-sb-item-child">
-                <span class="alr-sb-dot" style="background:#c45a3a;"></span>
-                <span class="alr-sb-text">ECHO-003</span>
-                <span class="alr-sb-badge alr-sb-badge-s4">S4</span>
-              </a>
+              {entities.map((item) => (
+                <a href={item.href} class={`alr-sb-item alr-sb-item-child ${item.active ? "active" : ""}`}>
+                  <span class="alr-sb-dot" style={{ background: item.dotColor }}></span>
+                  <span class="alr-sb-text">{item.echoId}</span>
+                  <span class={`alr-sb-badge alr-sb-badge-${item.esc.toLowerCase()}`}>{item.esc}</span>
+                </a>
+              ))}
             </div>
           </details>
 
-          <details class="alr-sb-group">
-            <summary class="alr-sb-group-title">
-              <span class="alr-sb-dot" style="background:#1d9e75;"></span>
+          <details class="alr-sb-group" open={hasActiveIn(objects) || undefined}>
+            <summary class={`alr-sb-group-title ${hasActiveIn(objects) ? "active" : ""}`}>
+              <span class="alr-sb-dot" style={{ background: "#1d9e75" }}></span>
               <span class="alr-sb-text">Objects</span>
               <span class="alr-sb-chevron">›</span>
             </summary>
             <div class="alr-sb-group-items">
-              <a href="/Echoes/Objects/ECHO-005-%E2%80%94-The-Blood-Painting" class="alr-sb-item alr-sb-item-child">
-                <span class="alr-sb-dot" style="background:#c45a3a;"></span>
-                <span class="alr-sb-text">ECHO-005</span>
-                <span class="alr-sb-badge alr-sb-badge-s4">S4</span>
-              </a>
+              {objects.map((item) => (
+                <a href={item.href} class={`alr-sb-item alr-sb-item-child ${item.active ? "active" : ""}`}>
+                  <span class="alr-sb-dot" style={{ background: item.dotColor }}></span>
+                  <span class="alr-sb-text">{item.echoId}</span>
+                  <span class={`alr-sb-badge alr-sb-badge-${item.esc.toLowerCase()}`}>{item.esc}</span>
+                </a>
+              ))}
             </div>
           </details>
 
-          <details class="alr-sb-group">
-            <summary class="alr-sb-group-title">
-              <span class="alr-sb-dot" style="background:#85b7eb;"></span>
+          <details class="alr-sb-group" open={hasActiveIn(locations) || undefined}>
+            <summary class={`alr-sb-group-title ${hasActiveIn(locations) ? "active" : ""}`}>
+              <span class="alr-sb-dot" style={{ background: "#85b7eb" }}></span>
               <span class="alr-sb-text">Locations</span>
               <span class="alr-sb-chevron">›</span>
             </summary>
             <div class="alr-sb-group-items">
-              <a href="/Echoes/Locations/ECHO-006-%E2%80%94-The-Waiting-Room" class="alr-sb-item alr-sb-item-child">
-                <span class="alr-sb-dot" style="background:#85b7eb;"></span>
-                <span class="alr-sb-text">ECHO-006</span>
-                <span class="alr-sb-badge alr-sb-badge-s2">S2</span>
-              </a>
+              {locations.map((item) => (
+                <a href={item.href} class={`alr-sb-item alr-sb-item-child ${item.active ? "active" : ""}`}>
+                  <span class="alr-sb-dot" style={{ background: item.dotColor }}></span>
+                  <span class="alr-sb-text">{item.echoId}</span>
+                  <span class={`alr-sb-badge alr-sb-badge-${item.esc.toLowerCase()}`}>{item.esc}</span>
+                </a>
+              ))}
             </div>
           </details>
 
-          <details class="alr-sb-group">
-            <summary class="alr-sb-group-title">
-              <span class="alr-sb-dot" style="background:#d4a840;"></span>
+          <details class="alr-sb-group" open={hasActiveIn(phenomena) || undefined}>
+            <summary class={`alr-sb-group-title ${hasActiveIn(phenomena) ? "active" : ""}`}>
+              <span class="alr-sb-dot" style={{ background: "#d4a840" }}></span>
               <span class="alr-sb-text">Phenomena</span>
               <span class="alr-sb-chevron">›</span>
             </summary>
             <div class="alr-sb-group-items">
-              <a href="/Echoes/Phenomena/ECHO-031-%E2%80%94-Those-Who-Sleep" class="alr-sb-item alr-sb-item-child">
-                <span class="alr-sb-dot" style="background:#d4a840;"></span>
-                <span class="alr-sb-text">ECHO-031</span>
-                <span class="alr-sb-badge alr-sb-badge-s3">S3</span>
-              </a>
-              <a href="/Echoes/Phenomena/ECHO-047-%E2%80%94-A-Hollow-Bloom" class="alr-sb-item alr-sb-item-child">
-                <span class="alr-sb-dot" style="background:#d4a840;"></span>
-                <span class="alr-sb-text">ECHO-047</span>
-                <span class="alr-sb-badge alr-sb-badge-s2">S2</span>
-              </a>
+              {phenomena.map((item) => (
+                <a href={item.href} class={`alr-sb-item alr-sb-item-child ${item.active ? "active" : ""}`}>
+                  <span class="alr-sb-dot" style={{ background: item.dotColor }}></span>
+                  <span class="alr-sb-text">{item.echoId}</span>
+                  <span class={`alr-sb-badge alr-sb-badge-${item.esc.toLowerCase()}`}>{item.esc}</span>
+                </a>
+              ))}
             </div>
           </details>
         </div>
 
         <div class="alr-sb-section">
           <div class="alr-sb-label">Realities</div>
-          <a href="/Reality-Reports/Reality-Investigation-Report-%E2%80%94-R-019" class="alr-sb-item">
-            <span class="alr-sb-dot" style="background:#6b6860;"></span>
-            <span class="alr-sb-text">R-019</span>
-          </a>
+          {realities.map((item) => (
+            <a href={item.href} class={`alr-sb-item ${item.active ? "active" : ""}`}>
+              <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
+              <span class="alr-sb-text">{item.realityId}</span>
+            </a>
+          ))}
         </div>
 
         <div class="alr-sb-section">
           <div class="alr-sb-label">Systems</div>
-          <a href="/Systems/The-Unwritten" class="alr-sb-item">
-            <span class="alr-sb-dot" style="background:#6b6860;"></span>
-            <span class="alr-sb-text">The Unwritten</span>
-          </a>
-          <a href="/Systems/Reality-Tier-System-(RTS)" class="alr-sb-item">
-            <span class="alr-sb-dot" style="background:#6b6860;"></span>
-            <span class="alr-sb-text">Reality Tier System</span>
-          </a>
-          <a href="/Systems/Reality-Divergence-Scale-(RDS)" class="alr-sb-item">
-            <span class="alr-sb-dot" style="background:#6b6860;"></span>
-            <span class="alr-sb-text">Reality Divergence Scale</span>
-          </a>
-          <a href="/Systems/Reality-Collapse-Classification-(RCC)" class="alr-sb-item">
-            <span class="alr-sb-dot" style="background:#6b6860;"></span>
-            <span class="alr-sb-text">Reality Collapse Classification</span>
-          </a>
-          <a href="/Systems/Echo-Classification-(EC)" class="alr-sb-item">
-            <span class="alr-sb-dot" style="background:#6b6860;"></span>
-            <span class="alr-sb-text">Echo Classification</span>
-          </a>
-          <a href="/Systems/Echo-Stability-Classification-(ESC)" class="alr-sb-item">
-            <span class="alr-sb-dot" style="background:#6b6860;"></span>
-            <span class="alr-sb-text">Echo Stability Classification</span>
-          </a>
+          {systems.map((item) => (
+            <a href={item.href} class={`alr-sb-item ${item.active ? "active" : ""}`}>
+              <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
+              <span class="alr-sb-text">{item.title}</span>
+            </a>
+          ))}
 
-          <details class="alr-sb-group">
-            <summary class="alr-sb-group-title">
-              <span class="alr-sb-dot" style="background:#6b6860;"></span>
+          <details class="alr-sb-group" open={hasActiveIn(systemInteractions) || undefined}>
+            <summary class={`alr-sb-group-title ${hasActiveIn(systemInteractions) ? "active" : ""}`}>
+              <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
               <span class="alr-sb-text">Interactions</span>
               <span class="alr-sb-chevron">›</span>
             </summary>
             <div class="alr-sb-group-items">
-              <a href="/Systems/Interactions/Declarations" class="alr-sb-item alr-sb-item-child">
-                <span class="alr-sb-dot" style="background:#6b6860;"></span>
-                <span class="alr-sb-text">Declarations</span>
-              </a>
-              <a href="/Systems/Interactions/The-Weight-of-Words" class="alr-sb-item alr-sb-item-child">
-                <span class="alr-sb-dot" style="background:#6b6860;"></span>
-                <span class="alr-sb-text">The Weight of Words</span>
-              </a>
+              {systemInteractions.map((item) => (
+                <a href={item.href} class={`alr-sb-item alr-sb-item-child ${item.active ? "active" : ""}`}>
+                  <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
+                  <span class="alr-sb-text">{item.title}</span>
+                </a>
+              ))}
             </div>
           </details>
         </div>
 
         <div class="alr-sb-section">
           <div class="alr-sb-label">Equipment</div>
-          <a href="/Equipment/Lastlight-Recorder" class="alr-sb-item">
-            <span class="alr-sb-dot" style="background:#6b6860;"></span>
-            <span class="alr-sb-text">Lastlight Recorder</span>
-          </a>
-          <a href="/Equipment/Echo-Scanner-Unit" class="alr-sb-item">
-            <span class="alr-sb-dot" style="background:#6b6860;"></span>
-            <span class="alr-sb-text">Echo Scanner Unit</span>
-          </a>
-          <a href="/Equipment/A.L.I.C.E_" class="alr-sb-item">
-            <span class="alr-sb-dot" style="background:#6b6860;"></span>
-            <span class="alr-sb-text">A.L.I.C.E.</span>
-          </a>
+          {equipment.map((item) => (
+            <a href={item.href} class={`alr-sb-item ${item.active ? "active" : ""}`}>
+              <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
+              <span class="alr-sb-text">{item.title}</span>
+            </a>
+          ))}
+        </div>
+
+        <div class="alr-sb-section">
+          <div class="alr-sb-label">Protocols</div>
+          {protocols.map((item) => (
+            <a href={item.href} class={`alr-sb-item ${item.active ? "active" : ""}`}>
+              <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
+              <span class="alr-sb-text">{item.title}</span>
+            </a>
+          ))}
         </div>
 
         <div class="alr-sb-bottom">
-          <div
-            class="alr-sb-darkmode-row"
-            id="alr-theme-toggle"
-            role="button"
-            tabIndex={0}
-            aria-label="Toggle theme"
-            title="Toggle theme"
-          >
+          <div class="alr-sb-darkmode-row">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;color:#4a4840;">
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
@@ -213,188 +388,79 @@ const ALRSidebar: QuartzComponent = (_props: QuartzComponentProps) => {
             </div>
           </div>
         </div>
-
       </div>
 
       <script
         dangerouslySetInnerHTML={{
           __html: `
-(function () {
-  if (window.__alrSidebarInitialized) {
-    if (window.__alrSyncThemeUI) window.__alrSyncThemeUI();
-    if (window.__alrSyncActiveSidebar) window.__alrSyncActiveSidebar();
-    return;
-  }
-  window.__alrSidebarInitialized = true;
-
-  window.toggleALRSidebar = function toggleALRSidebar() {
-    var wrapper = document.getElementById('alr-sidebar-wrapper');
-    var quartzBody = document.getElementById('quartz-body');
-    if (!wrapper || !quartzBody) return;
-
-    var collapsed = wrapper.classList.toggle('alr-collapsed');
-    if (collapsed) {
-      quartzBody.classList.add('alr-sidebar-collapsed');
-    } else {
-      quartzBody.classList.remove('alr-sidebar-collapsed');
-    }
-  };
-
-  function getALRTheme() {
-    var attrTheme = document.documentElement.getAttribute('saved-theme');
-    if (attrTheme === 'light' || attrTheme === 'dark') return attrTheme;
-
-    var storedTheme = localStorage.getItem('theme');
-    if (storedTheme === 'light' || storedTheme === 'dark') return storedTheme;
-
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  }
-
-  function applyALRTheme(theme) {
-    document.documentElement.setAttribute('saved-theme', theme);
-    localStorage.setItem('theme', theme);
-    syncALRToggleState();
-  }
-
-  function syncALRToggleState() {
-    var track = document.getElementById('alr-toggle-track');
-    if (!track) return;
-
-    if (getALRTheme() === 'dark') {
-      track.classList.add('alr-toggle-on');
-    } else {
-      track.classList.remove('alr-toggle-on');
-    }
-  }
-
-  function toggleALRTheme() {
-    var nextTheme = getALRTheme() === 'dark' ? 'light' : 'dark';
-    applyALRTheme(nextTheme);
-  }
-
-  function normalizeALRPath(path) {
-    if (!path) return '/';
-
-    try {
-      path = decodeURIComponent(path);
-    } catch (_) {}
-
-    path = path.replace(/\\/+$/, '');
-    if (path === '') path = '/';
-    return path;
-  }
-
-  function syncALRActiveSidebar() {
-    var currentPath = normalizeALRPath(window.location.pathname);
-    var items = document.querySelectorAll('.alr-sb-item');
-    var groupTitles = document.querySelectorAll('.alr-sb-group-title');
-
-    items.forEach(function(item) {
-      item.classList.remove('active');
-    });
-
-    groupTitles.forEach(function(title) {
-      title.classList.remove('active');
-    });
-
-    items.forEach(function(item) {
-      var href = item.getAttribute('href');
-      if (!href) return;
-
-      var itemPath = normalizeALRPath(href);
-
-      if (itemPath === currentPath) {
-        item.classList.add('active');
-
-        var parentDetails = item.closest('details');
-        if (parentDetails) {
-          parentDetails.setAttribute('open', '');
-
-          var summary = parentDetails.querySelector('.alr-sb-group-title');
-          if (summary) {
-            summary.classList.add('active');
+        function toggleALRSidebar() {
+          var wrapper = document.getElementById('alr-sidebar-wrapper');
+          var quartzBody = document.getElementById('quartz-body');
+          if (!wrapper || !quartzBody) return;
+          var collapsed = wrapper.classList.toggle('alr-collapsed');
+          if (collapsed) {
+            quartzBody.classList.add('alr-sidebar-collapsed');
+          } else {
+            quartzBody.classList.remove('alr-sidebar-collapsed');
           }
         }
-      }
-    });
 
-    document.querySelectorAll('details.alr-sb-group[open]').forEach(function(group) {
-      var summary = group.querySelector('.alr-sb-group-title');
-      if (!summary) return;
+        function syncToggleState() {
+          var track = document.getElementById('alr-toggle-track');
+          if (!track) return;
+          var savedTheme = document.documentElement.getAttribute('saved-theme');
+          var isDark = savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          if (isDark) {
+            track.classList.add('alr-toggle-on');
+          } else {
+            track.classList.remove('alr-toggle-on');
+          }
+        }
 
-      if (!summary.classList.contains('active')) {
-        summary.classList.add('open');
-        setTimeout(function() {
-          summary.classList.remove('open');
-        }, 0);
-      }
-    });
-  }
+        function openActiveSidebarGroups() {
+          var nav = document.getElementById('alr-sidebar-nav');
+          if (!nav) return;
+          var activeItems = nav.querySelectorAll('.alr-sb-item.active');
+          activeItems.forEach(function(item) {
+            var details = item.closest('details');
+            if (details) details.open = true;
+          });
 
-  window.__alrSyncThemeUI = syncALRToggleState;
-  window.__alrSyncActiveSidebar = syncALRActiveSidebar;
+          var activeGroupTitles = nav.querySelectorAll('.alr-sb-group-title.active');
+          activeGroupTitles.forEach(function(title) {
+            var details = title.closest('details');
+            if (details) details.open = true;
+          });
+        }
 
-  document.addEventListener('click', function (e) {
-    var target = e.target;
-    if (!(target instanceof Element)) return;
+        function initALRSidebar() {
+          var track = document.getElementById('alr-toggle-track');
+          if (track) {
+            syncToggleState();
+            if (!track._alrBound) {
+              track.addEventListener('click', function() {
+                var btn = document.querySelector('button.darkmode');
+                if (btn) {
+                  btn.click();
+                  setTimeout(syncToggleState, 50);
+                }
+              });
+              track._alrBound = true;
+            }
+          }
 
-    var toggleRow = target.closest('#alr-theme-toggle');
-    if (toggleRow) {
-      e.preventDefault();
-      toggleALRTheme();
-      return;
-    }
-  });
+          if (!window._alrSidebarThemeObserver) {
+            var observer = new MutationObserver(syncToggleState);
+            observer.observe(document.documentElement, { attributes: true, attributeFilter: ['saved-theme'] });
+            window._alrSidebarThemeObserver = observer;
+          }
 
-  document.addEventListener('keydown', function (e) {
-    var target = e.target;
-    if (!(target instanceof Element)) return;
+          openActiveSidebarGroups();
+        }
 
-    var toggleRow = target.closest('#alr-theme-toggle');
-    if (!toggleRow) return;
-
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      toggleALRTheme();
-    }
-  });
-
-  document.addEventListener('nav', function () {
-    setTimeout(function() {
-      syncALRToggleState();
-      syncALRActiveSidebar();
-    }, 0);
-    setTimeout(function() {
-      syncALRToggleState();
-      syncALRActiveSidebar();
-    }, 50);
-    setTimeout(function() {
-      syncALRToggleState();
-      syncALRActiveSidebar();
-    }, 150);
-  });
-
-  var observer = new MutationObserver(function() {
-    syncALRToggleState();
-    syncALRActiveSidebar();
-  });
-
-  observer.observe(document.documentElement, {
-    attributes: true,
-    attributeFilter: ['saved-theme']
-  });
-
-  document.addEventListener('DOMContentLoaded', function () {
-    syncALRToggleState();
-    syncALRActiveSidebar();
-  });
-
-  setTimeout(function() {
-    syncALRToggleState();
-    syncALRActiveSidebar();
-  }, 0);
-})();
-          `,
+        document.addEventListener('DOMContentLoaded', initALRSidebar);
+        document.addEventListener('nav', initALRSidebar);
+      `,
         }}
       />
     </div>
