@@ -17,6 +17,9 @@ const ALRSoundEngine: QuartzComponent = () => {
                 return saved === null ? true : saved === "true";
               })(),
               unlocked: false,
+              audioContext: null,
+              clickBuffer: null,
+              loading: false,
             };
 
             const emitState = () => {
@@ -27,31 +30,79 @@ const ALRSoundEngine: QuartzComponent = () => {
               );
             };
 
-            const clickPool = Array.from({ length: 6 }, () => {
-              const audio = new Audio(CLICK_SOUND);
-              audio.volume = 0.08;
-              audio.preload = "auto";
-              return audio;
-            });
-
-            let clickIndex = 0;
-
-            const playClick = () => {
-              if (!state.enabled || !state.unlocked) return;
-
-              try {
-                const audio = clickPool[clickIndex];
-                clickIndex = (clickIndex + 1) % clickPool.length;
-
-                audio.pause();
-                audio.currentTime = 0;
-                audio.volume = 0.08;
-                audio.play().catch(() => {});
-              } catch {}
+            const getAudioContext = () => {
+              if (!state.audioContext) {
+                const Ctx = window.AudioContext || window.webkitAudioContext;
+                if (!Ctx) return null;
+                state.audioContext = new Ctx();
+              }
+              return state.audioContext;
             };
 
-            const unlockAudio = () => {
+            const loadClickBuffer = async () => {
+              if (state.clickBuffer || state.loading) return;
+              state.loading = true;
+
+              try {
+                const ctx = getAudioContext();
+                if (!ctx) return;
+
+                const response = await fetch(CLICK_SOUND);
+                const arrayBuffer = await response.arrayBuffer();
+                state.clickBuffer = await ctx.decodeAudioData(arrayBuffer.slice(0));
+              } catch (err) {
+                console.error("Failed to load click sound:", err);
+              } finally {
+                state.loading = false;
+              }
+            };
+
+            const playClick = async () => {
+              if (!state.enabled || !state.unlocked) return;
+
+              const ctx = getAudioContext();
+              if (!ctx) return;
+
+              if (ctx.state === "suspended") {
+                try {
+                  await ctx.resume();
+                } catch {}
+              }
+
+              if (!state.clickBuffer) {
+                await loadClickBuffer();
+              }
+
+              if (!state.clickBuffer) return;
+
+              try {
+                const source = ctx.createBufferSource();
+                source.buffer = state.clickBuffer;
+
+                const gain = ctx.createGain();
+                gain.gain.value = 0.18;
+
+                source.connect(gain);
+                gain.connect(ctx.destination);
+
+                source.start(0);
+              } catch (err) {
+                console.error("Failed to play click sound:", err);
+              }
+            };
+
+            const unlockAudio = async () => {
+              if (state.unlocked) return;
               state.unlocked = true;
+
+              const ctx = getAudioContext();
+              if (ctx && ctx.state === "suspended") {
+                try {
+                  await ctx.resume();
+                } catch {}
+              }
+
+              loadClickBuffer();
             };
 
             const clickHandler = (event) => {
