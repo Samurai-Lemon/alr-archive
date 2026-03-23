@@ -37,33 +37,25 @@ const ALRSoundEngine: QuartzComponent = () => {
               } catch {}
             };
 
+            const unlockAudio = () => {
+              state.unlocked = true;
+            };
+
             const clickHandler = (event) => {
-  const target = event.target;
-  if (!(target instanceof HTMLElement)) return;
+              const target = event.target;
+              if (!(target instanceof HTMLElement)) return;
 
-  const interactive = target.closest("a, button");
-  if (!interactive) return;
+              const interactive = target.closest("a, button, input, summary, [role='button']");
+              if (!interactive) return;
 
-  if (interactive.classList.contains("alr-sound-toggle")) return;
+              playClick();
+            };
 
-  // only play for internal links
-  if (interactive.tagName.toLowerCase() === "a") {
-    const href = interactive.getAttribute("href") || "";
-
-    const isInternal =
-      href.startsWith("/") ||
-      href.startsWith("./") ||
-      href.startsWith("../") ||
-      (!href.startsWith("http") &&
-        !href.startsWith("mailto:") &&
-        !href.startsWith("tel:") &&
-        !href.startsWith("#"));
-
-    if (!isInternal) return;
-  }
-
-  playClick();
-};
+            const enable = () => {
+              state.enabled = true;
+              localStorage.setItem("alr-sound-enabled", "true");
+              emitState();
+            };
 
             const disable = () => {
               state.enabled = false;
