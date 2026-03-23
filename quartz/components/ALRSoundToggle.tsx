@@ -7,6 +7,17 @@ const ALRSoundToggle: QuartzComponent = () => {
   useEffect(() => {
     const saved = localStorage.getItem("alr-sound-enabled")
     setEnabled(saved === null ? true : saved === "true")
+
+    const onStateChange = (event: Event) => {
+      const customEvent = event as CustomEvent<{ enabled: boolean }>
+      setEnabled(!!customEvent.detail?.enabled)
+    }
+
+    window.addEventListener("alr-sound-state-change", onStateChange)
+
+    return () => {
+      window.removeEventListener("alr-sound-state-change", onStateChange)
+    }
   }, [])
 
   const onToggle = () => {

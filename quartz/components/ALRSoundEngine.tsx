@@ -35,10 +35,18 @@ const SOUNDS: SoundMap = {
 }
 
 const DEFAULT_VOLUMES: Record<keyof SoundMap, number> = {
-  hover: 0.06,
-  click: 0.12,
-  enter: 0.09,
-  ambient: 0.045,
+  hover: 0.04,
+  click: 0.08,
+  enter: 0.06,
+  ambient: 0.025,
+}
+
+function emitSoundState(enabled: boolean) {
+  window.dispatchEvent(
+    new CustomEvent("alr-sound-state-change", {
+      detail: { enabled },
+    }),
+  )
 }
 
 function createAudio(src: string, volume: number) {
@@ -66,12 +74,11 @@ const ALRSoundEngine: QuartzComponent = () => {
 
     const state = window.__ALR_SOUND_STATE__
 
-    const unlockAudio = () => {
-      if (!state) return
-      state.unlocked = true
-      document.removeEventListener("pointerdown", unlockAudio)
-      document.removeEventListener("keydown", unlockAudio)
-      startAmbientLoop()
+    const stopAmbientLoop = () => {
+      if (state?.ambientTimer != null) {
+        window.clearTimeout(state.ambientTimer)
+        state.ambientTimer = null
+      }
     }
 
     const play = (name: keyof SoundMap, volume?: number) => {
@@ -88,21 +95,16 @@ const ALRSoundEngine: QuartzComponent = () => {
       }
     }
 
-    const stopAmbientLoop = () => {
-      if (state?.ambientTimer != null) {
-        window.clearTimeout(state.ambientTimer)
-        state.ambientTimer = null
-      }
-    }
-
     const scheduleAmbient = () => {
       if (!state?.enabled || !state.unlocked) return
 
-      const delay = 25000 + Math.random() * 35000
+      const delay = 30000 + Math.random() * 45000
 
       state.ambientTimer = window.setTimeout(() => {
-        if (document.visibilityState === "visible" && Math.random() < 0.45) {
-          play("ambient", 0.035 + Math.random() * 0.03)
+        if (document.visibilityState === "visible" && state.enabled && state.unlocked) {
+          if (Math.random() < 0.4) {
+            play("ambient", 0.02 + Math.random() * 0.02)
+          }
         }
         scheduleAmbient()
       }, delay)
@@ -110,14 +112,19 @@ const ALRSoundEngine: QuartzComponent = () => {
 
     const startAmbientLoop = () => {
       stopAmbientLoop()
-      scheduleAmbient()
+      if (state?.enabled && state.unlocked) {
+        scheduleAmbient()
+      }
     }
 
     const enable = () => {
       if (!state) return
       state.enabled = true
       localStorage.setItem("alr-sound-enabled", "true")
-      if (state.unlocked) startAmbientLoop()
+      emitSoundState(true)
+      if (state.unlocked) {
+        startAmbientLoop()
+      }
     }
 
     const disable = () => {
@@ -125,13 +132,34 @@ const ALRSoundEngine: QuartzComponent = () => {
       state.enabled = false
       localStorage.setItem("alr-sound-enabled", "false")
       stopAmbientLoop()
+      emitSoundState(false)
     }
 
     const toggle = () => {
       if (!state) return false
-      if (state.enabled) disable()
-      else enable()
-      return state.enabled
+
+      if (state.enabled) {
+        disable()
+        return false
+      } else {
+        enable()
+        return true
+      }
+    }
+
+    const unlockAudio = () => {
+      if (!state || state.unlocked) return
+
+      state.unlocked = true
+      document.removeEventListener("pointerdown", unlockAudio)
+      document.removeEventListener("keydown", unlockAudio)
+
+      if (state.enabled) {
+        window.setTimeout(() => {
+          play("enter", 0.05)
+        }, 80)
+        startAmbientLoop()
+      }
     }
 
     window.__ALR_SOUND_ENGINE__ = {
@@ -147,6 +175,7 @@ const ALRSoundEngine: QuartzComponent = () => {
 
     const onVisibilityChange = () => {
       if (!state) return
+
       if (document.visibilityState !== "visible") {
         stopAmbientLoop()
       } else if (state.enabled && state.unlocked) {
@@ -154,23 +183,23 @@ const ALRSoundEngine: QuartzComponent = () => {
       }
     }
 
-    document.addEventListener("visibilitychange", onVisibilityChange)
-
     const hoverHandler = (e: Event) => {
       const target = e.target as HTMLElement | null
       if (!target) return
 
       const interactive = target.closest(
-        'a, button, .alr-card, .alr-stat, .alr-person, .alr-notice-row'
-      )
+        "a, button, .alr-card, .alr-stat, .alr-person, .alr-notice-row",
+      ) as HTMLElement | null
 
       if (!interactive) return
+      if (interactive.classList.contains("alr-sound-toggle")) return
 
       const now = Date.now()
-      const last = Number((interactive as HTMLElement).dataset.alrHoverPlayedAt ?? "0")
+      const last = Number(interactive.dataset.alrHoverPlayedAt ?? "0")
+
       if (now - last < 700) return
 
-      ;(interactive as HTMLElement).dataset.alrHoverPlayedAt = String(now)
+      interactive.dataset.alrHoverPlayedAt = String(now)
       play("hover")
     }
 
@@ -178,18 +207,21 @@ const ALRSoundEngine: QuartzComponent = () => {
       const target = e.target as HTMLElement | null
       if (!target) return
 
-      const interactive = target.closest('a, button, .alr-card, .alr-stat, .alr-person')
+      const interactive = target.closest(
+        "a, button, .alr-card, .alr-stat, .alr-person",
+      ) as HTMLElement | null
+
       if (!interactive) return
+      if (interactive.classList.contains("alr-sound-toggle")) return
 
       play("click")
     }
 
+    document.addEventListener("visibilitychange", onVisibilityChange)
     document.addEventListener("mouseover", hoverHandler)
     document.addEventListener("click", clickHandler)
 
-    if (state.enabled && state.unlocked) {
-      startAmbientLoop()
-    }
+    emitSoundState(!!state?.enabled)
 
     return () => {
       stopAmbientLoop()
