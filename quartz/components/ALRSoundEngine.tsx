@@ -6,8 +6,8 @@ const ALRSoundEngine: QuartzComponent = () => {
       dangerouslySetInnerHTML={{
         __html: `
           (() => {
-            if (window.__ALR_SOUND_ENGINE_BOUND__) return;
-            window.__ALR_SOUND_ENGINE_BOUND__ = true;
+            if (window.__ALR_SOUND_ENGINE_INITIALIZED__) return;
+            window.__ALR_SOUND_ENGINE_INITIALIZED__ = true;
 
             const CLICK_SOUND = "/sounds/click.wav";
 
@@ -38,7 +38,6 @@ const ALRSoundEngine: QuartzComponent = () => {
             };
 
             const unlockAudio = () => {
-              if (state.unlocked) return;
               state.unlocked = true;
             };
 
@@ -47,7 +46,7 @@ const ALRSoundEngine: QuartzComponent = () => {
               if (!(target instanceof HTMLElement)) return;
 
               const interactive = target.closest(
-                "a, button, .alr-card, .alr-stat, .alr-person"
+                "a, button, .alr-card, .alr-stat, .alr-person, .alr-notice-row"
               );
 
               if (!interactive) return;
@@ -79,15 +78,17 @@ const ALRSoundEngine: QuartzComponent = () => {
             };
 
             window.__ALR_SOUND_ENGINE__ = {
+              play: () => playClick(),
               toggle,
               enable,
               disable,
               isEnabled: () => state.enabled,
             };
 
-            document.addEventListener("pointerdown", unlockAudio);
-            document.addEventListener("keydown", unlockAudio);
-            document.addEventListener("click", clickHandler);
+            document.addEventListener("pointerdown", unlockAudio, true);
+            document.addEventListener("keydown", unlockAudio, true);
+            document.addEventListener("click", clickHandler, true);
+            document.addEventListener("nav", emitState);
 
             emitState();
           })();
