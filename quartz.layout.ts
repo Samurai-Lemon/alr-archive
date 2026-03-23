@@ -11,10 +11,13 @@ export const sharedPageComponents: SharedLayout = {
     Component.PageTitle(),
     Component.Search(),
     Component.ALRTopNav(),
+    Component.ALRSoundToggle(),
     Component.Darkmode(),
     Component.ReaderMode(),
   ],
-  afterBody: [],
+  afterBody: [
+    Component.ALRSoundEngine(),
+  ],
   footer: Component.Footer({
     links: {},
   }),

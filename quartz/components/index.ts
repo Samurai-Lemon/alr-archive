@@ -31,6 +31,8 @@ import ALRRecentRealities from "./ALRRecentRealities"
 import ALRHomeDashboard from "./ALRHomeDashboard"
 import ALREchoRegistry from "./ALREchoRegistry"
 import ALRRealityRegistry from "./ALRRealityRegistry"
+import ALRSoundEngine from "./ALRSoundEngine"
+import ALRSoundToggle from "./ALRSoundToggle"
 
 export {
   ArticleTitle,
@@ -66,4 +68,6 @@ export {
   ALRHomeDashboard,
   ALREchoRegistry,
   ALRRealityRegistry,
+  ALRSoundEngine,
+  ALRSoundToggle,
 }
