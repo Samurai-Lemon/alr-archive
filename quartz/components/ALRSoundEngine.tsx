@@ -27,11 +27,24 @@ const ALRSoundEngine: QuartzComponent = () => {
               );
             };
 
+            const clickPool = Array.from({ length: 6 }, () => {
+              const audio = new Audio(CLICK_SOUND);
+              audio.volume = 0.08;
+              audio.preload = "auto";
+              return audio;
+            });
+
+            let clickIndex = 0;
+
             const playClick = () => {
               if (!state.enabled || !state.unlocked) return;
 
               try {
-                const audio = new Audio(CLICK_SOUND);
+                const audio = clickPool[clickIndex];
+                clickIndex = (clickIndex + 1) % clickPool.length;
+
+                audio.pause();
+                audio.currentTime = 0;
                 audio.volume = 0.08;
                 audio.play().catch(() => {});
               } catch {}
