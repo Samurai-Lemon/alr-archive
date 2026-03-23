@@ -79,6 +79,9 @@ const ALRSoundEngine: QuartzComponent = () => {
                 const source = ctx.createBufferSource();
                 source.buffer = state.clickBuffer;
 
+                // subtle pitch variation
+                source.playbackRate.value = 0.96 + Math.random() * 0.08;
+
                 const gain = ctx.createGain();
                 gain.gain.value = 0.18;
 
