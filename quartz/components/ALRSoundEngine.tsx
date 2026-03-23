@@ -1,239 +1,190 @@
-import { useEffect, useRef } from "preact/hooks"
 import { QuartzComponent, QuartzComponentConstructor } from "./types"
 
-type SoundMap = {
-  hover: string
-  click: string
-  enter: string
-  ambient: string
-}
-
-type SoundEngineState = {
-  enabled: boolean
-  unlocked: boolean
-  ambientTimer: number | null
-}
-
-declare global {
-  interface Window {
-    __ALR_SOUND_ENGINE__?: {
-      play: (name: keyof SoundMap, volume?: number) => void
-      toggle: () => boolean
-      enable: () => void
-      disable: () => void
-      isEnabled: () => boolean
-    }
-    __ALR_SOUND_STATE__?: SoundEngineState
-  }
-}
-
-const SOUNDS: SoundMap = {
-  hover: "/sounds/digital_blips.wav",
-  click: "/sounds/click.wav",
-  enter: "/sounds/reverse_echo.wav",
-  ambient: "/sounds/radio_static.wav",
-}
-
-const DEFAULT_VOLUMES: Record<keyof SoundMap, number> = {
-  hover: 0.04,
-  click: 0.08,
-  enter: 0.06,
-  ambient: 0.025,
-}
-
-function emitSoundState(enabled: boolean) {
-  window.dispatchEvent(
-    new CustomEvent("alr-sound-state-change", {
-      detail: { enabled },
-    }),
-  )
-}
-
-function createAudio(src: string, volume: number) {
-  const audio = new Audio(src)
-  audio.volume = Math.max(0, Math.min(1, volume))
-  audio.preload = "auto"
-  return audio
-}
-
 const ALRSoundEngine: QuartzComponent = () => {
-  const initialized = useRef(false)
+  return (
+    <script
+      dangerouslySetInnerHTML={{
+        __html: `
+          (() => {
+            if (window.__ALR_SOUND_ENGINE_BOUND__) return;
+            window.__ALR_SOUND_ENGINE_BOUND__ = true;
 
-  useEffect(() => {
-    if (initialized.current) return
-    initialized.current = true
+            const SOUNDS = {
+              hover: "/sounds/digital_blips.wav",
+              click: "/sounds/click.wav",
+              enter: "/sounds/reverse_echo.wav",
+              ambient: "/sounds/radio_static.wav",
+            };
 
-    if (!window.__ALR_SOUND_STATE__) {
-      const saved = localStorage.getItem("alr-sound-enabled")
-      window.__ALR_SOUND_STATE__ = {
-        enabled: saved === null ? true : saved === "true",
-        unlocked: false,
-        ambientTimer: null,
-      }
-    }
+            const DEFAULT_VOLUMES = {
+              hover: 0.04,
+              click: 0.08,
+              enter: 0.06,
+              ambient: 0.025,
+            };
 
-    const state = window.__ALR_SOUND_STATE__
+            const state = {
+              enabled: (() => {
+                const saved = localStorage.getItem("alr-sound-enabled");
+                return saved === null ? true : saved === "true";
+              })(),
+              unlocked: false,
+              ambientTimer: null,
+            };
 
-    const stopAmbientLoop = () => {
-      if (state?.ambientTimer != null) {
-        window.clearTimeout(state.ambientTimer)
-        state.ambientTimer = null
-      }
-    }
+            const emitState = () => {
+              window.dispatchEvent(
+                new CustomEvent("alr-sound-state-change", {
+                  detail: { enabled: state.enabled },
+                })
+              );
+            };
 
-    const play = (name: keyof SoundMap, volume?: number) => {
-      if (!state?.enabled || !state.unlocked) return
+            const createAudio = (src, volume) => {
+              const audio = new Audio(src);
+              audio.volume = Math.max(0, Math.min(1, volume));
+              audio.preload = "auto";
+              return audio;
+            };
 
-      const src = SOUNDS[name]
-      const finalVolume = volume ?? DEFAULT_VOLUMES[name]
+            const play = (name, volume) => {
+              if (!state.enabled || !state.unlocked) return;
+              const src = SOUNDS[name];
+              if (!src) return;
 
-      try {
-        const audio = createAudio(src, finalVolume)
-        void audio.play().catch(() => {})
-      } catch {
-        // ignore audio failures
-      }
-    }
+              try {
+                const audio = createAudio(src, volume ?? DEFAULT_VOLUMES[name]);
+                audio.play().catch(() => {});
+              } catch {}
+            };
 
-    const scheduleAmbient = () => {
-      if (!state?.enabled || !state.unlocked) return
+            const stopAmbientLoop = () => {
+              if (state.ambientTimer != null) {
+                clearTimeout(state.ambientTimer);
+                state.ambientTimer = null;
+              }
+            };
 
-      const delay = 30000 + Math.random() * 45000
+            const scheduleAmbient = () => {
+              if (!state.enabled || !state.unlocked) return;
 
-      state.ambientTimer = window.setTimeout(() => {
-        if (document.visibilityState === "visible" && state.enabled && state.unlocked) {
-          if (Math.random() < 0.4) {
-            play("ambient", 0.02 + Math.random() * 0.02)
-          }
-        }
-        scheduleAmbient()
-      }, delay)
-    }
+              const delay = 30000 + Math.random() * 45000;
 
-    const startAmbientLoop = () => {
-      stopAmbientLoop()
-      if (state?.enabled && state.unlocked) {
-        scheduleAmbient()
-      }
-    }
+              state.ambientTimer = window.setTimeout(() => {
+                if (document.visibilityState === "visible" && state.enabled && state.unlocked) {
+                  if (Math.random() < 0.4) {
+                    play("ambient", 0.02 + Math.random() * 0.02);
+                  }
+                }
+                scheduleAmbient();
+              }, delay);
+            };
 
-    const enable = () => {
-      if (!state) return
-      state.enabled = true
-      localStorage.setItem("alr-sound-enabled", "true")
-      emitSoundState(true)
-      if (state.unlocked) {
-        startAmbientLoop()
-      }
-    }
+            const startAmbientLoop = () => {
+              stopAmbientLoop();
+              if (state.enabled && state.unlocked) {
+                scheduleAmbient();
+              }
+            };
 
-    const disable = () => {
-      if (!state) return
-      state.enabled = false
-      localStorage.setItem("alr-sound-enabled", "false")
-      stopAmbientLoop()
-      emitSoundState(false)
-    }
+            const enable = () => {
+              state.enabled = true;
+              localStorage.setItem("alr-sound-enabled", "true");
+              emitState();
+              if (state.unlocked) startAmbientLoop();
+            };
 
-    const toggle = () => {
-      if (!state) return false
+            const disable = () => {
+              state.enabled = false;
+              localStorage.setItem("alr-sound-enabled", "false");
+              stopAmbientLoop();
+              emitState();
+            };
 
-      if (state.enabled) {
-        disable()
-        return false
-      } else {
-        enable()
-        return true
-      }
-    }
+            const toggle = () => {
+              if (state.enabled) {
+                disable();
+                return false;
+              } else {
+                enable();
+                return true;
+              }
+            };
 
-    const unlockAudio = () => {
-      if (!state || state.unlocked) return
+            const unlockAudio = () => {
+              if (state.unlocked) return;
+              state.unlocked = true;
 
-      state.unlocked = true
-      document.removeEventListener("pointerdown", unlockAudio)
-      document.removeEventListener("keydown", unlockAudio)
+              document.removeEventListener("pointerdown", unlockAudio);
+              document.removeEventListener("keydown", unlockAudio);
 
-      if (state.enabled) {
-        window.setTimeout(() => {
-          play("enter", 0.05)
-        }, 80)
-        startAmbientLoop()
-      }
-    }
+              if (state.enabled) {
+                setTimeout(() => play("enter", 0.05), 80);
+                startAmbientLoop();
+              }
+            };
 
-    window.__ALR_SOUND_ENGINE__ = {
-      play,
-      toggle,
-      enable,
-      disable,
-      isEnabled: () => !!window.__ALR_SOUND_STATE__?.enabled,
-    }
+            const hoverHandler = (event) => {
+              const target = event.target;
+              if (!(target instanceof HTMLElement)) return;
 
-    document.addEventListener("pointerdown", unlockAudio, { once: true })
-    document.addEventListener("keydown", unlockAudio, { once: true })
+              const interactive = target.closest(
+                "a, button, .alr-card, .alr-stat, .alr-person, .alr-notice-row"
+              );
 
-    const onVisibilityChange = () => {
-      if (!state) return
+              if (!interactive) return;
+              if (interactive.classList.contains("alr-sound-toggle")) return;
 
-      if (document.visibilityState !== "visible") {
-        stopAmbientLoop()
-      } else if (state.enabled && state.unlocked) {
-        startAmbientLoop()
-      }
-    }
+              const now = Date.now();
+              const last = Number(interactive.dataset.alrHoverPlayedAt ?? "0");
+              if (now - last < 700) return;
 
-    const hoverHandler = (e: Event) => {
-      const target = e.target as HTMLElement | null
-      if (!target) return
+              interactive.dataset.alrHoverPlayedAt = String(now);
+              play("hover");
+            };
 
-      const interactive = target.closest(
-        "a, button, .alr-card, .alr-stat, .alr-person, .alr-notice-row",
-      ) as HTMLElement | null
+            const clickHandler = (event) => {
+              const target = event.target;
+              if (!(target instanceof HTMLElement)) return;
 
-      if (!interactive) return
-      if (interactive.classList.contains("alr-sound-toggle")) return
+              const interactive = target.closest(
+                "a, button, .alr-card, .alr-stat, .alr-person"
+              );
 
-      const now = Date.now()
-      const last = Number(interactive.dataset.alrHoverPlayedAt ?? "0")
+              if (!interactive) return;
+              if (interactive.classList.contains("alr-sound-toggle")) return;
 
-      if (now - last < 700) return
+              play("click");
+            };
 
-      interactive.dataset.alrHoverPlayedAt = String(now)
-      play("hover")
-    }
+            const onVisibilityChange = () => {
+              if (document.visibilityState !== "visible") {
+                stopAmbientLoop();
+              } else if (state.enabled && state.unlocked) {
+                startAmbientLoop();
+              }
+            };
 
-    const clickHandler = (e: Event) => {
-      const target = e.target as HTMLElement | null
-      if (!target) return
+            window.__ALR_SOUND_ENGINE__ = {
+              play,
+              toggle,
+              enable,
+              disable,
+              isEnabled: () => state.enabled,
+            };
 
-      const interactive = target.closest(
-        "a, button, .alr-card, .alr-stat, .alr-person",
-      ) as HTMLElement | null
+            document.addEventListener("pointerdown", unlockAudio, { once: true });
+            document.addEventListener("keydown", unlockAudio, { once: true });
+            document.addEventListener("mouseover", hoverHandler);
+            document.addEventListener("click", clickHandler);
+            document.addEventListener("visibilitychange", onVisibilityChange);
 
-      if (!interactive) return
-      if (interactive.classList.contains("alr-sound-toggle")) return
-
-      play("click")
-    }
-
-    document.addEventListener("visibilitychange", onVisibilityChange)
-    document.addEventListener("mouseover", hoverHandler)
-    document.addEventListener("click", clickHandler)
-
-    emitSoundState(!!state?.enabled)
-
-    return () => {
-      stopAmbientLoop()
-      document.removeEventListener("pointerdown", unlockAudio)
-      document.removeEventListener("keydown", unlockAudio)
-      document.removeEventListener("visibilitychange", onVisibilityChange)
-      document.removeEventListener("mouseover", hoverHandler)
-      document.removeEventListener("click", clickHandler)
-    }
-  }, [])
-
-  return null
+            emitState();
+          })();
+        `,
+      }}
+    />
+  )
 }
 
 ALRSoundEngine.displayName = "ALRSoundEngine"
