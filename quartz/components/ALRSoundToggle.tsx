@@ -6,11 +6,14 @@ const ALRSoundToggle: QuartzComponent = () => {
 
   useEffect(() => {
     const saved = localStorage.getItem("alr-sound-enabled")
-    setEnabled(saved === null ? true : saved === "true")
+    const initial = saved === null ? true : saved === "true"
+    setEnabled(initial)
 
     const onStateChange = (event: Event) => {
       const customEvent = event as CustomEvent<{ enabled: boolean }>
-      setEnabled(!!customEvent.detail?.enabled)
+      if (typeof customEvent.detail?.enabled === "boolean") {
+        setEnabled(customEvent.detail.enabled)
+      }
     }
 
     window.addEventListener("alr-sound-state-change", onStateChange)
@@ -21,9 +24,15 @@ const ALRSoundToggle: QuartzComponent = () => {
   }, [])
 
   const onToggle = () => {
-    const next = window.__ALR_SOUND_ENGINE__?.toggle()
-    if (typeof next === "boolean") {
-      setEnabled(next)
+    const next = !enabled
+
+    setEnabled(next)
+    localStorage.setItem("alr-sound-enabled", String(next))
+
+    if (next) {
+      window.__ALR_SOUND_ENGINE__?.enable()
+    } else {
+      window.__ALR_SOUND_ENGINE__?.disable()
     }
   }
 
