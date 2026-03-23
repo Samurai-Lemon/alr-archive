@@ -17,12 +17,20 @@ const ALRSoundToggle: QuartzComponent = () => {
         dangerouslySetInnerHTML={{
           __html: `
             (() => {
-              const syncLabel = () => {
+              if (window.__ALR_SOUND_TOGGLE_BOUND__) {
+                window.__ALR_SYNC_SOUND_TOGGLE__?.();
+                return;
+              }
+
+              window.__ALR_SOUND_TOGGLE_BOUND__ = true;
+
+              window.__ALR_SYNC_SOUND_TOGGLE__ = () => {
                 const btn = document.getElementById("alr-sound-toggle");
                 if (!btn) return;
 
                 const saved = localStorage.getItem("alr-sound-enabled");
                 const enabled = saved === null ? true : saved === "true";
+
                 btn.textContent = enabled ? "Audio: On" : "Audio: Off";
                 btn.setAttribute(
                   "aria-label",
@@ -34,35 +42,36 @@ const ALRSoundToggle: QuartzComponent = () => {
                 );
               };
 
-              const bindToggle = () => {
-                const btn = document.getElementById("alr-sound-toggle");
-                if (!btn || btn.dataset.bound === "true") return;
+              const sync = window.__ALR_SYNC_SOUND_TOGGLE__;
+              sync();
 
-                btn.dataset.bound = "true";
-                syncLabel();
+              document.addEventListener("click", (event) => {
+                const target = event.target;
+                if (!(target instanceof HTMLElement)) return;
 
-                btn.addEventListener("click", () => {
-                  const saved = localStorage.getItem("alr-sound-enabled");
-                  const enabled = saved === null ? true : saved === "true";
-                  const next = !enabled;
+                const btn = target.closest("#alr-sound-toggle");
+                if (!btn) return;
 
-                  localStorage.setItem("alr-sound-enabled", String(next));
+                const saved = localStorage.getItem("alr-sound-enabled");
+                const enabled = saved === null ? true : saved === "true";
+                const next = !enabled;
 
-                  if (window.__ALR_SOUND_ENGINE__) {
-                    if (next) {
-                      window.__ALR_SOUND_ENGINE__.enable();
-                    } else {
-                      window.__ALR_SOUND_ENGINE__.disable();
-                    }
+                localStorage.setItem("alr-sound-enabled", String(next));
+
+                if (window.__ALR_SOUND_ENGINE__) {
+                  if (next) {
+                    window.__ALR_SOUND_ENGINE__.enable();
+                  } else {
+                    window.__ALR_SOUND_ENGINE__.disable();
                   }
+                }
 
-                  syncLabel();
-                });
-              };
+                sync();
+              });
 
-              bindToggle();
-              document.addEventListener("nav", bindToggle);
-              document.addEventListener("DOMContentLoaded", bindToggle);
+              window.addEventListener("pageshow", sync);
+              document.addEventListener("nav", sync);
+              document.addEventListener("DOMContentLoaded", sync);
             })();
           `,
         }}
