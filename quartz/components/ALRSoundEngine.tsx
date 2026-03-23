@@ -10,14 +10,12 @@ const ALRSoundEngine: QuartzComponent = () => {
             window.__ALR_SOUND_ENGINE_BOUND__ = true;
 
             const SOUNDS = {
-              hover: "/sounds/digital_blips.wav",
               click: "/sounds/click.wav",
               enter: "/sounds/reverse_echo.wav",
               ambient: "/sounds/radio_static.wav",
             };
 
             const DEFAULT_VOLUMES = {
-              hover: 0.04,
               click: 0.08,
               enter: 0.06,
               ambient: 0.025,
@@ -124,25 +122,6 @@ const ALRSoundEngine: QuartzComponent = () => {
               }
             };
 
-            const hoverHandler = (event) => {
-              const target = event.target;
-              if (!(target instanceof HTMLElement)) return;
-
-              const interactive = target.closest(
-                "a, button, .alr-card, .alr-stat, .alr-person, .alr-notice-row"
-              );
-
-              if (!interactive) return;
-              if (interactive.classList.contains("alr-sound-toggle")) return;
-
-              const now = Date.now();
-              const last = Number(interactive.dataset.alrHoverPlayedAt ?? "0");
-              if (now - last < 700) return;
-
-              interactive.dataset.alrHoverPlayedAt = String(now);
-              play("hover");
-            };
-
             const clickHandler = (event) => {
               const target = event.target;
               if (!(target instanceof HTMLElement)) return;
@@ -175,7 +154,6 @@ const ALRSoundEngine: QuartzComponent = () => {
 
             document.addEventListener("pointerdown", unlockAudio, { once: true });
             document.addEventListener("keydown", unlockAudio, { once: true });
-            document.addEventListener("mouseover", hoverHandler);
             document.addEventListener("click", clickHandler);
             document.addEventListener("visibilitychange", onVisibilityChange);
 
