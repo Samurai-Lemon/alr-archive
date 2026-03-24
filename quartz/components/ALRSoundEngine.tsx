@@ -122,7 +122,7 @@ const ALRSoundEngine: QuartzComponent = () => {
                 source.loop = true;
 
                 const gain = ctx.createGain();
-                gain.gain.value = 0.005;
+                gain.gain.value = 0.020;
 
                 source.connect(gain);
                 gain.connect(ctx.destination);
