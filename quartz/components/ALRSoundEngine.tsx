@@ -10,6 +10,7 @@ const ALRSoundEngine: QuartzComponent = () => {
             window.__ALR_SOUND_ENGINE_INITIALIZED__ = true;
 
             const CLICK_SOUND = "/sounds/click.wav";
+            const AMBIENT_SOUND = "/sounds/ambient_loop.wav";
 
             const state = {
               enabled: (() => {
@@ -19,7 +20,11 @@ const ALRSoundEngine: QuartzComponent = () => {
               unlocked: false,
               audioContext: null,
               clickBuffer: null,
-              loading: false,
+              ambientBuffer: null,
+              ambientSource: null,
+              ambientGain: null,
+              loadingClick: false,
+              loadingAmbient: false,
             };
 
             const emitState = () => {
@@ -39,21 +44,95 @@ const ALRSoundEngine: QuartzComponent = () => {
               return state.audioContext;
             };
 
+            const loadBuffer = async (url) => {
+              const ctx = getAudioContext();
+              if (!ctx) return null;
+
+              const response = await fetch(url);
+              const arrayBuffer = await response.arrayBuffer();
+              return await ctx.decodeAudioData(arrayBuffer.slice(0));
+            };
+
             const loadClickBuffer = async () => {
-              if (state.clickBuffer || state.loading) return;
-              state.loading = true;
+              if (state.clickBuffer || state.loadingClick) return;
+              state.loadingClick = true;
 
               try {
-                const ctx = getAudioContext();
-                if (!ctx) return;
-
-                const response = await fetch(CLICK_SOUND);
-                const arrayBuffer = await response.arrayBuffer();
-                state.clickBuffer = await ctx.decodeAudioData(arrayBuffer.slice(0));
+                state.clickBuffer = await loadBuffer(CLICK_SOUND);
               } catch (err) {
                 console.error("Failed to load click sound:", err);
               } finally {
-                state.loading = false;
+                state.loadingClick = false;
+              }
+            };
+
+            const loadAmbientBuffer = async () => {
+              if (state.ambientBuffer || state.loadingAmbient) return;
+              state.loadingAmbient = true;
+
+              try {
+                state.ambientBuffer = await loadBuffer(AMBIENT_SOUND);
+              } catch (err) {
+                console.error("Failed to load ambient sound:", err);
+              } finally {
+                state.loadingAmbient = false;
+              }
+            };
+
+            const stopAmbient = () => {
+              try {
+                if (state.ambientSource) {
+                  state.ambientSource.stop();
+                  state.ambientSource.disconnect();
+                }
+              } catch {}
+
+              try {
+                if (state.ambientGain) {
+                  state.ambientGain.disconnect();
+                }
+              } catch {}
+
+              state.ambientSource = null;
+              state.ambientGain = null;
+            };
+
+            const startAmbient = async () => {
+              if (!state.enabled || !state.unlocked) return;
+
+              const ctx = getAudioContext();
+              if (!ctx) return;
+
+              if (ctx.state === "suspended") {
+                try {
+                  await ctx.resume();
+                } catch {}
+              }
+
+              if (!state.ambientBuffer) {
+                await loadAmbientBuffer();
+              }
+
+              if (!state.ambientBuffer) return;
+              if (state.ambientSource) return;
+
+              try {
+                const source = ctx.createBufferSource();
+                source.buffer = state.ambientBuffer;
+                source.loop = true;
+
+                const gain = ctx.createGain();
+                gain.gain.value = 0.045;
+
+                source.connect(gain);
+                gain.connect(ctx.destination);
+
+                source.start(0);
+
+                state.ambientSource = source;
+                state.ambientGain = gain;
+              } catch (err) {
+                console.error("Failed to start ambient sound:", err);
               }
             };
 
@@ -78,12 +157,10 @@ const ALRSoundEngine: QuartzComponent = () => {
               try {
                 const source = ctx.createBufferSource();
                 source.buffer = state.clickBuffer;
-
-                // subtle pitch variation
                 source.playbackRate.value = 0.96 + Math.random() * 0.08;
 
                 const gain = ctx.createGain();
-                gain.gain.value = 0.18;
+                gain.gain.value = 0.16 + Math.random() * 0.04;
 
                 source.connect(gain);
                 gain.connect(ctx.destination);
@@ -106,6 +183,11 @@ const ALRSoundEngine: QuartzComponent = () => {
               }
 
               loadClickBuffer();
+              loadAmbientBuffer();
+
+              if (state.enabled) {
+                startAmbient();
+              }
             };
 
             const clickHandler = (event) => {
@@ -122,11 +204,16 @@ const ALRSoundEngine: QuartzComponent = () => {
               state.enabled = true;
               localStorage.setItem("alr-sound-enabled", "true");
               emitState();
+
+              if (state.unlocked) {
+                startAmbient();
+              }
             };
 
             const disable = () => {
               state.enabled = false;
               localStorage.setItem("alr-sound-enabled", "false");
+              stopAmbient();
               emitState();
             };
 
@@ -137,6 +224,14 @@ const ALRSoundEngine: QuartzComponent = () => {
               } else {
                 enable();
                 return true;
+              }
+            };
+
+            const handleVisibility = () => {
+              if (document.visibilityState === "hidden") {
+                stopAmbient();
+              } else if (state.enabled && state.unlocked) {
+                startAmbient();
               }
             };
 
@@ -151,7 +246,13 @@ const ALRSoundEngine: QuartzComponent = () => {
             document.addEventListener("pointerdown", unlockAudio, true);
             document.addEventListener("keydown", unlockAudio, true);
             document.addEventListener("click", clickHandler, true);
-            document.addEventListener("nav", emitState);
+            document.addEventListener("visibilitychange", handleVisibility);
+            document.addEventListener("nav", () => {
+              emitState();
+              if (state.enabled && state.unlocked) {
+                startAmbient();
+              }
+            });
 
             emitState();
           })();
