@@ -39,7 +39,18 @@ const ALRTopNav: QuartzComponent = (_props: QuartzComponentProps) => {
           </div>
         </div>
 
-        <a href="/Submit" class="alr-topnav-link">Submit</a>
+        <div class="alr-topnav-dropdown" id="alr-submit-dropdown">
+          <span class="alr-topnav-link alr-topnav-dropdown-trigger">Submit ›</span>
+          <div class="alr-topnav-dropdown-menu">
+            <div class="alr-topnav-dropdown-menu-inner">
+              <a href="/Submit-Echo" class="alr-topnav-dropdown-item">Submit an Echo</a>
+              <a href="/Submit-Reality" class="alr-topnav-dropdown-item">Submit a Reality Report</a>
+              <a href="/Submit-Equipment" class="alr-topnav-dropdown-item">Submit a Device</a>
+              <a href="/Submit-Organization" class="alr-topnav-dropdown-item">Submit an Organization</a>
+            </div>
+          </div>
+        </div>
+
         <a href="/About" class="alr-topnav-link">About</a>
       </nav>
 
