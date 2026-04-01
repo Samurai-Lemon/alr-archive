@@ -3,7 +3,7 @@
 
 <div class="alr-submit-header">
   <div class="alr-eyebrow" style="margin-bottom:8px;">Archive of Lost Realities Initiative</div>
-  <h1 class="alr-hero-title" style="margin-bottom:8px;">Submit an Organization Entry</h1>
+  <h1 class="alr-hero-title" style="margin-bottom:8px;">Submit an Organization</h1>
   <p class="alr-hero-sub" style="margin-bottom:0;">
   Researchers and contributors may submit organization entries for review by the ALR Initiative. All submissions are processed under Archive Protocols and reviewed prior to inclusion. Refer to the <a href="/Archive-Documentation-Format/Organization-Entry-Format" class="internal">Organization Entry Format</a> guide before completing this form, and ensure compliance with the <a href="/Protocols/Terms-of-Submission" class="internal">Submission Protocol</a> and <a href="/Protocols/License" class="internal">Archive Licensing Protocol</a>.
   </p>
@@ -17,7 +17,7 @@
   </div>
 </div>
 
-<form class="alr-submit-form" action="https://formspree.io/f/REPLACE_WITH_ORG_FORM_ID" method="POST">
+<form class="alr-submit-form" action="https://formspree.io/f/xkopzneg" method="POST">
 
   <div class="alr-submit-section">
     <div class="alr-submit-section-label">Identity</div>

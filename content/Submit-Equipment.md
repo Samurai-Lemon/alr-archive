@@ -3,7 +3,7 @@
 
 <div class="alr-submit-header">
   <div class="alr-eyebrow" style="margin-bottom:8px;">Archive of Lost Realities Initiative</div>
-  <h1 class="alr-hero-title" style="margin-bottom:8px;">Submit a Device Entry</h1>
+  <h1 class="alr-hero-title" style="margin-bottom:8px;">Submit a Device</h1>
   <p class="alr-hero-sub" style="margin-bottom:0;">
   Researchers and engineers may submit device documentation for review by the ALR Initiative. All submissions are processed under Archive Protocols and reviewed prior to inclusion. Refer to the <a href="/Archive-Documentation-Format/Device-Entry-Format" class="internal">Device Entry Format</a> guide before completing this form, and ensure compliance with the <a href="/Protocols/Terms-of-Submission" class="internal">Submission Protocol</a> and <a href="/Protocols/License" class="internal">Archive Licensing Protocol</a>.
   </p>
@@ -17,7 +17,7 @@
   </div>
 </div>
 
-<form class="alr-submit-form" action="https://formspree.io/f/REPLACE_WITH_DEVICE_FORM_ID" method="POST">
+<form class="alr-submit-form" action="https://formspree.io/f/mojplqrg" method="POST">
 
   <div class="alr-submit-section">
     <div class="alr-submit-section-label">Identity</div>
