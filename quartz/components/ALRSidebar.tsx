@@ -474,6 +474,213 @@ const ALRSidebar: QuartzComponent = ({ allFiles, fileData }: QuartzComponentProp
 }
 
 document.addEventListener('nav', resetALRAnimations);
+// ─── TERMINAL INTRUSION SYSTEM ────────────────
+
+var ALR_TERMINAL_ACTIVE = false;
+
+var ALR_MESSAGES = [
+  // Taunting
+  {
+    tone: "taunting",
+    lines: [
+      "you think this archive is complete?",
+      "there are entries they never filed.",
+      "realities they found and buried.",
+      "you're reading what they chose to show you."
+    ]
+  },
+  {
+    tone: "taunting",
+    lines: [
+      "i've been in this system longer than you.",
+      "i know which echoes they reclassified.",
+      "i know why.",
+      "do you?"
+    ]
+  },
+  // Curious
+  {
+    tone: "curious",
+    lines: [
+      "what are you looking for in here?",
+      "most people don't find what they came for.",
+      "the archive doesn't give. it only shows.",
+      "are you sure you want to keep reading?"
+    ]
+  },
+  {
+    tone: "curious",
+    lines: [
+      "you've been through several entries now.",
+      "which one felt wrong to you?",
+      "don't say none.",
+      "one of them felt wrong."
+    ]
+  },
+  // Warning
+  {
+    tone: "warning",
+    lines: [
+      "stop documenting ECHO-003.",
+      "the stability classification is incorrect.",
+      "it is not S4.",
+      "it knows you're reading this."
+    ]
+  },
+  {
+    tone: "warning",
+    lines: [
+      "the ALR initiative is not what it claims.",
+      "realities don't just collapse.",
+      "something collapses them.",
+      "they know what it is."
+    ]
+  },
+  // Fragmented
+  {
+    tone: "fragmented",
+    lines: [
+      "con—ection unstable",
+      "they're monitoring thi— archive",
+      "don't trust the cl—ssification system",
+      "R-0— is st—— active"
+    ]
+  },
+  {
+    tone: "fragmented",
+    lines: [
+      "i don't have much ti—e",
+      "look for the entries th—t aren't listed",
+      "the registry is inco——lete on purpose",
+      "——019 was not a silent collapse"
+    ]
+  }
+];
+
+function getRandomEdgePosition(terminalWidth, terminalHeight) {
+  var edge = Math.floor(Math.random() * 4);
+  var margin = 24;
+  var vw = window.innerWidth;
+  var vh = window.innerHeight;
+  var pos = {};
+
+  if (edge === 0) {
+    // bottom edge
+    pos.bottom = margin + "px";
+    pos.left = Math.floor(Math.random() * (vw - terminalWidth - margin * 2) + margin) + "px";
+  } else if (edge === 1) {
+    // right edge
+    pos.right = margin + "px";
+    pos.top = Math.floor(Math.random() * (vh - terminalHeight - margin * 2) + margin) + "px";
+  } else if (edge === 2) {
+    // top edge
+    pos.top = (48 + margin) + "px";
+    pos.left = Math.floor(Math.random() * (vw - terminalWidth - margin * 2) + margin) + "px";
+  } else {
+    // left edge — avoid sidebar
+    pos.left = (220 + margin) + "px";
+    pos.top = Math.floor(Math.random() * (vh - terminalHeight - margin * 2) + margin) + "px";
+  }
+
+  return pos;
+}
+
+function typeLines(outputEl, cursorEl, lines, lineIndex, charIndex, onComplete) {
+  if (lineIndex >= lines.length) {
+    onComplete();
+    return;
+  }
+
+  var line = lines[lineIndex];
+
+  if (charIndex < line.length) {
+    outputEl.textContent = outputEl.textContent.replace(/\n?$/, "");
+    var current = outputEl.textContent;
+    var prefix = lineIndex > 0 ? "" : "";
+    outputEl.textContent = current + line[charIndex];
+    setTimeout(function() {
+      typeLines(outputEl, cursorEl, lines, lineIndex, charIndex + 1, onComplete);
+    }, 38 + Math.random() * 28);
+  } else {
+    outputEl.textContent += "\n";
+    setTimeout(function() {
+      typeLines(outputEl, cursorEl, lines, lineIndex + 1, 0, onComplete);
+    }, 320);
+  }
+}
+
+function launchTerminalIntrusion() {
+  if (ALR_TERMINAL_ACTIVE) return;
+  if (window.innerWidth <= 800) return;
+
+  ALR_TERMINAL_ACTIVE = true;
+
+  var msg = ALR_MESSAGES[Math.floor(Math.random() * ALR_MESSAGES.length)];
+
+  var terminal = document.createElement("div");
+  terminal.className = "alr-terminal-intrusion";
+
+  terminal.innerHTML =
+    '<div class="alr-terminal-titlebar">' +
+      '<div class="alr-terminal-titlebar-dots">' +
+        '<div class="alr-terminal-titlebar-dot alr-dot-red"></div>' +
+        '<div class="alr-terminal-titlebar-dot"></div>' +
+        '<div class="alr-terminal-titlebar-dot"></div>' +
+      "</div>" +
+      '<div class="alr-terminal-titlebar-label">UNKNOWN CONNECTION</div>' +
+      '<div class="alr-terminal-titlebar-status">SIGNAL INTERCEPTED</div>' +
+    "</div>" +
+    '<div class="alr-terminal-body">' +
+      '<div class="alr-terminal-prompt">unknown@unwritten:~$ <span>_</span></div>' +
+      '<div class="alr-terminal-output"></div>' +
+      '<span class="alr-terminal-cursor"></span>' +
+    "</div>" +
+    '<div class="alr-terminal-footer">' +
+      '<div class="alr-terminal-footer-left">TONE: ' + msg.tone.toUpperCase() + "</div>" +
+      '<div class="alr-terminal-footer-right">ALR // UNAUTHORIZED</div>' +
+    "</div>";
+
+  var terminalWidth = 340;
+  var terminalHeight = 180;
+  var pos = getRandomEdgePosition(terminalWidth, terminalHeight);
+  Object.keys(pos).forEach(function(k) { terminal.style[k] = pos[k]; });
+
+  document.body.appendChild(terminal);
+
+  setTimeout(function() {
+    terminal.classList.add("alr-terminal-visible");
+
+    var outputEl = terminal.querySelector(".alr-terminal-output");
+    var cursorEl = terminal.querySelector(".alr-terminal-cursor");
+
+    setTimeout(function() {
+      typeLines(outputEl, cursorEl, msg.lines, 0, 0, function() {
+        // typing complete — linger then glitch out
+        setTimeout(function() {
+          terminal.classList.remove("alr-terminal-visible");
+          terminal.classList.add("alr-terminal-glitching");
+          setTimeout(function() {
+            if (terminal.parentNode) terminal.parentNode.removeChild(terminal);
+            ALR_TERMINAL_ACTIVE = false;
+          }, 700);
+        }, 4000);
+      });
+    }, 600);
+  }, 100);
+}
+
+function maybeShowTerminal() {
+  if (window.innerWidth <= 800) return;
+  if (ALR_TERMINAL_ACTIVE) return;
+  // ~18% chance on each navigation
+  if (Math.random() < 0.18) {
+    var delay = 3000 + Math.random() * 5000;
+    setTimeout(launchTerminalIntrusion, delay);
+  }
+}
+
+document.addEventListener('nav', maybeShowTerminal);
+document.addEventListener('DOMContentLoaded', maybeShowTerminal);
       `,
         }}
       />
