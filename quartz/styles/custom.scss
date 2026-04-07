@@ -1934,6 +1934,15 @@ details[open] .alr-sb-chevron {
   .alr-terminal-titlebar-dot.alr-dot-red {
     background: #a85c42 !important;
   }
+  body::after {
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.03) 2px,
+      rgba(0, 0, 0, 0.03) 4px
+    ) !important;
+  }
 }
 
 // ═══════════════════════════════════════════════
