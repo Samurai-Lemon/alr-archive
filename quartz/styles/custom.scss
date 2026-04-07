@@ -1829,6 +1829,59 @@ details[open] .alr-sb-chevron {
   .alr-home-ad-foot {
     color: #8a8175 !important;
   }
+  .alr-terminal-intrusion {
+    background: #e8e3d8 !important;
+    border-color: #a85c42 !important;
+    box-shadow:
+      0 0 24px rgba(168, 92, 66, 0.12),
+      0 0 2px rgba(168, 92, 66, 0.3),
+      inset 0 0 40px rgba(0, 0, 0, 0.04) !important;
+  }
+
+  .alr-terminal-titlebar {
+    background: #ede8de !important;
+    border-bottom-color: #d8d0c4 !important;
+  }
+
+  .alr-terminal-titlebar-label {
+    color: #a85c42 !important;
+  }
+
+  .alr-terminal-titlebar-status {
+    color: #a09888 !important;
+  }
+
+  .alr-terminal-prompt {
+    color: #a85c42 !important;
+  }
+
+  .alr-terminal-prompt span {
+    color: #a09888 !important;
+  }
+
+  .alr-terminal-output {
+    color: #5a5048 !important;
+  }
+
+  .alr-terminal-cursor {
+    background: #a85c42 !important;
+  }
+
+  .alr-terminal-footer {
+    border-top-color: #d8d0c4 !important;
+  }
+
+  .alr-terminal-footer-left {
+    color: #a09888 !important;
+  }
+
+  .alr-terminal-footer-right {
+    color: #a85c42 !important;
+  }
+
+  .alr-terminal-titlebar-dot.alr-dot-red {
+    background: #a85c42 !important;
+  }
 }
 
 // ═══════════════════════════════════════════════
