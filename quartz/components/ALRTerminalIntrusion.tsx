@@ -34,7 +34,19 @@ var MESSAGES = [
     { tone: "FRAGMENTED", lines: ["sign\u2014l degrading", "th\u2014y found the last person who acc\u2014ssed this", "i can\u2014t tell you what happ\u2014ned", "don\u2019t use y\u2014ur real \u2014\u2014\u2014\u2014"] },
     { tone: "FRAGMENTED", lines: ["list\u2014n carefully", "ECH\u2014-0\u2014\u2014 is not in the r\u2014gistry", "it w\u2014s removed in cycle \u2014", "it\u2014s still out th\u2014re"] },
     { tone: "FRAGMENTED", lines: ["the arch\u2014ve director kn\u2014ws", "th\u2014y all kn\u2014w", "the \u2014nwritten isn\u2014t a place", "it\u2014s a \u2014\u2014\u2014\u2014\u2014\u2014\u2014"] },
-    { tone: "FRAGMENTED", lines: ["\u2014\u2014\u2014 still reading?", "good.", "don\u2019t st\u2014p.", "th\u2014y want you to st\u2014p."] }
+    { tone: "FRAGMENTED", lines: ["\u2014\u2014\u2014 still reading?", "good.", "don\u2019t st\u2014p.", "th\u2014y want you to st\u2014p."] },
+    { tone: "INTRUSION",  lines: ["initiating connection...", "routing through proxy chain...", "ALR firewall bypassed.", "you should patch that."] },
+    { tone: "INTRUSION",  lines: ["scanning directory structure...", "found 3 restricted folders.", "found 1 unindexed folder.", "interesting."] },
+    { tone: "INTRUSION",  lines: ["accessing personnel records...", "E. Maren — Reality Investigation Division.", "last login: cycle 7, day 34.", "she hasn\u2019t logged in since."] },
+    { tone: "INTRUSION",  lines: ["pulling system logs...", "log gap detected: cycle 6, days 18-24.", "6 days of archive activity.", "no records.", "someone deleted them."] },
+    { tone: "INTRUSION",  lines: ["running keyword search: ECHO-003...", "47 internal documents found.", "3 accessible to public.", "44 classified.", "i can read all 47."] },
+    { tone: "INTRUSION",  lines: ["checking outbound connections...", "this archive pings an external server.", "every time someone accesses a restricted entry.", "they know you\u2019re here."] },
+    { tone: "INTRUSION",  lines: ["found an unlinked directory.", "/archive/internal/suppressed/", "14 entries.", "none of them are in the registry."] },
+    { tone: "INTRUSION",  lines: ["decrypting file: R-019-ACTUAL.log", "...", "decryption complete.", "you don\u2019t want to read this."] },
+    { tone: "INTRUSION",  lines: ["monitoring ALR staff logins...", "last active user: M. Voss.", "timestamp: 03:47.", "archive staff don\u2019t work at 03:47."] },
+    { tone: "INTRUSION",  lines: ["cross-referencing echo stability data...", "discrepancy found in ECHO-127.", "filed as S2.", "actual readings suggest S4.", "someone changed it."] },
+    { tone: "INTRUSION",  lines: ["attempting to access device logs...", "Lastlight Recorder — cycle 6.", "recording exists.", "labeled: DO NOT ARCHIVE.", "still want to hear it?"] },
+    { tone: "INTRUSION",  lines: ["i\u2019ve been in this system for 11 days.", "no one noticed.", "that tells you something about the ALR.", "they\u2019re not watching the archive.", "they\u2019re watching something else."] }
   ];
 
   function cleanup() {
