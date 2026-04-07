@@ -250,7 +250,7 @@ const ALRSidebar: QuartzComponent = ({ allFiles, fileData }: QuartzComponentProp
         <div class="alr-sb-section">
           <div class="alr-sb-label">Echoes</div>
 
-          <details class="alr-sb-group" open={hasActiveIn(entities) || entities.length > 0 ? true : undefined}>
+          <details class="alr-sb-group" open={hasActiveIn(entities) || undefined}>
             <summary class={`alr-sb-group-title ${hasActiveIn(entities) ? "active" : ""}`}>
               <span class="alr-sb-dot" style={{ background: "#cc785c" }}></span>
               <span class="alr-sb-text">Entities</span>
