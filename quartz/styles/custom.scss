@@ -2245,3 +2245,196 @@ details[open] .alr-sb-chevron {
   background: rgba(204, 120, 92, 0.1);
   transform: translateY(-1px);
 }
+
+// ═══════════════════════════════════════════════
+// ─── ALR ANIMATION LAYER ──────────────────────
+// Append to end of custom.scss
+// ═══════════════════════════════════════════════
+
+// ─── PAGE FADE-IN ─────────────────────────────
+// Fires on every navigation in Quartz via the
+// .popover-hint and article elements re-mounting.
+
+@keyframes alrPageFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#quartz-body .center > article,
+#quartz-body .center > .popover-hint {
+  animation: alrPageFadeIn 0.45s ease forwards;
+}
+
+// ─── CALLOUT ENTRANCE ─────────────────────────
+// Callout blocks stagger in after page content.
+// Each callout gets a slight delay offset via
+// nth-child so they sequence rather than fire
+// simultaneously.
+
+@keyframes alrCalloutIn {
+  from {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+article .callout {
+  animation: alrCalloutIn 0.4s ease forwards;
+  opacity: 0;
+}
+
+article .callout:nth-child(1)  { animation-delay: 0.10s; }
+article .callout:nth-child(2)  { animation-delay: 0.18s; }
+article .callout:nth-child(3)  { animation-delay: 0.26s; }
+article .callout:nth-child(4)  { animation-delay: 0.34s; }
+article .callout:nth-child(5)  { animation-delay: 0.42s; }
+article .callout:nth-child(6)  { animation-delay: 0.50s; }
+article .callout:nth-child(n+7){ animation-delay: 0.55s; }
+
+// ─── HOMEPAGE CARD ENTRANCE ───────────────────
+// Dashboard sections sequence in on load.
+// Targets the specific ALR homepage elements.
+
+@keyframes alrCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.alr-hero       { animation: alrCardIn 0.5s ease forwards; animation-delay: 0.05s; opacity: 0; }
+.alr-mission    { animation: alrCardIn 0.5s ease forwards; animation-delay: 0.15s; opacity: 0; }
+.alr-grid       { animation: alrCardIn 0.5s ease forwards; animation-delay: 0.25s; opacity: 0; }
+.alr-card-full  { animation: alrCardIn 0.5s ease forwards; animation-delay: 0.35s; opacity: 0; }
+.alr-home-ad-wrap { animation: alrCardIn 0.5s ease forwards; animation-delay: 0.42s; opacity: 0; }
+
+// ─── SIDEBAR SECTION ENTRANCE ─────────────────
+// Sidebar sections sequence in softly.
+// Uses the existing .alr-sb-section class.
+
+@keyframes alrSidebarSectionIn {
+  from {
+    opacity: 0;
+    transform: translateX(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.alr-sb-section {
+  animation: alrSidebarSectionIn 0.4s ease forwards;
+  opacity: 0;
+}
+
+.alr-sb-section:nth-child(1) { animation-delay: 0.05s; }
+.alr-sb-section:nth-child(2) { animation-delay: 0.12s; }
+.alr-sb-section:nth-child(3) { animation-delay: 0.19s; }
+.alr-sb-section:nth-child(4) { animation-delay: 0.26s; }
+.alr-sb-section:nth-child(5) { animation-delay: 0.33s; }
+.alr-sb-section:nth-child(6) { animation-delay: 0.40s; }
+.alr-sb-section:nth-child(7) { animation-delay: 0.47s; }
+.alr-sb-section:nth-child(n+8){ animation-delay: 0.52s; }
+
+.alr-sb-bottom {
+  animation: alrSidebarSectionIn 0.4s ease forwards;
+  animation-delay: 0.55s;
+  opacity: 0;
+}
+
+// ─── TOPBAR TITLE CURSOR ──────────────────────
+// Appends a blinking terminal cursor after the
+// site title text using a pure CSS pseudo-element.
+// No TSX edits required.
+
+@keyframes alrCursorBlink {
+  0%, 100% { opacity: 1; }
+  49%       { opacity: 1; }
+  50%       { opacity: 0; }
+  99%       { opacity: 0; }
+}
+
+#quartz-header .page-title a::after {
+  content: "▋";
+  display: inline-block;
+  margin-left: 3px;
+  font-size: 11px;
+  color: #cc785c;
+  opacity: 1;
+  animation: alrCursorBlink 1.1s step-end infinite;
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+}
+
+// ─── REGISTRY ROW HOVER TRANSITION ────────────
+// Registry rows already have hover background
+// but no transition. Adding a smooth ease.
+
+.alr-registry-row {
+  transition: background 0.15s ease;
+}
+
+// ─── ECHO ROW & REAL ROW HOVER ────────────────
+// Dashboard list rows get the same treatment.
+
+.alr-echo-row,
+.alr-real-row,
+.alr-notice-row {
+  transition: background 0.15s ease;
+}
+
+.alr-echo-row:hover,
+.alr-real-row:hover,
+.alr-notice-row:hover {
+  background: #1e1c18;
+}
+
+// ─── SEARCH BAR FOCUS GLOW ────────────────────
+// Subtle border glow when the search bar is
+// focused, consistent with the archive's color.
+
+#quartz-header .search-bar:focus-within {
+  border-color: rgba(204, 120, 92, 0.35) !important;
+  transition: border-color 0.2s ease;
+}
+
+// ─── REDUCED MOTION GUARD ─────────────────────
+// Respects system accessibility preferences.
+// Disables all ALR animation layer effects.
+
+@media (prefers-reduced-motion: reduce) {
+  #quartz-body .center > article,
+  #quartz-body .center > .popover-hint,
+  article .callout,
+  .alr-hero,
+  .alr-mission,
+  .alr-grid,
+  .alr-card-full,
+  .alr-home-ad-wrap,
+  .alr-sb-section,
+  .alr-sb-bottom {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  #quartz-header .page-title a::after {
+    animation: none !important;
+  }
+}
