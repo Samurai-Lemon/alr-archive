@@ -2438,3 +2438,7 @@ article .callout:nth-child(n+7){ animation-delay: 0.55s; }
     animation: none !important;
   }
 }
+
+// ─── NAVIGATION ANIMATION RESET ───────────────
+// Forces entrance animations to replay on every
+// Quartz client-side navigation, not just initial load.

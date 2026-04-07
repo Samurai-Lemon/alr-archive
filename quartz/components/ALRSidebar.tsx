@@ -460,6 +460,20 @@ const ALRSidebar: QuartzComponent = ({ allFiles, fileData }: QuartzComponentProp
 
         document.addEventListener('DOMContentLoaded', initALRSidebar);
         document.addEventListener('nav', initALRSidebar);
+        function resetALRAnimations() {
+  var targets = document.querySelectorAll(
+    '#quartz-body .center > article, #quartz-body .center > .popover-hint, article .callout, .alr-hero, .alr-mission, .alr-grid, .alr-card-full, .alr-home-ad-wrap'
+  );
+  targets.forEach(function(el) {
+    el.style.animation = 'none';
+    el.style.opacity = '0';
+    el.offsetHeight; // force reflow
+    el.style.animation = '';
+    el.style.opacity = '';
+  });
+}
+
+document.addEventListener('nav', resetALRAnimations);
       `,
         }}
       />
