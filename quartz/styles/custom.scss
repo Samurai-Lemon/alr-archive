@@ -1880,6 +1880,11 @@ details[open] .alr-sb-chevron {
   .alr-echo-name { color: #2a2420 !important; }
 
   .alr-real-rcc  { color: #6a6058 !important; }
+  .alr-echo-row:hover,
+  .alr-real-row:hover,
+  .alr-notice-row:hover {
+    background: #e0dbd0 !important;
+  }
 
   .alr-terminal-intrusion {
     background: #e8e3d8 !important;
