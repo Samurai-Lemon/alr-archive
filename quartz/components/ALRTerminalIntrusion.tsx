@@ -120,8 +120,8 @@ const ALRTerminalIntrusion: QuartzComponent = (_props: QuartzComponentProps) => 
   function maybeShow() {
     if (window.innerWidth <= 800) return;
     cleanup();
-    if (Math.random() < 0.10) {
-      var delay = 3000 + Math.random() * 4000;
+    if (Math.random() < 1.00) {
+      var delay = 500;
       setTimeout(launch, delay);
     }
   }
