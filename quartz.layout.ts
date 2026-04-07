@@ -44,6 +44,7 @@ export const defaultContentPageLayout: PageLayout = {
   ],
   left: [
     Component.ALRSidebar(),
+    Component.ALRTerminalIntrusion(),
   ],
   right: [],
 }

@@ -33,6 +33,7 @@ import ALREchoRegistry from "./ALREchoRegistry"
 import ALRRealityRegistry from "./ALRRealityRegistry"
 import ALRSoundEngine from "./ALRSoundEngine"
 import ALRSoundToggle from "./ALRSoundToggle"
+import ALRTerminalIntrusion from "./ALRTerminalIntrusion"
 
 export {
   ArticleTitle,
@@ -70,4 +71,5 @@ export {
   ALRRealityRegistry,
   ALRSoundEngine,
   ALRSoundToggle,
+  ALRTerminalIntrusion,
 }
