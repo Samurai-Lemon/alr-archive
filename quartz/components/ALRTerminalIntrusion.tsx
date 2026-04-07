@@ -127,7 +127,7 @@ function typeLines(el, lines, li, ci, done) {
   function maybeShow() {
     if (window.innerWidth <= 800) return;
     if (ACTIVE) return;
-    if (Math.random() < 0.10) {
+    if (Math.random() < 0.15) {
       var delay = 3000 + Math.random() * 4000;
       setTimeout(launch, delay);
     }
