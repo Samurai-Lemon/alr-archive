@@ -1829,6 +1829,58 @@ details[open] .alr-sb-chevron {
   .alr-home-ad-foot {
     color: #8a8175 !important;
   }
+
+// ─── LIGHT MODE CONTRAST IMPROVEMENTS ────────
+
+  .alr-et-ent { color: #8a3a22 !important; border-color: #c87858 !important; background: #f0e8e0 !important; }
+  .alr-et-obj { color: #0e6b50 !important; border-color: #2a9a78 !important; background: #e0f0ea !important; }
+  .alr-et-loc { color: #1a5a8a !important; border-color: #4a88c0 !important; background: #e0ecf8 !important; }
+  .alr-et-phn { color: #7a5a08 !important; border-color: #b08820 !important; background: #f4ead8 !important; }
+  .alr-et-evt { color: #7a2a2a !important; border-color: #c06060 !important; background: #f4e0e0 !important; }
+
+  .alr-es-s1 { color: #0e6b50 !important; border-color: #2a9a78 !important; background: #e0f0ea !important; }
+  .alr-es-s2 { color: #7a5a08 !important; border-color: #b08820 !important; background: #f4ead8 !important; }
+  .alr-es-s3 { color: #7a4a08 !important; border-color: #a06820 !important; background: #f4e4d0 !important; }
+  .alr-es-s4 { color: #8a2a10 !important; border-color: #c04828 !important; background: #f4e0d8 !important; }
+
+  .alr-rtag {
+    color: #6a6058 !important;
+    border-color: #c0b8ac !important;
+    background: #e8e3d8 !important;
+  }
+
+  .alr-rtag-echo {
+    color: #8a3a22 !important;
+    border-color: #c87858 !important;
+    background: #f0e8e0 !important;
+  }
+
+  .alr-sb-badge-s1 { color: #0e6b50 !important; background: #e0f0ea !important; border-color: #2a9a78 !important; }
+  .alr-sb-badge-s2 { color: #7a5a08 !important; background: #f4ead8 !important; border-color: #b08820 !important; }
+  .alr-sb-badge-s3 { color: #7a4a08 !important; background: #f4e4d0 !important; border-color: #a06820 !important; }
+  .alr-sb-badge-s4 { color: #8a2a10 !important; background: #f4e0d8 !important; border-color: #c04828 !important; }
+
+  .alr-mission-title { color: #2a2420 !important; }
+  .alr-mission-desc  { color: #5a5048 !important; }
+
+  .alr-stat-num { color: #8a3a22 !important; }
+  .alr-stat-num.alr-red   { color: #a02010 !important; }
+  .alr-stat-num.alr-muted { color: #8a8278 !important; }
+  .alr-stat-lbl { color: #6a6058 !important; }
+
+  article p  { color: #3a3028 !important; }
+  article li { color: #3a3028 !important; }
+
+  .callout-content p { color: #3a3028 !important; }
+
+  .alr-notice-text { color: #4a4038 !important; }
+  .alr-notice-time { color: #7a7068 !important; }
+
+  .alr-echo-id   { color: #7a7068 !important; }
+  .alr-echo-name { color: #2a2420 !important; }
+
+  .alr-real-rcc  { color: #6a6058 !important; }
+
   .alr-terminal-intrusion {
     background: #e8e3d8 !important;
     border-color: #a85c42 !important;
