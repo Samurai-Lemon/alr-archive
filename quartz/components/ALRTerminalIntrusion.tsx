@@ -50,14 +50,21 @@ const ALRTerminalIntrusion: QuartzComponent = (_props: QuartzComponentProps) => 
     return s;
   }
 
-  function typeLines(el, lines, li, ci, done) {
+function typeLines(el, lines, li, ci, done) {
     if (li >= lines.length) { done(); return; }
     var line = lines[li];
+    if (!el._lines) el._lines = [];
+    if (!el._lines[li]) {
+      var span = document.createElement('span');
+      span.style.display = 'block';
+      el.appendChild(span);
+      el._lines[li] = span;
+    }
+    var span = el._lines[li];
     if (ci < line.length) {
-      el.textContent += line[ci];
+      span.textContent += line[ci];
       setTimeout(function() { typeLines(el, lines, li, ci + 1, done); }, 36 + Math.random() * 24);
     } else {
-      el.textContent += "\u000A";
       setTimeout(function() { typeLines(el, lines, li + 1, 0, done); }, 300);
     }
   }
