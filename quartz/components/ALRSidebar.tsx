@@ -645,7 +645,7 @@ function launchTerminalIntrusion() {
   var pos = getRandomEdgePosition(terminalWidth, terminalHeight);
   Object.keys(pos).forEach(function(k) { terminal.style[k] = pos[k]; });
 
-  document.body.appendChild(terminal);
+  document.getElementById('quartz-root').appendChild(terminal);
 
   setTimeout(function() {
     terminal.classList.add("alr-terminal-visible");
