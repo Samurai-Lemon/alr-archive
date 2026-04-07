@@ -536,7 +536,7 @@ document.addEventListener('nav', resetALRAnimations);
         function alrLaunchTerminal() {
           if (ALR_TERMINAL_ACTIVE) return;
           if (window.innerWidth <= 800) return;
-          var root = document.getElementById('quartz-root');
+          var root = document.body;
           if (!root) return;
 
           ALR_TERMINAL_ACTIVE = true;
