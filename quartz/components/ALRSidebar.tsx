@@ -195,6 +195,16 @@ const ALRSidebar: QuartzComponent = ({ allFiles, fileData }: QuartzComponentProp
     .sort(alphaTitle)
     .map((f) => buildSimpleItem(f, currentSlug))
 
+    const alrFoundations = files
+    .filter((f) => String(f.slug ?? "").startsWith("Foundations/ALR/"))
+    .sort(alphaTitle)
+    .map((f) => buildSimpleItem(f, currentSlug))
+
+  const opposition = files
+    .filter((f) => String(f.slug ?? "").startsWith("Foundations/Opposition/"))
+    .sort(alphaTitle)
+    .map((f) => buildSimpleItem(f, currentSlug))
+
   const echoCount = entities.length + objects.length + locations.length + phenomena.length
   const realityCount = realities.length
 
@@ -223,14 +233,42 @@ const ALRSidebar: QuartzComponent = ({ allFiles, fileData }: QuartzComponentProp
             <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
             <span class="alr-sb-text">Home</span>
           </a>
-          <a href="/Foundations/ALR/The-Archive" class={`alr-sb-item ${currentSlug === "Foundations/ALR/The-Archive" ? "active" : ""}`}>
-            <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
-            <span class="alr-sb-text">The Archive</span>
-          </a>
-          <a href="/Foundations/ALR/ALR-Initiative" class={`alr-sb-item ${currentSlug === "Foundations/ALR/ALR-Initiative" ? "active" : ""}`}>
-            <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
-            <span class="alr-sb-text">ALR Initiative</span>
-          </a>
+        </div>
+
+        <div class="alr-sb-section">
+          <div class="alr-sb-label">Foundations</div>
+
+          <details class="alr-sb-group" open={hasActiveIn(alrFoundations) || undefined}>
+            <summary class={`alr-sb-group-title ${hasActiveIn(alrFoundations) ? "active" : ""}`}>
+              <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
+              <span class="alr-sb-text">ALR</span>
+              <span class="alr-sb-chevron">›</span>
+            </summary>
+            <div class="alr-sb-group-items">
+              {alrFoundations.map((item) => (
+                <a href={item.href} class={`alr-sb-item alr-sb-item-child ${item.active ? "active" : ""}`}>
+                  <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
+                  <span class="alr-sb-text">{item.title}</span>
+                </a>
+              ))}
+            </div>
+          </details>
+
+          <details class="alr-sb-group" open={hasActiveIn(opposition) || undefined}>
+            <summary class={`alr-sb-group-title ${hasActiveIn(opposition) ? "active" : ""}`}>
+              <span class="alr-sb-dot" style={{ background: "#8b1e0e" }}></span>
+              <span class="alr-sb-text">Opposition</span>
+              <span class="alr-sb-chevron">›</span>
+            </summary>
+            <div class="alr-sb-group-items">
+              {opposition.map((item) => (
+                <a href={item.href} class={`alr-sb-item alr-sb-item-child ${item.active ? "active" : ""}`}>
+                  <span class="alr-sb-dot" style={{ background: "#8b1e0e" }}></span>
+                  <span class="alr-sb-text">{item.title}</span>
+                </a>
+              ))}
+            </div>
+          </details>
         </div>
 
         <div class="alr-sb-section">
