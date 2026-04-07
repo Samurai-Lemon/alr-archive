@@ -57,7 +57,7 @@ const ALRTerminalIntrusion: QuartzComponent = (_props: QuartzComponentProps) => 
       el.textContent += line[ci];
       setTimeout(function() { typeLines(el, lines, li, ci + 1, done); }, 36 + Math.random() * 24);
     } else {
-      el.textContent += "\n";
+      el.textContent += "\u000A";
       setTimeout(function() { typeLines(el, lines, li + 1, 0, done); }, 300);
     }
   }
