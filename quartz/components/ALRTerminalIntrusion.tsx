@@ -10,15 +10,31 @@ const ALRTerminalIntrusion: QuartzComponent = (_props: QuartzComponentProps) => 
 (function() {
   var ACTIVE = false;
 
-  var MESSAGES = [
+var MESSAGES = [
     { tone: "TAUNTING",   lines: ["you think this archive is complete?", "there are entries they never filed.", "realities they found and buried.", "you\u2019re reading what they chose to show you."] },
     { tone: "TAUNTING",   lines: ["i\u2019ve been in this system longer than you.", "i know which echoes they reclassified.", "i know why.", "do you?"] },
+    { tone: "TAUNTING",   lines: ["they gave this archive a name.", "they gave it a mission.", "they gave it a logo.", "they didn\u2019t give it the truth."] },
+    { tone: "TAUNTING",   lines: ["you\u2019re not the first person to read this.", "the others stopped.", "not because they wanted to.", "because something made them."] },
+    { tone: "TAUNTING",   lines: ["the classification system is a performance.", "S4 doesn\u2019t mean terminal.", "it means they stopped trying to contain it.", "there\u2019s a difference."] },
+    { tone: "TAUNTING",   lines: ["i counted the realities in this registry.", "then i counted the ones that aren\u2019t.", "the second number is larger.", "much larger."] },
     { tone: "CURIOUS",    lines: ["what are you looking for in here?", "most people don\u2019t find what they came for.", "the archive doesn\u2019t give. it only shows.", "are you sure you want to keep reading?"] },
     { tone: "CURIOUS",    lines: ["you\u2019ve been through several entries now.", "which one felt wrong to you?", "don\u2019t say none.", "one of them felt wrong."] },
+    { tone: "CURIOUS",    lines: ["do you believe everything in here?", "or just the parts that make sense?", "interesting.", "that\u2019s the same mistake they made."] },
+    { tone: "CURIOUS",    lines: ["have you read the notes sections carefully?", "not the entries.", "the notes.", "someone was trying to say something."] },
+    { tone: "CURIOUS",    lines: ["why this echo?", "out of everything in the registry.", "you came here.", "why?"] },
+    { tone: "CURIOUS",    lines: ["how long have you been in this archive?", "longer than you think.", "check the time.", "go ahead."] },
     { tone: "WARNING",    lines: ["stop reading ECHO-003.", "the stability classification is incorrect.", "it is not S4.", "it knows you\u2019re reading this."] },
     { tone: "WARNING",    lines: ["the ALR initiative is not what it claims.", "realities don\u2019t just collapse.", "something collapses them.", "they know what it is."] },
+    { tone: "WARNING",    lines: ["close this page.", "not because i\u2019m threatening you.", "because the longer you stay.", "the more it can see you."] },
+    { tone: "WARNING",    lines: ["ECHO-031 is not dormant.", "the manifestation pattern data is fabricated.", "it has been active since cycle 4.", "they reclassified it to stop the investigation."] },
+    { tone: "WARNING",    lines: ["do not submit anything to this archive.", "the submission form is monitored.", "not by the ALR.", "by something that reads what you write."] },
+    { tone: "WARNING",    lines: ["R-019 was not a silent collapse.", "there were survivors.", "the investigators found them.", "the report was rewritten after."] },
     { tone: "FRAGMENTED", lines: ["con\u2014ection unstable", "they\u2019re monitoring thi\u2014 archive", "don\u2019t trust the cl\u2014ssification system", "R-0\u2014 is st\u2014\u2014 active"] },
-    { tone: "FRAGMENTED", lines: ["i don\u2019t have much ti\u2014e", "look for the entries th\u2014t aren\u2019t listed", "the registry is inco\u2014\u2014lete on purpose", "\u2014\u2014019 was not a silent collapse"] }
+    { tone: "FRAGMENTED", lines: ["i don\u2019t have much ti\u2014e", "look for the entries th\u2014t aren\u2019t listed", "the registry is inco\u2014\u2014lete on purpose", "\u2014\u2014019 was not a silent collapse"] },
+    { tone: "FRAGMENTED", lines: ["sign\u2014l degrading", "th\u2014y found the last person who acc\u2014ssed this", "i can\u2014t tell you what happ\u2014ned", "don\u2019t use y\u2014ur real \u2014\u2014\u2014\u2014"] },
+    { tone: "FRAGMENTED", lines: ["list\u2014n carefully", "ECH\u2014-0\u2014\u2014 is not in the r\u2014gistry", "it w\u2014s removed in cycle \u2014", "it\u2014s still out th\u2014re"] },
+    { tone: "FRAGMENTED", lines: ["the arch\u2014ve director kn\u2014ws", "th\u2014y all kn\u2014w", "the \u2014nwritten isn\u2014t a place", "it\u2014s a \u2014\u2014\u2014\u2014\u2014\u2014\u2014"] },
+    { tone: "FRAGMENTED", lines: ["\u2014\u2014\u2014 still reading?", "good.", "don\u2019t st\u2014p.", "th\u2014y want you to st\u2014p."] }
   ];
 
   function cleanup() {
