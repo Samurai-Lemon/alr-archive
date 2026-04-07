@@ -476,18 +476,15 @@ const ALRSidebar: QuartzComponent = ({ allFiles, fileData }: QuartzComponentProp
 document.addEventListener('nav', resetALRAnimations);
 
 // ─── TERMINAL INTRUSION SYSTEM ────────────────
-
-        var ALR_TERMINAL_ACTIVE = false;
-
-        var ALR_MESSAGES = [
-          { tone: "TAUNTING", lines: ["you think this archive is complete?", "there are entries they never filed.", "realities they found and buried.", "you're reading what they chose to show you."] },
-          { tone: "TAUNTING", lines: ["i've been in this system longer than you.", "i know which echoes they reclassified.", "i know why.", "do you?"] },
-          { tone: "CURIOUS",  lines: ["what are you looking for in here?", "most people don't find what they came for.", "the archive doesn't give. it only shows.", "are you sure you want to keep reading?"] },
-          { tone: "CURIOUS",  lines: ["you've been through several entries now.", "which one felt wrong to you?", "don't say none.", "one of them felt wrong."] },
-          { tone: "WARNING",  lines: ["stop reading ECHO-003.", "the stability classification is incorrect.", "it is not S4.", "it knows you're reading this."] },
-          { tone: "WARNING",  lines: ["the ALR initiative is not what it claims.", "realities don't just collapse.", "something collapses them.", "they know what it is."] },
-          { tone: "FRAGMENTED", lines: ["con—ection unstable", "they're monitoring thi— archive", "don't trust the cl—ssification system", "R-0— is st—— active"] },
-          { tone: "FRAGMENTED", lines: ["i don't have much ti—e", "look for the entries th—t aren't listed", "the registry is inco——lete on purpose", "——019 was not a silent collapse"] }
+var ALR_MESSAGES = [
+          { tone: "TAUNTING", lines: ["you think this archive is complete?", "there are entries they never filed.", "realities they found and buried.", "you\u2019re reading what they chose to show you."] },
+          { tone: "TAUNTING", lines: ["i\u2019ve been in this system longer than you.", "i know which echoes they reclassified.", "i know why.", "do you?"] },
+          { tone: "CURIOUS",  lines: ["what are you looking for in here?", "most people don\u2019t find what they came for.", "the archive doesn\u2019t give. it only shows.", "are you sure you want to keep reading?"] },
+          { tone: "CURIOUS",  lines: ["you\u2019ve been through several entries now.", "which one felt wrong to you?", "don\u2019t say none.", "one of them felt wrong."] },
+          { tone: "WARNING",  lines: ["stop reading ECHO-003.", "the stability classification is incorrect.", "it is not S4.", "it knows you\u2019re reading this."] },
+          { tone: "WARNING",  lines: ["the ALR initiative is not what it claims.", "realities don\u2019t just collapse.", "something collapses them.", "they know what it is."] },
+          { tone: "FRAGMENTED", lines: ["con\u2014ection unstable", "they\u2019re monitoring thi\u2014 archive", "don\u2019t trust the cl\u2014ssification system", "R-0\u2014 is st\u2014\u2014 active"] },
+          { tone: "FRAGMENTED", lines: ["i don\u2019t have much ti\u2014e", "look for the entries th\u2014t aren\u2019t listed", "the registry is inco\u2014\u2014lete on purpose", "\u2014\u2014019 was not a silent collapse"] }
         ];
 
         function alrCleanupTerminal() {
