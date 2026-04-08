@@ -3171,4 +3171,58 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
     from { opacity: 0; transform: translateX(-6px); }
     to   { opacity: 1; transform: translateX(0); }
   }
+  // ── TERMINAL INTRUSION ──────────────────────────────────
+  .alr-terminal-intrusion {
+    background: #0e0a08 !important;
+    border-color: var(--ordo-red) !important;
+    box-shadow:
+      0 0 24px rgba(139, 48, 32, 0.15),
+      0 0 2px rgba(139, 48, 32, 0.4),
+      inset 0 0 40px rgba(0, 0, 0, 0.6) !important;
+  }
+
+  .alr-terminal-titlebar {
+    background: #0a0806 !important;
+    border-bottom-color: var(--ordo-border-hi) !important;
+  }
+
+  .alr-terminal-titlebar-label {
+    color: var(--ordo-red) !important;
+  }
+
+  .alr-terminal-titlebar-status {
+    color: var(--ordo-text-muted) !important;
+  }
+
+  .alr-terminal-titlebar-dot.alr-dot-red {
+    background: var(--ordo-red) !important;
+  }
+
+  .alr-terminal-prompt {
+    color: var(--ordo-red) !important;
+  }
+
+  .alr-terminal-prompt span {
+    color: var(--ordo-text-muted) !important;
+  }
+
+  .alr-terminal-output {
+    color: var(--ordo-text) !important;
+  }
+
+  .alr-terminal-cursor {
+    background: var(--ordo-red) !important;
+  }
+
+  .alr-terminal-footer {
+    border-top-color: var(--ordo-border) !important;
+  }
+
+  .alr-terminal-footer-left {
+    color: var(--ordo-text-muted) !important;
+  }
+
+  .alr-terminal-footer-right {
+    color: var(--ordo-red) !important;
+  }
 }
