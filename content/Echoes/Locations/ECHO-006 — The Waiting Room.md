@@ -113,4 +113,4 @@ Why the room manifests where it does has not been determined. No selection crite
 ## Reference
 
 > [!abstract] Archive Reference
-> This entry is part of the [[ECHOES]] catalog maintained by the [[ALR Initiative]] within [[The Archive]].
+> This entry is part of the [[Echoes]] catalog maintained by the [[ALR Initiative]] within [[The Archive]].

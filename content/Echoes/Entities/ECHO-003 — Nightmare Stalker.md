@@ -89,4 +89,4 @@ The origin reality of ECHO-003 has not been identified. RCC, RTS, and RDS classi
 ## Reference
 
 > [!abstract] Archive Reference
-> This entry is part of the [[ECHOES]] catalog maintained by the [[ALR Initiative]] within [[The Archive]].
+> This entry is part of the [[Echoes]] catalog maintained by the [[ALR Initiative]] within [[The Archive]].

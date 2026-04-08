@@ -28,7 +28,7 @@ When a reality collapses, its history, environments, and inhabitants no longer p
 
 Realities that become Unwritten no longer function as living worlds. Time no longer progresses normally, and the systems that once sustained the reality have already failed.
 
-In many cases, the environment appears frozen in the final moment before collapse. Despite this, remnants of the collapsed reality may still remain observable. These remnants are often documented as [[ECHOES]].
+In many cases, the environment appears frozen in the final moment before collapse. Despite this, remnants of the collapsed reality may still remain observable. These remnants are often documented as [[Echoes]].
 
 ---
 

@@ -17,7 +17,7 @@ status: active
 
 ## Description
 
-The Echo Stability Classification System (ESC) is used by the [[ALR Initiative]] to measure the level of instability and potential danger associated with an [[ECHOES|Echo]].
+The Echo Stability Classification System (ESC) is used by the [[ALR Initiative]] to measure the level of instability and potential danger associated with an [[Echoes|Echo]].
 
 While [[Echo Classification (EC)]] identifies the form an anomaly takes, the Echo Stability Classification system determines how unstable or hazardous the anomaly is. This classification allows personnel to evaluate the level of risk present when studying Echo phenomena.
 

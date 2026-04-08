@@ -7,7 +7,7 @@
 
 ## Archive of Lost Realities Initiative
 
-The **ALR Initiative** (Archive of Lost Realities Initiative) is a fictional research organization dedicated to the documentation of realities that have undergone collapse events. When a reality ceases to exist — entering the state known as the Unwritten — it leaves behind fragments. The ALR Initiative exists to find them, classify them, and preserve the record of what was lost.
+The [[ALR Initiative]] (Archive of Lost Realities Initiative) is a fictional research organization dedicated to the documentation of realities that have undergone collapse events. When a reality ceases to exist — entering the state known as the Unwritten — it leaves behind fragments. The ALR Initiative exists to find them, classify them, and preserve the record of what was lost.
 
 This archive is the result of that effort.
 

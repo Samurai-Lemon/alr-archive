@@ -91,4 +91,4 @@ The Terminal stability classification reflects the painting's effect severity an
 ## Reference
 
 > [!abstract] Archive Reference
-> This entry is part of the [[ECHOES]] catalog maintained by the [[ALR Initiative]] within [[The Archive]].
+> This entry is part of the [[Echoes]] catalog maintained by the [[ALR Initiative]] within [[The Archive]].
