@@ -195,9 +195,27 @@ const ALRSidebar: QuartzComponent = ({ allFiles, fileData }: QuartzComponentProp
     .sort(alphaTitle)
     .map((f) => buildSimpleItem(f, currentSlug))
 
-    const alrFoundations = files
-    .filter((f) => String(f.slug ?? "").startsWith("Foundations/ALR/"))
+  const alrFoundations = files
+    .filter((f) => {
+      const slug = String(f.slug ?? "")
+      return slug.startsWith("Foundations/ALR/") && !slug.startsWith("Foundations/ALR/Active-Personnel/")
+    })
     .sort(alphaTitle)
+    .map((f) => buildSimpleItem(f, currentSlug))
+
+  const personnelOrder = [
+    "Foundations/ALR/Active-Personnel/Reality-Investigation-Division",
+    "Foundations/ALR/Active-Personnel/Echo-Research-Division",
+    "Foundations/ALR/Active-Personnel/Archive-Operations",
+    "Foundations/ALR/Active-Personnel/Device-Development-Bureau",
+  ]
+
+  const activePersonnel = files
+    .filter((f) => String(f.slug ?? "").startsWith("Foundations/ALR/Active-Personnel/"))
+    .sort((a, b) => {
+      const diff = orderBySlug(String(a.slug ?? ""), personnelOrder) - orderBySlug(String(b.slug ?? ""), personnelOrder)
+      return diff !== 0 ? diff : alphaTitle(a, b)
+    })
     .map((f) => buildSimpleItem(f, currentSlug))
 
   const opposition = files
@@ -238,8 +256,8 @@ const ALRSidebar: QuartzComponent = ({ allFiles, fileData }: QuartzComponentProp
         <div class="alr-sb-section">
           <div class="alr-sb-label">Foundations</div>
 
-          <details class="alr-sb-group" open={hasActiveIn(alrFoundations) || undefined}>
-            <summary class={`alr-sb-group-title ${hasActiveIn(alrFoundations) ? "active" : ""}`}>
+          <details class="alr-sb-group" open={hasActiveIn(alrFoundations) || hasActiveIn(activePersonnel) || undefined}>
+            <summary class={`alr-sb-group-title ${hasActiveIn(alrFoundations) || hasActiveIn(activePersonnel) ? "active" : ""}`}>
               <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
               <span class="alr-sb-text">ALR</span>
               <span class="alr-sb-chevron">›</span>
@@ -251,6 +269,22 @@ const ALRSidebar: QuartzComponent = ({ allFiles, fileData }: QuartzComponentProp
                   <span class="alr-sb-text">{item.title}</span>
                 </a>
               ))}
+
+              <details class="alr-sb-group" open={hasActiveIn(activePersonnel) || undefined}>
+                <summary class={`alr-sb-group-title ${hasActiveIn(activePersonnel) ? "active" : ""}`}>
+                  <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
+                  <span class="alr-sb-text">Active Personnel</span>
+                  <span class="alr-sb-chevron">›</span>
+                </summary>
+                <div class="alr-sb-group-items">
+                  {activePersonnel.map((item) => (
+                    <a href={item.href} class={`alr-sb-item alr-sb-item-child ${item.active ? "active" : ""}`}>
+                      <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
+                      <span class="alr-sb-text">{item.title}</span>
+                    </a>
+                  ))}
+                </div>
+              </details>
             </div>
           </details>
 
