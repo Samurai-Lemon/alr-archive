@@ -2784,7 +2784,6 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
 
   background: var(--ordo-bg) !important;
 
-  // Scanline — tighter, darker
   &::after {
     background: repeating-linear-gradient(
       to bottom,
@@ -2814,9 +2813,11 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
   #quartz-header .page-title,
   #quartz-header .page-title a {
     color: var(--ordo-red) !important;
-    font-family: 'UnifrakturMaguntia', cursive !important;
-    font-size: 15px !important;
-    letter-spacing: 0.02em !important;
+    font-family: 'Courier Prime', monospace !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
   }
 
   #quartz-header .page-title a::after {
@@ -2831,11 +2832,13 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
 
   #quartz-header .search-bar input {
     color: var(--ordo-text) !important;
+    font-family: 'Courier Prime', monospace !important;
     &::placeholder { color: var(--ordo-text-muted) !important; }
   }
 
   .alr-topnav-link {
     color: var(--ordo-text-dim) !important;
+    font-family: 'Courier Prime', monospace !important;
     &:hover {
       color: var(--ordo-red-bright) !important;
       background: rgba(192, 40, 26, 0.08) !important;
@@ -2854,6 +2857,7 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
 
   .alr-topnav-dropdown-item {
     color: var(--ordo-text-dim) !important;
+    font-family: 'Courier Prime', monospace !important;
     &:hover {
       color: var(--ordo-red-bright) !important;
       background: rgba(192, 40, 26, 0.08) !important;
@@ -2869,21 +2873,25 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
 
   .alr-sb-site-label {
     color: var(--ordo-red) !important;
-    font-family: 'UnifrakturMaguntia', cursive !important;
-    font-size: 13px !important;
-    letter-spacing: 0.02em !important;
+    font-family: 'Courier Prime', monospace !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.14em !important;
+    text-transform: uppercase !important;
   }
 
   .alr-sb-label {
     color: var(--ordo-red) !important;
     letter-spacing: 0.18em !important;
     font-size: 9px !important;
+    font-family: 'Courier Prime', monospace !important;
   }
 
   .alr-sb-item {
     color: var(--ordo-text-dim) !important;
     font-family: 'Courier Prime', monospace !important;
     font-size: 11px !important;
+    font-style: normal !important;
     border-left-color: transparent !important;
 
     &:hover {
@@ -2902,6 +2910,7 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
     color: var(--ordo-text-dim) !important;
     font-family: 'Courier Prime', monospace !important;
     font-size: 11px !important;
+    font-style: normal !important;
 
     &:hover {
       color: var(--ordo-text-bright) !important;
@@ -2915,13 +2924,16 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
     }
   }
 
+  .alr-sb-text {
+    font-style: normal !important;
+  }
+
   .alr-sb-chevron { color: var(--ordo-red-dim) !important; }
+
   .alr-sb-collapse-btn {
     color: var(--ordo-text-muted) !important;
     &:hover { color: var(--ordo-red) !important; }
   }
-
-  .alr-sb-dot { opacity: 0.6; }
 
   .alr-sb-darkmode-row {
     background: var(--ordo-surface) !important;
@@ -2930,7 +2942,12 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
     &:hover { background: rgba(192, 40, 26, 0.08) !important; }
   }
 
-  .alr-sb-darkmode-label { color: var(--ordo-text-dim) !important; }
+  .alr-sb-darkmode-label {
+    color: var(--ordo-text-dim) !important;
+    font-family: 'Courier Prime', monospace !important;
+    font-style: normal !important;
+  }
+
   .alr-toggle-track { background: #1a0804 !important; border-color: var(--ordo-border-hi) !important; }
   .alr-toggle-track.alr-toggle-on { background: var(--ordo-red) !important; border-color: var(--ordo-red-dim) !important; }
   .alr-toggle-thumb { background: var(--ordo-text-muted) !important; }
@@ -2943,6 +2960,7 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
 
   article.popover-hint {
     background: var(--ordo-bg) !important;
+    font-style: normal !important;
   }
 
   // ── TYPOGRAPHY ──────────────────────────────────────────
@@ -2955,6 +2973,7 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
     padding-bottom: 0.6rem !important;
     letter-spacing: 0.02em !important;
     text-transform: uppercase !important;
+    font-style: normal !important;
   }
 
   article h2 {
@@ -2967,6 +2986,7 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
     margin-top: 2.2rem !important;
     letter-spacing: 0.2em !important;
     text-transform: uppercase !important;
+    font-style: normal !important;
 
     &::before {
       content: '— ';
@@ -2982,6 +3002,7 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
     letter-spacing: 0.16em !important;
     text-transform: uppercase !important;
     margin-top: 1.6rem !important;
+    font-style: normal !important;
   }
 
   article p {
@@ -2989,8 +3010,10 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
     font-size: 0.85rem !important;
     color: var(--ordo-text) !important;
     line-height: 1.9 !important;
+    font-style: normal !important;
   }
 
+  // Latin phrases only — IM Fell italic
   article em,
   article i {
     font-family: 'IM Fell English', serif !important;
@@ -3002,13 +3025,25 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
     color: var(--ordo-text-bright) !important;
     font-family: 'Courier Prime', monospace !important;
     font-weight: 700 !important;
+    font-style: normal !important;
   }
 
-  article li {
+  // List items — force Courier Prime, no italic bleed
+  article ul li,
+  article ol li {
     font-family: 'Courier Prime', monospace !important;
+    font-style: normal !important;
     font-size: 0.84rem !important;
     color: var(--ordo-text) !important;
     line-height: 1.85 !important;
+  }
+
+  // Latin inside list items stays italic
+  article li em,
+  article li i {
+    font-family: 'IM Fell English', serif !important;
+    font-style: italic !important;
+    color: var(--ordo-text-mid) !important;
   }
 
   article ul li::marker { color: var(--ordo-red-dim) !important; }
@@ -3018,6 +3053,7 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
   article a.internal {
     color: var(--ordo-red-bright) !important;
     border-bottom: 1px solid var(--ordo-red-dim) !important;
+    font-style: normal !important;
     &:hover {
       color: var(--ordo-text-bright) !important;
       border-bottom-color: var(--ordo-red) !important;
@@ -3037,6 +3073,7 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
     p {
       color: var(--ordo-text-mid) !important;
       font-family: 'IM Fell English', serif !important;
+      font-style: italic !important;
       font-size: inherit !important;
       margin: 0 !important;
     }
@@ -3060,11 +3097,13 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
     font-family: 'Courier Prime', monospace !important;
     letter-spacing: 0.15em !important;
     text-transform: uppercase !important;
+    font-style: normal !important;
   }
 
   .callout-title-inner {
     font-size: 0.6rem !important;
     letter-spacing: 0.2em !important;
+    font-style: normal !important;
   }
 
   .callout[data-callout="info"] {
@@ -3072,7 +3111,7 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
     border-left-color: var(--ordo-border-hi) !important;
     .callout-title-inner,
     .callout-icon svg { color: var(--ordo-red) !important; fill: var(--ordo-red) !important; }
-    p { color: var(--ordo-text) !important; font-family: 'Courier Prime', monospace !important; font-size: 0.84rem !important; }
+    p { color: var(--ordo-text) !important; font-family: 'Courier Prime', monospace !important; font-size: 0.84rem !important; font-style: normal !important; }
   }
 
   .callout[data-callout="warning"] {
@@ -3080,17 +3119,16 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
     border-left-color: var(--ordo-red) !important;
     .callout-title-inner,
     .callout-icon svg { color: var(--ordo-red-bright) !important; fill: var(--ordo-red-bright) !important; }
-    p { color: #c09080 !important; font-family: 'Courier Prime', monospace !important; font-size: 0.84rem !important; }
+    p { color: #c09080 !important; font-family: 'Courier Prime', monospace !important; font-size: 0.84rem !important; font-style: normal !important; }
   }
 
   .callout[data-callout="danger"] {
     background: rgba(139, 20, 8, 0.12) !important;
-    border-left-color: var(--ordo-danger) !important;
     border: 1px solid var(--ordo-danger) !important;
     border-left-width: 3px !important;
     .callout-title-inner,
     .callout-icon svg { color: #e04030 !important; fill: #e04030 !important; }
-    p { color: #b07060 !important; font-family: 'Courier Prime', monospace !important; font-size: 0.84rem !important; }
+    p { color: #b07060 !important; font-family: 'Courier Prime', monospace !important; font-size: 0.84rem !important; font-style: normal !important; }
   }
 
   .callout[data-callout="note"] {
@@ -3098,7 +3136,7 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
     border-left-color: var(--ordo-red-dim) !important;
     .callout-title-inner,
     .callout-icon svg { color: var(--ordo-text-dim) !important; fill: var(--ordo-text-dim) !important; }
-    p { color: var(--ordo-text-dim) !important; font-family: 'Courier Prime', monospace !important; font-size: 0.84rem !important; }
+    p { color: var(--ordo-text-dim) !important; font-family: 'Courier Prime', monospace !important; font-size: 0.84rem !important; font-style: normal !important; }
   }
 
   .callout[data-callout="abstract"] {
@@ -3106,7 +3144,7 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
     border-left-color: var(--ordo-border) !important;
     .callout-title-inner,
     .callout-icon svg { color: var(--ordo-text-muted) !important; fill: var(--ordo-text-muted) !important; }
-    p { color: var(--ordo-text-muted) !important; font-family: 'Courier Prime', monospace !important; font-size: 0.82rem !important; }
+    p { color: var(--ordo-text-muted) !important; font-family: 'Courier Prime', monospace !important; font-size: 0.82rem !important; font-style: normal !important; }
   }
 
   // ── SCROLLBAR ───────────────────────────────────────────
