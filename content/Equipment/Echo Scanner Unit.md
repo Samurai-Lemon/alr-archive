@@ -9,7 +9,7 @@
 ![[ECHO Scanner Unit.png]]
 ## Development
 
-The ECHO Scanner Unit is a device used by personnel to locate, analyze, and track anomalous phenomena classified as [[Echoes]]. It serves as the primary investigative instrument used during field operations conducted by the [[ALR Initiative]].
+The ECHO Scanner Unit is a device used by personnel to locate, analyze, and track anomalous phenomena classified as [[ECHOES]]. It serves as the primary investigative instrument used during field operations conducted by the [[ALR Initiative]].
 
 The Echo Scanner Unit was created during the earliest period of activity within [[The Archive]]. At the time, personnel had no reliable method of identifying or studying Echo phenomena within collapsed realities. The scanner was developed to detect the unusual energy patterns associated with Echoes and provide a consistent method for recording their properties. The device quickly became one of the most essential tools used during exploration missions.
 

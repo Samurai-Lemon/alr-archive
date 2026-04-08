@@ -99,4 +99,4 @@ Personnel are instructed to conduct investigations in rotating shifts where poss
 ## Reference
 
 > [!abstract] Archive Reference
-> This entry is part of the [[Echoes]] catalog maintained by the [[ALR Initiative]] within [[The Archive]].
+> This entry is part of the [[ECHOES]] catalog maintained by the [[ALR Initiative]] within [[The Archive]].

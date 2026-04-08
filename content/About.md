@@ -23,7 +23,7 @@ The Unwritten is not empty. It is what remains after the logic that held a world
 
 ## What are Echoes?
 
-[[Echoes]] are classified remnants of collapsed realities. They may take the form of entities, objects, locations, recurring phenomena, or repeating events. Each Echo is catalogued, classified, and monitored by the Echo Research Division.
+[[ECHOES]] are classified remnants of collapsed realities. They may take the form of entities, objects, locations, recurring phenomena, or repeating events. Each Echo is catalogued, classified, and monitored by the Echo Research Division.
 
 Not all Echoes are stable. Some degrade. Some grow. The Echo Stability Classification system exists to track these conditions.
 
@@ -44,7 +44,7 @@ The archive is written and maintained in **Obsidian**, a markdown-based knowledg
 The ALR archive contains several categories of content, all of which are browsable and cross-referenced throughout the site.
 
 **Echo Documentation**
-The core of the archive. Each Echo entry documents a classified remnant of a collapsed reality — its appearance, behavior, psychological effects, and classification ratings. Entries are written in the style of institutional research records and vary in tone depending on the nature of the Echo being documented. The full catalog is available through the [[Echoes]] page.
+The core of the archive. Each Echo entry documents a classified remnant of a collapsed reality — its appearance, behavior, psychological effects, and classification ratings. Entries are written in the style of institutional research records and vary in tone depending on the nature of the Echo being documented. The full catalog is available through the [[ECHOES]] page.
 
 **Reality Investigation Reports**
 Formal survey records of realities investigated by the ALR Initiative. Each report documents the environmental conditions, civilizational status, collapse evidence, and any Echo manifestations associated with a given reality. Reports are indexed through the Reality Registry.
@@ -64,7 +64,7 @@ The archive is designed to be browsed like a living documentation system rather 
 Recommended starting points:
 
 - [[ALR Initiative]] — the organizational overview and institutional framework
-- [[Echoes]] — the full Echo catalog and classification reference
+- [[ECHOES]] — the full Echo catalog and classification reference
 - [[The Archive]] — the institutional home of all ALR documentation
 - [[Reality Registry]] — the formal index of investigated realities
 

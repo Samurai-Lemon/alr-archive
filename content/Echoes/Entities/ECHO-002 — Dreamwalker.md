@@ -89,4 +89,4 @@ The relationship between ECHO-002 and [[ECHO-003 — Nightmare Stalker]] is docu
 ## Reference
 
 > [!abstract] Archive Reference
-> This entry is part of the [[Echoes]] catalog maintained by the [[ALR Initiative]] within [[The Archive]].
+> This entry is part of the [[ECHOES]] catalog maintained by the [[ALR Initiative]] within [[The Archive]].

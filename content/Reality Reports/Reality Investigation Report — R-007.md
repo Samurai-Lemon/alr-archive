@@ -56,7 +56,7 @@ The records end. They do not explain their ending. The final entries are indisti
 
 ## Echo Manifestations
 
-[[ECHO-031]] — Those Who Sleep is the sole Echo formally registered as endemic to R-007. Full documentation is maintained as a separate entry within the [[Echoes]] catalog.
+[[ECHO-031]] — Those Who Sleep is the sole Echo formally registered as endemic to R-007. Full documentation is maintained as a separate entry within the [[ECHOES]] catalog.
 
 The presence of ECHO-031 at R-007 is considered significant to the Silent Collapse classification. Those Who Sleep are associated with environments in which the boundary between ongoing existence and cessation was not experienced as a threshold — environments in which the end arrived, if it arrived at all, as an extension of something already ordinary. The prevalence of ECHO-031 manifestation across R-007 survey sites is consistent with a population that did not experience its ending as an ending.
 

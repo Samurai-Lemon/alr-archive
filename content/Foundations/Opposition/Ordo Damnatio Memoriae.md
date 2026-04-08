@@ -122,7 +122,7 @@ A secured internal repository preserving all erased material. Location unknown. 
 > [!warning]
 > Nothing is destroyed. Only hidden.
 >
-> Intelligence suggests that the *Archivum Nihil* may contain records directly relevant to ALR investigation sites, registered realities, and documented [[Echoes]]. The implications of this for the completeness of [[The Archive]] are under ongoing review.
+> Intelligence suggests that the *Archivum Nihil* may contain records directly relevant to ALR investigation sites, registered realities, and documented [[ECHOES]]. The implications of this for the completeness of [[The Archive]] are under ongoing review.
 
 ## Technology
 

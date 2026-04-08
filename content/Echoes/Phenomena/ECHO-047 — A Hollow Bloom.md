@@ -95,4 +95,4 @@ Seasonal indicators are absent. No weather system activity has been recorded wit
 ## Reference
 
 > [!abstract] Archive Reference
-> This entry is part of the [[Echoes]] catalog maintained by the [[ALR Initiative]] within [[The Archive]].
+> This entry is part of the [[ECHOES]] catalog maintained by the [[ALR Initiative]] within [[The Archive]].

@@ -20,7 +20,7 @@ Each device entry begins with the name of the device.
 # Echo Scanner Unit
 ```
 
-Devices do not receive numerical designations like [[Echoes]].
+Devices do not receive numerical designations like [[ECHOES]].
 
 ---
 
