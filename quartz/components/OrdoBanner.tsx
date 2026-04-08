@@ -100,7 +100,7 @@ const OrdoBanner: QuartzComponent = (_props: QuartzComponentProps) => {
 
         <text x="340" y="70" font-family="'Courier Prime', monospace" font-size="7" font-weight="700" fill="#7a1810" letter-spacing="4" text-anchor="middle">ORDO DAMNATIO MEMORIAE</text>
         <text x="340" y="108" font-family="'IM Fell English', serif" font-size="36" font-weight="400" fill="#ede0c8" letter-spacing="1" text-anchor="middle" opacity="0.95">Memoria damnata</text>
-        <text x="340" y="124" font-family="'IM Fell English', serif" font-size="14" font-style="italic" fill="#7a1810" letter-spacing="0.5" text-anchor="middle">existentia negata.</text>
+        <text x="340" y="124" font-family="'IM Fell English', serif" font-size="14" font-style="italic" fill="#7a1810" letter-spacing="0.5" text-anchor="middle">"History is not truth. It is a maintained illusion."</text>
         <text x="340" y="166" font-family="'Courier Prime', monospace" font-size="6" fill="#200a04" letter-spacing="4" text-anchor="middle">██████ ██ ██ ██████</text>
 
       </g>
