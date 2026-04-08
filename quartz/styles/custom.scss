@@ -2766,52 +2766,48 @@ body::after {
 
 body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
 
-  --ordo-bg:          #080604;
-  --ordo-surface:     #0f0a06;
-  --ordo-surface-2:   #0c0804;
-  --ordo-border:      #261508;
-  --ordo-border-hi:   #3a1a08;
-  --ordo-red:         #8b1e0e;
-  --ordo-red-dim:     #4a1208;
-  --ordo-text:        #b8a888;
-  --ordo-text-bright: #ddd0b0;
-  --ordo-text-mid:    #c8b898;
-  --ordo-text-dim:    #8a7a5a;
-  --ordo-text-muted:  #6a5a3a;
-  --ordo-gold:        #c8a868;
-  --ordo-danger:      #6e1408;
+  --ordo-bg:          #0d0806;
+  --ordo-surface:     #120a06;
+  --ordo-surface-2:   #0f0704;
+  --ordo-border:      #2a0e08;
+  --ordo-border-hi:   #4a1208;
+  --ordo-red:         #c0281a;
+  --ordo-red-bright:  #e03820;
+  --ordo-red-dim:     #7a1810;
+  --ordo-text:        #c8b8a0;
+  --ordo-text-bright: #f0e8d8;
+  --ordo-text-mid:    #d8c8a8;
+  --ordo-text-dim:    #8a7a62;
+  --ordo-text-muted:  #5a4a32;
+  --ordo-gold:        #c8a060;
+  --ordo-danger:      #8b1408;
 
   background: var(--ordo-bg) !important;
 
-  // Scanline only — no red stripe
+  // Scanline — tighter, darker
   &::after {
     background: repeating-linear-gradient(
       to bottom,
       transparent,
       transparent 2px,
-      rgba(0, 0, 0, 0.1) 2px,
-      rgba(0, 0, 0, 0.1) 4px
+      rgba(0, 0, 0, 0.12) 2px,
+      rgba(0, 0, 0, 0.12) 4px
     ) !important;
     animation: none !important;
   }
 
-  // Remove the red dashed stripe entirely
-  &::before {
-    display: none !important;
-  }
+  &::before { display: none !important; }
 
-  // ── HIDE BANNER ────────────────────────────────────────
+  // ── HIDE BANNER ─────────────────────────────────────────
   .alr-banner-svg,
-  [class*="alr-banner"],
-  .page-header .alr-banner-svg {
+  [class*="alr-banner"] {
     display: none !important;
   }
 
-  // ── TOPBAR ─────────────────────────────────────────────
+  // ── TOPBAR ──────────────────────────────────────────────
   #quartz-header {
-    background: #0a0502 !important;
+    background: #080402 !important;
     border-bottom: 1px solid var(--ordo-border-hi) !important;
-
     &::after { display: none !important; }
   }
 
@@ -2820,6 +2816,7 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
     color: var(--ordo-red) !important;
     font-family: 'UnifrakturMaguntia', cursive !important;
     font-size: 15px !important;
+    letter-spacing: 0.02em !important;
   }
 
   #quartz-header .page-title a::after {
@@ -2827,9 +2824,9 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
   }
 
   #quartz-header .search-bar {
-    background: var(--ordo-bg) !important;
+    background: var(--ordo-surface) !important;
     border-color: var(--ordo-border-hi) !important;
-    border-radius: 0 !important;
+    border-radius: 2px !important;
   }
 
   #quartz-header .search-bar input {
@@ -2839,93 +2836,102 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
 
   .alr-topnav-link {
     color: var(--ordo-text-dim) !important;
-    &:hover { color: var(--ordo-gold) !important; background: rgba(58,26,8,0.3) !important; }
+    &:hover {
+      color: var(--ordo-red-bright) !important;
+      background: rgba(192, 40, 26, 0.08) !important;
+    }
   }
 
-  .alr-topnav-link.active { color: var(--ordo-gold) !important; }
+  .alr-topnav-link.active {
+    color: var(--ordo-red) !important;
+  }
 
   .alr-topnav-dropdown-menu-inner {
     background: var(--ordo-surface) !important;
     border-color: var(--ordo-border-hi) !important;
-    border-radius: 0 !important;
+    border-radius: 2px !important;
   }
 
   .alr-topnav-dropdown-item {
     color: var(--ordo-text-dim) !important;
-    &:hover { color: var(--ordo-gold) !important; background: rgba(58,26,8,0.3) !important; }
+    &:hover {
+      color: var(--ordo-red-bright) !important;
+      background: rgba(192, 40, 26, 0.08) !important;
+    }
   }
 
   // ── SIDEBAR ─────────────────────────────────────────────
   #quartz-body .sidebar.left,
   .sidebar.left {
-    background: #060402 !important;
-    border-right: 1px solid var(--ordo-border) !important;
+    background: #080402 !important;
+    border-right: 1px solid var(--ordo-border-hi) !important;
   }
 
   .alr-sb-site-label {
     color: var(--ordo-red) !important;
     font-family: 'UnifrakturMaguntia', cursive !important;
     font-size: 13px !important;
+    letter-spacing: 0.02em !important;
   }
 
-  // Section labels — brighter so they're readable
   .alr-sb-label {
-    color: #8b1e0e !important;
-    letter-spacing: 0.16em !important;
+    color: var(--ordo-red) !important;
+    letter-spacing: 0.18em !important;
+    font-size: 9px !important;
   }
 
-  // Sidebar items — raised contrast
   .alr-sb-item {
-    color: #9a8a6a !important;
+    color: var(--ordo-text-dim) !important;
     font-family: 'Courier Prime', monospace !important;
     font-size: 11px !important;
+    border-left-color: transparent !important;
 
     &:hover {
       color: var(--ordo-text-bright) !important;
-      background: rgba(58,26,8,0.3) !important;
+      background: rgba(192, 40, 26, 0.08) !important;
     }
 
     &.active {
-      color: var(--ordo-gold) !important;
+      color: var(--ordo-text-bright) !important;
       border-left-color: var(--ordo-red) !important;
-      background: rgba(58,26,8,0.25) !important;
+      background: rgba(192, 40, 26, 0.1) !important;
     }
   }
 
   .alr-sb-group-title {
-    color: #9a8a6a !important;
+    color: var(--ordo-text-dim) !important;
     font-family: 'Courier Prime', monospace !important;
     font-size: 11px !important;
 
     &:hover {
       color: var(--ordo-text-bright) !important;
-      background: rgba(58,26,8,0.3) !important;
+      background: rgba(192, 40, 26, 0.08) !important;
     }
 
     &.active {
-      color: var(--ordo-gold) !important;
+      color: var(--ordo-text-bright) !important;
       border-left-color: var(--ordo-red) !important;
-      background: rgba(58,26,8,0.25) !important;
+      background: rgba(192, 40, 26, 0.1) !important;
     }
   }
 
   .alr-sb-chevron { color: var(--ordo-red-dim) !important; }
-
   .alr-sb-collapse-btn {
     color: var(--ordo-text-muted) !important;
     &:hover { color: var(--ordo-red) !important; }
   }
 
+  .alr-sb-dot { opacity: 0.6; }
+
   .alr-sb-darkmode-row {
     background: var(--ordo-surface) !important;
     border-color: var(--ordo-border-hi) !important;
-    border-radius: 0 !important;
-    &:hover { background: rgba(58,26,8,0.4) !important; }
+    border-radius: 2px !important;
+    &:hover { background: rgba(192, 40, 26, 0.08) !important; }
   }
 
-  .alr-sb-darkmode-label { color: #9a8a6a !important; }
-  .alr-sb-chevron { color: var(--ordo-red-dim) !important; }
-  .alr-toggle-track { background: #1a0a06 !important; border-color: var(--ordo-border-hi) !important; }
+  .alr-sb-darkmode-label { color: var(--ordo-text-dim) !important; }
+  .alr-toggle-track { background: #1a0804 !important; border-color: var(--ordo-border-hi) !important; }
   .alr-toggle-track.alr-toggle-on { background: var(--ordo-red) !important; border-color: var(--ordo-red-dim) !important; }
   .alr-toggle-thumb { background: var(--ordo-text-muted) !important; }
   .alr-toggle-on .alr-toggle-thumb { background: var(--ordo-text-bright) !important; }
@@ -2940,49 +2946,51 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
   }
 
   // ── TYPOGRAPHY ──────────────────────────────────────────
-  // Headings use IM Fell — display size only, readable
   article h1 {
     font-family: 'IM Fell English', serif !important;
     font-weight: 400 !important;
-    font-size: 1.8rem !important;
+    font-size: 1.9rem !important;
     color: var(--ordo-text-bright) !important;
-    border-bottom: 1px solid var(--ordo-border) !important;
+    border-bottom: 1px solid var(--ordo-border-hi) !important;
     padding-bottom: 0.6rem !important;
-    letter-spacing: 0.01em !important;
+    letter-spacing: 0.02em !important;
+    text-transform: uppercase !important;
   }
 
   article h2 {
-    font-family: 'IM Fell English', serif !important;
-    font-weight: 400 !important;
-    font-size: 1.05rem !important;
-    color: var(--ordo-gold) !important;
-    border-bottom: 1px solid var(--ordo-border) !important;
-    margin-top: 2rem !important;
+    font-family: 'Courier Prime', monospace !important;
+    font-weight: 700 !important;
+    font-size: 0.72rem !important;
+    color: var(--ordo-red) !important;
+    border-bottom: 1px solid var(--ordo-border-hi) !important;
+    padding-bottom: 0.3rem !important;
+    margin-top: 2.2rem !important;
+    letter-spacing: 0.2em !important;
+    text-transform: uppercase !important;
 
     &::before {
-      content: '§ ';
+      content: '— ';
       color: var(--ordo-red-dim);
-      font-size: 0.85em;
     }
   }
 
   article h3 {
-    font-family: 'IM Fell English', serif !important;
-    font-weight: 400 !important;
-    font-size: 0.95rem !important;
+    font-family: 'Courier Prime', monospace !important;
+    font-weight: 700 !important;
+    font-size: 0.68rem !important;
     color: var(--ordo-text-mid) !important;
-    margin-top: 1.4rem !important;
+    letter-spacing: 0.16em !important;
+    text-transform: uppercase !important;
+    margin-top: 1.6rem !important;
   }
 
-  // Body text — Courier Prime, comfortable size
   article p {
     font-family: 'Courier Prime', monospace !important;
-    font-size: 0.86rem !important;
+    font-size: 0.85rem !important;
     color: var(--ordo-text) !important;
     line-height: 1.9 !important;
   }
 
-  // Latin phrases — IM Fell italic, slightly brighter
   article em,
   article i {
     font-family: 'IM Fell English', serif !important;
@@ -2991,8 +2999,9 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
   }
 
   article strong {
-    color: var(--ordo-text-mid) !important;
+    color: var(--ordo-text-bright) !important;
     font-family: 'Courier Prime', monospace !important;
+    font-weight: 700 !important;
   }
 
   article li {
@@ -3003,36 +3012,39 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
   }
 
   article ul li::marker { color: var(--ordo-red-dim) !important; }
+  article ol li::marker { color: var(--ordo-red-dim) !important; }
 
   article a,
   article a.internal {
-    color: var(--ordo-gold) !important;
-    border-bottom: 1px solid var(--ordo-border-hi) !important;
+    color: var(--ordo-red-bright) !important;
+    border-bottom: 1px solid var(--ordo-red-dim) !important;
     &:hover {
       color: var(--ordo-text-bright) !important;
-      border-bottom-color: var(--ordo-red-dim) !important;
+      border-bottom-color: var(--ordo-red) !important;
     }
   }
 
   article blockquote {
-    border-left: 3px solid var(--ordo-red-dim) !important;
+    border-left: 3px solid var(--ordo-red) !important;
     background: var(--ordo-surface-2) !important;
     padding: 0.9rem 1.2rem !important;
     margin: 1.3rem 0 !important;
     font-family: 'IM Fell English', serif !important;
     font-style: italic !important;
     font-size: 1rem !important;
-    color: var(--ordo-gold) !important;
+    color: var(--ordo-text-mid) !important;
 
     p {
-      color: var(--ordo-gold) !important;
+      color: var(--ordo-text-mid) !important;
       font-family: 'IM Fell English', serif !important;
       font-size: inherit !important;
       margin: 0 !important;
     }
   }
 
-  article hr { border-color: var(--ordo-border) !important; }
+  article hr {
+    border-color: var(--ordo-border-hi) !important;
+  }
 
   // ── CALLOUTS ────────────────────────────────────────────
   .callout {
@@ -3046,41 +3058,44 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
 
   .callout-title {
     font-family: 'Courier Prime', monospace !important;
-    letter-spacing: 0.12em !important;
+    letter-spacing: 0.15em !important;
+    text-transform: uppercase !important;
   }
 
   .callout-title-inner {
-    font-size: 0.62rem !important;
-    letter-spacing: 0.18em !important;
+    font-size: 0.6rem !important;
+    letter-spacing: 0.2em !important;
   }
 
   .callout[data-callout="info"] {
     background: var(--ordo-surface) !important;
     border-left-color: var(--ordo-border-hi) !important;
     .callout-title-inner,
-    .callout-icon svg { color: var(--ordo-gold) !important; fill: var(--ordo-gold) !important; }
+    .callout-icon svg { color: var(--ordo-red) !important; fill: var(--ordo-red) !important; }
     p { color: var(--ordo-text) !important; font-family: 'Courier Prime', monospace !important; font-size: 0.84rem !important; }
   }
 
   .callout[data-callout="warning"] {
-    background: rgba(139,30,14,0.06) !important;
+    background: rgba(192, 40, 26, 0.06) !important;
     border-left-color: var(--ordo-red) !important;
     .callout-title-inner,
-    .callout-icon svg { color: #c05040 !important; fill: #c05040 !important; }
-    p { color: #b08070 !important; font-family: 'Courier Prime', monospace !important; font-size: 0.84rem !important; }
+    .callout-icon svg { color: var(--ordo-red-bright) !important; fill: var(--ordo-red-bright) !important; }
+    p { color: #c09080 !important; font-family: 'Courier Prime', monospace !important; font-size: 0.84rem !important; }
   }
 
   .callout[data-callout="danger"] {
-    background: rgba(110,20,8,0.1) !important;
+    background: rgba(139, 20, 8, 0.12) !important;
     border-left-color: var(--ordo-danger) !important;
+    border: 1px solid var(--ordo-danger) !important;
+    border-left-width: 3px !important;
     .callout-title-inner,
-    .callout-icon svg { color: #903020 !important; fill: #903020 !important; }
-    p { color: #a07060 !important; font-family: 'Courier Prime', monospace !important; font-size: 0.84rem !important; }
+    .callout-icon svg { color: #e04030 !important; fill: #e04030 !important; }
+    p { color: #b07060 !important; font-family: 'Courier Prime', monospace !important; font-size: 0.84rem !important; }
   }
 
   .callout[data-callout="note"] {
     background: var(--ordo-surface) !important;
-    border-left-color: var(--ordo-border-hi) !important;
+    border-left-color: var(--ordo-red-dim) !important;
     .callout-title-inner,
     .callout-icon svg { color: var(--ordo-text-dim) !important; fill: var(--ordo-text-dim) !important; }
     p { color: var(--ordo-text-dim) !important; font-family: 'Courier Prime', monospace !important; font-size: 0.84rem !important; }
@@ -3099,23 +3114,23 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
   ::-webkit-scrollbar-thumb { background: var(--ordo-border-hi) !important; }
   ::-webkit-scrollbar-thumb:hover { background: var(--ordo-red-dim) !important; }
 
-  // ── PAGE ENTRANCE ───────────────────────────────────────
+  // ── ENTRANCE ANIMATION ──────────────────────────────────
   #quartz-body .center > article,
   #quartz-body .center > .popover-hint {
-    animation: ordo-page-in 0.7s ease forwards !important;
+    animation: ordo-page-in 0.6s ease forwards !important;
   }
 
   @keyframes ordo-page-in {
-    from { opacity: 0; transform: translateY(10px); }
+    from { opacity: 0; transform: translateY(8px); }
     to   { opacity: 1; transform: translateY(0); }
   }
 
   article .callout {
-    animation: ordo-callout-in 0.5s ease forwards !important;
+    animation: ordo-callout-in 0.45s ease forwards !important;
   }
 
   @keyframes ordo-callout-in {
-    from { opacity: 0; transform: translateX(-8px); }
+    from { opacity: 0; transform: translateX(-6px); }
     to   { opacity: 1; transform: translateX(0); }
   }
 }
