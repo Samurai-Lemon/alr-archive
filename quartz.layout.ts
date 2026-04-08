@@ -1,9 +1,11 @@
 import { PageLayout, SharedLayout } from "./quartz/cfg"
 import * as Component from "./quartz/components"
+import OrdoBanner from "./quartz/components/OrdoBanner"
 
 const isHome = (page: any) => page.fileData.slug === "index" || page.fileData.slug === ""
 const isEchoRegistry = (page: any) => page.fileData.slug === "Index/ECHO-Registry"
 const isRealityRegistry = (page: any) => page.fileData.slug === "Index/Reality-Registry"
+const isOrdo = (page: any) => page.fileData.slug === "Foundations/Opposition/Ordo-Damnatio-Memoriae"
 
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
@@ -27,7 +29,11 @@ export const defaultContentPageLayout: PageLayout = {
   beforeBody: [
     Component.ConditionalRender({
       component: Component.ALRBanner(),
-      condition: (page) => !isEchoRegistry(page) && !isRealityRegistry(page),
+      condition: (page) => !isEchoRegistry(page) && !isRealityRegistry(page) && !isOrdo(page),
+    }),
+    Component.ConditionalRender({
+      component: OrdoBanner(),
+      condition: isOrdo,
     }),
     Component.ConditionalRender({
       component: Component.ALRHomeDashboard(),
@@ -53,7 +59,11 @@ export const defaultListPageLayout: PageLayout = {
   beforeBody: [
     Component.ConditionalRender({
       component: Component.ALRBanner(),
-      condition: (page) => !isEchoRegistry(page) && !isRealityRegistry(page),
+      condition: (page) => !isEchoRegistry(page) && !isRealityRegistry(page) && !isOrdo(page),
+    }),
+    Component.ConditionalRender({
+      component: OrdoBanner(),
+      condition: isOrdo,
     }),
     Component.ConditionalRender({
       component: Component.ALRHomeDashboard(),
