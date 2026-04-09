@@ -2761,16 +2761,15 @@ body::after {
 }
 
 // ─── ECHO HERO — hide duplicate elements ──────────────────
-[data-slug^="Echoes/"] {
-  h1.article-title { display: none !important; }
-  
-  article .callout[data-callout="info"]:first-child {
-    display: none !important;
-  }
+.alr-echo-hero ~ article h1,
+div.page-header .popover-hint h1,
+.popover-hint:has(.alr-echo-hero) ~ article h1 {
+  display: none !important;
+}
 
-  article > *:first-child .callout[data-callout="info"] {
-    display: none !important;
-  }
+article:has(h1[id*="echo-"]) > h1,
+article:has(h1[id*="echo-"]) > blockquote.callout:first-of-type {
+  display: none !important;
 }
 
 // ═══════════════════════════════════════════════════════════
