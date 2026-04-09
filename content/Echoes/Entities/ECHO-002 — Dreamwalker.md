@@ -23,7 +23,6 @@ status: documented
 > **RDS:** Unknown
 
 ---
-![[ECHO-002.png]]
 ## Description
 
 ECHO-002, designated *Dreamwalker*, is an anomalous entity that manifests exclusively within dream states. It is among the earliest Echo phenomena formally registered by the [[ALR Initiative]] and remains one of the most widely reported entity-class Echoes in the current catalog. Encounter reports have been collected across multiple investigated realities, with no documented variation in the entity's fundamental character across any of them.

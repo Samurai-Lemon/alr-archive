@@ -23,7 +23,6 @@ status: documented
 > **RDS:** Unknown
 
 ---
-![[ECHO-003.png]]
 ## Description
 
 ECHO-003, designated *Nightmare Stalker*, is an anomalous entity that manifests exclusively within dream states. It was formally registered shortly after the documentation of [[ECHO-002 — Dreamwalker]] and is considered a related phenomenon, though the precise nature of that relationship has not been established.
