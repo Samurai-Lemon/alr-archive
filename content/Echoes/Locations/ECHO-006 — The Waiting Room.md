@@ -23,7 +23,7 @@ status: documented
 > **RDS:** A — Analogous
 
 ---
-![[Gemini_Generated_Image_py33dwpy33dwpy33.png]]
+![[ECHO-006.png]]
 ## Description
 
 ECHO-006, designated *The Waiting Room*, is a persistent anomalous interior environment first documented during cross-reality survey operations following a series of independent personnel reports describing an identical space accessed through unaccounted doorways. The anomaly manifests as a fully realized interior room — a small children's primary care waiting area — accessible through a door that appears without architectural precedent within otherwise ordinary structures.

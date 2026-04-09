@@ -23,7 +23,7 @@ status: documented
 > **RDS:** Unknown
 
 ---
-![[Gemini_Generated_Image_kmpysukmpysukmpy.png]]
+![[ECHO-000.png]]
 ## Description
 
 ECHO-000, designated *The Archive*, is an anomalous extradimensional structure of indeterminate origin and effectively unmeasured scale. It is the first Echo formally registered in the [[ALR Initiative]] catalog and currently serves as the operational headquarters of the Initiative. All research, documentation, and archival activity conducted by the [[ALR Initiative]] is carried out within its interior.
