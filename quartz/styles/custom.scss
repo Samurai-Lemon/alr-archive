@@ -3225,4 +3225,13 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
   .alr-terminal-footer-right {
     color: var(--ordo-red) !important;
   }
+
+  // ─── ECHO HERO — hide duplicate elements ──────────────────
+body[data-type="echo"] {
+  h1.article-title { display: none !important; }
+
+  article > .callout[data-callout="info"]:first-child {
+    display: none !important;
+  }
+}
 }
