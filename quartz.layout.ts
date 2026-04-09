@@ -1,11 +1,13 @@
 import { PageLayout, SharedLayout } from "./quartz/cfg"
 import * as Component from "./quartz/components"
 import OrdoBanner from "./quartz/components/OrdoBanner"
+import ALREchoHero from "./quartz/components/ALREchoHero"
 
 const isHome = (page: any) => page.fileData.slug === "index" || page.fileData.slug === ""
 const isEchoRegistry = (page: any) => page.fileData.slug === "Index/ECHO-Registry"
 const isRealityRegistry = (page: any) => page.fileData.slug === "Index/Reality-Registry"
 const isOrdo = (page: any) => page.fileData.slug === "Foundations/Opposition/Ordo-Damnatio-Memoriae"
+const isEcho = (page: any) => page.fileData.frontmatter?.type === "echo"
 
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
@@ -29,11 +31,15 @@ export const defaultContentPageLayout: PageLayout = {
   beforeBody: [
     Component.ConditionalRender({
       component: Component.ALRBanner(),
-      condition: (page) => !isEchoRegistry(page) && !isRealityRegistry(page) && !isOrdo(page),
+      condition: (page) => !isEchoRegistry(page) && !isRealityRegistry(page) && !isOrdo(page) && !isEcho(page),
     }),
     Component.ConditionalRender({
       component: OrdoBanner(),
       condition: isOrdo,
+    }),
+    Component.ConditionalRender({
+      component: ALREchoHero(),
+      condition: isEcho,
     }),
     Component.ConditionalRender({
       component: Component.ALRHomeDashboard(),
@@ -59,11 +65,15 @@ export const defaultListPageLayout: PageLayout = {
   beforeBody: [
     Component.ConditionalRender({
       component: Component.ALRBanner(),
-      condition: (page) => !isEchoRegistry(page) && !isRealityRegistry(page) && !isOrdo(page),
+      condition: (page) => !isEchoRegistry(page) && !isRealityRegistry(page) && !isOrdo(page) && !isEcho(page),
     }),
     Component.ConditionalRender({
       component: OrdoBanner(),
       condition: isOrdo,
+    }),
+    Component.ConditionalRender({
+      component: ALREchoHero(),
+      condition: isEcho,
     }),
     Component.ConditionalRender({
       component: Component.ALRHomeDashboard(),
@@ -79,11 +89,11 @@ export const defaultListPageLayout: PageLayout = {
     }),
     Component.ConditionalRender({
       component: Component.ArticleTitle(),
-      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page),
+      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isEcho(page),
     }),
     Component.ConditionalRender({
       component: Component.ContentMeta(),
-      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page),
+      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isEcho(page),
     }),
   ],
   left: [

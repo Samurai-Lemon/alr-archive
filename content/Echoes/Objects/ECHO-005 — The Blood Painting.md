@@ -23,7 +23,7 @@ status: documented
 > **RDS:** B — Variant
 
 ---
-![[Gemini_Generated_Image_x1y5wyx1y5wyx1y5.png]]
+
 ## Description
 
 ECHO-005, designated *The Blood Painting*, is an anomalous artwork first formally registered following the correlation of multiple independent reports describing an identical object manifesting within art galleries and exhibition spaces across several investigated realities. The painting is composed entirely of a dark red substance subsequently identified as human blood. The number of biological sources contributing to the medium is unknown. The origin of those sources has not been determined.
