@@ -2761,12 +2761,16 @@ body::after {
 }
 
 // ─── ECHO HERO — hide duplicate elements ──────────────────
-body[data-type="echo"] {
-  h1.article-title { display: none !important; }
-
-  article > .callout[data-callout="info"]:first-child {
+.alr-echo-hero {
+  & ~ .popover-hint h1,
+  & ~ article h1 {
     display: none !important;
   }
+}
+
+.alr-echo-hero ~ article .callout[data-callout="info"]:first-of-type,
+.alr-echo-hero ~ .popover-hint .callout[data-callout="info"]:first-of-type {
+  display: none !important;
 }
 
 // ═══════════════════════════════════════════════════════════
