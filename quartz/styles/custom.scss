@@ -2772,12 +2772,6 @@ article:has(h1[id*="echo-"]) > blockquote.callout:first-of-type {
   display: none !important;
 }
 
-// ─── PAGE HERO — hide duplicate title ─────────────────────
-.alr-page-hero ~ article h1,
-.alr-page-hero ~ .popover-hint h1 {
-  display: none !important;
-}
-
 // ═══════════════════════════════════════════════════════════
 // ─── ORDO DAMNATIO MEMORIAE — PAGE OVERRIDE ────────────────
 // ═══════════════════════════════════════════════════════════
