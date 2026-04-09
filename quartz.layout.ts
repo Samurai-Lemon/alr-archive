@@ -2,12 +2,14 @@ import { PageLayout, SharedLayout } from "./quartz/cfg"
 import * as Component from "./quartz/components"
 import OrdoBanner from "./quartz/components/OrdoBanner"
 import ALREchoHero from "./quartz/components/ALREchoHero"
+import ALRPageHero from "./quartz/components/ALRPageHero"
 
 const isHome = (page: any) => page.fileData.slug === "index" || page.fileData.slug === ""
 const isEchoRegistry = (page: any) => page.fileData.slug === "Index/ECHO-Registry"
 const isRealityRegistry = (page: any) => page.fileData.slug === "Index/Reality-Registry"
 const isOrdo = (page: any) => page.fileData.slug === "Foundations/Opposition/Ordo-Damnatio-Memoriae"
 const isEcho = (page: any) => page.fileData.frontmatter?.type === "echo"
+const isSpecial = (page: any) => isHome(page) || isEchoRegistry(page) || isRealityRegistry(page) || isOrdo(page) || isEcho(page)
 
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
@@ -31,7 +33,7 @@ export const defaultContentPageLayout: PageLayout = {
   beforeBody: [
     Component.ConditionalRender({
       component: Component.ALRBanner(),
-      condition: (page) => !isEchoRegistry(page) && !isRealityRegistry(page) && !isOrdo(page) && !isEcho(page),
+      condition: (page) => !isSpecial(page),
     }),
     Component.ConditionalRender({
       component: OrdoBanner(),
@@ -40,6 +42,10 @@ export const defaultContentPageLayout: PageLayout = {
     Component.ConditionalRender({
       component: ALREchoHero(),
       condition: isEcho,
+    }),
+    Component.ConditionalRender({
+      component: ALRPageHero(),
+      condition: (page) => !isSpecial(page),
     }),
     Component.ConditionalRender({
       component: Component.ALRHomeDashboard(),
@@ -65,7 +71,7 @@ export const defaultListPageLayout: PageLayout = {
   beforeBody: [
     Component.ConditionalRender({
       component: Component.ALRBanner(),
-      condition: (page) => !isEchoRegistry(page) && !isRealityRegistry(page) && !isOrdo(page) && !isEcho(page),
+      condition: (page) => !isSpecial(page),
     }),
     Component.ConditionalRender({
       component: OrdoBanner(),
@@ -74,6 +80,10 @@ export const defaultListPageLayout: PageLayout = {
     Component.ConditionalRender({
       component: ALREchoHero(),
       condition: isEcho,
+    }),
+    Component.ConditionalRender({
+      component: ALRPageHero(),
+      condition: (page) => !isSpecial(page),
     }),
     Component.ConditionalRender({
       component: Component.ALRHomeDashboard(),
