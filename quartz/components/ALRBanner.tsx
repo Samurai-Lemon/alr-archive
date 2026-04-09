@@ -1,25 +1,6 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 
-const typeLabels: Record<string, string> = {
-  organization: "Organization",
-  reality: "Reality Investigation Report",
-  device: "Device",
-  system: "System",
-  protocol: "Protocol",
-}
-
-const ALRBanner: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
-  const fm = (fileData.frontmatter ?? {}) as Record<string, unknown>
-  const slug = String(fileData.slug ?? "")
-  const isHome = slug === "index" || slug === ""
-
-  const pageTitle = String(fm.title ?? "")
-  const pageType = String(fm.type ?? "")
-  const typeLabel = typeLabels[pageType] ?? ""
-
-  const eyebrow = isHome ? "ARCHIVE OF LOST REALITIES INITIATIVE" : typeLabel.toUpperCase()
-  const title = isHome ? "The Unwritten" : pageTitle
-
+const ALRBanner: QuartzComponent = (_props: QuartzComponentProps) => {
   return (
     <svg
       class="alr-banner-svg"
@@ -75,6 +56,7 @@ const ALRBanner: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
         <rect x="274" y="92" width="30" height="26" fill="#cc785c" opacity="0.02" />
         <rect x="274" y="152" width="20" height="26" fill="#cc785c" opacity="0.02" />
 
+        {/* existing particles */}
         <circle cx="360" cy="18" r="1.5" fill="#cc785c" opacity="0.3" />
         <circle cx="380" cy="45" r="1" fill="#cc785c" opacity="0.2" />
         <circle cx="355" cy="72" r="2" fill="#cc785c" opacity="0.15" />
@@ -85,6 +67,8 @@ const ALRBanner: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
         <circle cx="460" cy="88" r="2" fill="#cc785c" opacity="0.08" />
         <circle cx="415" cy="115" r="1" fill="#cc785c" opacity="0.12" />
         <circle cx="450" cy="145" r="1.5" fill="#cc785c" opacity="0.09" />
+
+        {/* extra particles */}
         <circle cx="332" cy="24" r="1" fill="#cc785c" opacity="0.14" />
         <circle cx="346" cy="38" r="1.2" fill="#cc785c" opacity="0.16" />
         <circle cx="402" cy="34" r="1" fill="#cc785c" opacity="0.15" />
@@ -126,7 +110,6 @@ const ALRBanner: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
           />
         </g>
 
-        {/* EYEBROW */}
         <text
           class="alr-banner-eyebrow"
           x="40"
@@ -138,10 +121,9 @@ const ALRBanner: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
           fill="#cc785c"
           opacity="1"
         >
-          {eyebrow}
+          ARCHIVE OF LOST REALITIES INITIATIVE
         </text>
 
-        {/* TITLE */}
         <text
           class="alr-banner-title"
           x="40"
@@ -152,78 +134,77 @@ const ALRBanner: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
           fill="#f0ece0"
           opacity="0.9"
         >
-          {title}
+          The Unwritten
         </text>
 
-        {/* HOME-ONLY ELEMENTS */}
-        {isHome && (
-          <g class="alr-banner-sub-glitch">
-            <text
-              class="alr-banner-sub alr-banner-sub-base"
-              x="40"
-              y="134"
-              font-family="Inter, sans-serif"
-              font-size="12"
-              font-weight="400"
-              fill="#6b6860"
-              opacity="0.8"
-            >
-              What remains when a reality stops?
-            </text>
-            <text
-              class="alr-banner-sub alr-banner-sub-ghost1"
-              x="40"
-              y="134"
-              font-family="Inter, sans-serif"
-              font-size="12"
-              font-weight="400"
-              fill="#cc785c"
-              opacity="0"
-            >
-              What remains when a reality stops?
-              <animate
-                attributeName="opacity"
-                values="0;0;0;0.18;0.08;0"
-                keyTimes="0;0.968;0.972;0.974;0.977;1"
-                dur="22s"
-                repeatCount="indefinite"
-              />
-              <animate
-                attributeName="x"
-                values="40;40;41.4;38.8;40.6;40"
-                keyTimes="0;0.968;0.972;0.974;0.977;1"
-                dur="22s"
-                repeatCount="indefinite"
-              />
-            </text>
-            <text
-              class="alr-banner-sub alr-banner-sub-ghost2"
-              x="40"
-              y="134"
-              font-family="Inter, sans-serif"
-              font-size="12"
-              font-weight="400"
-              fill="#f0ece0"
-              opacity="0"
-            >
-              What remains when a reality stops?
-              <animate
-                attributeName="opacity"
-                values="0;0;0;0.12;0.06;0"
-                keyTimes="0;0.968;0.9725;0.975;0.978;1"
-                dur="22s"
-                repeatCount="indefinite"
-              />
-              <animate
-                attributeName="x"
-                values="40;40;39.1;40.9;39.7;40"
-                keyTimes="0;0.968;0.9725;0.975;0.978;1"
-                dur="22s"
-                repeatCount="indefinite"
-              />
-            </text>
-          </g>
-        )}
+        <g class="alr-banner-sub-glitch">
+          <text
+            class="alr-banner-sub alr-banner-sub-base"
+            x="40"
+            y="134"
+            font-family="Inter, sans-serif"
+            font-size="12"
+            font-weight="400"
+            fill="#6b6860"
+            opacity="0.8"
+          >
+            What remains when a reality stops?
+          </text>
+
+          <text
+            class="alr-banner-sub alr-banner-sub-ghost1"
+            x="40"
+            y="134"
+            font-family="Inter, sans-serif"
+            font-size="12"
+            font-weight="400"
+            fill="#cc785c"
+            opacity="0"
+          >
+            What remains when a reality stops?
+            <animate
+              attributeName="opacity"
+              values="0;0;0;0.18;0.08;0"
+              keyTimes="0;0.968;0.972;0.974;0.977;1"
+              dur="22s"
+              repeatCount="indefinite"
+            />
+            <animate
+              attributeName="x"
+              values="40;40;41.4;38.8;40.6;40"
+              keyTimes="0;0.968;0.972;0.974;0.977;1"
+              dur="22s"
+              repeatCount="indefinite"
+            />
+          </text>
+
+          <text
+            class="alr-banner-sub alr-banner-sub-ghost2"
+            x="40"
+            y="134"
+            font-family="Inter, sans-serif"
+            font-size="12"
+            font-weight="400"
+            fill="#f0ece0"
+            opacity="0"
+          >
+            What remains when a reality stops?
+            <animate
+              attributeName="opacity"
+              values="0;0;0;0.12;0.06;0"
+              keyTimes="0;0.968;0.9725;0.975;0.978;1"
+              dur="22s"
+              repeatCount="indefinite"
+            />
+            <animate
+              attributeName="x"
+              values="40;40;39.1;40.9;39.7;40"
+              keyTimes="0;0.968;0.9725;0.975;0.978;1"
+              dur="22s"
+              repeatCount="indefinite"
+            />
+          </text>
+        </g>
 
         <text
           class="alr-banner-status1"
