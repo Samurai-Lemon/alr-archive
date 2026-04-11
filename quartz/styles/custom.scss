@@ -3119,4 +3119,58 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
     from { opacity: 0; transform: translateY(6px); }
     to   { opacity: 1; transform: translateY(0); }
   }
+
+  // ── BANNER ANIMATIONS ───────────────────────────────────
+  @keyframes ordo-scan {
+    0% { transform: translateY(-10px); }
+    100% { transform: translateY(190px); }
+  }
+  @keyframes ordo-dash {
+    from { stroke-dashoffset: 0; }
+    to { stroke-dashoffset: -12; }
+  }
+  @keyframes ordo-block {
+    0%,100% { opacity: 0.5; }
+    40% { opacity: 0.5; }
+    41% { opacity: 0.15; }
+    42% { opacity: 0.5; }
+    70% { opacity: 0.5; }
+    71% { opacity: 0.2; }
+    72% { opacity: 0.5; }
+  }
+  @keyframes ordo-flicker {
+    0%,100% { opacity: 0.8; }
+    46% { opacity: 0.8; }
+    47% { opacity: 0.25; }
+    48% { opacity: 0.8; }
+    83% { opacity: 0.8; }
+    84% { opacity: 0.3; }
+    85% { opacity: 0.8; }
+  }
+  @keyframes ordo-flicker2 {
+    0%,100% { opacity: 0.65; }
+    31% { opacity: 0.65; }
+    32% { opacity: 0.2; }
+    33% { opacity: 0.65; }
+    78% { opacity: 0.65; }
+    79% { opacity: 0.25; }
+    80% { opacity: 0.65; }
+  }
+  @keyframes ordo-pulse {
+    0%,100% { opacity: 0.92; }
+    50% { opacity: 1; }
+  }
+  @keyframes ordo-pulse-dim {
+    0%,100% { opacity: 0.75; }
+    50% { opacity: 0.9; }
+  }
+  @keyframes ordo-logo-pulse {
+    0%,100% { opacity: 0.14; }
+    50% { opacity: 0.22; }
+  }
+  @keyframes ordo-severe {
+    0%,100% { opacity: 0.7; }
+    50% { opacity: 0.9; }
+  }
+
 }
