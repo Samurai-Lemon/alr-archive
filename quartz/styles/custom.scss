@@ -2778,21 +2778,20 @@ article:has(h1[id*="echo-"]) > blockquote.callout:first-of-type {
 
 body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
 
-  --ordo-bg:          #1a1512;
-  --ordo-surface:     #171310;
-  --ordo-surface-2:   #141110;
-  --ordo-border:      #261508;
-  --ordo-border-hi:   #3a1a0e;
-  --ordo-red:         #8b3020;
-  --ordo-red-bright:  #a84030;
-  --ordo-red-dim:     #5a1e10;
-  --ordo-text:        #c8b8a0;
-  --ordo-text-bright: #f0e8d8;
-  --ordo-text-mid:    #d8c8a8;
-  --ordo-text-dim:    #8a7a62;
-  --ordo-text-muted:  #5a4a32;
-  --ordo-gold:        #c8a060;
-  --ordo-danger:      #8b1408;
+  --ordo-bg:          #141210;
+  --ordo-surface:     #111008;
+  --ordo-surface-2:   #0e0c08;
+  --ordo-border:      #1e1208;
+  --ordo-border-hi:   #2a1a0e;
+  --ordo-red:         #8a3020;
+  --ordo-red-bright:  #c05030;
+  --ordo-red-dim:     #3a1a0e;
+  --ordo-text:        #8a7a60;
+  --ordo-text-bright: #d8c8a8;
+  --ordo-text-mid:    #9a8a6a;
+  --ordo-text-dim:    #5a4a30;
+  --ordo-text-muted:  #3a2a18;
+  --ordo-danger:      #6a1808;
 
   background: var(--ordo-bg) !important;
 
@@ -2801,15 +2800,15 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
       to bottom,
       transparent,
       transparent 2px,
-      rgba(0, 0, 0, 0.12) 2px,
-      rgba(0, 0, 0, 0.12) 4px
+      rgba(0, 0, 0, 0.08) 2px,
+      rgba(0, 0, 0, 0.08) 4px
     ) !important;
     animation: none !important;
   }
 
   &::before { display: none !important; }
 
-  // ── HIDE BANNER ─────────────────────────────────────────
+  // ── HIDE OLD BANNER ─────────────────────────────────────
   .alr-banner-svg,
   [class*="alr-banner"] {
     display: none !important;
@@ -2817,19 +2816,16 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
 
   // ── TOPBAR ──────────────────────────────────────────────
   #quartz-header {
-    background: #080402 !important;
-    border-bottom: 1px solid var(--ordo-border-hi) !important;
+    background: #0e0c0a !important;
+    border-bottom: 0.5px solid var(--ordo-border-hi) !important;
     &::after { display: none !important; }
   }
 
   #quartz-header .page-title,
   #quartz-header .page-title a {
-    color: var(--ordo-red) !important;
-    font-family: 'Courier Prime', monospace !important;
+    color: var(--ordo-text-bright) !important;
     font-size: 13px !important;
-    font-weight: 700 !important;
-    letter-spacing: 0.12em !important;
-    text-transform: uppercase !important;
+    font-weight: 500 !important;
   }
 
   #quartz-header .page-title a::after {
@@ -2837,107 +2833,81 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
   }
 
   #quartz-header .search-bar {
-    background: var(--ordo-surface) !important;
+    background: #111008 !important;
     border-color: var(--ordo-border-hi) !important;
-    border-radius: 2px !important;
   }
 
   #quartz-header .search-bar input {
-    color: var(--ordo-text) !important;
-    font-family: 'Courier Prime', monospace !important;
+    color: var(--ordo-text-mid) !important;
     &::placeholder { color: var(--ordo-text-muted) !important; }
   }
 
   .alr-topnav-link {
     color: var(--ordo-text-dim) !important;
-    font-family: 'Courier Prime', monospace !important;
     &:hover {
-      color: var(--ordo-red-bright) !important;
-      background: rgba(192, 40, 26, 0.08) !important;
+      color: var(--ordo-text-bright) !important;
+      background: rgba(138, 48, 32, 0.08) !important;
     }
   }
 
-  .alr-topnav-link.active {
-    color: var(--ordo-red) !important;
-  }
+  .alr-topnav-link.active { color: var(--ordo-red-bright) !important; }
 
   .alr-topnav-dropdown-menu-inner {
-    background: var(--ordo-surface) !important;
+    background: #111008 !important;
     border-color: var(--ordo-border-hi) !important;
-    border-radius: 2px !important;
   }
 
   .alr-topnav-dropdown-item {
     color: var(--ordo-text-dim) !important;
-    font-family: 'Courier Prime', monospace !important;
     &:hover {
-      color: var(--ordo-red-bright) !important;
-      background: rgba(192, 40, 26, 0.08) !important;
+      color: var(--ordo-text-bright) !important;
+      background: rgba(138, 48, 32, 0.08) !important;
     }
   }
 
   // ── SIDEBAR ─────────────────────────────────────────────
   #quartz-body .sidebar.left,
   .sidebar.left {
-    background: #110e0c !important;
-    border-right: 1px solid var(--ordo-border-hi) !important;
+    background: #0e0c0a !important;
+    border-right: 0.5px solid var(--ordo-border-hi) !important;
   }
 
   .alr-sb-site-label {
     color: var(--ordo-red) !important;
-    font-family: 'Courier Prime', monospace !important;
-    font-size: 11px !important;
-    font-weight: 700 !important;
-    letter-spacing: 0.14em !important;
-    text-transform: uppercase !important;
   }
 
   .alr-sb-label {
     color: var(--ordo-red) !important;
-    letter-spacing: 0.18em !important;
-    font-size: 10px !important;
-    font-family: 'Courier Prime', monospace !important;
   }
 
   .alr-sb-item {
     color: var(--ordo-text-dim) !important;
-    font-family: 'Courier Prime', monospace !important;
-    font-size: 11px !important;
-    font-style: normal !important;
-    border-left-color: transparent !important;
 
     &:hover {
       color: var(--ordo-text-bright) !important;
-      background: rgba(192, 40, 26, 0.08) !important;
+      background: rgba(138, 48, 32, 0.08) !important;
     }
 
     &.active {
       color: var(--ordo-text-bright) !important;
       border-left-color: var(--ordo-red) !important;
-      background: rgba(192, 40, 26, 0.1) !important;
+      background: rgba(138, 48, 32, 0.08) !important;
     }
   }
 
   .alr-sb-group-title {
     color: var(--ordo-text-dim) !important;
-    font-family: 'Courier Prime', monospace !important;
-    font-size: 11px !important;
-    font-style: normal !important;
 
     &:hover {
       color: var(--ordo-text-bright) !important;
-      background: rgba(192, 40, 26, 0.08) !important;
+      background: rgba(138, 48, 32, 0.08) !important;
     }
 
     &.active {
       color: var(--ordo-text-bright) !important;
       border-left-color: var(--ordo-red) !important;
-      background: rgba(192, 40, 26, 0.1) !important;
+      background: rgba(138, 48, 32, 0.08) !important;
     }
-  }
-
-  .alr-sb-text {
-    font-style: normal !important;
   }
 
   .alr-sb-chevron { color: var(--ordo-red-dim) !important; }
@@ -2950,17 +2920,11 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
   .alr-sb-darkmode-row {
     background: var(--ordo-surface) !important;
     border-color: var(--ordo-border-hi) !important;
-    border-radius: 2px !important;
-    &:hover { background: rgba(192, 40, 26, 0.08) !important; }
+    &:hover { background: rgba(138, 48, 32, 0.08) !important; }
   }
 
-  .alr-sb-darkmode-label {
-    color: var(--ordo-text-dim) !important;
-    font-family: 'Courier Prime', monospace !important;
-    font-style: normal !important;
-  }
-
-  .alr-toggle-track { background: #1a0804 !important; border-color: var(--ordo-border-hi) !important; }
+  .alr-sb-darkmode-label { color: var(--ordo-text-dim) !important; }
+  .alr-toggle-track { background: #1a0a04 !important; border-color: var(--ordo-border-hi) !important; }
   .alr-toggle-track.alr-toggle-on { background: var(--ordo-red) !important; border-color: var(--ordo-red-dim) !important; }
   .alr-toggle-thumb { background: var(--ordo-text-muted) !important; }
   .alr-toggle-on .alr-toggle-thumb { background: var(--ordo-text-bright) !important; }
@@ -2972,33 +2936,25 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
 
   article.popover-hint {
     background: var(--ordo-bg) !important;
-    font-style: normal !important;
   }
 
   // ── TYPOGRAPHY ──────────────────────────────────────────
   article h1 {
-    font-family: 'IM Fell English', serif !important;
-    font-weight: 400 !important;
-    font-size: 1.9rem !important;
+    font-size: 22px !important;
+    font-weight: 500 !important;
     color: var(--ordo-text-bright) !important;
-    border-bottom: 1px solid var(--ordo-border-hi) !important;
-    padding-bottom: 0.6rem !important;
-    letter-spacing: 0.02em !important;
-    text-transform: uppercase !important;
-    font-style: normal !important;
+    border-bottom: 0.5px solid var(--ordo-border-hi) !important;
   }
 
   article h2 {
-    font-family: 'Courier Prime', monospace !important;
-    font-weight: 700 !important;
-    font-size: 0.72rem !important;
-    color: var(--ordo-red) !important;
-    border-bottom: 1px solid var(--ordo-border-hi) !important;
-    padding-bottom: 0.3rem !important;
-    margin-top: 2.2rem !important;
-    letter-spacing: 0.2em !important;
+    font-size: 10px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.18em !important;
     text-transform: uppercase !important;
-    font-style: normal !important;
+    color: var(--ordo-red) !important;
+    border-bottom: 0.5px solid var(--ordo-border) !important;
+    padding-bottom: 6px !important;
+    margin-top: 24px !important;
 
     &::before {
       content: '— ';
@@ -3007,55 +2963,35 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
   }
 
   article h3 {
-    font-family: 'Courier Prime', monospace !important;
-    font-weight: 700 !important;
-    font-size: 0.68rem !important;
-    color: var(--ordo-text-mid) !important;
-    letter-spacing: 0.16em !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.1em !important;
     text-transform: uppercase !important;
-    margin-top: 1.6rem !important;
-    font-style: normal !important;
+    color: var(--ordo-text-dim) !important;
+    margin-top: 16px !important;
   }
 
   article p {
-    font-family: 'Courier Prime', monospace !important;
-    font-size: 0.85rem !important;
+    font-size: 13px !important;
     color: var(--ordo-text) !important;
-    line-height: 1.9 !important;
-    font-style: normal !important;
+    line-height: 1.8 !important;
   }
 
-  // Latin phrases only — IM Fell italic
-  article em,
-  article i {
-    font-family: 'IM Fell English', serif !important;
+  article em, article i {
     font-style: italic !important;
     color: var(--ordo-text-mid) !important;
   }
 
   article strong {
-    color: var(--ordo-text-bright) !important;
-    font-family: 'Courier Prime', monospace !important;
-    font-weight: 700 !important;
-    font-style: normal !important;
+    color: var(--ordo-text-mid) !important;
+    font-weight: 500 !important;
   }
 
-  // List items — force Courier Prime, no italic bleed
   article ul li,
   article ol li {
-    font-family: 'Courier Prime', monospace !important;
-    font-style: normal !important;
-    font-size: 0.84rem !important;
+    font-size: 13px !important;
     color: var(--ordo-text) !important;
-    line-height: 1.85 !important;
-  }
-
-  // Latin inside list items stays italic
-  article li em,
-  article li i {
-    font-family: 'IM Fell English', serif !important;
-    font-style: italic !important;
-    color: var(--ordo-text-mid) !important;
+    line-height: 1.8 !important;
   }
 
   article ul li::marker { color: var(--ordo-red-dim) !important; }
@@ -3064,8 +3000,7 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
   article a,
   article a.internal {
     color: var(--ordo-red-bright) !important;
-    border-bottom: 1px solid var(--ordo-red-dim) !important;
-    font-style: normal !important;
+    border-bottom: 0.5px solid var(--ordo-red-dim) !important;
     &:hover {
       color: var(--ordo-text-bright) !important;
       border-bottom-color: var(--ordo-red) !important;
@@ -3073,82 +3008,66 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
   }
 
   article blockquote {
-    border-left: 3px solid var(--ordo-red) !important;
-    background: var(--ordo-surface-2) !important;
-    padding: 0.9rem 1.2rem !important;
-    margin: 1.3rem 0 !important;
-    font-family: 'IM Fell English', serif !important;
+    border-left: 3px solid var(--ordo-red-dim) !important;
+    background: var(--ordo-surface) !important;
+    padding: 10px 14px !important;
+    margin: 12px 0 !important;
     font-style: italic !important;
-    font-size: 1rem !important;
-    color: var(--ordo-text-mid) !important;
+    color: var(--ordo-text-dim) !important;
+    font-size: 13px !important;
 
     p {
-      color: var(--ordo-text-mid) !important;
-      font-family: 'IM Fell English', serif !important;
+      color: var(--ordo-text-dim) !important;
       font-style: italic !important;
-      font-size: inherit !important;
       margin: 0 !important;
     }
   }
 
-  article hr {
-    border-color: var(--ordo-border-hi) !important;
-  }
+  article hr { border-color: var(--ordo-border) !important; }
 
   // ── CALLOUTS ────────────────────────────────────────────
   .callout {
     background: var(--ordo-surface-2) !important;
-    border-left: 3px solid var(--ordo-border-hi) !important;
-    border-top: none !important;
-    border-right: none !important;
-    border-bottom: none !important;
-    border-radius: 0 !important;
+    border-left-color: var(--ordo-border-hi) !important;
+    border-radius: 0 4px 4px 0 !important;
   }
 
-  .callout-title {
-    font-family: 'Courier Prime', monospace !important;
-    letter-spacing: 0.15em !important;
-    text-transform: uppercase !important;
-    font-style: normal !important;
-  }
-
-  .callout-title-inner {
-    font-size: 0.6rem !important;
-    letter-spacing: 0.2em !important;
-    font-style: normal !important;
-  }
+  .callout-title-inner,
+  .callout-icon svg { color: var(--ordo-text-dim) !important; fill: var(--ordo-text-dim) !important; }
+  .callout-content p { color: var(--ordo-text) !important; }
 
   .callout[data-callout="info"] {
-    background: var(--ordo-surface) !important;
+    background: #161210 !important;
     border-left-color: var(--ordo-border-hi) !important;
     .callout-title-inner,
-    .callout-icon svg { color: var(--ordo-red) !important; fill: var(--ordo-red) !important; }
-    p { color: var(--ordo-text) !important; font-family: 'Courier Prime', monospace !important; font-size: 0.84rem !important; font-style: normal !important; }
+    .callout-icon svg { color: var(--ordo-text-dim) !important; fill: var(--ordo-text-dim) !important; }
+    p { color: var(--ordo-text) !important; }
   }
 
   .callout[data-callout="warning"] {
-    background: rgba(192, 40, 26, 0.06) !important;
+    background: rgba(138, 48, 32, 0.06) !important;
     border-left-color: var(--ordo-red) !important;
     .callout-title-inner,
     .callout-icon svg { color: var(--ordo-red-bright) !important; fill: var(--ordo-red-bright) !important; }
-    p { color: #c09080 !important; font-family: 'Courier Prime', monospace !important; font-size: 0.84rem !important; font-style: normal !important; }
+    p { color: #8a5a48 !important; }
   }
 
   .callout[data-callout="danger"] {
-    background: rgba(139, 20, 8, 0.12) !important;
-    border: 1px solid var(--ordo-danger) !important;
-    border-left-width: 3px !important;
+    background: rgba(106, 24, 8, 0.1) !important;
+    border: 0.5px solid var(--ordo-danger) !important;
+    border-left: 3px solid var(--ordo-danger) !important;
+    border-radius: 0 4px 4px 0 !important;
     .callout-title-inner,
-    .callout-icon svg { color: #e04030 !important; fill: #e04030 !important; }
-    p { color: #b07060 !important; font-family: 'Courier Prime', monospace !important; font-size: 0.84rem !important; font-style: normal !important; }
+    .callout-icon svg { color: #8a2818 !important; fill: #8a2818 !important; }
+    p { color: #7a4838 !important; }
   }
 
   .callout[data-callout="note"] {
     background: var(--ordo-surface) !important;
-    border-left-color: var(--ordo-red-dim) !important;
+    border-left-color: var(--ordo-border-hi) !important;
     .callout-title-inner,
-    .callout-icon svg { color: var(--ordo-text-dim) !important; fill: var(--ordo-text-dim) !important; }
-    p { color: var(--ordo-text-dim) !important; font-family: 'Courier Prime', monospace !important; font-size: 0.84rem !important; font-style: normal !important; }
+    .callout-icon svg { color: var(--ordo-text-muted) !important; fill: var(--ordo-text-muted) !important; }
+    p { color: var(--ordo-text-dim) !important; }
   }
 
   .callout[data-callout="abstract"] {
@@ -3156,7 +3075,7 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
     border-left-color: var(--ordo-border) !important;
     .callout-title-inner,
     .callout-icon svg { color: var(--ordo-text-muted) !important; fill: var(--ordo-text-muted) !important; }
-    p { color: var(--ordo-text-muted) !important; font-family: 'Courier Prime', monospace !important; font-size: 0.82rem !important; font-style: normal !important; }
+    p { color: var(--ordo-text-muted) !important; }
   }
 
   // ── SCROLLBAR ───────────────────────────────────────────
@@ -3164,32 +3083,13 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
   ::-webkit-scrollbar-thumb { background: var(--ordo-border-hi) !important; }
   ::-webkit-scrollbar-thumb:hover { background: var(--ordo-red-dim) !important; }
 
-  // ── ENTRANCE ANIMATION ──────────────────────────────────
-  #quartz-body .center > article,
-  #quartz-body .center > .popover-hint {
-    animation: ordo-page-in 0.6s ease forwards !important;
-  }
-
-  @keyframes ordo-page-in {
-    from { opacity: 0; transform: translateY(8px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  article .callout {
-    animation: ordo-callout-in 0.45s ease forwards !important;
-  }
-
-  @keyframes ordo-callout-in {
-    from { opacity: 0; transform: translateX(-6px); }
-    to   { opacity: 1; transform: translateX(0); }
-  }
   // ── TERMINAL INTRUSION ──────────────────────────────────
   .alr-terminal-intrusion {
-    background: #0e0a08 !important;
+    background: #0e0c08 !important;
     border-color: var(--ordo-red) !important;
     box-shadow:
-      0 0 24px rgba(139, 48, 32, 0.15),
-      0 0 2px rgba(139, 48, 32, 0.4),
+      0 0 24px rgba(138, 48, 32, 0.12),
+      0 0 2px rgba(138, 48, 32, 0.3),
       inset 0 0 40px rgba(0, 0, 0, 0.6) !important;
   }
 
@@ -3198,43 +3098,25 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
     border-bottom-color: var(--ordo-border-hi) !important;
   }
 
-  .alr-terminal-titlebar-label {
-    color: var(--ordo-red) !important;
+  .alr-terminal-titlebar-label { color: var(--ordo-red) !important; }
+  .alr-terminal-titlebar-status { color: var(--ordo-text-muted) !important; }
+  .alr-terminal-titlebar-dot.alr-dot-red { background: var(--ordo-red) !important; }
+  .alr-terminal-prompt { color: var(--ordo-red) !important; }
+  .alr-terminal-prompt span { color: var(--ordo-text-muted) !important; }
+  .alr-terminal-output { color: var(--ordo-text) !important; }
+  .alr-terminal-cursor { background: var(--ordo-red) !important; }
+  .alr-terminal-footer { border-top-color: var(--ordo-border) !important; }
+  .alr-terminal-footer-left { color: var(--ordo-text-muted) !important; }
+  .alr-terminal-footer-right { color: var(--ordo-red) !important; }
+
+  // ── ENTRANCE ANIMATION ──────────────────────────────────
+  #quartz-body .center > article,
+  #quartz-body .center > .popover-hint {
+    animation: ordo-page-in 0.5s ease forwards !important;
   }
 
-  .alr-terminal-titlebar-status {
-    color: var(--ordo-text-muted) !important;
-  }
-
-  .alr-terminal-titlebar-dot.alr-dot-red {
-    background: var(--ordo-red) !important;
-  }
-
-  .alr-terminal-prompt {
-    color: var(--ordo-red) !important;
-  }
-
-  .alr-terminal-prompt span {
-    color: var(--ordo-text-muted) !important;
-  }
-
-  .alr-terminal-output {
-    color: var(--ordo-text) !important;
-  }
-
-  .alr-terminal-cursor {
-    background: var(--ordo-red) !important;
-  }
-
-  .alr-terminal-footer {
-    border-top-color: var(--ordo-border) !important;
-  }
-
-  .alr-terminal-footer-left {
-    color: var(--ordo-text-muted) !important;
-  }
-
-  .alr-terminal-footer-right {
-    color: var(--ordo-red) !important;
+  @keyframes ordo-page-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
 }
