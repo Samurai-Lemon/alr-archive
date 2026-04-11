@@ -2,6 +2,7 @@ import { PageLayout, SharedLayout } from "./quartz/cfg"
 import * as Component from "./quartz/components"
 import OrdoBanner from "./quartz/components/OrdoBanner"
 import ALREchoHero from "./quartz/components/ALREchoHero"
+import OrdoThreatStrip from "./quartz/components/OrdoThreatStrip"
 
 const isHome = (page: any) => page.fileData.slug === "index" || page.fileData.slug === ""
 const isEchoRegistry = (page: any) => page.fileData.slug === "Index/ECHO-Registry"
@@ -38,6 +39,10 @@ export const defaultContentPageLayout: PageLayout = {
       condition: isOrdo,
     }),
     Component.ConditionalRender({
+      component: OrdoThreatStrip(),
+      condition: isOrdo,
+    }),
+    Component.ConditionalRender({
       component: ALREchoHero(),
       condition: isEcho,
     }),
@@ -69,6 +74,10 @@ export const defaultListPageLayout: PageLayout = {
     }),
     Component.ConditionalRender({
       component: OrdoBanner(),
+      condition: isOrdo,
+    }),
+    Component.ConditionalRender({
+      component: OrdoThreatStrip(),
       condition: isOrdo,
     }),
     Component.ConditionalRender({
