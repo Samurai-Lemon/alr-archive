@@ -237,6 +237,14 @@ const ALRSidebar: QuartzComponent = ({ allFiles, fileData }: QuartzComponentProp
           </div>
 
           <div class="alr-sb-section">
+            <div class="alr-sb-label">Archive</div>
+            <a href="/" class="alr-sb-item">
+              <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
+              <span class="alr-sb-text">Home</span>
+            </a>
+          </div>
+
+          <div class="alr-sb-section">
             <div class="alr-sb-label">Procurement</div>
             <a href="/Shop" class="alr-sb-item active">
               <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
