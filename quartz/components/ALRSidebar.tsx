@@ -228,6 +228,144 @@ const ALRSidebar: QuartzComponent = ({ allFiles, fileData }: QuartzComponentProp
 
   const hasActiveIn = (items: Array<{ active: boolean }>) => items.some((item) => item.active)
 
+  if (currentSlug === "Shop") {
+    return (
+      <div class="alr-sidebar-wrapper" id="alr-sidebar-wrapper">
+        <div class="alr-sidebar-nav" id="alr-sidebar-nav">
+          <div class="alr-sb-topbar">
+            <span class="alr-sb-site-label">SHOP</span>
+          </div>
+
+          <div class="alr-sb-section">
+            <div class="alr-sb-label">Procurement</div>
+            <a href="/Shop" class="alr-sb-item active">
+              <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
+              <span class="alr-sb-text">All Items</span>
+            </a>
+            <a href="/Shop" class="alr-sb-item">
+              <span class="alr-sb-dot" style={{ background: "#cc785c" }}></span>
+              <span class="alr-sb-text">Archive Collection</span>
+            </a>
+            <a href="/Shop" class="alr-sb-item">
+              <span class="alr-sb-dot" style={{ background: "#d4a840" }}></span>
+              <span class="alr-sb-text">Tabletop & TCG</span>
+            </a>
+            <a href="/Shop" class="alr-sb-item">
+              <span class="alr-sb-dot" style={{ background: "#85b7eb" }}></span>
+              <span class="alr-sb-text">3D Prints</span>
+            </a>
+          </div>
+
+          <div class="alr-sb-section">
+            <div class="alr-sb-label">Category</div>
+            <a href="/Shop" class="alr-sb-item">
+              <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
+              <span class="alr-sb-text">Apparel</span>
+            </a>
+            <a href="/Shop" class="alr-sb-item">
+              <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
+              <span class="alr-sb-text">Headwear</span>
+            </a>
+            <a href="/Shop" class="alr-sb-item">
+              <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
+              <span class="alr-sb-text">Posters & Prints</span>
+            </a>
+            <a href="/Shop" class="alr-sb-item">
+              <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
+              <span class="alr-sb-text">Accessories</span>
+            </a>
+            <a href="/Shop" class="alr-sb-item">
+              <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
+              <span class="alr-sb-text">Made to Order</span>
+            </a>
+          </div>
+
+          <div class="alr-sb-section">
+            <div class="alr-sb-label">Filter</div>
+            <a href="/Shop" class="alr-sb-item">
+              <span class="alr-sb-dot" style={{ background: "#1d9e75" }}></span>
+              <span class="alr-sb-text">In Stock</span>
+            </a>
+            <a href="/Shop" class="alr-sb-item">
+              <span class="alr-sb-dot" style={{ background: "#d4a840" }}></span>
+              <span class="alr-sb-text">Pre-Order</span>
+            </a>
+            <a href="/Shop" class="alr-sb-item">
+              <span class="alr-sb-dot" style={{ background: "#c45a3a" }}></span>
+              <span class="alr-sb-text">Limited</span>
+            </a>
+          </div>
+
+          <div class="alr-sb-section">
+            <div class="alr-sb-label">Price Range</div>
+            <a href="/Shop" class="alr-sb-item">
+              <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
+              <span class="alr-sb-text">Under $25</span>
+            </a>
+            <a href="/Shop" class="alr-sb-item">
+              <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
+              <span class="alr-sb-text">$25 — $50</span>
+            </a>
+            <a href="/Shop" class="alr-sb-item">
+              <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
+              <span class="alr-sb-text">$50 — $100</span>
+            </a>
+            <a href="/Shop" class="alr-sb-item">
+              <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
+              <span class="alr-sb-text">Over $100</span>
+            </a>
+          </div>
+
+          <div class="alr-sb-bottom">
+            <div class="alr-sb-darkmode-row">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;color:#4a4840;">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span class="alr-sb-text alr-sb-darkmode-label">Dark mode</span>
+              <div class="alr-sb-darkmode-toggle" id="alr-darkmode-slot">
+                <div class="alr-toggle-track" id="alr-toggle-track">
+                  <div class="alr-toggle-thumb" id="alr-toggle-thumb"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+          function syncToggleState() {
+            var track = document.getElementById('alr-toggle-track');
+            if (!track) return;
+            var savedTheme = document.documentElement.getAttribute('saved-theme');
+            var isDark = savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            if (isDark) { track.classList.add('alr-toggle-on'); } else { track.classList.remove('alr-toggle-on'); }
+          }
+          function initShopSidebar() {
+            var track = document.getElementById('alr-toggle-track');
+            if (track && !track._alrBound) {
+              syncToggleState();
+              track.addEventListener('click', function() {
+                var btn = document.querySelector('button.darkmode');
+                if (btn) { btn.click(); setTimeout(syncToggleState, 50); }
+              });
+              track._alrBound = true;
+            }
+            if (!window._alrSidebarThemeObserver) {
+              var observer = new MutationObserver(syncToggleState);
+              observer.observe(document.documentElement, { attributes: true, attributeFilter: ['saved-theme'] });
+              window._alrSidebarThemeObserver = observer;
+            }
+          }
+          document.addEventListener('DOMContentLoaded', initShopSidebar);
+          document.addEventListener('nav', initShopSidebar);
+            `,
+          }}
+        />
+      </div>
+    )
+  }
+
   return (
     <div class="alr-sidebar-wrapper" id="alr-sidebar-wrapper">
       <div class="alr-sidebar-nav" id="alr-sidebar-nav">
@@ -496,12 +634,15 @@ const ALRSidebar: QuartzComponent = ({ allFiles, fileData }: QuartzComponentProp
         function openActiveSidebarGroups() {
           var nav = document.getElementById('alr-sidebar-nav');
           if (!nav) return;
+          var allDetails = nav.querySelectorAll('details');
+          allDetails.forEach(function(details) {
+            details.open = false;
+          });
           var activeItems = nav.querySelectorAll('.alr-sb-item.active');
           activeItems.forEach(function(item) {
             var details = item.closest('details');
             if (details) details.open = true;
           });
-
           var activeGroupTitles = nav.querySelectorAll('.alr-sb-group-title.active');
           activeGroupTitles.forEach(function(title) {
             var details = title.closest('details');
@@ -537,19 +678,19 @@ const ALRSidebar: QuartzComponent = ({ allFiles, fileData }: QuartzComponentProp
         document.addEventListener('DOMContentLoaded', initALRSidebar);
         document.addEventListener('nav', initALRSidebar);
         function resetALRAnimations() {
-  var targets = document.querySelectorAll(
-    '#quartz-body .center > article, #quartz-body .center > .popover-hint, article .callout, .alr-hero, .alr-mission, .alr-grid, .alr-card-full, .alr-home-ad-wrap'
-  );
-  targets.forEach(function(el) {
-    el.style.animation = 'none';
-    el.style.opacity = '0';
-    el.offsetHeight; // force reflow
-    el.style.animation = '';
-    el.style.opacity = '';
-  });
-}
+          var targets = document.querySelectorAll(
+            '#quartz-body .center > article, #quartz-body .center > .popover-hint, article .callout, .alr-hero, .alr-mission, .alr-grid, .alr-card-full, .alr-home-ad-wrap'
+          );
+          targets.forEach(function(el) {
+            el.style.animation = 'none';
+            el.style.opacity = '0';
+            el.offsetHeight;
+            el.style.animation = '';
+            el.style.opacity = '';
+          });
+        }
 
-document.addEventListener('nav', resetALRAnimations);
+        document.addEventListener('nav', resetALRAnimations);
       `,
         }}
       />
