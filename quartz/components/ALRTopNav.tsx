@@ -51,6 +51,7 @@ const ALRTopNav: QuartzComponent = (_props: QuartzComponentProps) => {
           </div>
         </div>
 
+        <a href="/Shop" class="alr-topnav-link">Shop</a>
         <a href="/About" class="alr-topnav-link">About</a>
       </nav>
 
