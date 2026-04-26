@@ -325,6 +325,19 @@ const ALRSidebar: QuartzComponent = ({ allFiles, fileData }: QuartzComponentProp
           </div>
 
           <div class="alr-sb-bottom">
+            <div class="alr-sb-darkmode-row" style={{ marginBottom: "6px" }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;color:#4a4840;">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              <span class="alr-sb-text alr-sb-darkmode-label">Audio</span>
+              <div class="alr-sb-darkmode-toggle">
+                <div class="alr-toggle-track" id="alr-sound-track">
+                  <div class="alr-toggle-thumb"></div>
+                </div>
+              </div>
+            </div>
             <div class="alr-sb-darkmode-row">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;color:#4a4840;">
                 <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -349,6 +362,12 @@ const ALRSidebar: QuartzComponent = ({ allFiles, fileData }: QuartzComponentProp
             var isDark = savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
             if (isDark) { track.classList.add('alr-toggle-on'); } else { track.classList.remove('alr-toggle-on'); }
           }
+          function syncSoundState() {
+            var track = document.getElementById('alr-sound-track');
+            if (!track) return;
+            var enabled = window.__ALR_SOUND_ENGINE__ ? window.__ALR_SOUND_ENGINE__.isEnabled() : localStorage.getItem('alr-sound-enabled') !== 'false';
+            if (enabled) { track.classList.add('alr-toggle-on'); } else { track.classList.remove('alr-toggle-on'); }
+          }
           function initShopSidebar() {
             var track = document.getElementById('alr-toggle-track');
             if (track && !track._alrBound) {
@@ -359,6 +378,16 @@ const ALRSidebar: QuartzComponent = ({ allFiles, fileData }: QuartzComponentProp
               });
               track._alrBound = true;
             }
+            var soundTrack = document.getElementById('alr-sound-track');
+            if (soundTrack && !soundTrack._alrBound) {
+              syncSoundState();
+              soundTrack.addEventListener('click', function() {
+                if (window.__ALR_SOUND_ENGINE__) { window.__ALR_SOUND_ENGINE__.toggle(); }
+                setTimeout(syncSoundState, 50);
+              });
+              soundTrack._alrBound = true;
+            }
+            window.addEventListener('alr-sound-state-change', syncSoundState);
             if (!window._alrSidebarThemeObserver) {
               var observer = new MutationObserver(syncToggleState);
               observer.observe(document.documentElement, { attributes: true, attributeFilter: ['saved-theme'] });
@@ -598,6 +627,19 @@ const ALRSidebar: QuartzComponent = ({ allFiles, fileData }: QuartzComponentProp
         </div>
 
         <div class="alr-sb-bottom">
+          <div class="alr-sb-darkmode-row" style={{ marginBottom: "6px" }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;color:#4a4840;">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span class="alr-sb-text alr-sb-darkmode-label">Audio</span>
+            <div class="alr-sb-darkmode-toggle">
+              <div class="alr-toggle-track" id="alr-sound-track">
+                <div class="alr-toggle-thumb"></div>
+              </div>
+            </div>
+          </div>
           <div class="alr-sb-darkmode-row">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;color:#4a4840;">
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -639,6 +681,13 @@ const ALRSidebar: QuartzComponent = ({ allFiles, fileData }: QuartzComponentProp
           }
         }
 
+        function syncSoundState() {
+          var track = document.getElementById('alr-sound-track');
+          if (!track) return;
+          var enabled = window.__ALR_SOUND_ENGINE__ ? window.__ALR_SOUND_ENGINE__.isEnabled() : localStorage.getItem('alr-sound-enabled') !== 'false';
+          if (enabled) { track.classList.add('alr-toggle-on'); } else { track.classList.remove('alr-toggle-on'); }
+        }
+
         function openActiveSidebarGroups() {
           var nav = document.getElementById('alr-sidebar-nav');
           if (!nav) return;
@@ -674,6 +723,18 @@ const ALRSidebar: QuartzComponent = ({ allFiles, fileData }: QuartzComponentProp
             }
           }
 
+          var soundTrack = document.getElementById('alr-sound-track');
+          if (soundTrack && !soundTrack._alrBound) {
+            syncSoundState();
+            soundTrack.addEventListener('click', function() {
+              if (window.__ALR_SOUND_ENGINE__) { window.__ALR_SOUND_ENGINE__.toggle(); }
+              setTimeout(syncSoundState, 50);
+            });
+            soundTrack._alrBound = true;
+          }
+
+          window.addEventListener('alr-sound-state-change', syncSoundState);
+
           if (!window._alrSidebarThemeObserver) {
             var observer = new MutationObserver(syncToggleState);
             observer.observe(document.documentElement, { attributes: true, attributeFilter: ['saved-theme'] });
@@ -685,6 +746,7 @@ const ALRSidebar: QuartzComponent = ({ allFiles, fileData }: QuartzComponentProp
 
         document.addEventListener('DOMContentLoaded', initALRSidebar);
         document.addEventListener('nav', initALRSidebar);
+
         function resetALRAnimations() {
           var targets = document.querySelectorAll(
             '#quartz-body .center > article, #quartz-body .center > .popover-hint, article .callout, .alr-hero, .alr-mission, .alr-grid, .alr-card-full, .alr-home-ad-wrap'
