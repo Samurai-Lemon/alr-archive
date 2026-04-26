@@ -9,6 +9,7 @@ const isEchoRegistry = (page: any) => page.fileData.slug === "Index/ECHO-Registr
 const isRealityRegistry = (page: any) => page.fileData.slug === "Index/Reality-Registry"
 const isOrdo = (page: any) => page.fileData.slug === "Foundations/Opposition/Ordo-Damnatio-Memoriae"
 const isEcho = (page: any) => page.fileData.frontmatter?.type === "echo"
+const isShop = (page: any) => page.fileData.slug === "Shop"
 
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
@@ -32,7 +33,7 @@ export const defaultContentPageLayout: PageLayout = {
   beforeBody: [
     Component.ConditionalRender({
       component: Component.ALRBanner(),
-      condition: (page) => !isEchoRegistry(page) && !isRealityRegistry(page) && !isOrdo(page) && !isEcho(page),
+      condition: (page) => !isEchoRegistry(page) && !isRealityRegistry(page) && !isOrdo(page) && !isEcho(page) && !isShop(page),
     }),
     Component.ConditionalRender({
       component: OrdoBanner(),
@@ -57,6 +58,10 @@ export const defaultContentPageLayout: PageLayout = {
     Component.ConditionalRender({
       component: Component.ALRRealityRegistry(),
       condition: isRealityRegistry,
+    }),
+    Component.ConditionalRender({
+      component: Component.ALRShop(),
+      condition: isShop,
     }),
   ],
   left: [
@@ -70,7 +75,7 @@ export const defaultListPageLayout: PageLayout = {
   beforeBody: [
     Component.ConditionalRender({
       component: Component.ALRBanner(),
-      condition: (page) => !isEchoRegistry(page) && !isRealityRegistry(page) && !isOrdo(page) && !isEcho(page),
+      condition: (page) => !isEchoRegistry(page) && !isRealityRegistry(page) && !isOrdo(page) && !isEcho(page) && !isShop(page),
     }),
     Component.ConditionalRender({
       component: OrdoBanner(),
@@ -97,12 +102,16 @@ export const defaultListPageLayout: PageLayout = {
       condition: isRealityRegistry,
     }),
     Component.ConditionalRender({
+      component: Component.ALRShop(),
+      condition: isShop,
+    }),
+    Component.ConditionalRender({
       component: Component.ArticleTitle(),
-      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isEcho(page),
+      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isEcho(page) && !isShop(page),
     }),
     Component.ConditionalRender({
       component: Component.ContentMeta(),
-      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isEcho(page),
+      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isEcho(page) && !isShop(page),
     }),
   ],
   left: [

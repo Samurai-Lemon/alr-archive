@@ -35,6 +35,7 @@ import ALRSoundEngine from "./ALRSoundEngine"
 import ALRSoundToggle from "./ALRSoundToggle"
 import ALRTerminalIntrusion from "./ALRTerminalIntrusion"
 import OrdoBanner from "./OrdoBanner"
+import ALRShop from "./ALRShop"
 
 export {
   ArticleTitle,
@@ -74,4 +75,5 @@ export {
   ALRSoundToggle,
   ALRTerminalIntrusion,
   OrdoBanner,
+  ALRShop,
 }
