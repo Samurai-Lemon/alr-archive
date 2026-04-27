@@ -30,7 +30,7 @@ const ALRShop: QuartzComponent = (_props: QuartzComponentProps) => {
   var SHOP = "john-lamoutte-shop";
 
   function formatPrice(amount, currency) {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: currency || 'USD' }).format(amount / 100);
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: currency || 'USD' }).format(amount);
   }
 
   function renderProducts(products) {
