@@ -2184,6 +2184,11 @@ details[open] .alr-sb-chevron {
     max-width: 100% !important;
     height: auto !important;
   }
+
+  .alr-shop-card-img img {
+    height: 100% !important;
+    max-width: none !important;
+  }
 }
 
 // ─── SCROLLBAR ────────────────────────────────────────────
@@ -3281,6 +3286,7 @@ body[data-slug="Shop"] .page-header {
   .alr-shop-placeholder { border-color: #d8d0c4 !important; }
   .alr-shop-placeholder-text { color: #7a7068 !important; }
   .alr-shop-placeholder-sub { color: #a09888 !important; }
+}
 
 // ─── SHOP PRODUCT GRID ────────────────────────
 
@@ -3438,6 +3444,4 @@ body[data-slug="Shop"] .page-header {
   .alr-shop-loading { border-color: #d8d0c4 !important; }
   .alr-shop-loading-text { color: #a09888 !important; }
   .alr-shop-empty { border-color: #d8d0c4 !important; color: #7a7068 !important; }
-}
-
 }
