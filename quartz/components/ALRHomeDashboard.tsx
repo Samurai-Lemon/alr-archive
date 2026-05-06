@@ -248,7 +248,7 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
     wrap && (wrap.style.transition = 'opacity 0.4s ease');
 
     setTimeout(function() {
-      title.textContent = (e.id ? e.id + ' — ' : '') + e.name;
+      title.textContent = e.name.startsWith(e.id) ? e.name : (e.id ? e.id + ' — ' : '') + e.name;
       desc.textContent = e.desc || 'An anomalous remnant recovered from a collapsed reality. Classification data preserved within the Archive.';
       link.href = '/' + e.slug;
 
