@@ -200,25 +200,48 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
         </div>
 
         {/* ── FEATURED ECHO ── */}
-        <div class="alr-home-featured">
-          <div class="alr-home-featured-left">
-            <div class="alr-home-featured-label">Featured Echo — Terminal Classification</div>
-            <div class="alr-home-featured-title">ECHO-003 — Nightmare Stalker</div>
-            <div class="alr-home-featured-desc">
-              An anomalous entity that manifests exclusively within dream states. It does not pursue.
-              It watches. It waits. Fourteen accounts. None describe it as impatient.
+        {(() => {
+          if (echoes.length === 0) return null
+          const idx = Math.floor(Math.random() * echoes.length)
+          const file = echoes[idx]
+          const fm = (file.frontmatter ?? {}) as Record<string, unknown>
+          const echoId = String(fm.echo_id ?? "")
+          const echoName = String(file.frontmatter?.title ?? "Unknown Echo")
+          const echoSlug = file.slug ?? ""
+          const echoEc = String(fm.ec ?? "")
+          const echoEsc = String(fm.esc ?? "")
+          const echoDesc = String(fm.description ?? fm.desc ?? "")
+          const echoImage = String(fm.banner ?? fm.image ?? fm.cover ?? "")
+          const ecType = echoEc.split(" ")[0].toLowerCase()
+          const escType = echoEsc.split(" ")[0].toLowerCase()
+
+          return (
+            <div class="alr-home-featured">
+              <div class="alr-home-featured-left">
+                <div class="alr-home-featured-label">Featured Echo — Rotating Selection</div>
+                <div class="alr-home-featured-title">{echoId} — {echoName}</div>
+                <div class="alr-home-featured-desc">
+                  {echoDesc || "An anomalous remnant recovered from a collapsed reality. Classification data preserved within the Archive."}
+                </div>
+                <div class="alr-home-featured-tags">
+                  {echoEc && <span class={`alr-etag alr-et-${ecType}`}>{echoEc.split(" ")[0]}</span>}
+                  {echoEsc && <span class={`alr-etag alr-es-${escType}`}>{echoEsc.split(" ")[0]}</span>}
+                </div>
+                <a href={`/${echoSlug}`} class="alr-home-featured-btn">View full entry →</a>
+              </div>
+              <div
+                class="alr-home-featured-img"
+                style={{
+                  backgroundImage: echoImage ? `url(${echoImage})` : "none",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              >
+                <span class="alr-home-featured-badge">{echoId} — {echoEsc || "Classified"}</span>
+              </div>
             </div>
-            <div class="alr-home-featured-tags">
-              <span class="alr-etag alr-et-ent">ENT</span>
-              <span class="alr-etag alr-es-s4">S4</span>
-              <span class="alr-et-unknown">RCC Unknown</span>
-            </div>
-            <a href="/Echoes/ECHO-003-Nightmare-Stalker" class="alr-home-featured-btn">View full entry →</a>
-          </div>
-          <div class="alr-home-featured-img">
-            <span class="alr-home-featured-badge">ECHO-003 — Terminal</span>
-          </div>
-        </div>
+          )
+        })()}
 
         {/* ── MAIN GRID ── */}
         <div class="alr-grid">
