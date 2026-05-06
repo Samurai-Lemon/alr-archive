@@ -200,48 +200,117 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
         </div>
 
         {/* ── FEATURED ECHO ── */}
-        {(() => {
-          if (echoes.length === 0) return null
-          const idx = Math.floor(Math.random() * echoes.length)
-          const file = echoes[idx]
-          const fm = (file.frontmatter ?? {}) as Record<string, unknown>
-          const echoId = String(fm.echo_id ?? "")
-          const echoName = String(file.frontmatter?.title ?? "Unknown Echo")
-          const echoSlug = file.slug ?? ""
-          const echoEc = String(fm.ec ?? "")
-          const echoEsc = String(fm.esc ?? "")
-          const echoDesc = String(fm.description ?? fm.desc ?? "")
-          const echoImage = String(fm.banner ?? fm.image ?? fm.cover ?? "")
-          const ecType = echoEc.split(" ")[0].toLowerCase()
-          const escType = echoEsc.split(" ")[0].toLowerCase()
+        <div class="alr-home-featured" id="alr-featured-echo">
+          <div class="alr-home-featured-left">
+            <div class="alr-home-featured-label">Featured Echo — Rotating Selection</div>
+            <div class="alr-home-featured-title" id="alr-fe-title">—</div>
+            <div class="alr-home-featured-desc" id="alr-fe-desc">Loading archive entry...</div>
+            <div class="alr-home-featured-tags" id="alr-fe-tags"></div>
+            <a href="#" id="alr-fe-link" class="alr-home-featured-btn">View full entry →</a>
+          </div>
+          <div class="alr-home-featured-img" id="alr-fe-img">
+            <span class="alr-home-featured-badge" id="alr-fe-badge">—</span>
+          </div>
+        </div>
 
-          return (
-            <div class="alr-home-featured">
-              <div class="alr-home-featured-left">
-                <div class="alr-home-featured-label">Featured Echo — Rotating Selection</div>
-                <div class="alr-home-featured-title">{echoId} — {echoName}</div>
-                <div class="alr-home-featured-desc">
-                  {echoDesc || "An anomalous remnant recovered from a collapsed reality. Classification data preserved within the Archive."}
-                </div>
-                <div class="alr-home-featured-tags">
-                  {echoEc && <span class={`alr-etag alr-et-${ecType}`}>{echoEc.split(" ")[0]}</span>}
-                  {echoEsc && <span class={`alr-etag alr-es-${escType}`}>{echoEsc.split(" ")[0]}</span>}
-                </div>
-                <a href={`/${echoSlug}`} class="alr-home-featured-btn">View full entry →</a>
-              </div>
-              <div
-                class="alr-home-featured-img"
-                style={{
-                  backgroundImage: echoImage ? `url(${echoImage})` : "none",
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
-              >
-                <span class="alr-home-featured-badge">{echoId} — {echoEsc || "Classified"}</span>
-              </div>
-            </div>
-          )
-        })()}
+        <script dangerouslySetInnerHTML={{ __html: `
+(function() {
+  var echoes = ${JSON.stringify(echoes.map(file => {
+    const fm = (file.frontmatter ?? {}) as Record<string, unknown>
+    return {
+      id: String(fm.echo_id ?? ""),
+      name: String(file.frontmatter?.title ?? "Unknown Echo"),
+      slug: file.slug ?? "",
+      ec: String(fm.ec ?? ""),
+      esc: String(fm.esc ?? ""),
+      desc: String(fm.description ?? fm.desc ?? ""),
+      image: String(fm.banner ?? fm.image ?? fm.cover ?? ""),
+    }
+  }))};
+
+  var current = -1;
+
+  function showEcho(idx) {
+    var e = echoes[idx];
+    if (!e) return;
+
+    var title = document.getElementById('alr-fe-title');
+    var desc = document.getElementById('alr-fe-desc');
+    var tags = document.getElementById('alr-fe-tags');
+    var link = document.getElementById('alr-fe-link');
+    var img = document.getElementById('alr-fe-img');
+    var badge = document.getElementById('alr-fe-badge');
+    var wrap = document.getElementById('alr-featured-echo');
+
+    if (!title || !desc || !tags || !link || !img || !badge) return;
+
+    wrap && (wrap.style.opacity = '0');
+    wrap && (wrap.style.transition = 'opacity 0.4s ease');
+
+    setTimeout(function() {
+      title.textContent = (e.id ? e.id + ' — ' : '') + e.name;
+      desc.textContent = e.desc || 'An anomalous remnant recovered from a collapsed reality. Classification data preserved within the Archive.';
+      link.href = '/' + e.slug;
+
+      var ecKey = e.ec.split(' ')[0].toLowerCase();
+      var escKey = e.esc.split(' ')[0].toLowerCase();
+      tags.innerHTML = '';
+
+      if (e.ec) {
+        var ecSpan = document.createElement('span');
+        ecSpan.className = 'alr-etag alr-et-' + ecKey;
+        ecSpan.textContent = e.ec.split(' ')[0];
+        tags.appendChild(ecSpan);
+      }
+
+      if (e.esc) {
+        var escSpan = document.createElement('span');
+        escSpan.className = 'alr-etag alr-es-' + escKey;
+        escSpan.textContent = e.esc.split(' ')[0];
+        tags.appendChild(escSpan);
+      }
+
+      badge.textContent = (e.id || 'ECHO') + ' — ' + (e.esc || 'Classified');
+
+      if (e.image) {
+        img.style.backgroundImage = 'url(' + e.image + ')';
+        img.style.backgroundSize = 'cover';
+        img.style.backgroundPosition = 'center';
+      } else {
+        img.style.backgroundImage = 'none';
+      }
+
+      wrap && (wrap.style.opacity = '1');
+    }, 400);
+  }
+
+  function next() {
+    if (echoes.length === 0) return;
+    current = (current + 1) % echoes.length;
+    showEcho(current);
+  }
+
+  function init() {
+    if (echoes.length === 0) return;
+    current = Math.floor(Math.random() * echoes.length);
+    showEcho(current);
+    setInterval(next, 30000);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  document.addEventListener('nav', function() {
+    if (window.location.pathname === '/' || window.location.pathname === '') {
+      current = Math.floor(Math.random() * echoes.length);
+      showEcho(current);
+    }
+  });
+})();
+        ` }} />
 
         {/* ── MAIN GRID ── */}
         <div class="alr-grid">
