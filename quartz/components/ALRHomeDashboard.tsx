@@ -224,7 +224,7 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
       ec: String(fm.ec ?? ""),
       esc: String(fm.esc ?? ""),
       desc: String(fm.description ?? fm.desc ?? ""),
-      image: String(fm.banner ?? fm.image ?? fm.cover ?? ""),
+      image: '/Images/' + String(fm.echo_id ?? "") + '.png',
     }
   }))};
 
