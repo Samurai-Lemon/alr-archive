@@ -242,10 +242,11 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
     var badge = document.getElementById('alr-fe-badge');
     var wrap = document.getElementById('alr-featured-echo');
 
-    if (!title || !desc || !tags || !link || !img || !badge) return;
+    if (!title || !desc || !tags || !link || !img || !badge || !wrap) return;
 
-    wrap && (wrap.style.opacity = '0');
-    wrap && (wrap.style.transition = 'opacity 0.4s ease');
+    wrap.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+    wrap.style.opacity = '0';
+    wrap.style.transform = 'translateX(-18px)';
 
     setTimeout(function() {
       title.textContent = e.name.startsWith(e.id) ? e.name : (e.id ? e.id + ' — ' : '') + e.name;
@@ -280,8 +281,17 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
         img.style.backgroundImage = 'none';
       }
 
-      wrap && (wrap.style.opacity = '1');
-    }, 400);
+      wrap.style.transform = 'translateX(18px)';
+      wrap.style.opacity = '0';
+
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          wrap.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+          wrap.style.opacity = '1';
+          wrap.style.transform = 'translateX(0)';
+        });
+      });
+    }, 260);
   }
 
   function next() {
