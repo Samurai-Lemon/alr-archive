@@ -2009,7 +2009,7 @@ details[open] .alr-sb-chevron {
   }
 }
 
-// ═══════════════════════════════════════════════
+/// ═══════════════════════════════════════════════
 // ─── MOBILE ───────────────────────────────────
 // ═══════════════════════════════════════════════
 @media (max-width: 800px) {
@@ -2032,26 +2032,71 @@ details[open] .alr-sb-chevron {
   #quartz-body .center > article, #quartz-body .center > .popover-hint, .page .center > article, .page .center > .popover-hint { display: block !important; width: 100% !important; max-width: 100% !important; min-width: 0 !important; box-sizing: border-box !important; grid-area: unset !important; margin: 0 auto !important; padding: 0 !important; position: static !important; left: auto !important; }
   #quartz-body .center .page-header { display: block !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }
 
+  // ─── HOMEPAGE HERO ──────────────────────────
+  .alr-home { gap: 0 !important; }
   .alr-home-hero-wrap { margin-left: -16px !important; margin-right: -16px !important; }
-  .alr-home-stats-strip { margin-left: -16px !important; margin-right: -16px !important; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
-  .alr-home-stat-cell:nth-child(2) { border-right: none !important; }
-  .alr-home-hero-overlay { grid-template-columns: 1fr !important; padding: 20px 16px !important; }
+  .alr-home-hero-overlay { grid-template-columns: 1fr !important; padding: 18px 16px 16px !important; }
   .alr-home-hero-right { display: none !important; }
-  .alr-home-hero-title { font-size: 22px !important; }
-  .alr-home-hero-sub { font-size: 11px !important; max-width: 100% !important; }
-  .alr-home-featured { grid-template-columns: 1fr !important; }
-  .alr-home-featured-img { display: none !important; }
+  .alr-home-hero-title { font-size: 24px !important; margin-bottom: 8px !important; }
+  .alr-home-hero-sub { font-size: 11px !important; max-width: 100% !important; margin-bottom: 12px !important; }
+  .alr-home-hero-links { gap: 5px !important; flex-wrap: wrap !important; }
+  .alr-home-hero-link { font-size: 9px !important; padding: 3px 8px !important; }
+  .alr-home-hero-link-ghost { font-size: 9px !important; padding: 3px 8px !important; }
 
+  // ─── STATS STRIP ────────────────────────────
+  .alr-home-stats-strip { margin-left: -16px !important; margin-right: -16px !important; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .alr-home-stat-cell { padding: 12px 16px !important; border-bottom: 0.5px solid #26251f; }
+  .alr-home-stat-cell:nth-child(2) { border-right: none !important; }
+  .alr-home-stat-cell:nth-child(3) { border-bottom: none !important; }
+  .alr-home-stat-cell:nth-child(4) { border-right: none !important; border-bottom: none !important; }
+  .alr-home-stat-n { font-size: 22px !important; }
+  .alr-home-stat-l { font-size: 9px !important; }
+
+  // ─── MISSION ────────────────────────────────
+  .alr-mission { grid-template-columns: 1fr !important; padding: 14px 16px !important; gap: 16px !important; margin-top: 14px !important; }
+  .alr-mission-title { font-size: 13px !important; }
+  .alr-mission-desc { font-size: 11px !important; }
+  .alr-mission-symbol { font-size: 13px !important; margin-bottom: 2px !important; }
+
+  // ─── FEATURED ECHO ──────────────────────────
+  .alr-home-featured {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: 160px auto !important;
+    padding: 0 !important;
+    margin-top: 14px !important;
+  }
+  .alr-home-featured-img {
+    display: flex !important;
+    width: 100% !important;
+    aspect-ratio: unset !important;
+    height: 160px !important;
+    border-radius: 10px 10px 0 0 !important;
+    border: none !important;
+    border-bottom: 0.5px solid #26251f !important;
+  }
+  .alr-home-featured-left {
+    padding: 14px 16px 16px !important;
+    order: 2 !important;
+  }
+  .alr-home-featured-title { font-size: 16px !important; }
+  .alr-home-featured-desc { font-size: 11px !important; }
+
+  // ─── GRID + CARDS ───────────────────────────
+  .alr-grid { grid-template-columns: 1fr !important; margin-top: 14px !important; }
   .alr-stats { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
-  .alr-mission { grid-template-columns: 1fr !important; }
-  .alr-grid { grid-template-columns: 1fr !important; }
   .alr-personnel { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+
+  // ─── OLD HERO (non-homepage) ────────────────
   .alr-hero { padding: 20px 16px 18px !important; }
   .alr-hero-title { font-size: 18px !important; }
   .alr-hero-sub { font-size: 12px !important; max-width: 100% !important; }
+
+  // ─── FORMS ──────────────────────────────────
   .alr-submit-row { flex-direction: column !important; }
   .alr-submit-row-grid { grid-template-columns: 1fr !important; }
   .alr-submit-actions { flex-direction: column !important; align-items: flex-start !important; }
+
+  // ─── MISC ───────────────────────────────────
   .alr-registry { overflow-x: auto !important; }
   article h1 { font-size: 18px !important; }
   article h2 { font-size: 14px !important; }
