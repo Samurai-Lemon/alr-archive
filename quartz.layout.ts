@@ -10,6 +10,7 @@ const isRealityRegistry = (page: any) => page.fileData.slug === "Index/Reality-R
 const isOrdo = (page: any) => page.fileData.slug === "Foundations/Opposition/Ordo-Damnatio-Memoriae"
 const isEcho = (page: any) => page.fileData.frontmatter?.type === "echo"
 const isShop = (page: any) => page.fileData.slug === "Shop"
+const isLabelCreator = (page: any) => page.fileData.slug === "Label Creator"
 
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
@@ -61,6 +62,10 @@ export const defaultContentPageLayout: PageLayout = {
     Component.ConditionalRender({
       component: Component.ALRShop(),
       condition: isShop,
+    }),
+    Component.ConditionalRender({
+      component: Component.ALRLabelCreator(),
+      condition: isLabelCreator,
     }),
   ],
   left: [

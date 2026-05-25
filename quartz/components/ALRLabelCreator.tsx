@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { QuartzComponent, QuartzComponentProps } from "./types"
+import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 
 const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
   const css = `
@@ -326,4 +326,4 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
 }
 
 ALRLabelCreator.displayName = "ALRLabelCreator"
-export default ALRLabelCreator
+export default (() => ALRLabelCreator) satisfies QuartzComponentConstructor
