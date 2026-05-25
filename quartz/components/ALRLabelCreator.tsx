@@ -15,7 +15,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
         <div class="alr-lc-wrap">
           <div class="alr-lc-topbar">
             <span class="alr-lc-topbar-title">ALR INITIATIVE GRADING</span>
-            <span class="alr-lc-topbar-sub">70mm × 20mm · PSA STANDARD</span>
+            <span class="alr-lc-topbar-sub">70mm \u00d7 20mm \u00b7 PSA STANDARD</span>
           </div>
           <div class="alr-lc-body">
 
@@ -25,30 +25,26 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
                 <button id="alr-lc-preset-dark" class="alr-lc-preset-btn alr-lc-preset-active">ALR Dark</button>
                 <button id="alr-lc-preset-light" class="alr-lc-preset-btn">ALR Light</button>
               </div>
-
               <div class="alr-lc-rule"></div>
               <div class="alr-lc-section-label">Card Identity</div>
-
               <div class="alr-lc-field">
                 <div class="alr-lc-label">Card Name <span class="alr-lc-req">*</span></div>
                 <input class="alr-lc-input" id="alr-lc-name" value="MONKEY D. LUFFY" />
               </div>
               <div class="alr-lc-field">
                 <div class="alr-lc-label">Set / Series</div>
-                <input class="alr-lc-input" id="alr-lc-set" value="ONE PIECE · ST21 · EN · 2025" />
+                <input class="alr-lc-input" id="alr-lc-set" value="ONE PIECE \u00b7 ST21 \u00b7 EN \u00b7 2025" />
               </div>
               <div class="alr-lc-field">
                 <div class="alr-lc-label">Variant / Edition</div>
-                <input class="alr-lc-input" id="alr-lc-variant" value="B&W ALT ART" />
+                <input class="alr-lc-input" id="alr-lc-variant" value="B&amp;W ALT ART" />
               </div>
               <div class="alr-lc-field">
                 <div class="alr-lc-label">Cert Number</div>
                 <input class="alr-lc-input" id="alr-lc-cert" value="0001-ALR" />
               </div>
-
               <div class="alr-lc-rule"></div>
               <div class="alr-lc-section-label">Grade</div>
-
               <div class="alr-lc-two">
                 <div class="alr-lc-field">
                   <div class="alr-lc-label">Grade</div>
@@ -59,10 +55,8 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
                   <input class="alr-lc-input" id="alr-lc-gl" value="PRISTINE" />
                 </div>
               </div>
-
               <div class="alr-lc-rule"></div>
               <div class="alr-lc-section-label">Colours</div>
-
               <div class="alr-lc-color-row">
                 <div class="alr-lc-field">
                   <div class="alr-lc-label">Body BG</div>
@@ -103,9 +97,9 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
               </div>
               <div class="alr-lc-preview" id="alr-lc-preview"></div>
               <div class="alr-lc-actions">
-                <button class="alr-lc-btn-primary" id="alr-lc-dl-front">↓ Front</button>
-                <button class="alr-lc-btn-ghost" id="alr-lc-dl-back">↓ Back</button>
-                <button class="alr-lc-btn-ghost" id="alr-lc-dl-fold">↓ Fold Sheet</button>
+                <button class="alr-lc-btn-primary" id="alr-lc-dl-front">\u2193 Front</button>
+                <button class="alr-lc-btn-ghost" id="alr-lc-dl-back">\u2193 Back</button>
+                <button class="alr-lc-btn-ghost" id="alr-lc-dl-fold">\u2193 Fold Sheet</button>
                 <span class="alr-lc-status" id="alr-lc-status">Ready</span>
               </div>
             </div>
@@ -121,53 +115,32 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
     dark:  { body:'#1a1814', zone:'#141410', acc:'#cc785c', grd:'#cc785c', txt:'#f0ece0', mut:'#b0ac9f' },
     light: { body:'#f5f0e8', zone:'#ede8dc', acc:'#cc785c', grd:'#cc785c', txt:'#1a1814', mut:'#6b6050' }
   };
-
   function g(id) { return document.getElementById(id); }
-  function val(id) { var el=g(id); return el ? el.value : ''; }
-
+  function val(id) { var el=g(id); return el?el.value:''; }
   function getV() {
-    return {
-      name: val('alr-lc-name')||'CARD NAME',
-      set:  val('alr-lc-set')||'SET',
-      variant: val('alr-lc-variant')||'VARIANT',
-      cert: val('alr-lc-cert')||'0000-ALR',
-      grade: val('alr-lc-grade')||'10',
-      gl:   val('alr-lc-gl')||'PRISTINE',
-      body: val('alr-lc-cbody'),
-      zone: val('alr-lc-czone'),
-      acc:  val('alr-lc-cacc'),
-      grd:  val('alr-lc-cgrd'),
-      txt:  val('alr-lc-ctxt'),
-      mut:  val('alr-lc-cmut')
-    };
+    return { name:val('alr-lc-name')||'CARD NAME', set:val('alr-lc-set')||'SET',
+      variant:val('alr-lc-variant')||'VARIANT', cert:val('alr-lc-cert')||'0000-ALR',
+      grade:val('alr-lc-grade')||'10', gl:val('alr-lc-gl')||'PRISTINE',
+      body:val('alr-lc-cbody'), zone:val('alr-lc-czone'), acc:val('alr-lc-cacc'),
+      grd:val('alr-lc-cgrd'), txt:val('alr-lc-ctxt'), mut:val('alr-lc-cmut') };
   }
-
-  function esc(s) {
-    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
-
-  function dk(hex, a) {
+  function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  function dk(hex,a) {
     var n=parseInt(hex.slice(1),16);
-    var r=Math.max(0,((n>>16)&255)-a), gr=Math.max(0,((n>>8)&255)-a), b=Math.max(0,(n&255)-a);
+    var r=Math.max(0,((n>>16)&255)-a),gr=Math.max(0,((n>>8)&255)-a),b=Math.max(0,(n&255)-a);
     return '#'+[r,gr,b].map(function(x){return x.toString(16).padStart(2,'0');}).join('');
   }
-
   function buildFront(v) {
-    var div=dk(v.acc,40), dl=dk(v.zone,5);
+    var div=dk(v.acc,40),dl=dk(v.zone,5);
     return '<svg width="70mm" height="20mm" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">'
-      +'<defs>'
-      +'<clipPath id="m"><rect x="0" y="0" width="700" height="200" rx="4"/></clipPath>'
+      +'<defs><clipPath id="m"><rect x="0" y="0" width="700" height="200" rx="4"/></clipPath>'
       +'<clipPath id="cl"><rect x="0" y="0" width="521" height="200"/></clipPath>'
       +'<clipPath id="cr"><rect x="522" y="0" width="178" height="200"/></clipPath>'
       +'<linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="0%">'
-      +'<stop offset="0%" stop-color="'+div+'"/>'
-      +'<stop offset="45%" stop-color="'+v.acc+'"/>'
-      +'<stop offset="100%" stop-color="'+div+'"/>'
-      +'</linearGradient>'
-      +'</defs>'
+      +'<stop offset="0%" stop-color="'+div+'"/><stop offset="45%" stop-color="'+v.acc+'"/><stop offset="100%" stop-color="'+div+'"/>'
+      +'</linearGradient></defs>'
       +'<rect x="0" y="0" width="700" height="200" rx="4" fill="'+v.body+'"/>'
-      +'<g clip-path="url(#m)">'
-      +'<g clip-path="url(#cl)">'
+      +'<g clip-path="url(#m)"><g clip-path="url(#cl)">'
       +'<rect x="0" y="0" width="519" height="200" fill="'+v.zone+'" opacity="0.85"/>'
       +'<text x="261" y="30" text-anchor="middle" font-size="21" font-weight="700" fill="'+v.acc+'" letter-spacing="2" font-family="Courier New,monospace">ALR INITIATIVE GRADING</text>'
       +'<line x1="0" y1="35" x2="519" y2="35" stroke="'+v.acc+'" stroke-width="0.7" opacity="0.35"/>'
@@ -185,8 +158,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
       +'<line x1="10" y1="155" x2="510" y2="155" stroke="'+dl+'" stroke-width="1"/>'
       +'<text x="10" y="169" font-size="16" font-weight="700" fill="'+v.mut+'" letter-spacing="1.2" font-family="Courier New,monospace">CERT NUMBER</text>'
       +'<text x="10" y="187" font-size="19" font-weight="700" fill="'+v.txt+'" font-family="Courier New,monospace">'+esc(v.cert)+'</text>'
-      +'</g>'
-      +'<g clip-path="url(#cr)">'
+      +'</g><g clip-path="url(#cr)">'
       +'<rect x="522" y="0" width="178" height="200" fill="'+dk(v.zone,15)+'" opacity="0.92"/>'
       +'<line x1="522" y1="0" x2="522" y2="200" stroke="'+v.acc+'" stroke-width="1.5" opacity="0.4"/>'
       +'<text x="611" y="29" text-anchor="middle" font-size="15" font-weight="700" fill="'+v.mut+'" letter-spacing="1.8" font-family="Courier New,monospace">ARCHIVE GRADE</text>'
@@ -195,27 +167,18 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
       +'<line x1="528" y1="168" x2="688" y2="168" stroke="'+dl+'" stroke-width="1"/>'
       +'<text x="611" y="184" text-anchor="middle" font-size="17" font-weight="700" fill="'+v.mut+'" letter-spacing="3.5" font-family="Courier New,monospace">'+esc(v.gl)+'</text>'
       +'<line x1="528" y1="190" x2="688" y2="190" stroke="'+v.acc+'" stroke-width="0.7" opacity="0.35"/>'
-      +'</g>'
-      +'</g>'
-      +'<rect x="1.5" y="1.5" width="697" height="197" rx="3.5" fill="none" stroke="url(#bg)" stroke-width="5"/>'
-      +'</svg>';
+      +'</g></g><rect x="1.5" y="1.5" width="697" height="197" rx="3.5" fill="none" stroke="url(#bg)" stroke-width="5"/></svg>';
   }
-
   function buildBack(v) {
     var div=dk(v.acc,40);
     return '<svg width="70mm" height="20mm" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">'
-      +'<defs>'
-      +'<clipPath id="m"><rect x="0" y="0" width="700" height="200" rx="4"/></clipPath>'
+      +'<defs><clipPath id="m"><rect x="0" y="0" width="700" height="200" rx="4"/></clipPath>'
       +'<linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="0%">'
-      +'<stop offset="0%" stop-color="'+div+'"/>'
-      +'<stop offset="45%" stop-color="'+v.acc+'"/>'
-      +'<stop offset="100%" stop-color="'+div+'"/>'
+      +'<stop offset="0%" stop-color="'+div+'"/><stop offset="45%" stop-color="'+v.acc+'"/><stop offset="100%" stop-color="'+div+'"/>'
       +'</linearGradient>'
       +'<radialGradient id="glow" cx="50%" cy="50%" r="40%">'
-      +'<stop offset="0%" stop-color="'+v.acc+'" stop-opacity="0.08"/>'
-      +'<stop offset="100%" stop-color="'+v.acc+'" stop-opacity="0"/>'
-      +'</radialGradient>'
-      +'</defs>'
+      +'<stop offset="0%" stop-color="'+v.acc+'" stop-opacity="0.08"/><stop offset="100%" stop-color="'+v.acc+'" stop-opacity="0"/>'
+      +'</radialGradient></defs>'
       +'<rect x="0" y="0" width="700" height="200" rx="4" fill="'+v.body+'"/>'
       +'<g clip-path="url(#m)">'
       +'<rect x="0" y="0" width="700" height="200" fill="'+v.zone+'" opacity="0.7"/>'
@@ -236,17 +199,14 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
       +'<line x1="18" y1="178" x2="18" y2="158" stroke="'+v.acc+'" stroke-width="0.9" opacity="0.5"/>'
       +'<line x1="682" y1="178" x2="662" y2="178" stroke="'+v.acc+'" stroke-width="0.9" opacity="0.5"/>'
       +'<line x1="682" y1="178" x2="682" y2="158" stroke="'+v.acc+'" stroke-width="0.9" opacity="0.5"/>'
-      +'</g>'
-      +'<rect x="1.5" y="1.5" width="697" height="197" rx="3.5" fill="none" stroke="url(#bg)" stroke-width="5"/>'
-      +'</svg>';
+      +'</g><rect x="1.5" y="1.5" width="697" height="197" rx="3.5" fill="none" stroke="url(#bg)" stroke-width="5"/></svg>';
   }
-
   function buildFold(v) {
-    var f = buildFront(v).replace(/ xmlns="[^"]*"/g,'');
-    var b = buildBack(v).replace(/ xmlns="[^"]*"/g,'');
+    var f=buildFront(v).replace(/ xmlns="[^"]*"/g,'');
+    var b=buildBack(v).replace(/ xmlns="[^"]*"/g,'');
     return '<svg width="70mm" height="40.6mm" viewBox="0 0 700 406" xmlns="http://www.w3.org/2000/svg">'
-      +'<rect x="0" y="0" width="700" height="406" fill="#ffffff"/>'
-      +'<g transform="translate(0,0)"><svg width="700" height="200" viewBox="0 0 700 200">'+f+'</svg></g>'
+      +'<rect x="0" y="0" width="700" height="406" fill="#fff"/>'
+      +'<g><svg width="700" height="200" viewBox="0 0 700 200">'+f+'</svg></g>'
       +'<g transform="translate(700,406) rotate(180)"><svg width="700" height="200" viewBox="0 0 700 200">'+b+'</svg></g>'
       +'<line x1="0" y1="203" x2="700" y2="203" stroke="#888" stroke-width="0.7" stroke-dasharray="8,6"/>'
       +'<g stroke="#000" stroke-width="0.7" fill="none" stroke-linecap="square">'
@@ -256,156 +216,129 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
       +'<line x1="720" y1="406" x2="770" y2="406"/><line x1="700" y1="426" x2="700" y2="476"/>'
       +'</g></svg>';
   }
-
   function render() {
-    var el = g('alr-lc-preview');
-    if (!el) return;
-    var v = getV();
-    if (tab === 'fold') {
-      el.innerHTML = '<div class="alr-lc-plabel">Front \u2014 fold line \u2014 Back</div>'
+    var el=g('alr-lc-preview'); if(!el) return;
+    var v=getV();
+    if(tab==='fold') {
+      el.innerHTML='<div class="alr-lc-plabel">Front \u2014 fold line \u2014 Back</div>'
         +'<div class="alr-lc-svgwrap">'+buildFront(v)+'</div>'
         +'<div class="alr-lc-foldline"><div class="alr-lc-foldline-dash"></div><span>FOLD</span><div class="alr-lc-foldline-dash"></div></div>'
         +'<div class="alr-lc-svgwrap">'+buildBack(v)+'</div>';
     } else {
-      var svg = tab === 'front' ? buildFront(v) : buildBack(v);
-      var lbl = tab === 'front' ? 'Front' : 'Back (rotated when printed)';
-      el.innerHTML = '<div class="alr-lc-plabel">'+lbl+'</div><div class="alr-lc-svgwrap">'+svg+'</div>';
+      var svg=tab==='front'?buildFront(v):buildBack(v);
+      el.innerHTML='<div class="alr-lc-plabel">'+(tab==='front'?'Front':'Back')+'</div><div class="alr-lc-svgwrap">'+svg+'</div>';
     }
   }
-
-  function download(which) {
-    var v = getV(); var svg, fn;
-    if (which==='front') { svg=buildFront(v); fn='alr_label_front.svg'; }
-    else if (which==='back') { svg=buildBack(v); fn='alr_label_back.svg'; }
-    else { svg=buildFold(v); fn='alr_label_foldcut.svg'; }
-    var b = new Blob([svg], {type:'image/svg+xml'});
-    var u = URL.createObjectURL(b);
-    var a = document.createElement('a');
-    a.href=u; a.download=fn;
-    document.body.appendChild(a); a.click();
-    document.body.removeChild(a); URL.revokeObjectURL(u);
-    var s = g('alr-lc-status'); if(s) s.textContent = 'Downloaded \u2713';
+  function dl(which) {
+    var v=getV(),svg,fn;
+    if(which==='front'){svg=buildFront(v);fn='alr_label_front.svg';}
+    else if(which==='back'){svg=buildBack(v);fn='alr_label_back.svg';}
+    else{svg=buildFold(v);fn='alr_label_foldcut.svg';}
+    var encoded='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
+    var a=document.createElement('a');
+    a.href=encoded;a.download=fn;
+    document.body.appendChild(a);a.click();
+    document.body.removeChild(a);
+    var s=g('alr-lc-status');if(s)s.textContent='Downloaded \u2713';
   }
-
   function setPreset(name) {
-    var p = PRESETS[name];
-    ['dark','light'].forEach(function(n) {
-      var b = g('alr-lc-preset-'+n);
-      if (b) b.className = 'alr-lc-preset-btn' + (n===name ? ' alr-lc-preset-active' : '');
+    var p=PRESETS[name];
+    ['dark','light'].forEach(function(n){
+      var b=g('alr-lc-preset-'+n);
+      if(b) b.className='alr-lc-preset-btn'+(n===name?' alr-lc-preset-active':'');
     });
-    function setc(cid, hid, v) {
-      var c=g(cid), h=g(hid);
-      if(c) c.value=v; if(h) h.value=v;
-    }
-    setc('alr-lc-cbody','alr-lc-hbody',p.body);
-    setc('alr-lc-czone','alr-lc-hzone',p.zone);
-    setc('alr-lc-cacc','alr-lc-hacc',p.acc);
-    setc('alr-lc-cgrd','alr-lc-hgrd',p.grd);
-    setc('alr-lc-ctxt','alr-lc-htxt',p.txt);
-    setc('alr-lc-cmut','alr-lc-hmut',p.mut);
+    function sc(cid,hid,v){var c=g(cid),h=g(hid);if(c)c.value=v;if(h)h.value=v;}
+    sc('alr-lc-cbody','alr-lc-hbody',p.body);
+    sc('alr-lc-czone','alr-lc-hzone',p.zone);
+    sc('alr-lc-cacc','alr-lc-hacc',p.acc);
+    sc('alr-lc-cgrd','alr-lc-hgrd',p.grd);
+    sc('alr-lc-ctxt','alr-lc-htxt',p.txt);
+    sc('alr-lc-cmut','alr-lc-hmut',p.mut);
     render();
   }
-
   function switchTab(t) {
-    tab = t;
-    ['front','back','fold'].forEach(function(n) {
-      var b = g('alr-lc-tab-'+n);
-      if (b) b.className = 'alr-lc-tab' + (n===t ? ' alr-lc-tab-active' : '');
+    tab=t;
+    ['front','back','fold'].forEach(function(n){
+      var b=g('alr-lc-tab-'+n);
+      if(b) b.className='alr-lc-tab'+(n===t?' alr-lc-tab-active':'');
     });
     render();
   }
-
-  function bindColorPair(cid, hid) {
-    var c = g(cid), h = g(hid);
-    if (c) c.addEventListener('input', function() { if(h) h.value=c.value; render(); });
-    if (h) h.addEventListener('input', function() { if(/^#[0-9a-fA-F]{6}$/.test(h.value) && c) c.value=h.value; render(); });
+  function bcp(cid,hid) {
+    var c=g(cid),h=g(hid);
+    if(c) c.addEventListener('input',function(){if(h)h.value=c.value;render();});
+    if(h) h.addEventListener('input',function(){if(/^#[0-9a-fA-F]{6}$/.test(h.value)&&c)c.value=h.value;render();});
   }
-
   function init() {
-    var tool = g('alr-lc-tool');
-    if (!tool) return;
-
-    ['name','set','variant','cert','grade','gl'].forEach(function(id) {
-      var el = g('alr-lc-'+id);
-      if (el) el.addEventListener('input', render);
+    if(!g('alr-lc-tool')) return;
+    ['name','set','variant','cert','grade','gl'].forEach(function(id){
+      var el=g('alr-lc-'+id);if(el)el.addEventListener('input',render);
     });
-
-    bindColorPair('alr-lc-cbody','alr-lc-hbody');
-    bindColorPair('alr-lc-czone','alr-lc-hzone');
-    bindColorPair('alr-lc-cacc','alr-lc-hacc');
-    bindColorPair('alr-lc-cgrd','alr-lc-hgrd');
-    bindColorPair('alr-lc-ctxt','alr-lc-htxt');
-    bindColorPair('alr-lc-cmut','alr-lc-hmut');
-
-    var pd = g('alr-lc-preset-dark'), pl = g('alr-lc-preset-light');
-    if (pd) pd.addEventListener('click', function() { setPreset('dark'); });
-    if (pl) pl.addEventListener('click', function() { setPreset('light'); });
-
-    var tf = g('alr-lc-tab-front'), tb = g('alr-lc-tab-back'), tfo = g('alr-lc-tab-fold');
-    if (tf) tf.addEventListener('click', function() { switchTab('front'); });
-    if (tb) tb.addEventListener('click', function() { switchTab('back'); });
-    if (tfo) tfo.addEventListener('click', function() { switchTab('fold'); });
-
-    var df = g('alr-lc-dl-front'), db = g('alr-lc-dl-back'), dfo = g('alr-lc-dl-fold');
-    if (df) df.addEventListener('click', function() { download('front'); });
-    if (db) db.addEventListener('click', function() { download('back'); });
-    if (dfo) dfo.addEventListener('click', function() { download('fold'); });
-
+    bcp('alr-lc-cbody','alr-lc-hbody');bcp('alr-lc-czone','alr-lc-hzone');
+    bcp('alr-lc-cacc','alr-lc-hacc');bcp('alr-lc-cgrd','alr-lc-hgrd');
+    bcp('alr-lc-ctxt','alr-lc-htxt');bcp('alr-lc-cmut','alr-lc-hmut');
+    var pd=g('alr-lc-preset-dark'),pl=g('alr-lc-preset-light');
+    if(pd)pd.addEventListener('click',function(){setPreset('dark');});
+    if(pl)pl.addEventListener('click',function(){setPreset('light');});
+    var tf=g('alr-lc-tab-front'),tb=g('alr-lc-tab-back'),tfo=g('alr-lc-tab-fold');
+    if(tf)tf.addEventListener('click',function(){switchTab('front');});
+    if(tb)tb.addEventListener('click',function(){switchTab('back');});
+    if(tfo)tfo.addEventListener('click',function(){switchTab('fold');});
+    var df=g('alr-lc-dl-front'),db=g('alr-lc-dl-back'),dfo=g('alr-lc-dl-fold');
+    if(df)df.addEventListener('click',function(){dl('front');});
+    if(db)db.addEventListener('click',function(){dl('back');});
+    if(dfo)dfo.addEventListener('click',function(){dl('fold');});
     render();
   }
-
-  document.addEventListener('DOMContentLoaded', init);
-  document.addEventListener('nav', init);
+  document.addEventListener('DOMContentLoaded',init);
+  document.addEventListener('nav',init);
 })();
       ` }} />
 
       <style dangerouslySetInnerHTML={{ __html: `
-        .alr-lc { max-width: 100%; }
-        .alr-lc-header { margin-bottom: 2rem; }
-        .alr-lc-sub { color: var(--gray); font-size: 0.95rem; margin-top: 0.5rem; }
-        .alr-lc-wrap { border: 1px solid var(--lightgray); border-radius: 6px; overflow: hidden; font-family: var(--codeFont), 'Courier New', monospace; }
-        .alr-lc-topbar { background: var(--lightgray); padding: 10px 16px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--lightgray); }
-        .alr-lc-topbar-title { font-size: 11px; font-weight: 700; color: #cc785c; letter-spacing: 2.5px; }
-        .alr-lc-topbar-sub { font-size: 10px; color: var(--gray); letter-spacing: 1px; margin-left: auto; }
-        .alr-lc-body { display: grid; grid-template-columns: 280px 1fr; min-height: 480px; }
-        .alr-lc-left { border-right: 1px solid var(--lightgray); padding: 14px; display: flex; flex-direction: column; gap: 8px; overflow-y: auto; max-height: 560px; }
-        .alr-lc-right { display: flex; flex-direction: column; }
-        .alr-lc-section-label { font-size: 9px; color: #cc785c; letter-spacing: 2px; text-transform: uppercase; }
-        .alr-lc-rule { height: 1px; background: var(--lightgray); margin: 2px 0; }
-        .alr-lc-field { display: flex; flex-direction: column; gap: 3px; }
-        .alr-lc-label { font-size: 9px; color: var(--gray); letter-spacing: 1.5px; text-transform: uppercase; }
-        .alr-lc-req { color: #cc785c; }
-        .alr-lc-input { background: var(--light); border: 1px solid var(--lightgray); color: var(--dark); font-family: var(--codeFont), 'Courier New', monospace; font-size: 11px; padding: 6px 8px; border-radius: 3px; width: 100%; outline: none; box-sizing: border-box; }
-        .alr-lc-input:focus { border-color: #cc785c; }
-        .alr-lc-two { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
-        .alr-lc-color-row { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
-        .alr-lc-color-wrap { display: flex; align-items: center; gap: 5px; background: var(--light); border: 1px solid var(--lightgray); border-radius: 3px; padding: 3px 6px; }
-        .alr-lc-color-wrap input[type="color"] { width: 20px; height: 20px; border: none; background: none; cursor: pointer; padding: 0; }
-        .alr-lc-hex { font-size: 10px; color: var(--dark); font-family: var(--codeFont), monospace; background: none; border: none; outline: none; width: 58px; }
-        .alr-lc-preset-row { display: flex; gap: 6px; }
-        .alr-lc-preset-btn { flex: 1; font-family: var(--codeFont), monospace; font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 7px 0; border-radius: 3px; cursor: pointer; border: 1px solid var(--lightgray); background: transparent; color: var(--gray); transition: all 0.15s; }
-        .alr-lc-preset-btn:hover { border-color: #cc785c; color: #cc785c; }
-        .alr-lc-preset-active { border-color: #cc785c !important; color: #cc785c !important; background: rgba(204,120,92,0.08) !important; }
-        .alr-lc-tabs { display: flex; border-bottom: 1px solid var(--lightgray); }
-        .alr-lc-tab { font-family: var(--codeFont), monospace; font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 8px 14px; cursor: pointer; color: var(--gray); background: none; border: none; border-bottom: 2px solid transparent; transition: all 0.15s; }
-        .alr-lc-tab:hover { color: var(--dark); }
-        .alr-lc-tab-active { color: #cc785c !important; border-bottom-color: #cc785c !important; }
-        .alr-lc-preview { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 20px; background: var(--lightgray); min-height: 180px; }
-        .alr-lc-plabel { font-size: 9px; color: var(--gray); letter-spacing: 2px; text-transform: uppercase; align-self: flex-start; }
-        .alr-lc-svgwrap { width: 100%; max-width: 520px; border: 1px solid var(--lightgray); border-radius: 3px; overflow: hidden; background: #fff; }
-        .alr-lc-svgwrap svg { width: 100%; height: auto; display: block; }
-        .alr-lc-foldline { width: 100%; max-width: 520px; display: flex; align-items: center; gap: 8px; font-size: 9px; color: var(--gray); letter-spacing: 1.5px; }
-        .alr-lc-foldline-dash { flex: 1; border-top: 1px dashed var(--gray); }
-        .alr-lc-actions { border-top: 1px solid var(--lightgray); padding: 10px 16px; display: flex; gap: 8px; align-items: center; background: var(--lightgray); flex-wrap: wrap; }
-        .alr-lc-btn-primary { font-family: var(--codeFont), monospace; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 7px 12px; border-radius: 3px; cursor: pointer; background: #cc785c; border: 1px solid #cc785c; color: #fff; transition: all 0.15s; }
-        .alr-lc-btn-primary:hover { background: #b86848; border-color: #b86848; }
-        .alr-lc-btn-ghost { font-family: var(--codeFont), monospace; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 7px 12px; border-radius: 3px; cursor: pointer; background: transparent; border: 1px solid var(--lightgray); color: var(--gray); transition: all 0.15s; }
-        .alr-lc-btn-ghost:hover { border-color: #cc785c; color: #cc785c; }
-        .alr-lc-status { font-size: 9px; color: #cc785c; letter-spacing: 1px; margin-left: auto; }
-        @media (max-width: 700px) {
-          .alr-lc-body { grid-template-columns: 1fr; }
-          .alr-lc-left { border-right: none; border-bottom: 1px solid var(--lightgray); max-height: none; }
-        }
+        .alr-lc{max-width:100%}
+        .alr-lc-header{margin-bottom:2rem}
+        .alr-lc-sub{color:var(--gray);font-size:.95rem;margin-top:.5rem}
+        .alr-lc-wrap{border:1px solid var(--lightgray);border-radius:6px;overflow:hidden;font-family:var(--codeFont),'Courier New',monospace}
+        .alr-lc-topbar{background:var(--lightgray);padding:10px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--lightgray)}
+        .alr-lc-topbar-title{font-size:11px;font-weight:700;color:#cc785c;letter-spacing:2.5px}
+        .alr-lc-topbar-sub{font-size:10px;color:var(--gray);letter-spacing:1px;margin-left:auto}
+        .alr-lc-body{display:grid;grid-template-columns:280px 1fr;min-height:480px}
+        .alr-lc-left{border-right:1px solid var(--lightgray);padding:14px;display:flex;flex-direction:column;gap:8px;overflow-y:auto;max-height:560px}
+        .alr-lc-right{display:flex;flex-direction:column}
+        .alr-lc-section-label{font-size:9px;color:#cc785c;letter-spacing:2px;text-transform:uppercase}
+        .alr-lc-rule{height:1px;background:var(--lightgray);margin:2px 0}
+        .alr-lc-field{display:flex;flex-direction:column;gap:3px}
+        .alr-lc-label{font-size:9px;color:var(--gray);letter-spacing:1.5px;text-transform:uppercase}
+        .alr-lc-req{color:#cc785c}
+        .alr-lc-input{background:var(--light);border:1px solid var(--lightgray);color:var(--dark);font-family:var(--codeFont),'Courier New',monospace;font-size:11px;padding:6px 8px;border-radius:3px;width:100%;outline:none;box-sizing:border-box}
+        .alr-lc-input:focus{border-color:#cc785c}
+        .alr-lc-two{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+        .alr-lc-color-row{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+        .alr-lc-color-wrap{display:flex;align-items:center;gap:5px;background:var(--light);border:1px solid var(--lightgray);border-radius:3px;padding:3px 6px}
+        .alr-lc-color-wrap input[type="color"]{width:20px;height:20px;border:none;background:none;cursor:pointer;padding:0}
+        .alr-lc-hex{font-size:10px;color:var(--dark);font-family:var(--codeFont),monospace;background:none;border:none;outline:none;width:58px}
+        .alr-lc-preset-row{display:flex;gap:6px}
+        .alr-lc-preset-btn{flex:1;font-family:var(--codeFont),monospace;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:7px 0;border-radius:3px;cursor:pointer;border:1px solid var(--lightgray);background:transparent;color:var(--gray);transition:all .15s}
+        .alr-lc-preset-btn:hover{border-color:#cc785c;color:#cc785c}
+        .alr-lc-preset-active{border-color:#cc785c!important;color:#cc785c!important;background:rgba(204,120,92,.08)!important}
+        .alr-lc-tabs{display:flex;border-bottom:1px solid var(--lightgray)}
+        .alr-lc-tab{font-family:var(--codeFont),monospace;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:8px 14px;cursor:pointer;color:var(--gray);background:none;border:none;border-bottom:2px solid transparent;transition:all .15s}
+        .alr-lc-tab:hover{color:var(--dark)}
+        .alr-lc-tab-active{color:#cc785c!important;border-bottom-color:#cc785c!important}
+        .alr-lc-preview{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:20px;background:var(--lightgray);min-height:180px}
+        .alr-lc-plabel{font-size:9px;color:var(--gray);letter-spacing:2px;text-transform:uppercase;align-self:flex-start}
+        .alr-lc-svgwrap{width:100%;max-width:520px;border:1px solid var(--lightgray);border-radius:3px;overflow:hidden;background:#fff}
+        .alr-lc-svgwrap svg{width:100%;height:auto;display:block}
+        .alr-lc-foldline{width:100%;max-width:520px;display:flex;align-items:center;gap:8px;font-size:9px;color:var(--gray);letter-spacing:1.5px}
+        .alr-lc-foldline-dash{flex:1;border-top:1px dashed var(--gray)}
+        .alr-lc-actions{border-top:1px solid var(--lightgray);padding:10px 16px;display:flex;gap:8px;align-items:center;background:var(--lightgray);flex-wrap:wrap}
+        .alr-lc-btn-primary{font-family:var(--codeFont),monospace;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:7px 12px;border-radius:3px;cursor:pointer;background:#cc785c;border:1px solid #cc785c;color:#fff;transition:all .15s}
+        .alr-lc-btn-primary:hover{background:#b86848;border-color:#b86848}
+        .alr-lc-btn-ghost{font-family:var(--codeFont),monospace;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:7px 12px;border-radius:3px;cursor:pointer;background:transparent;border:1px solid var(--lightgray);color:var(--gray);transition:all .15s}
+        .alr-lc-btn-ghost:hover{border-color:#cc785c;color:#cc785c}
+        .alr-lc-status{font-size:9px;color:#cc785c;letter-spacing:1px;margin-left:auto}
+        @media(max-width:700px){.alr-lc-body{grid-template-columns:1fr}.alr-lc-left{border-right:none;border-bottom:1px solid var(--lightgray);max-height:none}}
       ` }} />
 
     </div>
