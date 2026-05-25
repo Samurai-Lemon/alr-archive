@@ -7,13 +7,20 @@ import { pageResources, renderPage } from "../../components/renderPage"
 import { FullPageLayout } from "../../cfg"
 import { pathToRoot } from "../../util/path"
 import { defaultContentPageLayout, sharedPageComponents } from "../../../quartz.layout"
-import { Content } from "../../components"
+import { Content, ConditionalRender } from "../../components"
 import { styleText } from "util"
 import { write } from "./helpers"
 import { BuildCtx } from "../../util/ctx"
 import { Node } from "unist"
 import { StaticResources } from "../../util/resources"
 import { QuartzPluginData } from "../vfile"
+
+const NO_CONTENT_SLUGS = ["Shop", "Label Creator"]
+
+const ConditionalContent = ConditionalRender({
+  component: Content(),
+  condition: (page) => !NO_CONTENT_SLUGS.includes(page.fileData.slug ?? ""),
+})
 
 async function processContent(
   ctx: BuildCtx,
@@ -49,7 +56,7 @@ export const ContentPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOp
   const opts: FullPageLayout = {
     ...sharedPageComponents,
     ...defaultContentPageLayout,
-    pageBody: Content(),
+    pageBody: ConditionalContent,
     ...userOpts,
   }
 
