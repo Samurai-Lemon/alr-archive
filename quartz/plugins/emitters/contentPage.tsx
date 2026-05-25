@@ -15,7 +15,7 @@ import { Node } from "unist"
 import { StaticResources } from "../../util/resources"
 import { QuartzPluginData } from "../vfile"
 
-const NO_CONTENT_SLUGS = ["Shop", "Label Creator"]
+const NO_CONTENT_SLUGS = ["Shop", "label-creator"]
 
 const ConditionalContent = ConditionalRender({
   component: Content(),
