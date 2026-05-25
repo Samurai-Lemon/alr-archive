@@ -15,7 +15,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
         <div class="alr-lc-wrap">
           <div class="alr-lc-topbar">
             <span class="alr-lc-topbar-title">ALR INITIATIVE GRADING</span>
-            <span class="alr-lc-topbar-sub">70mm \u00d7 20mm \u00b7 PSA STANDARD</span>
+            <span class="alr-lc-topbar-sub">70mm × 20mm · PSA STANDARD</span>
           </div>
           <div class="alr-lc-body">
 
@@ -33,7 +33,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
               </div>
               <div class="alr-lc-field">
                 <div class="alr-lc-label">Set / Series</div>
-                <input class="alr-lc-input" id="alr-lc-set" value="ONE PIECE \u00b7 ST21 \u00b7 EN \u00b7 2025" />
+                <input class="alr-lc-input" id="alr-lc-set" value="ONE PIECE · ST21 · EN · 2025" />
               </div>
               <div class="alr-lc-field">
                 <div class="alr-lc-label">Variant / Edition</div>
@@ -97,9 +97,9 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
               </div>
               <div class="alr-lc-preview" id="alr-lc-preview"></div>
               <div class="alr-lc-actions">
-                <button class="alr-lc-btn-primary" id="alr-lc-dl-front">\u2193 Front</button>
-                <button class="alr-lc-btn-ghost" id="alr-lc-dl-back">\u2193 Back</button>
-                <button class="alr-lc-btn-ghost" id="alr-lc-dl-fold">\u2193 Fold Sheet</button>
+                <button class="alr-lc-btn-primary" id="alr-lc-dl-front">↓ Front</button>
+                <button class="alr-lc-btn-ghost" id="alr-lc-dl-back">↓ Back</button>
+                <button class="alr-lc-btn-ghost" id="alr-lc-dl-fold">↓ Fold Sheet</button>
                 <span class="alr-lc-status" id="alr-lc-status">Ready</span>
               </div>
             </div>
@@ -190,7 +190,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
       +'<text x="350" y="92" text-anchor="middle" font-size="68" font-weight="700" fill="'+v.txt+'" letter-spacing="6" font-family="Courier New,monospace">ALR</text>'
       +'<text x="350" y="116" text-anchor="middle" font-size="19" font-weight="700" fill="'+v.mut+'" letter-spacing="5" font-family="Courier New,monospace">INITIATIVE</text>'
       +'<line x1="274" y1="123" x2="426" y2="123" stroke="'+v.acc+'" stroke-width="0.6" opacity="0.4"/>'
-      +'<text x="350" y="140" text-anchor="middle" font-size="14" font-weight="700" fill="'+dk(v.mut,20)+'" letter-spacing="2" font-family="Courier New,monospace">ARCHIVE \u00b7 GRADE \u00b7 CERTIFIED</text>'
+      +'<text x="350" y="140" text-anchor="middle" font-size="14" font-weight="700" fill="'+dk(v.mut,20)+'" letter-spacing="2" font-family="Courier New,monospace">ARCHIVE · GRADE · CERTIFIED</text>'
       +'<line x1="18" y1="22" x2="38" y2="22" stroke="'+v.acc+'" stroke-width="0.9" opacity="0.5"/>'
       +'<line x1="18" y1="22" x2="18" y2="42" stroke="'+v.acc+'" stroke-width="0.9" opacity="0.5"/>'
       +'<line x1="682" y1="22" x2="662" y2="22" stroke="'+v.acc+'" stroke-width="0.9" opacity="0.5"/>'
@@ -202,17 +202,12 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
       +'</g><rect x="1.5" y="1.5" width="697" height="197" rx="3.5" fill="none" stroke="url(#bg)" stroke-width="5"/></svg>';
   }
   function buildFold(v) {
-    function strip(s) { return s.replace(/<svg[^>]*>/,'').replace(/<\/svg>/,''); }
-    var f=strip(buildFront(v));
-    var b=strip(buildBack(v));
+    var f=buildFront(v).replace(/ xmlns="[^"]*"/g,'');
+    var b=buildBack(v).replace(/ xmlns="[^"]*"/g,'');
     return '<svg width="70mm" height="40.6mm" viewBox="0 0 700 406" xmlns="http://www.w3.org/2000/svg">'
-      +'<defs>'
-      +'<clipPath id="cf"><rect x="0" y="0" width="700" height="200"/></clipPath>'
-      +'<clipPath id="cb"><rect x="0" y="0" width="700" height="200"/></clipPath>'
-      +'</defs>'
-      +'<rect x="0" y="0" width="700" height="406" fill="#ffffff"/>'
-      +'<g clip-path="url(#cf)">'+f+'</g>'
-      +'<g transform="translate(700,406) rotate(180)" clip-path="url(#cb)">'+b+'</g>'
+      +'<rect x="0" y="0" width="700" height="406" fill="#fff"/>'
+      +'<g><svg width="700" height="200" viewBox="0 0 700 200">'+f+'</svg></g>'
+      +'<g transform="translate(700,406) rotate(180)"><svg width="700" height="200" viewBox="0 0 700 200">'+b+'</svg></g>'
       +'<line x1="0" y1="203" x2="700" y2="203" stroke="#888" stroke-width="0.7" stroke-dasharray="8,6"/>'
       +'<g stroke="#000" stroke-width="0.7" fill="none" stroke-linecap="square">'
       +'<line x1="-70" y1="0" x2="-20" y2="0"/><line x1="0" y1="-70" x2="0" y2="-20"/>'
@@ -225,7 +220,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
     var el=g('alr-lc-preview'); if(!el) return;
     var v=getV();
     if(tab==='fold') {
-      el.innerHTML='<div class="alr-lc-plabel">Front \u2014 fold line \u2014 Back</div>'
+      el.innerHTML='<div class="alr-lc-plabel">Front — fold line — Back</div>'
         +'<div class="alr-lc-svgwrap">'+buildFront(v)+'</div>'
         +'<div class="alr-lc-foldline"><div class="alr-lc-foldline-dash"></div><span>FOLD</span><div class="alr-lc-foldline-dash"></div></div>'
         +'<div class="alr-lc-svgwrap">'+buildBack(v)+'</div>';
@@ -244,7 +239,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
     a.href=encoded;a.download=fn;
     document.body.appendChild(a);a.click();
     document.body.removeChild(a);
-    var s=g('alr-lc-status');if(s)s.textContent='Downloaded \u2713';
+    var s=g('alr-lc-status');if(s)s.textContent='Downloaded!';
   }
   function setPreset(name) {
     var p=PRESETS[name];
