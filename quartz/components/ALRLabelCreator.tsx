@@ -97,9 +97,9 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
               </div>
               <div class="alr-lc-preview" id="alr-lc-preview"></div>
               <div class="alr-lc-actions">
-                <button class="alr-lc-btn-primary" id="alr-lc-dl-front">↓ Front</button>
-                <button class="alr-lc-btn-ghost" id="alr-lc-dl-back">↓ Back</button>
-                <button class="alr-lc-btn-ghost" id="alr-lc-dl-fold">↓ Fold Sheet</button>
+                <button class="alr-lc-btn-primary" id="alr-lc-dl-front">&#x2193; Front</button>
+                <button class="alr-lc-btn-ghost" id="alr-lc-dl-back">&#x2193; Back</button>
+                <button class="alr-lc-btn-ghost" id="alr-lc-dl-fold">&#x2193; Fold Sheet</button>
                 <span class="alr-lc-status" id="alr-lc-status">Ready</span>
               </div>
             </div>
@@ -205,17 +205,50 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
       +'</g><rect x="1.5" y="1.5" width="697" height="197" rx="3.5" fill="none" stroke="url(#bg'+id+')" stroke-width="5"/></svg>';
   }
   function buildFold(v) {
-    function strip(s) { return s.replace(/<svg[^>]*>/,'').replace(/<\/svg>/,''); }
-    var f=strip(buildFront(v));
-    var b=strip(buildBack(v));
+    var fid='ff'+(++_rid), bid='bf'+(++_rid);
+    var fdiv=dk(v.acc,40), fdl=dk(v.zone,5), bdiv=dk(v.acc,40);
+    var front = '<svg width="70mm" height="20mm" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">'
+      +'<defs><clipPath id="m'+fid+'"><rect x="0" y="0" width="700" height="200" rx="4"/></clipPath>'
+      +'<clipPath id="cl'+fid+'"><rect x="0" y="0" width="521" height="200"/></clipPath>'
+      +'<clipPath id="cr'+fid+'"><rect x="522" y="0" width="178" height="200"/></clipPath>'
+      +'<linearGradient id="bg'+fid+'" x1="0%" y1="0%" x2="100%" y2="0%">'
+      +'<stop offset="0%" stop-color="'+fdiv+'"/><stop offset="45%" stop-color="'+v.acc+'"/><stop offset="100%" stop-color="'+fdiv+'"/>'
+      +'</linearGradient></defs>'
+      +'<rect x="0" y="0" width="700" height="200" rx="4" fill="'+v.body+'"/>'
+      +'<g clip-path="url(#m'+fid+')"><g clip-path="url(#cl'+fid+')">'
+      +'<rect x="0" y="0" width="519" height="200" fill="'+v.zone+'" opacity="0.85"/>'
+      +'<text x="261" y="30" text-anchor="middle" font-size="21" font-weight="700" fill="'+v.acc+'" letter-spacing="2" font-family="Courier New,monospace">ALR INITIATIVE GRADING</text>'
+      +'<text x="10" y="61" font-size="28" font-weight="700" fill="'+v.txt+'" font-family="Courier New,monospace">'+esc(v.name)+'</text>'
+      +'<text x="10" y="88" font-size="19" font-weight="700" fill="'+v.mut+'" font-family="Courier New,monospace">'+esc(v.set)+'</text>'
+      +'<text x="10" y="115" font-size="21" font-weight="700" fill="'+v.acc+'" font-family="Courier New,monospace">'+esc(v.variant)+'</text>'
+      +'<text x="10" y="150" font-size="19" font-weight="700" fill="'+v.txt+'" font-family="Courier New,monospace">TRADING CARD</text>'
+      +'<text x="10" y="187" font-size="19" font-weight="700" fill="'+v.txt+'" font-family="Courier New,monospace">'+esc(v.cert)+'</text>'
+      +'</g><g clip-path="url(#cr'+fid+')">'
+      +'<rect x="522" y="0" width="178" height="200" fill="'+dk(v.zone,15)+'" opacity="0.92"/>'
+      +'<text x="611" y="128" text-anchor="middle" font-size="110" font-weight="700" fill="'+v.grd+'" font-family="Courier New,monospace">'+esc(v.grade)+'</text>'
+      +'<text x="611" y="184" text-anchor="middle" font-size="17" font-weight="700" fill="'+v.mut+'" letter-spacing="3.5" font-family="Courier New,monospace">'+esc(v.gl)+'</text>'
+      +'</g></g><rect x="1.5" y="1.5" width="697" height="197" rx="3.5" fill="none" stroke="url(#bg'+fid+')" stroke-width="5"/></svg>';
+    var back = '<svg width="70mm" height="20mm" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">'
+      +'<defs><clipPath id="m'+bid+'"><rect x="0" y="0" width="700" height="200" rx="4"/></clipPath>'
+      +'<linearGradient id="bg'+bid+'" x1="0%" y1="0%" x2="100%" y2="0%">'
+      +'<stop offset="0%" stop-color="'+bdiv+'"/><stop offset="45%" stop-color="'+v.acc+'"/><stop offset="100%" stop-color="'+bdiv+'"/>'
+      +'</linearGradient>'
+      +'<radialGradient id="glow'+bid+'" cx="50%" cy="50%" r="40%">'
+      +'<stop offset="0%" stop-color="'+v.acc+'" stop-opacity="0.08"/><stop offset="100%" stop-color="'+v.acc+'" stop-opacity="0"/>'
+      +'</radialGradient></defs>'
+      +'<rect x="0" y="0" width="700" height="200" rx="4" fill="'+v.body+'"/>'
+      +'<g clip-path="url(#m'+bid+')">'
+      +'<rect x="0" y="0" width="700" height="200" fill="'+v.zone+'" opacity="0.7"/>'
+      +'<ellipse cx="350" cy="100" rx="220" ry="88" fill="url(#glow'+bid+')"/>'
+      +'<text x="350" y="92" text-anchor="middle" font-size="68" font-weight="700" fill="'+v.txt+'" letter-spacing="6" font-family="Courier New,monospace">ALR</text>'
+      +'<text x="350" y="116" text-anchor="middle" font-size="19" font-weight="700" fill="'+v.mut+'" letter-spacing="5" font-family="Courier New,monospace">INITIATIVE</text>'
+      +'</g><rect x="1.5" y="1.5" width="697" height="197" rx="3.5" fill="none" stroke="url(#bg'+bid+')" stroke-width="5"/></svg>';
+    var fs = front.replace(/<svg[^>]*>/,'').replace(/<\/svg>/,'');
+    var bs = back.replace(/<svg[^>]*>/,'').replace(/<\/svg>/,'');
     return '<svg width="70mm" height="40.6mm" viewBox="0 0 700 406" xmlns="http://www.w3.org/2000/svg">'
-      +'<defs>'
-      +'<clipPath id="cf"><rect x="0" y="0" width="700" height="200"/></clipPath>'
-      +'<clipPath id="cb"><rect x="0" y="0" width="700" height="200"/></clipPath>'
-      +'</defs>'
       +'<rect x="0" y="0" width="700" height="406" fill="#ffffff"/>'
-      +'<g clip-path="url(#cf)">'+f+'</g>'
-      +'<g transform="translate(700,406) rotate(180)" clip-path="url(#cb)">'+b+'</g>'
+      +'<g>'+fs+'</g>'
+      +'<g transform="translate(700,406) rotate(180)">'+bs+'</g>'
       +'<line x1="0" y1="203" x2="700" y2="203" stroke="#888" stroke-width="0.7" stroke-dasharray="8,6"/>'
       +'<g stroke="#000" stroke-width="0.7" fill="none" stroke-linecap="square">'
       +'<line x1="-70" y1="0" x2="-20" y2="0"/><line x1="0" y1="-70" x2="0" y2="-20"/>'
@@ -280,10 +313,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
     if(h){h.addEventListener('input',onHex);h.addEventListener('change',onHex);}
   }
   function init() {
-    var tool = g('alr-lc-tool');
-    if(!tool) return;
-    if(tool._alrBound) { render(); return; }
-    tool._alrBound = true;
+    if(!g('alr-lc-tool')) return;
     ['name','set','variant','cert','grade','gl'].forEach(function(id){
       var el=g('alr-lc-'+id);if(el)el.addEventListener('input',render);
     });
