@@ -111,6 +111,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
       <script dangerouslySetInnerHTML={{ __html: `
 (function() {
   var tab = 'front';
+  var _rid = 0;
   var PRESETS = {
     dark:  { body:'#1a1814', zone:'#141410', acc:'#cc785c', grd:'#cc785c', txt:'#f0ece0', mut:'#b0ac9f' },
     light: { body:'#f5f0e8', zone:'#ede8dc', acc:'#cc785c', grd:'#cc785c', txt:'#1a1814', mut:'#6b6050' }
@@ -131,16 +132,17 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
     return '#'+[r,gr,b].map(function(x){return x.toString(16).padStart(2,'0');}).join('');
   }
   function buildFront(v) {
+    var id='f'+(++_rid);
     var div=dk(v.acc,40),dl=dk(v.zone,5);
     return '<svg width="70mm" height="20mm" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">'
-      +'<defs><clipPath id="m"><rect x="0" y="0" width="700" height="200" rx="4"/></clipPath>'
-      +'<clipPath id="cl"><rect x="0" y="0" width="521" height="200"/></clipPath>'
-      +'<clipPath id="cr"><rect x="522" y="0" width="178" height="200"/></clipPath>'
-      +'<linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="0%">'
+      +'<defs><clipPath id="m'+id+'"><rect x="0" y="0" width="700" height="200" rx="4"/></clipPath>'
+      +'<clipPath id="cl'+id+'"><rect x="0" y="0" width="521" height="200"/></clipPath>'
+      +'<clipPath id="cr'+id+'"><rect x="522" y="0" width="178" height="200"/></clipPath>'
+      +'<linearGradient id="bg'+id+'" x1="0%" y1="0%" x2="100%" y2="0%">'
       +'<stop offset="0%" stop-color="'+div+'"/><stop offset="45%" stop-color="'+v.acc+'"/><stop offset="100%" stop-color="'+div+'"/>'
       +'</linearGradient></defs>'
       +'<rect x="0" y="0" width="700" height="200" rx="4" fill="'+v.body+'"/>'
-      +'<g clip-path="url(#m)"><g clip-path="url(#cl)">'
+      +'<g clip-path="url(#m'+id+')"><g clip-path="url(#cl'+id+')">'
       +'<rect x="0" y="0" width="519" height="200" fill="'+v.zone+'" opacity="0.85"/>'
       +'<text x="261" y="30" text-anchor="middle" font-size="21" font-weight="700" fill="'+v.acc+'" letter-spacing="2" font-family="Courier New,monospace">ALR INITIATIVE GRADING</text>'
       +'<line x1="0" y1="35" x2="519" y2="35" stroke="'+v.acc+'" stroke-width="0.7" opacity="0.35"/>'
@@ -158,7 +160,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
       +'<line x1="10" y1="155" x2="510" y2="155" stroke="'+dl+'" stroke-width="1"/>'
       +'<text x="10" y="169" font-size="16" font-weight="700" fill="'+v.mut+'" letter-spacing="1.2" font-family="Courier New,monospace">CERT NUMBER</text>'
       +'<text x="10" y="187" font-size="19" font-weight="700" fill="'+v.txt+'" font-family="Courier New,monospace">'+esc(v.cert)+'</text>'
-      +'</g><g clip-path="url(#cr)">'
+      +'</g><g clip-path="url(#cr'+id+')">'
       +'<rect x="522" y="0" width="178" height="200" fill="'+dk(v.zone,15)+'" opacity="0.92"/>'
       +'<line x1="522" y1="0" x2="522" y2="200" stroke="'+v.acc+'" stroke-width="1.5" opacity="0.4"/>'
       +'<text x="611" y="29" text-anchor="middle" font-size="15" font-weight="700" fill="'+v.mut+'" letter-spacing="1.8" font-family="Courier New,monospace">ARCHIVE GRADE</text>'
@@ -167,22 +169,23 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
       +'<line x1="528" y1="168" x2="688" y2="168" stroke="'+dl+'" stroke-width="1"/>'
       +'<text x="611" y="184" text-anchor="middle" font-size="17" font-weight="700" fill="'+v.mut+'" letter-spacing="3.5" font-family="Courier New,monospace">'+esc(v.gl)+'</text>'
       +'<line x1="528" y1="190" x2="688" y2="190" stroke="'+v.acc+'" stroke-width="0.7" opacity="0.35"/>'
-      +'</g></g><rect x="1.5" y="1.5" width="697" height="197" rx="3.5" fill="none" stroke="url(#bg)" stroke-width="5"/></svg>';
+      +'</g></g><rect x="1.5" y="1.5" width="697" height="197" rx="3.5" fill="none" stroke="url(#bg'+id+')" stroke-width="5"/></svg>';
   }
   function buildBack(v) {
+    var id='b'+(++_rid);
     var div=dk(v.acc,40);
     return '<svg width="70mm" height="20mm" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">'
-      +'<defs><clipPath id="m"><rect x="0" y="0" width="700" height="200" rx="4"/></clipPath>'
-      +'<linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="0%">'
+      +'<defs><clipPath id="m'+id+'"><rect x="0" y="0" width="700" height="200" rx="4"/></clipPath>'
+      +'<linearGradient id="bg'+id+'" x1="0%" y1="0%" x2="100%" y2="0%">'
       +'<stop offset="0%" stop-color="'+div+'"/><stop offset="45%" stop-color="'+v.acc+'"/><stop offset="100%" stop-color="'+div+'"/>'
       +'</linearGradient>'
-      +'<radialGradient id="glow" cx="50%" cy="50%" r="40%">'
+      +'<radialGradient id="glow'+id+'" cx="50%" cy="50%" r="40%">'
       +'<stop offset="0%" stop-color="'+v.acc+'" stop-opacity="0.08"/><stop offset="100%" stop-color="'+v.acc+'" stop-opacity="0"/>'
       +'</radialGradient></defs>'
       +'<rect x="0" y="0" width="700" height="200" rx="4" fill="'+v.body+'"/>'
-      +'<g clip-path="url(#m)">'
+      +'<g clip-path="url(#m'+id+')">'
       +'<rect x="0" y="0" width="700" height="200" fill="'+v.zone+'" opacity="0.7"/>'
-      +'<ellipse cx="350" cy="100" rx="220" ry="88" fill="url(#glow)"/>'
+      +'<ellipse cx="350" cy="100" rx="220" ry="88" fill="url(#glow'+id+')"/>'
       +'<line x1="30" y1="100" x2="218" y2="100" stroke="'+v.acc+'" stroke-width="0.8" opacity="0.4"/>'
       +'<line x1="482" y1="100" x2="670" y2="100" stroke="'+v.acc+'" stroke-width="0.8" opacity="0.4"/>'
       +'<polygon points="224,100 234,91 244,100 234,109" fill="none" stroke="'+v.acc+'" stroke-width="1" opacity="0.5"/>'
@@ -190,7 +193,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
       +'<text x="350" y="92" text-anchor="middle" font-size="68" font-weight="700" fill="'+v.txt+'" letter-spacing="6" font-family="Courier New,monospace">ALR</text>'
       +'<text x="350" y="116" text-anchor="middle" font-size="19" font-weight="700" fill="'+v.mut+'" letter-spacing="5" font-family="Courier New,monospace">INITIATIVE</text>'
       +'<line x1="274" y1="123" x2="426" y2="123" stroke="'+v.acc+'" stroke-width="0.6" opacity="0.4"/>'
-      +'<text x="350" y="140" text-anchor="middle" font-size="14" font-weight="700" fill="'+dk(v.mut,20)+'" letter-spacing="2" font-family="Courier New,monospace">ARCHIVE · GRADE · CERTIFIED</text>'
+      +'<text x="350" y="140" text-anchor="middle" font-size="14" font-weight="700" fill="'+dk(v.mut,20)+'" letter-spacing="2" font-family="Courier New,monospace">ARCHIVE \u00b7 GRADE \u00b7 CERTIFIED</text>'
       +'<line x1="18" y1="22" x2="38" y2="22" stroke="'+v.acc+'" stroke-width="0.9" opacity="0.5"/>'
       +'<line x1="18" y1="22" x2="18" y2="42" stroke="'+v.acc+'" stroke-width="0.9" opacity="0.5"/>'
       +'<line x1="682" y1="22" x2="662" y2="22" stroke="'+v.acc+'" stroke-width="0.9" opacity="0.5"/>'
@@ -199,15 +202,20 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
       +'<line x1="18" y1="178" x2="18" y2="158" stroke="'+v.acc+'" stroke-width="0.9" opacity="0.5"/>'
       +'<line x1="682" y1="178" x2="662" y2="178" stroke="'+v.acc+'" stroke-width="0.9" opacity="0.5"/>'
       +'<line x1="682" y1="178" x2="682" y2="158" stroke="'+v.acc+'" stroke-width="0.9" opacity="0.5"/>'
-      +'</g><rect x="1.5" y="1.5" width="697" height="197" rx="3.5" fill="none" stroke="url(#bg)" stroke-width="5"/></svg>';
+      +'</g><rect x="1.5" y="1.5" width="697" height="197" rx="3.5" fill="none" stroke="url(#bg'+id+')" stroke-width="5"/></svg>';
   }
   function buildFold(v) {
-    var f=buildFront(v).replace(/ xmlns="[^"]*"/g,'');
-    var b=buildBack(v).replace(/ xmlns="[^"]*"/g,'');
+    function strip(s) { return s.replace(/<svg[^>]*>/,'').replace(/<\/svg>/,''); }
+    var f=strip(buildFront(v));
+    var b=strip(buildBack(v));
     return '<svg width="70mm" height="40.6mm" viewBox="0 0 700 406" xmlns="http://www.w3.org/2000/svg">'
-      +'<rect x="0" y="0" width="700" height="406" fill="#fff"/>'
-      +'<g><svg width="700" height="200" viewBox="0 0 700 200">'+f+'</svg></g>'
-      +'<g transform="translate(700,406) rotate(180)"><svg width="700" height="200" viewBox="0 0 700 200">'+b+'</svg></g>'
+      +'<defs>'
+      +'<clipPath id="cf"><rect x="0" y="0" width="700" height="200"/></clipPath>'
+      +'<clipPath id="cb"><rect x="0" y="0" width="700" height="200"/></clipPath>'
+      +'</defs>'
+      +'<rect x="0" y="0" width="700" height="406" fill="#ffffff"/>'
+      +'<g clip-path="url(#cf)">'+f+'</g>'
+      +'<g transform="translate(700,406) rotate(180)" clip-path="url(#cb)">'+b+'</g>'
       +'<line x1="0" y1="203" x2="700" y2="203" stroke="#888" stroke-width="0.7" stroke-dasharray="8,6"/>'
       +'<g stroke="#000" stroke-width="0.7" fill="none" stroke-linecap="square">'
       +'<line x1="-70" y1="0" x2="-20" y2="0"/><line x1="0" y1="-70" x2="0" y2="-20"/>'
@@ -220,7 +228,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
     var el=g('alr-lc-preview'); if(!el) return;
     var v=getV();
     if(tab==='fold') {
-      el.innerHTML='<div class="alr-lc-plabel">Front — fold line — Back</div>'
+      el.innerHTML='<div class="alr-lc-plabel">Front \u2014 fold line \u2014 Back</div>'
         +'<div class="alr-lc-svgwrap">'+buildFront(v)+'</div>'
         +'<div class="alr-lc-foldline"><div class="alr-lc-foldline-dash"></div><span>FOLD</span><div class="alr-lc-foldline-dash"></div></div>'
         +'<div class="alr-lc-svgwrap">'+buildBack(v)+'</div>';
@@ -239,7 +247,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
     a.href=encoded;a.download=fn;
     document.body.appendChild(a);a.click();
     document.body.removeChild(a);
-    var s=g('alr-lc-status');if(s)s.textContent='Downloaded!';
+    var s=g('alr-lc-status');if(s)s.textContent='Downloaded \u2713';
   }
   function setPreset(name) {
     var p=PRESETS[name];
@@ -272,7 +280,10 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
     if(h){h.addEventListener('input',onHex);h.addEventListener('change',onHex);}
   }
   function init() {
-    if(!g('alr-lc-tool')) return;
+    var tool = g('alr-lc-tool');
+    if(!tool) return;
+    if(tool._alrBound) { render(); return; }
+    tool._alrBound = true;
     ['name','set','variant','cert','grade','gl'].forEach(function(id){
       var el=g('alr-lc-'+id);if(el)el.addEventListener('input',render);
     });
