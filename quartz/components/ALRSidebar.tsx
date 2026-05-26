@@ -430,6 +430,10 @@ const ALRSidebar: QuartzComponent = ({ allFiles, fileData }: QuartzComponentProp
             <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
             <span class="alr-sb-text">Shop</span>
           </a>
+          <a href="/label-creator" class={`alr-sb-item ${currentSlug === "label-creator" ? "active" : ""}`}>
+            <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
+            <span class="alr-sb-text">Grading Terminal</span>
+          </a>
         </div>
 
         <div class="alr-sb-section">
