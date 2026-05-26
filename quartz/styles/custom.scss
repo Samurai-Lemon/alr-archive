@@ -2434,4 +2434,16 @@ body[data-slug="Shop-Soon"] .page-header { display: block !important; height: au
   .alr-shop-coming-soon-title { color: #2a2420 !important; }
   .alr-shop-coming-soon-text { color: #7a7068 !important; }
   .alr-shop-coming-soon-sub { color: #a09888 !important; }
+
+  // ─── LABEL CREATOR PAGE ───────────────────────────────────
+body[data-slug="label-creator"] h1.article-title { display: none !important; }
+body[data-slug="label-creator"] p.content-meta { display: none !important; }
+body[data-slug="label-creator"] .breadcrumb-container { display: none !important; }
+body[data-slug="label-creator"] .popover-hint { padding-top: 0 !important; margin-top: 0 !important; }
+body[data-slug="label-creator"] article { padding-top: 0 !important; margin-top: 0 !important; }
+body[data-slug="label-creator"] #quartz-body .center { padding-top: 0 !important; padding-left: 0 !important; padding-right: 0 !important; }
+body[data-slug="label-creator"] .page-header { display: block !important; height: auto !important; min-height: 0 !important; margin: 0 !important; padding: 0 !important; overflow: visible !important; }
+body[data-slug="label-creator"] .alr-lc { padding: 0 32px 28px !important; }
+body[data-slug="label-creator"] .alr-lc-body { min-height: 600px !important; }
+
 }
