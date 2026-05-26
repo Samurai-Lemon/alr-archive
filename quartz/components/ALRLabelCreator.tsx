@@ -266,8 +266,10 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
   }
   function bcp(cid,hid) {
     var c=g(cid),h=g(hid);
-    if(c) c.addEventListener('input',function(){if(h)h.value=c.value;render();});
-    if(h) h.addEventListener('input',function(){if(/^#[0-9a-fA-F]{6}$/.test(h.value)&&c)c.value=h.value;render();});
+    function onColor(){if(h)h.value=c.value;render();}
+    function onHex(){if(/^#[0-9a-fA-F]{6}$/.test(h.value)&&c)c.value=h.value;render();}
+    if(c){c.addEventListener('input',onColor);c.addEventListener('change',onColor);}
+    if(h){h.addEventListener('input',onHex);h.addEventListener('change',onHex);}
   }
   function init() {
     if(!g('alr-lc-tool')) return;
