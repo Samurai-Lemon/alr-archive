@@ -288,43 +288,51 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
     render();
   }
 
-  function bindColor(cid, hid) {
-    var c = g(cid), h = g(hid);
-    if (c) {
-      c.addEventListener('input', function() { if (h) h.value = c.value; render(); });
-      c.addEventListener('change', function() { if (h) h.value = c.value; render(); });
-    }
-    if (h) {
-      h.addEventListener('input', function() { if (/^#[0-9a-fA-F]{6}$/.test(h.value) && c) c.value = h.value; render(); });
-    }
-  }
-
   function init() {
     var tool = g('alr-lc-tool');
     if (!tool) return;
-    if (tool._alrInit) { render(); return; }
-    tool._alrInit = true;
 
-    ['name', 'set', 'variant', 'cert', 'grade', 'gl'].forEach(function(id) {
-      var el = g('alr-lc-' + id); if (el) el.addEventListener('input', render);
+    function fresh(id) {
+      var el = g(id);
+      if (!el) return null;
+      var n = el.cloneNode(true);
+      el.parentNode.replaceChild(n, el);
+      return n;
+    }
+
+    var fields = ['name','set','variant','cert','grade','gl'];
+    fields.forEach(function(id) {
+      var el = fresh('alr-lc-' + id);
+      if (el) el.addEventListener('input', render);
     });
 
-    bindColor('alr-lc-cbody', 'alr-lc-hbody');
-    bindColor('alr-lc-czone', 'alr-lc-hzone');
-    bindColor('alr-lc-cacc', 'alr-lc-hacc');
-    bindColor('alr-lc-ctxt', 'alr-lc-htxt');
-    bindColor('alr-lc-cmut', 'alr-lc-hmut');
+    function bindColor(cid, hid) {
+      var c = fresh(cid), h = fresh(hid);
+      if (c) {
+        c.addEventListener('input', function() { var hh=g(hid); if(hh) hh.value=c.value; render(); });
+        c.addEventListener('change', function() { var hh=g(hid); if(hh) hh.value=c.value; render(); });
+      }
+      if (h) {
+        h.addEventListener('input', function() { var cc=g(cid); if(/^#[0-9a-fA-F]{6}$/.test(h.value)&&cc) cc.value=h.value; render(); });
+      }
+    }
 
-    var pd = g('alr-lc-preset-dark'), pl = g('alr-lc-preset-light');
+    bindColor('alr-lc-cbody','alr-lc-hbody');
+    bindColor('alr-lc-czone','alr-lc-hzone');
+    bindColor('alr-lc-cacc','alr-lc-hacc');
+    bindColor('alr-lc-ctxt','alr-lc-htxt');
+    bindColor('alr-lc-cmut','alr-lc-hmut');
+
+    var pd = fresh('alr-lc-preset-dark'), pl = fresh('alr-lc-preset-light');
     if (pd) pd.addEventListener('click', function() { setPreset('dark'); });
     if (pl) pl.addEventListener('click', function() { setPreset('light'); });
 
-    var tf = g('alr-lc-tab-front'), tb = g('alr-lc-tab-back'), tfo = g('alr-lc-tab-fold');
+    var tf = fresh('alr-lc-tab-front'), tb = fresh('alr-lc-tab-back'), tfo = fresh('alr-lc-tab-fold');
     if (tf) tf.addEventListener('click', function() { switchTab('front'); });
     if (tb) tb.addEventListener('click', function() { switchTab('back'); });
     if (tfo) tfo.addEventListener('click', function() { switchTab('fold'); });
 
-    var df = g('alr-lc-dl-front'), db = g('alr-lc-dl-back'), dfo = g('alr-lc-dl-fold');
+    var df = fresh('alr-lc-dl-front'), db = fresh('alr-lc-dl-back'), dfo = fresh('alr-lc-dl-fold');
     if (df) df.addEventListener('click', function() { download('front'); });
     if (db) db.addEventListener('click', function() { download('back'); });
     if (dfo) dfo.addEventListener('click', function() { download('fold'); });
