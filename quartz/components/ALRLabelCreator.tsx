@@ -144,7 +144,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
   function buildFront(v) {
     var div = dk(v.acc, 40);
     var id = 'lg' + Math.random().toString(36).slice(2);
-    return '<svg width="70mm" height="20mm" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" style="color:unset">'
+    return '<svg width="70mm" height="20mm" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">'
       + '<defs>'
       + '<linearGradient id="' + id + '" x1="0%" y1="0%" x2="100%" y2="0%">'
       + '<stop offset="0%" stop-color="' + div + '"/>'
@@ -156,27 +156,27 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
       + '<rect x="0" y="0" width="519" height="200" fill="' + v.body + '"/>'
       + '<rect x="522" y="0" width="178" height="200" fill="' + v.zone + '"/>'
       + '<line x1="522" y1="0" x2="522" y2="200" stroke="' + v.acc + '" stroke-width="1.5" opacity="0.4"/>'
-      + '<text x="261" y="30" text-anchor="middle" font-size="21" font-weight="700" fill="' + v.acc + '" letter-spacing="2" font-family="Courier New,monospace">ALR INITIATIVE GRADING</text>'
+      + '<text x="261" y="30" text-anchor="middle" font-size="21" font-weight="700" style="fill:' + v.acc + '" letter-spacing="2" font-family="Courier New,monospace">ALR INITIATIVE GRADING</text>'
       + '<line x1="0" y1="35" x2="519" y2="35" stroke="' + v.acc + '" stroke-width="0.7" opacity="0.35"/>'
-      + '<text x="10" y="61" font-size="28" font-weight="700" fill="' + v.txt + '" font-family="Courier New,monospace">' + esc(v.name) + '</text>'
+      + '<text x="10" y="61" font-size="28" font-weight="700" style="fill:' + v.txt + '" font-family="Courier New,monospace">' + esc(v.name) + '</text>'
       + '<line x1="10" y1="67" x2="510" y2="67" stroke="' + v.mut + '" stroke-width="1" opacity="0.3"/>'
-      + '<text x="10" y="88" font-size="19" font-weight="700" fill="' + v.mut + '" font-family="Courier New,monospace">' + esc(v.set) + '</text>'
+      + '<text x="10" y="88" font-size="19" font-weight="700" style="fill:' + v.mut + '" font-family="Courier New,monospace">' + esc(v.set) + '</text>'
       + '<line x1="10" y1="94" x2="510" y2="94" stroke="' + v.mut + '" stroke-width="1" opacity="0.3"/>'
-      + '<text x="10" y="115" font-size="21" font-weight="700" fill="' + v.acc + '" font-family="Courier New,monospace">' + esc(v.variant) + '</text>'
+      + '<text x="10" y="115" font-size="21" font-weight="700" style="fill:' + v.acc + '" font-family="Courier New,monospace">' + esc(v.variant) + '</text>'
       + '<line x1="10" y1="121" x2="510" y2="121" stroke="' + v.mut + '" stroke-width="1" opacity="0.3"/>'
-      + '<text x="10" y="133" font-size="16" font-weight="700" fill="' + v.mut + '" letter-spacing="1.2" font-family="Courier New,monospace">CATEGORY</text>'
-      + '<text x="10" y="150" font-size="19" font-weight="700" fill="' + v.txt + '" font-family="Courier New,monospace">TRADING CARD</text>'
+      + '<text x="10" y="133" font-size="16" font-weight="700" style="fill:' + v.mut + '" letter-spacing="1.2" font-family="Courier New,monospace">CATEGORY</text>'
+      + '<text x="10" y="150" font-size="19" font-weight="700" style="fill:' + v.txt + '" font-family="Courier New,monospace">TRADING CARD</text>'
       + '<line x1="262" y1="123" x2="262" y2="154" stroke="' + v.mut + '" stroke-width="1" opacity="0.3"/>'
-      + '<text x="267" y="133" font-size="16" font-weight="700" fill="' + v.mut + '" letter-spacing="1.2" font-family="Courier New,monospace">LANGUAGE</text>'
-      + '<text x="267" y="150" font-size="19" font-weight="700" fill="' + v.txt + '" font-family="Courier New,monospace">ENGLISH</text>'
+      + '<text x="267" y="133" font-size="16" font-weight="700" style="fill:' + v.mut + '" letter-spacing="1.2" font-family="Courier New,monospace">LANGUAGE</text>'
+      + '<text x="267" y="150" font-size="19" font-weight="700" style="fill:' + v.txt + '" font-family="Courier New,monospace">ENGLISH</text>'
       + '<line x1="10" y1="155" x2="510" y2="155" stroke="' + v.mut + '" stroke-width="1" opacity="0.3"/>'
-      + '<text x="10" y="169" font-size="16" font-weight="700" fill="' + v.mut + '" letter-spacing="1.2" font-family="Courier New,monospace">CERT NUMBER</text>'
-      + '<text x="10" y="187" font-size="19" font-weight="700" fill="' + v.txt + '" font-family="Courier New,monospace">' + esc(v.cert) + '</text>'
-      + '<text x="611" y="29" text-anchor="middle" font-size="15" font-weight="700" fill="' + v.mut + '" letter-spacing="1.8" font-family="Courier New,monospace">ARCHIVE GRADE</text>'
+      + '<text x="10" y="169" font-size="16" font-weight="700" style="fill:' + v.mut + '" letter-spacing="1.2" font-family="Courier New,monospace">CERT NUMBER</text>'
+      + '<text x="10" y="187" font-size="19" font-weight="700" style="fill:' + v.txt + '" font-family="Courier New,monospace">' + esc(v.cert) + '</text>'
+      + '<text x="611" y="29" text-anchor="middle" font-size="15" font-weight="700" style="fill:' + v.mut + '" letter-spacing="1.8" font-family="Courier New,monospace">ARCHIVE GRADE</text>'
       + '<line x1="528" y1="35" x2="688" y2="35" stroke="' + v.acc + '" stroke-width="0.7" opacity="0.35"/>'
-      + '<text x="611" y="128" text-anchor="middle" font-size="110" font-weight="700" fill="' + v.txt + '" font-family="Courier New,monospace">' + esc(v.grade) + '</text>'
+      + '<text x="611" y="128" text-anchor="middle" font-size="110" font-weight="700" style="fill:' + v.txt + '" font-family="Courier New,monospace">' + esc(v.grade) + '</text>'
       + '<line x1="528" y1="168" x2="688" y2="168" stroke="' + v.mut + '" stroke-width="1" opacity="0.3"/>'
-      + '<text x="611" y="184" text-anchor="middle" font-size="17" font-weight="700" fill="' + v.mut + '" letter-spacing="3.5" font-family="Courier New,monospace">' + esc(v.gl) + '</text>'
+      + '<text x="611" y="184" text-anchor="middle" font-size="17" font-weight="700" style="fill:' + v.mut + '" letter-spacing="3.5" font-family="Courier New,monospace">' + esc(v.gl) + '</text>'
       + '<line x1="528" y1="190" x2="688" y2="190" stroke="' + v.acc + '" stroke-width="0.7" opacity="0.35"/>'
       + '<rect x="1.5" y="1.5" width="697" height="197" rx="3.5" fill="none" stroke="url(#' + id + ')" stroke-width="5"/>'
       + '</svg>';
@@ -186,7 +186,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
     var div = dk(v.acc, 40);
     var id = 'lg' + Math.random().toString(36).slice(2);
     var id2 = 'gl' + Math.random().toString(36).slice(2);
-    return '<svg width="70mm" height="20mm" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" style="color:unset">'
+    return '<svg width="70mm" height="20mm" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">'
       + '<defs>'
       + '<linearGradient id="' + id + '" x1="0%" y1="0%" x2="100%" y2="0%">'
       + '<stop offset="0%" stop-color="' + div + '"/>'
@@ -205,10 +205,10 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
       + '<line x1="482" y1="100" x2="670" y2="100" stroke="' + v.acc + '" stroke-width="0.8" opacity="0.4"/>'
       + '<polygon points="224,100 234,91 244,100 234,109" fill="none" stroke="' + v.acc + '" stroke-width="1" opacity="0.5"/>'
       + '<polygon points="456,100 466,91 476,100 466,109" fill="none" stroke="' + v.acc + '" stroke-width="1" opacity="0.5"/>'
-      + '<text x="350" y="92" text-anchor="middle" font-size="68" font-weight="700" fill="' + v.txt + '" letter-spacing="6" font-family="Courier New,monospace">ALR</text>'
-      + '<text x="350" y="116" text-anchor="middle" font-size="19" font-weight="700" fill="' + v.mut + '" letter-spacing="5" font-family="Courier New,monospace">INITIATIVE</text>'
+      + '<text x="350" y="92" text-anchor="middle" font-size="68" font-weight="700" style="fill:' + v.txt + '" letter-spacing="6" font-family="Courier New,monospace">ALR</text>'
+      + '<text x="350" y="116" text-anchor="middle" font-size="19" font-weight="700" style="fill:' + v.mut + '" letter-spacing="5" font-family="Courier New,monospace">INITIATIVE</text>'
       + '<line x1="274" y1="123" x2="426" y2="123" stroke="' + v.acc + '" stroke-width="0.6" opacity="0.4"/>'
-      + '<text x="350" y="140" text-anchor="middle" font-size="14" font-weight="700" fill="' + dk(v.mut, 20) + '" letter-spacing="2" font-family="Courier New,monospace">ARCHIVE - GRADE - CERTIFIED</text>'
+      + '<text x="350" y="140" text-anchor="middle" font-size="14" font-weight="700" style="fill:' + dk(v.mut, 20) + '" letter-spacing="2" font-family="Courier New,monospace">ARCHIVE - GRADE - CERTIFIED</text>'
       + '<line x1="18" y1="22" x2="38" y2="22" stroke="' + v.acc + '" stroke-width="0.9" opacity="0.5"/>'
       + '<line x1="18" y1="22" x2="18" y2="42" stroke="' + v.acc + '" stroke-width="0.9" opacity="0.5"/>'
       + '<line x1="682" y1="22" x2="662" y2="22" stroke="' + v.acc + '" stroke-width="0.9" opacity="0.5"/>'
@@ -307,13 +307,12 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
 
     function bindColor(cid, hid) {
       var c = g(cid), h = g(hid);
-      if (!c) return;
-      var cn = c.cloneNode(true); c.parentNode.replaceChild(cn, c); c = cn;
-      if (h) { var hn = h.cloneNode(true); h.parentNode.replaceChild(hn, h); h = hn; }
+      if (!c || c._bound) return;
+      c._bound = true;
       c.addEventListener('input', function() { if (h) h.value = c.value; render(); });
       c.addEventListener('change', function() { if (h) h.value = c.value; render(); });
       if (h) {
-        h.addEventListener('input', function() { if (/^#[0-9a-fA-F]{6}$/.test(h.value)) { c.value = h.value; } render(); });
+        h.addEventListener('input', function() { if (/^#[0-9a-fA-F]{6}$/.test(h.value) && c) c.value = h.value; render(); });
       }
     }
 
