@@ -302,15 +302,15 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
 
     ['name','set','variant','cert','grade','gl'].forEach(function(id) {
       var el = freshBtn('alr-lc-' + id);
-      if (el) el.addEventListener('input', render);
+      if (el && !el._bound) { el._bound = true; el.addEventListener('input', render); }
     });
 
     function bindColor(cid, hid) {
       var c = g(cid), h = g(hid);
-      if (c) {
-        c.addEventListener('input', function() { if (h) h.value = c.value; render(); });
-        c.addEventListener('change', function() { if (h) h.value = c.value; render(); });
-      }
+      if (!c || c._bound) return;
+      c._bound = true;
+      c.addEventListener('input', function() { if (h) h.value = c.value; render(); });
+      c.addEventListener('change', function() { if (h) h.value = c.value; render(); });
       if (h) {
         h.addEventListener('input', function() { if (/^#[0-9a-fA-F]{6}$/.test(h.value) && c) c.value = h.value; render(); });
       }
