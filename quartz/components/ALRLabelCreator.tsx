@@ -19,12 +19,14 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
           </div>
           <div class="alr-lc-body">
             <div class="alr-lc-left">
+
               <div class="alr-lc-section-label">Preset</div>
               <div class="alr-lc-preset-row">
                 <button id="alr-lc-preset-dark" class="alr-lc-preset-btn alr-lc-preset-active">ALR Dark</button>
                 <button id="alr-lc-preset-light" class="alr-lc-preset-btn">ALR Light</button>
               </div>
               <div class="alr-lc-rule"></div>
+
               <div class="alr-lc-section-label">Card Identity</div>
               <div class="alr-lc-field">
                 <div class="alr-lc-label">Card Name <span class="alr-lc-req">*</span></div>
@@ -43,6 +45,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
                 <input class="alr-lc-input" id="alr-lc-cert" value="0001-ALR" />
               </div>
               <div class="alr-lc-rule"></div>
+
               <div class="alr-lc-section-label">Grade</div>
               <div class="alr-lc-two">
                 <div class="alr-lc-field">
@@ -55,33 +58,67 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
                 </div>
               </div>
               <div class="alr-lc-rule"></div>
-              <div class="alr-lc-section-label">Colours</div>
-              <div class="alr-lc-color-row">
-                <div class="alr-lc-field">
-                  <div class="alr-lc-label">Body BG</div>
-                  <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-cbody" value="#1a1814" /><input class="alr-lc-hex" id="alr-lc-hbody" value="#1a1814" /></div>
+
+              <div id="alr-lc-colours-front">
+                <div class="alr-lc-section-label">Front Colours</div>
+                <div class="alr-lc-color-row">
+                  <div class="alr-lc-field">
+                    <div class="alr-lc-label">Body BG</div>
+                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-cbody" value="#1a1814" /><input class="alr-lc-hex" id="alr-lc-hbody" value="#1a1814" /></div>
+                  </div>
+                  <div class="alr-lc-field">
+                    <div class="alr-lc-label">Zone BG</div>
+                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-czone" value="#141410" /><input class="alr-lc-hex" id="alr-lc-hzone" value="#141410" /></div>
+                  </div>
                 </div>
-                <div class="alr-lc-field">
-                  <div class="alr-lc-label">Zone BG</div>
-                  <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-czone" value="#141410" /><input class="alr-lc-hex" id="alr-lc-hzone" value="#141410" /></div>
+                <div class="alr-lc-color-row">
+                  <div class="alr-lc-field">
+                    <div class="alr-lc-label">Accent</div>
+                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-cacc" value="#cc785c" /><input class="alr-lc-hex" id="alr-lc-hacc" value="#cc785c" /></div>
+                  </div>
+                  <div class="alr-lc-field">
+                    <div class="alr-lc-label">Primary Text</div>
+                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-ctxt" value="#f0ece0" /><input class="alr-lc-hex" id="alr-lc-htxt" value="#f0ece0" /></div>
+                  </div>
+                </div>
+                <div class="alr-lc-color-row">
+                  <div class="alr-lc-field">
+                    <div class="alr-lc-label">Secondary Text</div>
+                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-cmut" value="#b0ac9f" /><input class="alr-lc-hex" id="alr-lc-hmut" value="#b0ac9f" /></div>
+                  </div>
                 </div>
               </div>
-              <div class="alr-lc-color-row">
-                <div class="alr-lc-field">
-                  <div class="alr-lc-label">Accent</div>
-                  <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-cacc" value="#cc785c" /><input class="alr-lc-hex" id="alr-lc-hacc" value="#cc785c" /></div>
+
+              <div id="alr-lc-colours-back" style="display:none">
+                <div class="alr-lc-section-label">Back Colours</div>
+                <div class="alr-lc-color-row">
+                  <div class="alr-lc-field">
+                    <div class="alr-lc-label">Body BG</div>
+                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-bcbody" value="#1a1814" /><input class="alr-lc-hex" id="alr-lc-bhbody" value="#1a1814" /></div>
+                  </div>
+                  <div class="alr-lc-field">
+                    <div class="alr-lc-label">Zone BG</div>
+                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-bczone" value="#141410" /><input class="alr-lc-hex" id="alr-lc-bhzone" value="#141410" /></div>
+                  </div>
                 </div>
-                <div class="alr-lc-field">
-                  <div class="alr-lc-label">Primary Text</div>
-                  <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-ctxt" value="#f0ece0" /><input class="alr-lc-hex" id="alr-lc-htxt" value="#f0ece0" /></div>
+                <div class="alr-lc-color-row">
+                  <div class="alr-lc-field">
+                    <div class="alr-lc-label">Accent</div>
+                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-bcacc" value="#cc785c" /><input class="alr-lc-hex" id="alr-lc-bhacc" value="#cc785c" /></div>
+                  </div>
+                  <div class="alr-lc-field">
+                    <div class="alr-lc-label">Primary Text</div>
+                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-bctxt" value="#f0ece0" /><input class="alr-lc-hex" id="alr-lc-bhtxt" value="#f0ece0" /></div>
+                  </div>
+                </div>
+                <div class="alr-lc-color-row">
+                  <div class="alr-lc-field">
+                    <div class="alr-lc-label">Secondary Text</div>
+                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-bcmut" value="#b0ac9f" /><input class="alr-lc-hex" id="alr-lc-bhmut" value="#b0ac9f" /></div>
+                  </div>
                 </div>
               </div>
-              <div class="alr-lc-color-row">
-                <div class="alr-lc-field">
-                  <div class="alr-lc-label">Secondary Text</div>
-                  <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-cmut" value="#b0ac9f" /><input class="alr-lc-hex" id="alr-lc-hmut" value="#b0ac9f" /></div>
-                </div>
-              </div>
+
             </div>
 
             <div class="alr-lc-right">
@@ -113,7 +150,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
   function g(id) { return document.getElementById(id); }
   function val(id) { var el = g(id); return el ? el.value : ''; }
 
-  function getV() {
+  function getF() {
     return {
       name: val('alr-lc-name') || 'CARD NAME',
       set: val('alr-lc-set') || 'SET',
@@ -126,6 +163,16 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
       acc: val('alr-lc-cacc'),
       txt: val('alr-lc-ctxt'),
       mut: val('alr-lc-cmut')
+    };
+  }
+
+  function getB() {
+    return {
+      body: val('alr-lc-bcbody'),
+      zone: val('alr-lc-bczone'),
+      acc: val('alr-lc-bcacc'),
+      txt: val('alr-lc-bctxt'),
+      mut: val('alr-lc-bcmut')
     };
   }
 
@@ -142,20 +189,17 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
   }
 
   function buildFront(v) {
-    var div = dk(v.acc, 40);
     var id = 'lg' + Math.random().toString(36).slice(2);
-    return '<svg width="70mm" height="20mm" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">'
+    return '<svg width="70mm" height="20mm" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" style="color:unset">'
       + '<defs>'
       + '<linearGradient id="' + id + '" x1="0%" y1="0%" x2="100%" y2="0%">'
-      + '<stop offset="0%" stop-color="' + div + '"/>'
-      + '<stop offset="45%" stop-color="' + v.acc + '"/>'
-      + '<stop offset="100%" stop-color="' + div + '"/>'
+      + '<stop offset="0%" stop-color="' + v.acc + '" stop-opacity="0.6"/>'
+      + '<stop offset="100%" stop-color="' + v.acc + '" stop-opacity="0.6"/>'
       + '</linearGradient>'
       + '</defs>'
-      + '<rect x="0" y="0" width="700" height="200" rx="4" fill="' + dk(v.body, 10) + '"/>'
-      + '<rect x="0" y="0" width="519" height="200" fill="' + v.body + '"/>'
+      + '<rect x="0" y="0" width="700" height="200" fill="' + v.body + '"/>'
       + '<rect x="522" y="0" width="178" height="200" fill="' + v.zone + '"/>'
-      + '<line x1="522" y1="0" x2="522" y2="200" stroke="' + v.acc + '" stroke-width="1.5" opacity="0.4"/>'
+      + '<line x1="522" y1="0" x2="522" y2="200" stroke="' + v.acc + '" stroke-width="3"/>'
       + '<text x="261" y="30" text-anchor="middle" font-size="21" font-weight="700" style="fill:' + v.acc + '" letter-spacing="2" font-family="Courier New,monospace">ALR INITIATIVE GRADING</text>'
       + '<line x1="0" y1="35" x2="519" y2="35" stroke="' + v.acc + '" stroke-width="0.7" opacity="0.35"/>'
       + '<text x="10" y="61" font-size="28" font-weight="700" style="fill:' + v.txt + '" font-family="Courier New,monospace">' + esc(v.name) + '</text>'
@@ -178,28 +222,21 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
       + '<line x1="528" y1="168" x2="688" y2="168" stroke="' + v.mut + '" stroke-width="1" opacity="0.3"/>'
       + '<text x="611" y="184" text-anchor="middle" font-size="17" font-weight="700" style="fill:' + v.mut + '" letter-spacing="3.5" font-family="Courier New,monospace">' + esc(v.gl) + '</text>'
       + '<line x1="528" y1="190" x2="688" y2="190" stroke="' + v.acc + '" stroke-width="0.7" opacity="0.35"/>'
-      + '<rect x="1.5" y="1.5" width="697" height="197" rx="3.5" fill="none" stroke="url(#' + id + ')" stroke-width="5"/>'
+      + '<rect x="1.5" y="1.5" width="697" height="197" rx="3.5" fill="none" stroke="' + v.acc + '" stroke-width="5"/>'
       + '</svg>';
   }
 
   function buildBack(v) {
-    var div = dk(v.acc, 40);
     var id = 'lg' + Math.random().toString(36).slice(2);
     var id2 = 'gl' + Math.random().toString(36).slice(2);
-    return '<svg width="70mm" height="20mm" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">'
+    return '<svg width="70mm" height="20mm" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" style="color:unset">'
       + '<defs>'
-      + '<linearGradient id="' + id + '" x1="0%" y1="0%" x2="100%" y2="0%">'
-      + '<stop offset="0%" stop-color="' + div + '"/>'
-      + '<stop offset="45%" stop-color="' + v.acc + '"/>'
-      + '<stop offset="100%" stop-color="' + div + '"/>'
-      + '</linearGradient>'
       + '<radialGradient id="' + id2 + '" cx="50%" cy="50%" r="40%">'
       + '<stop offset="0%" stop-color="' + v.acc + '" stop-opacity="0.08"/>'
       + '<stop offset="100%" stop-color="' + v.acc + '" stop-opacity="0"/>'
       + '</radialGradient>'
       + '</defs>'
-      + '<rect x="0" y="0" width="700" height="200" rx="4" fill="' + v.body + '"/>'
-      + '<rect x="0" y="0" width="700" height="200" fill="' + v.body + '" opacity="0.7"/>'
+      + '<rect x="0" y="0" width="700" height="200" fill="' + v.body + '"/>'
       + '<ellipse cx="350" cy="100" rx="220" ry="88" fill="url(#' + id2 + ')"/>'
       + '<line x1="30" y1="100" x2="218" y2="100" stroke="' + v.acc + '" stroke-width="0.8" opacity="0.4"/>'
       + '<line x1="482" y1="100" x2="670" y2="100" stroke="' + v.acc + '" stroke-width="0.8" opacity="0.4"/>'
@@ -217,13 +254,13 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
       + '<line x1="18" y1="178" x2="18" y2="158" stroke="' + v.acc + '" stroke-width="0.9" opacity="0.5"/>'
       + '<line x1="682" y1="178" x2="662" y2="178" stroke="' + v.acc + '" stroke-width="0.9" opacity="0.5"/>'
       + '<line x1="682" y1="178" x2="682" y2="158" stroke="' + v.acc + '" stroke-width="0.9" opacity="0.5"/>'
-      + '<rect x="1.5" y="1.5" width="697" height="197" rx="3.5" fill="none" stroke="url(#' + id + ')" stroke-width="5"/>'
+      + '<rect x="1.5" y="1.5" width="697" height="197" rx="3.5" fill="none" stroke="' + v.acc + '" stroke-width="5"/>'
       + '</svg>';
   }
 
-  function buildFold(v) {
-    var f = buildFront(v).replace(/ xmlns="[^"]*"/g, '');
-    var b = buildBack(v).replace(/ xmlns="[^"]*"/g, '');
+  function buildFold(vf, vb) {
+    var f = buildFront(vf).replace(/ xmlns="[^"]*"/g, '');
+    var b = buildBack(vb).replace(/ xmlns="[^"]*"/g, '');
     return '<svg width="70mm" height="40.6mm" viewBox="0 0 700 406" xmlns="http://www.w3.org/2000/svg">'
       + '<rect x="0" y="0" width="700" height="406" fill="#fff"/>'
       + '<g>' + f + '</g>'
@@ -240,23 +277,24 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
   function render() {
     var el = g('alr-lc-preview');
     if (!el) return;
-    var v = getV();
+    var vf = getF(), vb = getB();
     if (tab === 'fold') {
       el.innerHTML = '<div class="alr-lc-plabel">Front - fold - Back</div>'
-        + '<div class="alr-lc-svgwrap">' + buildFront(v) + '</div>'
+        + '<div class="alr-lc-svgwrap">' + buildFront(vf) + '</div>'
         + '<div class="alr-lc-foldline"><div class="alr-lc-foldline-dash"></div><span>FOLD</span><div class="alr-lc-foldline-dash"></div></div>'
-        + '<div class="alr-lc-svgwrap">' + buildBack(v) + '</div>';
+        + '<div class="alr-lc-svgwrap">' + buildBack(vb) + '</div>';
+    } else if (tab === 'back') {
+      el.innerHTML = '<div class="alr-lc-plabel">Back</div><div class="alr-lc-svgwrap">' + buildBack(vb) + '</div>';
     } else {
-      var svg = tab === 'front' ? buildFront(v) : buildBack(v);
-      el.innerHTML = '<div class="alr-lc-plabel">' + (tab === 'front' ? 'Front' : 'Back') + '</div><div class="alr-lc-svgwrap">' + svg + '</div>';
+      el.innerHTML = '<div class="alr-lc-plabel">Front</div><div class="alr-lc-svgwrap">' + buildFront(vf) + '</div>';
     }
   }
 
   function download(which) {
-    var v = getV(), svg, fn;
-    if (which === 'front') { svg = buildFront(v); fn = 'alr_label_front.svg'; }
-    else if (which === 'back') { svg = buildBack(v); fn = 'alr_label_back.svg'; }
-    else { svg = buildFold(v); fn = 'alr_label_foldcut.svg'; }
+    var vf = getF(), vb = getB(), svg, fn;
+    if (which === 'front') { svg = buildFront(vf); fn = 'alr_label_front.svg'; }
+    else if (which === 'back') { svg = buildBack(vb); fn = 'alr_label_back.svg'; }
+    else { svg = buildFold(vf, vb); fn = 'alr_label_foldcut.svg'; }
     var encoded = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
     var a = document.createElement('a');
     a.href = encoded; a.download = fn;
@@ -271,11 +309,10 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
       if (b) b.className = 'alr-lc-preset-btn' + (n === name ? ' alr-lc-preset-active' : '');
     });
     function sc(cid, hid, v) { var c = g(cid), h = g(hid); if (c) c.value = v; if (h) h.value = v; }
-    sc('alr-lc-cbody', 'alr-lc-hbody', p.body);
-    sc('alr-lc-czone', 'alr-lc-hzone', p.zone);
-    sc('alr-lc-cacc', 'alr-lc-hacc', p.acc);
-    sc('alr-lc-ctxt', 'alr-lc-htxt', p.txt);
-    sc('alr-lc-cmut', 'alr-lc-hmut', p.mut);
+    sc('alr-lc-cbody','alr-lc-hbody',p.body); sc('alr-lc-czone','alr-lc-hzone',p.zone);
+    sc('alr-lc-cacc','alr-lc-hacc',p.acc); sc('alr-lc-ctxt','alr-lc-htxt',p.txt); sc('alr-lc-cmut','alr-lc-hmut',p.mut);
+    sc('alr-lc-bcbody','alr-lc-bhbody',p.body); sc('alr-lc-bczone','alr-lc-bhzone',p.zone);
+    sc('alr-lc-bcacc','alr-lc-bhacc',p.acc); sc('alr-lc-bctxt','alr-lc-bhtxt',p.txt); sc('alr-lc-bcmut','alr-lc-bhmut',p.mut);
     render();
   }
 
@@ -285,42 +322,39 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
       var b = g('alr-lc-tab-' + n);
       if (b) b.className = 'alr-lc-tab' + (n === t ? ' alr-lc-tab-active' : '');
     });
+    var cf = g('alr-lc-colours-front'), cb = g('alr-lc-colours-back');
+    if (cf) cf.style.display = (t === 'back') ? 'none' : '';
+    if (cb) cb.style.display = (t === 'back') ? '' : 'none';
     render();
   }
 
+  function bindColor(cid, hid) {
+    var c = g(cid), h = g(hid);
+    if (!c) return;
+    var cn = c.cloneNode(true); c.parentNode.replaceChild(cn, c); c = cn;
+    if (h) { var hn = h.cloneNode(true); h.parentNode.replaceChild(hn, h); h = hn; }
+    c.addEventListener('input', function() { if (h) h.value = c.value; render(); });
+    c.addEventListener('change', function() { if (h) h.value = c.value; render(); });
+    if (h) { h.addEventListener('input', function() { if (/^#[0-9a-fA-F]{6}$/.test(h.value)) c.value = h.value; render(); }); }
+  }
+
   function init() {
-    var tool = g('alr-lc-tool');
-    if (!tool) return;
+    if (!g('alr-lc-tool')) return;
 
     function freshBtn(id) {
-      var el = g(id);
-      if (!el) return null;
-      var n = el.cloneNode(true);
-      el.parentNode.replaceChild(n, el);
-      return n;
+      var el = g(id); if (!el) return null;
+      var n = el.cloneNode(true); el.parentNode.replaceChild(n, el); return n;
     }
 
     ['name','set','variant','cert','grade','gl'].forEach(function(id) {
       var el = freshBtn('alr-lc-' + id);
-      if (el && !el._bound) { el._bound = true; el.addEventListener('input', render); }
+      if (el) el.addEventListener('input', render);
     });
 
-    function bindColor(cid, hid) {
-      var c = g(cid), h = g(hid);
-      if (!c || c._bound) return;
-      c._bound = true;
-      c.addEventListener('input', function() { if (h) h.value = c.value; render(); });
-      c.addEventListener('change', function() { if (h) h.value = c.value; render(); });
-      if (h) {
-        h.addEventListener('input', function() { if (/^#[0-9a-fA-F]{6}$/.test(h.value) && c) c.value = h.value; render(); });
-      }
-    }
-
-    bindColor('alr-lc-cbody','alr-lc-hbody');
-    bindColor('alr-lc-czone','alr-lc-hzone');
-    bindColor('alr-lc-cacc','alr-lc-hacc');
-    bindColor('alr-lc-ctxt','alr-lc-htxt');
-    bindColor('alr-lc-cmut','alr-lc-hmut');
+    bindColor('alr-lc-cbody','alr-lc-hbody'); bindColor('alr-lc-czone','alr-lc-hzone');
+    bindColor('alr-lc-cacc','alr-lc-hacc'); bindColor('alr-lc-ctxt','alr-lc-htxt'); bindColor('alr-lc-cmut','alr-lc-hmut');
+    bindColor('alr-lc-bcbody','alr-lc-bhbody'); bindColor('alr-lc-bczone','alr-lc-bhzone');
+    bindColor('alr-lc-bcacc','alr-lc-bhacc'); bindColor('alr-lc-bctxt','alr-lc-bhtxt'); bindColor('alr-lc-bcmut','alr-lc-bhmut');
 
     var pd = freshBtn('alr-lc-preset-dark'), pl = freshBtn('alr-lc-preset-light');
     if (pd) pd.addEventListener('click', function() { setPreset('dark'); });
@@ -387,6 +421,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
         .alr-lc-btn-ghost{font-family:var(--codeFont),monospace;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:7px 12px;border-radius:3px;cursor:pointer;background:transparent;border:1px solid var(--lightgray);color:var(--gray);transition:all .15s}
         .alr-lc-btn-ghost:hover{border-color:#cc785c;color:#cc785c}
         .alr-lc-status{font-size:9px;color:#cc785c;letter-spacing:1px;margin-left:auto}
+        #alr-lc-colours-front, #alr-lc-colours-back{display:flex;flex-direction:column;gap:8px}
         @media(max-width:700px){.alr-lc-body{grid-template-columns:1fr}.alr-lc-left{border-right:none;border-bottom:1px solid var(--lightgray);max-height:none}}
       ` }} />
 
