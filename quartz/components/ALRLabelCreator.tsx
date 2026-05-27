@@ -96,10 +96,6 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
                     <div class="alr-lc-label">Body BG</div>
                     <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-bcbody" value="#1a1814" /><input class="alr-lc-hex" id="alr-lc-bhbody" value="#1a1814" /></div>
                   </div>
-                  <div class="alr-lc-field">
-                    <div class="alr-lc-label">Zone BG</div>
-                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-bczone" value="#141410" /><input class="alr-lc-hex" id="alr-lc-bhzone" value="#141410" /></div>
-                  </div>
                 </div>
                 <div class="alr-lc-color-row">
                   <div class="alr-lc-field">
@@ -169,7 +165,6 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
   function getB() {
     return {
       body: val('alr-lc-bcbody'),
-      zone: val('alr-lc-bczone'),
       acc: val('alr-lc-bcacc'),
       txt: val('alr-lc-bctxt'),
       mut: val('alr-lc-bcmut')
@@ -311,7 +306,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
     function sc(cid, hid, v) { var c = g(cid), h = g(hid); if (c) c.value = v; if (h) h.value = v; }
     sc('alr-lc-cbody','alr-lc-hbody',p.body); sc('alr-lc-czone','alr-lc-hzone',p.zone);
     sc('alr-lc-cacc','alr-lc-hacc',p.acc); sc('alr-lc-ctxt','alr-lc-htxt',p.txt); sc('alr-lc-cmut','alr-lc-hmut',p.mut);
-    sc('alr-lc-bcbody','alr-lc-bhbody',p.body); sc('alr-lc-bczone','alr-lc-bhzone',p.zone);
+    sc('alr-lc-bcbody','alr-lc-bhbody',p.body);
     sc('alr-lc-bcacc','alr-lc-bhacc',p.acc); sc('alr-lc-bctxt','alr-lc-bhtxt',p.txt); sc('alr-lc-bcmut','alr-lc-bhmut',p.mut);
     render();
   }
@@ -353,7 +348,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
 
     bindColor('alr-lc-cbody','alr-lc-hbody'); bindColor('alr-lc-czone','alr-lc-hzone');
     bindColor('alr-lc-cacc','alr-lc-hacc'); bindColor('alr-lc-ctxt','alr-lc-htxt'); bindColor('alr-lc-cmut','alr-lc-hmut');
-    bindColor('alr-lc-bcbody','alr-lc-bhbody'); bindColor('alr-lc-bczone','alr-lc-bhzone');
+    bindColor('alr-lc-bcbody','alr-lc-bhbody'); 
     bindColor('alr-lc-bcacc','alr-lc-bhacc'); bindColor('alr-lc-bctxt','alr-lc-bhtxt'); bindColor('alr-lc-bcmut','alr-lc-bhmut');
 
     var pd = freshBtn('alr-lc-preset-dark'), pl = freshBtn('alr-lc-preset-light');
