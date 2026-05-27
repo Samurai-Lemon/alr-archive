@@ -199,7 +199,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
       + '</radialGradient>'
       + '</defs>'
       + '<rect x="0" y="0" width="700" height="200" rx="4" fill="' + v.body + '"/>'
-      + '<rect x="0" y="0" width="700" height="200" fill="' + v.zone + '" opacity="0.7"/>'
+      + '<rect x="0" y="0" width="700" height="200" fill="' + v.body + '" opacity="0.7"/>'
       + '<ellipse cx="350" cy="100" rx="220" ry="88" fill="url(#' + id2 + ')"/>'
       + '<line x1="30" y1="100" x2="218" y2="100" stroke="' + v.acc + '" stroke-width="0.8" opacity="0.4"/>'
       + '<line x1="482" y1="100" x2="670" y2="100" stroke="' + v.acc + '" stroke-width="0.8" opacity="0.4"/>'
@@ -370,7 +370,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
         .alr-lc-tab-active{color:#cc785c!important;border-bottom-color:#cc785c!important}
         .alr-lc-preview{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:20px;background:var(--lightgray);min-height:180px}
         .alr-lc-plabel{font-size:9px;color:var(--gray);letter-spacing:2px;text-transform:uppercase;align-self:flex-start}
-        .alr-lc-svgwrap{width:100%;max-width:520px;border:1px solid var(--lightgray);border-radius:3px;overflow:hidden;background:#fff}
+        .alr-lc-svgwrap{width:100%;max-width:520px;border:1px solid var(--lightgray);border-radius:3px;overflow:hidden;background:#2a2824}
         .alr-lc-svgwrap svg{width:100%;height:auto;display:block}
         .alr-lc-foldline{width:100%;max-width:520px;display:flex;align-items:center;gap:8px;font-size:9px;color:var(--gray);letter-spacing:1.5px}
         .alr-lc-foldline-dash{flex:1;border-top:1px dashed var(--gray)}
