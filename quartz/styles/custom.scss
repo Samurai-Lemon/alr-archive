@@ -2452,3 +2452,5 @@ body[data-slug="label-creator"] .alr-lc-body { min-height: 600px !important; }
 #alr-lc-preview * {
   color: unset !important;
 }
+// ─── LABEL CREATOR SVG ───────────────────────────────────
+#alr-lc-preview svg text { fill: revert !important; }
