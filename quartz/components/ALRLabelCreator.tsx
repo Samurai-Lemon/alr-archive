@@ -292,7 +292,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
     var tool = g('alr-lc-tool');
     if (!tool) return;
 
-    function fresh(id) {
+    function freshBtn(id) {
       var el = g(id);
       if (!el) return null;
       var n = el.cloneNode(true);
@@ -300,20 +300,19 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
       return n;
     }
 
-    var fields = ['name','set','variant','cert','grade','gl'];
-    fields.forEach(function(id) {
-      var el = fresh('alr-lc-' + id);
+    ['name','set','variant','cert','grade','gl'].forEach(function(id) {
+      var el = freshBtn('alr-lc-' + id);
       if (el) el.addEventListener('input', render);
     });
 
     function bindColor(cid, hid) {
-      var c = fresh(cid), h = fresh(hid);
+      var c = g(cid), h = g(hid);
       if (c) {
-        c.addEventListener('input', function() { var hh=g(hid); if(hh) hh.value=c.value; render(); });
-        c.addEventListener('change', function() { var hh=g(hid); if(hh) hh.value=c.value; render(); });
+        c.addEventListener('input', function() { if (h) h.value = c.value; render(); });
+        c.addEventListener('change', function() { if (h) h.value = c.value; render(); });
       }
       if (h) {
-        h.addEventListener('input', function() { var cc=g(cid); if(/^#[0-9a-fA-F]{6}$/.test(h.value)&&cc) cc.value=h.value; render(); });
+        h.addEventListener('input', function() { if (/^#[0-9a-fA-F]{6}$/.test(h.value) && c) c.value = h.value; render(); });
       }
     }
 
@@ -323,16 +322,16 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
     bindColor('alr-lc-ctxt','alr-lc-htxt');
     bindColor('alr-lc-cmut','alr-lc-hmut');
 
-    var pd = fresh('alr-lc-preset-dark'), pl = fresh('alr-lc-preset-light');
+    var pd = freshBtn('alr-lc-preset-dark'), pl = freshBtn('alr-lc-preset-light');
     if (pd) pd.addEventListener('click', function() { setPreset('dark'); });
     if (pl) pl.addEventListener('click', function() { setPreset('light'); });
 
-    var tf = fresh('alr-lc-tab-front'), tb = fresh('alr-lc-tab-back'), tfo = fresh('alr-lc-tab-fold');
+    var tf = freshBtn('alr-lc-tab-front'), tb = freshBtn('alr-lc-tab-back'), tfo = freshBtn('alr-lc-tab-fold');
     if (tf) tf.addEventListener('click', function() { switchTab('front'); });
     if (tb) tb.addEventListener('click', function() { switchTab('back'); });
     if (tfo) tfo.addEventListener('click', function() { switchTab('fold'); });
 
-    var df = fresh('alr-lc-dl-front'), db = fresh('alr-lc-dl-back'), dfo = fresh('alr-lc-dl-fold');
+    var df = freshBtn('alr-lc-dl-front'), db = freshBtn('alr-lc-dl-back'), dfo = freshBtn('alr-lc-dl-fold');
     if (df) df.addEventListener('click', function() { download('front'); });
     if (db) db.addEventListener('click', function() { download('back'); });
     if (dfo) dfo.addEventListener('click', function() { download('fold'); });
