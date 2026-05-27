@@ -2448,6 +2448,7 @@ body[data-slug="label-creator"] .alr-lc { padding: 0 32px 28px !important; }
 body[data-slug="label-creator"] .alr-lc-body { min-height: 600px !important; }
 
 // ─── LABEL CREATOR SVG OVERRIDE ──────────────────────────
-#alr-lc-preview svg text {
+#alr-lc-preview,
+#alr-lc-preview * {
   color: unset !important;
 }
