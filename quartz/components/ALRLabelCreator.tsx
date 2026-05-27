@@ -324,7 +324,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
     });
     var cf = g('alr-lc-colours-front'), cb = g('alr-lc-colours-back');
     if (cf) cf.style.display = (t === 'back') ? 'none' : '';
-    if (cb) cb.style.display = (t === 'back') ? '' : 'none';
+    if (cb) cb.style.display = (t === 'front') ? 'none' : '';
     render();
   }
 
