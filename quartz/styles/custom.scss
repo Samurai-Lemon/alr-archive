@@ -2446,3 +2446,8 @@ body[data-slug="label-creator"] #quartz-body .center { padding-top: 0 !important
 body[data-slug="label-creator"] .page-header { display: block !important; height: auto !important; min-height: 0 !important; margin: 0 !important; padding: 0 !important; overflow: visible !important; }
 body[data-slug="label-creator"] .alr-lc { padding: 0 32px 28px !important; }
 body[data-slug="label-creator"] .alr-lc-body { min-height: 600px !important; }
+
+// ─── LABEL CREATOR SVG OVERRIDE ──────────────────────────
+#alr-lc-preview svg text {
+  color: unset !important;
+}
