@@ -307,12 +307,13 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
 
     function bindColor(cid, hid) {
       var c = g(cid), h = g(hid);
-      if (!c || c._bound) return;
-      c._bound = true;
+      if (!c) return;
+      var cn = c.cloneNode(true); c.parentNode.replaceChild(cn, c); c = cn;
+      if (h) { var hn = h.cloneNode(true); h.parentNode.replaceChild(hn, h); h = hn; }
       c.addEventListener('input', function() { if (h) h.value = c.value; render(); });
       c.addEventListener('change', function() { if (h) h.value = c.value; render(); });
       if (h) {
-        h.addEventListener('input', function() { if (/^#[0-9a-fA-F]{6}$/.test(h.value) && c) c.value = h.value; render(); });
+        h.addEventListener('input', function() { if (/^#[0-9a-fA-F]{6}$/.test(h.value)) { c.value = h.value; } render(); });
       }
     }
 
