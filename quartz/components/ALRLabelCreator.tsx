@@ -63,11 +63,11 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
                 <div class="alr-lc-section-label">Front Colours</div>
                 <div class="alr-lc-color-row">
                   <div class="alr-lc-field">
-                    <div class="alr-lc-label">Body BG</div>
+                    <div class="alr-lc-label">Info Panel</div>
                     <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-cbody" value="#1a1814" /><input class="alr-lc-hex" id="alr-lc-hbody" value="#1a1814" /></div>
                   </div>
                   <div class="alr-lc-field">
-                    <div class="alr-lc-label">Zone BG</div>
+                    <div class="alr-lc-label">Grade Panel</div>
                     <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-czone" value="#141410" /><input class="alr-lc-hex" id="alr-lc-hzone" value="#141410" /></div>
                   </div>
                 </div>
@@ -93,7 +93,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
                 <div class="alr-lc-section-label">Back Colours</div>
                 <div class="alr-lc-color-row">
                   <div class="alr-lc-field">
-                    <div class="alr-lc-label">Body BG</div>
+                    <div class="alr-lc-label">Info Panel</div>
                     <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-bcbody" value="#1a1814" /><input class="alr-lc-hex" id="alr-lc-bhbody" value="#1a1814" /></div>
                   </div>
                 </div>
@@ -392,7 +392,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
         .alr-lc-input{background:var(--light);border:1px solid var(--lightgray);color:var(--dark);font-family:var(--codeFont),'Courier New',monospace;font-size:11px;padding:6px 8px;border-radius:3px;width:100%;outline:none;box-sizing:border-box}
         .alr-lc-input:focus{border-color:#cc785c}
         .alr-lc-two{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-        .alr-lc-color-row{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+        .alr-lc-color-row{display:flex;flex-direction:column;gap:8px}
         .alr-lc-color-wrap{display:flex;align-items:center;gap:5px;background:var(--light);border:1px solid var(--lightgray);border-radius:3px;padding:3px 6px}
         .alr-lc-color-wrap input[type="color"]{width:20px;height:20px;border:none;background:none;cursor:pointer;padding:0}
         .alr-lc-hex{font-size:10px;color:var(--dark);font-family:var(--codeFont),monospace;background:none;border:none;outline:none;width:58px}
