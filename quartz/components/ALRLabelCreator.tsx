@@ -144,7 +144,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
   function buildFront(v) {
     var div = dk(v.acc, 40);
     var id = 'lg' + Math.random().toString(36).slice(2);
-    return '<svg width="70mm" height="20mm" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">'
+    return '<svg width="70mm" height="20mm" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" style="color:unset">'
       + '<defs>'
       + '<linearGradient id="' + id + '" x1="0%" y1="0%" x2="100%" y2="0%">'
       + '<stop offset="0%" stop-color="' + div + '"/>'
@@ -186,7 +186,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
     var div = dk(v.acc, 40);
     var id = 'lg' + Math.random().toString(36).slice(2);
     var id2 = 'gl' + Math.random().toString(36).slice(2);
-    return '<svg width="70mm" height="20mm" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">'
+    return '<svg width="70mm" height="20mm" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" style="color:unset">'
       + '<defs>'
       + '<linearGradient id="' + id + '" x1="0%" y1="0%" x2="100%" y2="0%">'
       + '<stop offset="0%" stop-color="' + div + '"/>'
