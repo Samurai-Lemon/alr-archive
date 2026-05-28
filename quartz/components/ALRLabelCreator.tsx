@@ -30,19 +30,19 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
               <div class="alr-lc-section-label">Card Identity</div>
               <div class="alr-lc-field">
                 <div class="alr-lc-label">Card Name <span class="alr-lc-req">*</span></div>
-                <input class="alr-lc-input" id="alr-lc-name" value="MONKEY D. LUFFY" />
+                <input class="alr-lc-input" id="alr-lc-name" value="CARD NAME" />
               </div>
               <div class="alr-lc-field">
                 <div class="alr-lc-label">Set / Series</div>
-                <input class="alr-lc-input" id="alr-lc-set" value="ONE PIECE ST21 EN 2025" />
+                <input class="alr-lc-input" id="alr-lc-set" value="SET - SERIES - EN - YEAR" />
               </div>
               <div class="alr-lc-field">
                 <div class="alr-lc-label">Variant / Edition</div>
-                <input class="alr-lc-input" id="alr-lc-variant" value="B&amp;W ALT ART" />
+                <input class="alr-lc-input" id="alr-lc-variant" value="VARIANT / EDITION" />
               </div>
               <div class="alr-lc-field">
                 <div class="alr-lc-label">Cert Number</div>
-                <input class="alr-lc-input" id="alr-lc-cert" value="0001-ALR" />
+                <input class="alr-lc-input" id="alr-lc-cert" value="0000-ALR" />
               </div>
               <div class="alr-lc-rule"></div>
 
@@ -149,8 +149,8 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
   function getF() {
     return {
       name: val('alr-lc-name') || 'CARD NAME',
-      set: val('alr-lc-set') || 'SET',
-      variant: val('alr-lc-variant') || 'VARIANT',
+      set: val('alr-lc-set') || 'SET - SERIES - EN - YEAR',
+      variant: val('alr-lc-variant') || 'VARIANT / EDITION',
       cert: val('alr-lc-cert') || '0000-ALR',
       grade: val('alr-lc-grade') || '10',
       gl: val('alr-lc-gl') || 'PRISTINE',
