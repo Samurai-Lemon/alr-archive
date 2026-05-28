@@ -254,12 +254,17 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
   }
 
   function buildFold(vf, vb) {
-    var f = buildFront(vf).replace(/ xmlns="[^"]*"/g, '');
-    var b = buildBack(vb).replace(/ xmlns="[^"]*"/g, '');
+    // Strip outer svg tag, keep inner content only
+    var f = buildFront(vf)
+      .replace(/<svg[^>]*>/, '')
+      .replace(/<\/svg>/, '');
+    var b = buildBack(vb)
+      .replace(/<svg[^>]*>/, '')
+      .replace(/<\/svg>/, '');
     return '<svg width="70mm" height="40.6mm" viewBox="0 0 700 406" xmlns="http://www.w3.org/2000/svg">'
       + '<rect x="0" y="0" width="700" height="406" fill="#fff"/>'
-      + '<g>' + f + '</g>'
-      + '<g transform="translate(700,406) rotate(180)">' + b + '</g>'
+      + '<g transform="translate(0,0)"><svg width="700" height="200" viewBox="0 0 700 200">' + f + '</svg></g>'
+      + '<g transform="translate(700,406) rotate(180)"><svg x="0" y="0" width="700" height="200" viewBox="0 0 700 200">' + b + '</svg></g>'
       + '<line x1="0" y1="203" x2="700" y2="203" stroke="#888" stroke-width="0.7" stroke-dasharray="8,6"/>'
       + '<g stroke="#000" stroke-width="0.7" fill="none" stroke-linecap="square">'
       + '<line x1="-70" y1="0" x2="-20" y2="0"/><line x1="0" y1="-70" x2="0" y2="-20"/>'
