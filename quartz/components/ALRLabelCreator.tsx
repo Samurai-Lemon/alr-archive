@@ -42,7 +42,10 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
               </div>
               <div class="alr-lc-field">
                 <div class="alr-lc-label">Cert Number</div>
-                <input class="alr-lc-input" id="alr-lc-cert" value="0000-ALR" />
+                <div class="alr-lc-cert-row">
+                  <input class="alr-lc-input" id="alr-lc-cert" value="0000-ALR" />
+                  <button class="alr-lc-cert-gen" id="alr-lc-cert-gen" title="Generate">&#x21BB;</button>
+                </div>
               </div>
               <div class="alr-lc-rule"></div>
 
@@ -349,6 +352,13 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
       if (el) el.addEventListener('input', render);
     });
 
+    var genBtn = freshBtn('alr-lc-cert-gen');
+    if (genBtn) genBtn.addEventListener('click', function() {
+      var num = String(Math.floor(Math.random() * 900000) + 100000);
+      var el = g('alr-lc-cert');
+      if (el) { el.value = num + '-ALR'; render(); }
+    });
+
     bindColor('alr-lc-cbody','alr-lc-hbody'); bindColor('alr-lc-czone','alr-lc-hzone');
     bindColor('alr-lc-cacc','alr-lc-hacc'); bindColor('alr-lc-ctxt','alr-lc-htxt'); bindColor('alr-lc-cmut','alr-lc-hmut');
     bindColor('alr-lc-bcbody','alr-lc-bhbody');
@@ -420,6 +430,10 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
         .alr-lc-btn-ghost:hover{border-color:#cc785c;color:#cc785c}
         .alr-lc-status{font-size:9px;color:#cc785c;letter-spacing:1px;margin-left:auto}
         #alr-lc-colours-front,#alr-lc-colours-back{display:flex;flex-direction:column;gap:8px}
+        .alr-lc-cert-row{display:flex;gap:6px;align-items:center}
+        .alr-lc-cert-row .alr-lc-input{flex:1}
+        .alr-lc-cert-gen{flex-shrink:0;width:28px;height:28px;border-radius:3px;border:1px solid var(--lightgray);background:transparent;color:var(--gray);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .15s;padding:0}
+        .alr-lc-cert-gen:hover{border-color:#cc785c;color:#cc785c}
         @media(max-width:700px){.alr-lc-body{grid-template-columns:1fr}.alr-lc-left{border-right:none;border-bottom:1px solid var(--lightgray);max-height:none}}
       ` }} />
 
