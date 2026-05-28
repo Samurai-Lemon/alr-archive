@@ -93,7 +93,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
                 <div class="alr-lc-section-label">Back Colours</div>
                 <div class="alr-lc-color-row">
                   <div class="alr-lc-field">
-                    <div class="alr-lc-label">Info Panel</div>
+                    <div class="alr-lc-label">Body BG</div>
                     <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-bcbody" value="#1a1814" /><input class="alr-lc-hex" id="alr-lc-bhbody" value="#1a1814" /></div>
                   </div>
                 </div>
@@ -183,14 +183,13 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
     return '#' + [r, gr, b].map(function(x) { return x.toString(16).padStart(2, '0'); }).join('');
   }
 
-  function buildFront(v) {
+  function frontInner(v) {
     var id = 'lg' + Math.random().toString(36).slice(2);
-    return '<svg width="70mm" height="20mm" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" style="color:unset">'
-      + '<defs>'
-      + '<linearGradient id="' + id + '" x1="0%" y1="0%" x2="100%" y2="0%">'
-      + '<stop offset="0%" stop-color="' + v.acc + '" stop-opacity="0.6"/>'
-      + '<stop offset="100%" stop-color="' + v.acc + '" stop-opacity="0.6"/>'
-      + '</linearGradient>'
+    return '<defs>'
+      + '<radialGradient id="' + id + '" cx="50%" cy="50%" r="50%">'
+      + '<stop offset="0%" stop-color="' + v.acc + '" stop-opacity="0.04"/>'
+      + '<stop offset="100%" stop-color="' + v.acc + '" stop-opacity="0"/>'
+      + '</radialGradient>'
       + '</defs>'
       + '<rect x="0" y="0" width="700" height="200" fill="' + v.body + '"/>'
       + '<rect x="522" y="0" width="178" height="200" fill="' + v.zone + '"/>'
@@ -217,15 +216,12 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
       + '<line x1="528" y1="168" x2="688" y2="168" stroke="' + v.mut + '" stroke-width="1" opacity="0.3"/>'
       + '<text x="611" y="184" text-anchor="middle" font-size="17" font-weight="700" style="fill:' + v.mut + '" letter-spacing="3.5" font-family="Courier New,monospace">' + esc(v.gl) + '</text>'
       + '<line x1="528" y1="190" x2="688" y2="190" stroke="' + v.acc + '" stroke-width="0.7" opacity="0.35"/>'
-      + '<rect x="1.5" y="1.5" width="697" height="197" rx="3.5" fill="none" stroke="' + v.acc + '" stroke-width="5"/>'
-      + '</svg>';
+      + '<rect x="1.5" y="1.5" width="697" height="197" rx="3.5" fill="none" stroke="' + v.acc + '" stroke-width="5"/>';
   }
 
-  function buildBack(v) {
-    var id = 'lg' + Math.random().toString(36).slice(2);
+  function backInner(v) {
     var id2 = 'gl' + Math.random().toString(36).slice(2);
-    return '<svg width="70mm" height="20mm" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" style="color:unset">'
-      + '<defs>'
+    return '<defs>'
       + '<radialGradient id="' + id2 + '" cx="50%" cy="50%" r="40%">'
       + '<stop offset="0%" stop-color="' + v.acc + '" stop-opacity="0.08"/>'
       + '<stop offset="100%" stop-color="' + v.acc + '" stop-opacity="0"/>'
@@ -240,7 +236,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
       + '<text x="350" y="92" text-anchor="middle" font-size="68" font-weight="700" style="fill:' + v.txt + '" letter-spacing="6" font-family="Courier New,monospace">ALR</text>'
       + '<text x="350" y="116" text-anchor="middle" font-size="19" font-weight="700" style="fill:' + v.mut + '" letter-spacing="5" font-family="Courier New,monospace">INITIATIVE</text>'
       + '<line x1="274" y1="123" x2="426" y2="123" stroke="' + v.acc + '" stroke-width="0.6" opacity="0.4"/>'
-      + '<text x="350" y="140" text-anchor="middle" font-size="14" font-weight="700" style="fill:' + dk(v.mut, 20) + '" letter-spacing="2" font-family="Courier New,monospace">ARCHIVE - GRADE - CERTIFIED</text>'
+      + '<text x="350" y="140" text-anchor="middle" font-size="14" font-weight="700" style="fill:' + dk(v.mut,20) + '" letter-spacing="2" font-family="Courier New,monospace">ARCHIVE - GRADE - CERTIFIED</text>'
       + '<line x1="18" y1="22" x2="38" y2="22" stroke="' + v.acc + '" stroke-width="0.9" opacity="0.5"/>'
       + '<line x1="18" y1="22" x2="18" y2="42" stroke="' + v.acc + '" stroke-width="0.9" opacity="0.5"/>'
       + '<line x1="682" y1="22" x2="662" y2="22" stroke="' + v.acc + '" stroke-width="0.9" opacity="0.5"/>'
@@ -249,17 +245,24 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
       + '<line x1="18" y1="178" x2="18" y2="158" stroke="' + v.acc + '" stroke-width="0.9" opacity="0.5"/>'
       + '<line x1="682" y1="178" x2="662" y2="178" stroke="' + v.acc + '" stroke-width="0.9" opacity="0.5"/>'
       + '<line x1="682" y1="178" x2="682" y2="158" stroke="' + v.acc + '" stroke-width="0.9" opacity="0.5"/>'
-      + '<rect x="1.5" y="1.5" width="697" height="197" rx="3.5" fill="none" stroke="' + v.acc + '" stroke-width="5"/>'
-      + '</svg>';
+      + '<rect x="1.5" y="1.5" width="697" height="197" rx="3.5" fill="none" stroke="' + v.acc + '" stroke-width="5"/>';
+  }
+
+  function buildFront(v) {
+    return '<svg width="70mm" height="20mm" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" style="color:unset">'
+      + frontInner(v) + '</svg>';
+  }
+
+  function buildBack(v) {
+    return '<svg width="70mm" height="20mm" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" style="color:unset">'
+      + backInner(v) + '</svg>';
   }
 
   function buildFold(vf, vb) {
-    var f = buildFront(vf).replace(/ xmlns="[^"]*"/g, '');
-    var b = buildBack(vb).replace(/ xmlns="[^"]*"/g, '');
     return '<svg width="70mm" height="40.6mm" viewBox="0 0 700 406" xmlns="http://www.w3.org/2000/svg">'
       + '<rect x="0" y="0" width="700" height="406" fill="#fff"/>'
-      + '<g>' + f + '</g>'
-      + '<g transform="translate(700,406) rotate(180)">' + b + '</g>'
+      + '<g transform="translate(0,0)"><svg width="700" height="200" viewBox="0 0 700 200" style="color:unset">' + frontInner(vf) + '</svg></g>'
+      + '<g transform="translate(700,406) rotate(180)"><svg width="700" height="200" viewBox="0 0 700 200" style="color:unset">' + backInner(vb) + '</svg></g>'
       + '<line x1="0" y1="203" x2="700" y2="203" stroke="#888" stroke-width="0.7" stroke-dasharray="8,6"/>'
       + '<g stroke="#000" stroke-width="0.7" fill="none" stroke-linecap="square">'
       + '<line x1="-70" y1="0" x2="-20" y2="0"/><line x1="0" y1="-70" x2="0" y2="-20"/>'
@@ -348,7 +351,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
 
     bindColor('alr-lc-cbody','alr-lc-hbody'); bindColor('alr-lc-czone','alr-lc-hzone');
     bindColor('alr-lc-cacc','alr-lc-hacc'); bindColor('alr-lc-ctxt','alr-lc-htxt'); bindColor('alr-lc-cmut','alr-lc-hmut');
-    bindColor('alr-lc-bcbody','alr-lc-bhbody'); 
+    bindColor('alr-lc-bcbody','alr-lc-bhbody');
     bindColor('alr-lc-bcacc','alr-lc-bhacc'); bindColor('alr-lc-bctxt','alr-lc-bhtxt'); bindColor('alr-lc-bcmut','alr-lc-bhmut');
 
     var pd = freshBtn('alr-lc-preset-dark'), pl = freshBtn('alr-lc-preset-light');
@@ -416,7 +419,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
         .alr-lc-btn-ghost{font-family:var(--codeFont),monospace;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:7px 12px;border-radius:3px;cursor:pointer;background:transparent;border:1px solid var(--lightgray);color:var(--gray);transition:all .15s}
         .alr-lc-btn-ghost:hover{border-color:#cc785c;color:#cc785c}
         .alr-lc-status{font-size:9px;color:#cc785c;letter-spacing:1px;margin-left:auto}
-        #alr-lc-colours-front, #alr-lc-colours-back{display:flex;flex-direction:column;gap:8px}
+        #alr-lc-colours-front,#alr-lc-colours-back{display:flex;flex-direction:column;gap:8px}
         @media(max-width:700px){.alr-lc-body{grid-template-columns:1fr}.alr-lc-left{border-right:none;border-bottom:1px solid var(--lightgray);max-height:none}}
       ` }} />
 
