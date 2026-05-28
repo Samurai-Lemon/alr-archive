@@ -2446,3 +2446,13 @@ body[data-slug="label-creator"] #quartz-body .center { padding-top: 0 !important
 body[data-slug="label-creator"] .page-header { display: block !important; height: auto !important; min-height: 0 !important; margin: 0 !important; padding: 0 !important; overflow: visible !important; }
 body[data-slug="label-creator"] .alr-lc { padding: 0 32px 28px !important; }
 body[data-slug="label-creator"] .alr-lc-body { min-height: 600px !important; }
+body[data-slug="label-creator"] .alr-lc-banner { margin-left: -32px !important; margin-right: -32px !important; margin-top: 0 !important; }
+body[data-slug="label-creator"] .alr-lc-wrap { margin-left: 0 !important; margin-right: 0 !important; }
+
+:root[saved-theme="light"] body[data-slug="label-creator"],
+:root[saved-theme="light"] {
+  .alr-lc-banner { background: #ede8de !important; border-bottom-color: #d8d0c4 !important; }
+  .alr-lc-banner-title { color: #2a2420 !important; }
+  .alr-lc-banner-sub { color: #7a7068 !important; }
+  .alr-lc-banner-meta-item { color: #a09888 !important; }
+}
