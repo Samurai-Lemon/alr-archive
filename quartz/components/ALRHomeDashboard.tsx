@@ -119,10 +119,10 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
                 Fragments persist. Echoes persist. We document what remains.
               </div>
               <div class="alr-home-hero-links">
-                <a href="/Echoes/Echo-Registry"       class="alr-home-hero-link">Echo Registry</a>
-                <a href="/Realities/Reality-Registry" class="alr-home-hero-link">Reality Registry</a>
-                <a href="/Foundations/ALR-Initiative" class="alr-home-hero-link-ghost">About the Initiative</a>
-                <a href="/Systems/Classification"     class="alr-home-hero-link-ghost">Classification Systems</a>
+                <a href="/Index/ECHO-Registry"          class="alr-home-hero-link">Echo Registry</a>
+                <a href="/Index/Reality-Registry"        class="alr-home-hero-link">Reality Registry</a>
+                <a href="/Foundations/ALR/ALR-Initiative" class="alr-home-hero-link-ghost">About the Initiative</a>
+                <a href="/Systems"                        class="alr-home-hero-link-ghost">Classification Systems</a>
               </div>
             </div>
 
@@ -179,7 +179,7 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
             <div class="alr-mission-desc">
               Classify and preserve anomalous remnants recovered from collapsed realities.
             </div>
-            <a href="/Echoes/Echo-Registry" class="alr-mission-link">Browse Echo Registry →</a>
+            <a href="/Index/ECHO-Registry" class="alr-mission-link">Browse Echo Registry →</a>
           </div>
           <div class="alr-mission-item">
             <div class="alr-mission-symbol">◉</div>
@@ -187,7 +187,7 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
             <div class="alr-mission-desc">
               Deploy field teams to survey collapsed reality sites and recover evidence.
             </div>
-            <a href="/Realities/Reality-Registry" class="alr-mission-link">Browse Reality Registry →</a>
+            <a href="/Index/Reality-Registry" class="alr-mission-link">Browse Reality Registry →</a>
           </div>
           <div class="alr-mission-item">
             <div class="alr-mission-symbol">◌</div>
@@ -195,7 +195,7 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
             <div class="alr-mission-desc">
               Maintain an institutional record of civilizations and worlds lost to the Unwritten.
             </div>
-            <a href="/Foundations/ALR-Initiative" class="alr-mission-link">Read the mandate →</a>
+            <a href="/Foundations/ALR/ALR-Initiative" class="alr-mission-link">Read the mandate →</a>
           </div>
         </div>
 
