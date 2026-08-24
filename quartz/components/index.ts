@@ -38,6 +38,7 @@ import OrdoBanner from "./OrdoBanner"
 import ALRShop from "./ALRShop"
 import ALRLabelCreator from "./ALRLabelCreator"
 import ALRLabelCreatorScript from "./ALRLabelCreatorScript"
+import ALRRegistryScript from "./ALRRegistryScript"
 
 export {
   ArticleTitle,
@@ -80,4 +81,5 @@ export {
   ALRShop,
   ALRLabelCreator,
   ALRLabelCreatorScript,
+  ALRRegistryScript,
 }

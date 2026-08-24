@@ -1,40 +1,5 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
-
-const ecTypeLabels: Record<string, string> = {
-  ENT: "Entity",
-  OBJ: "Object",
-  LOC: "Location",
-  PHN: "Phenomenon",
-  EVT: "Event",
-}
-
-const escLabels: Record<string, string> = {
-  S1: "Stable",
-  S2: "Volatile",
-  S3: "Fractured",
-  S4: "Terminal",
-}
-
-const rtsLabels: Record<string, string> = {
-  T1: "Fragmentary",
-  T2: "Localized",
-  T3: "Developed",
-  T4: "Grand",
-  T5: "Cosmic",
-}
-
-const rdsLabels: Record<string, string> = {
-  A: "Analogous",
-  B: "Variant",
-  C: "Divergent",
-  D: "Exotic",
-}
-
-const rccLabels: Record<string, string> = {
-  "RCC-1": "Silent Collapse",
-  "RCC-2": "Systemic Failure",
-  "RCC-3": "Catastrophic Collapse",
-}
+import { ecTypeLabels, escLabels, rtsLabels, rdsLabels, rccLabels } from "../util/alrClassifications"
 
 const ALREchoHero: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
   const fm = (fileData.frontmatter ?? {}) as Record<string, unknown>

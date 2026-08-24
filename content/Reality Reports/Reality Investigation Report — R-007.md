@@ -6,6 +6,7 @@ rts: T3
 rds: B
 rcc: RCC-1
 status: documented
+associatedEcho: ECHO-031
 ---
 
 # Reality Investigation Report — R-007
