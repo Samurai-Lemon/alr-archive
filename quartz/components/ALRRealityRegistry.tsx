@@ -169,10 +169,12 @@ const ALRRealityRegistry: QuartzComponent = ({
         </div>
 
         <div class="alr-reg-controls">
-          <button class="alr-reg-filter-btn alr-reg-filter-active" data-filter="all">All</button>
-          <button class="alr-reg-filter-btn" data-filter="RCC-1">RCC-1</button>
-          <button class="alr-reg-filter-btn" data-filter="RCC-2">RCC-2</button>
-          <button class="alr-reg-filter-btn" data-filter="RCC-3">RCC-3</button>
+          <div class="alr-reg-filter-row">
+            <button class="alr-reg-filter-btn alr-reg-filter-active" data-filter="all">All</button>
+            <button class="alr-reg-filter-btn" data-filter="RCC-1">RCC-1</button>
+            <button class="alr-reg-filter-btn" data-filter="RCC-2">RCC-2</button>
+            <button class="alr-reg-filter-btn" data-filter="RCC-3">RCC-3</button>
+          </div>
           <div class="alr-reg-search">
             <span class="alr-reg-search-icon">⌕</span>
             <input
@@ -204,35 +206,40 @@ const ALRRealityRegistry: QuartzComponent = ({
                 data-rcc={reality.rcc}
                 data-search={`${reality.realityId} ${reality.title}`.toLowerCase()}
               >
-                <div class="alr-reg-id">{reality.realityId}</div>
-                <div>
-                  <div class="alr-reg-name">Reality {reality.realityId}</div>
-                  <div class="alr-reg-name-sub">
-                    {reality.status.charAt(0).toUpperCase() + reality.status.slice(1)}
+                <div class="alr-reg-row-head">
+                  <div class="alr-reg-id">{reality.realityId}</div>
+                  <div>
+                    <div class="alr-reg-name">Reality {reality.realityId}</div>
+                    <div class="alr-reg-name-sub">
+                      {reality.status.charAt(0).toUpperCase() + reality.status.slice(1)}
+                    </div>
                   </div>
                 </div>
-                <div>
-                  <span class="alr-reg-tag alr-reg-tag-rts">{reality.rts}</span>
+                <div class="alr-reg-row-tags">
+                  <div>
+                    <span class="alr-reg-tag alr-reg-tag-rts">{reality.rts}</span>
+                  </div>
+                  <div>
+                    <span class="alr-reg-tag alr-reg-tag-rds">{reality.rds}</span>
+                  </div>
+                  <div>
+                    <span class={`alr-reg-tag ${rccFilterClass(reality.rcc)}`}>{reality.rcc}</span>
+                  </div>
+                  <div>
+                    {reality.associatedEchoIds.length > 0 ? (
+                      <span class="alr-reg-echo-chip">
+                        <span class="alr-reg-echo-dot"></span>
+                        {reality.associatedEchoIds[0]}
+                        {reality.associatedEchoIds.length > 1
+                          ? ` +${reality.associatedEchoIds.length - 1}`
+                          : ""}
+                      </span>
+                    ) : (
+                      <span class="alr-reg-no-echo">—</span>
+                    )}
+                  </div>
                 </div>
-                <div>
-                  <span class="alr-reg-tag alr-reg-tag-rds">{reality.rds}</span>
-                </div>
-                <div>
-                  <span class={`alr-reg-tag ${rccFilterClass(reality.rcc)}`}>{reality.rcc}</span>
-                </div>
-                <div>
-                  {reality.associatedEchoIds.length > 0 ? (
-                    <span class="alr-reg-echo-chip">
-                      <span class="alr-reg-echo-dot"></span>
-                      {reality.associatedEchoIds[0]}
-                      {reality.associatedEchoIds.length > 1
-                        ? ` +${reality.associatedEchoIds.length - 1}`
-                        : ""}
-                    </span>
-                  ) : (
-                    <span class="alr-reg-no-echo">—</span>
-                  )}
-                </div>
+                <div class="alr-reg-card-expand" id={`alr-reality-card-expand-${i}`}></div>
               </div>
             ))}
           </div>

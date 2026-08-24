@@ -166,11 +166,13 @@ const ALREchoRegistry: QuartzComponent = ({
         </div>
 
         <div class="alr-reg-controls">
-          <button class="alr-reg-filter-btn alr-reg-filter-active" data-filter="all">All</button>
-          <button class="alr-reg-filter-btn" data-filter="S1">S1</button>
-          <button class="alr-reg-filter-btn" data-filter="S2">S2</button>
-          <button class="alr-reg-filter-btn" data-filter="S3">S3</button>
-          <button class="alr-reg-filter-btn" data-filter="S4">S4</button>
+          <div class="alr-reg-filter-row">
+            <button class="alr-reg-filter-btn alr-reg-filter-active" data-filter="all">All</button>
+            <button class="alr-reg-filter-btn" data-filter="S1">S1</button>
+            <button class="alr-reg-filter-btn" data-filter="S2">S2</button>
+            <button class="alr-reg-filter-btn" data-filter="S3">S3</button>
+            <button class="alr-reg-filter-btn" data-filter="S4">S4</button>
+          </div>
           <div class="alr-reg-search">
             <span class="alr-reg-search-icon">⌕</span>
             <input
@@ -203,26 +205,31 @@ const ALREchoRegistry: QuartzComponent = ({
                 data-esc={echo.esc}
                 data-search={`${echo.echoId} ${echo.name}`.toLowerCase()}
               >
-                <div class="alr-reg-id">{echo.echoId}</div>
-                <div>
-                  <div class="alr-reg-name">{echo.name}</div>
-                  <div class="alr-reg-name-sub">{ecTypeLabels[echo.ec] ?? echo.ec}</div>
+                <div class="alr-reg-row-head">
+                  <div class="alr-reg-id">{echo.echoId}</div>
+                  <div>
+                    <div class="alr-reg-name">{echo.name}</div>
+                    <div class="alr-reg-name-sub">{ecTypeLabels[echo.ec] ?? echo.ec}</div>
+                  </div>
                 </div>
-                <div>
-                  <span class={`alr-reg-tag ${ecFilterClass(echo.ec)}`}>{echo.ec}</span>
+                <div class="alr-reg-row-tags">
+                  <div>
+                    <span class={`alr-reg-tag ${ecFilterClass(echo.ec)}`}>{echo.ec}</span>
+                  </div>
+                  <div>
+                    <span class={`alr-reg-tag ${escFilterClass(echo.esc)}`}>{echo.esc}</span>
+                  </div>
+                  <div>
+                    <span class={`alr-reg-tag ${rccFilterClass(echo.rcc)}`}>{echo.rcc}</span>
+                  </div>
+                  <div>
+                    <span class="alr-reg-tag alr-reg-tag-rts">{echo.rts}</span>
+                  </div>
+                  <div>
+                    <span class="alr-reg-tag alr-reg-tag-rds">{echo.rds}</span>
+                  </div>
                 </div>
-                <div>
-                  <span class={`alr-reg-tag ${escFilterClass(echo.esc)}`}>{echo.esc}</span>
-                </div>
-                <div>
-                  <span class={`alr-reg-tag ${rccFilterClass(echo.rcc)}`}>{echo.rcc}</span>
-                </div>
-                <div>
-                  <span class="alr-reg-tag alr-reg-tag-rts">{echo.rts}</span>
-                </div>
-                <div>
-                  <span class="alr-reg-tag alr-reg-tag-rds">{echo.rds}</span>
-                </div>
+                <div class="alr-reg-card-expand" id={`alr-echo-card-expand-${i}`}></div>
               </div>
             ))}
           </div>

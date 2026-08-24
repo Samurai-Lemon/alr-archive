@@ -73,6 +73,19 @@ const ALRRegistryScript: QuartzComponent = () => {
       });
     }
 
+    function cardExpandHtml(item) {
+      return '<div class="alr-reg-card-expand-inner">'
+        + '<div class="alr-reg-detail-grid alr-reg-detail-grid-5">'
+        + detailCell('Echo Class', item.ec + ' — ' + item.ecLabel)
+        + detailCell('Stability', item.esc + ' — ' + item.escLabel)
+        + detailCell('Origin Tier', item.rts + ' — ' + item.rtsLabel)
+        + detailCell('Divergence', item.rds + ' — ' + item.rdsLabel)
+        + detailCell('Collapse Class', item.rcc + ' — ' + item.rccLabel)
+        + '</div>'
+        + '<a href="' + item.href + '" class="alr-reg-view-btn alr-reg-card-view-btn">View Full Entry &rarr;</a>'
+        + '</div>';
+    }
+
     function selectRow(index) {
       var item = items[index];
       if (!item) return;
@@ -80,9 +93,15 @@ const ALRRegistryScript: QuartzComponent = () => {
       if (rowsWrap) {
         rowsWrap.querySelectorAll('.alr-reg-row').forEach(function(r) {
           r.classList.remove('alr-reg-row-selected');
+          var exp = r.querySelector('.alr-reg-card-expand');
+          if (exp) exp.innerHTML = '';
         });
         var target = rowsWrap.querySelector('.alr-reg-row[data-index="' + index + '"]');
-        if (target) target.classList.add('alr-reg-row-selected');
+        if (target) {
+          target.classList.add('alr-reg-row-selected');
+          var exp = target.querySelector('.alr-reg-card-expand');
+          if (exp) exp.innerHTML = cardExpandHtml(item);
+        }
       }
 
       var idEl = g('alr-echo-detail-id');
@@ -115,6 +134,7 @@ const ALRRegistryScript: QuartzComponent = () => {
       });
     }
 
+    if (items.length > 0) selectRow(0);
     applyFilter();
   }
 
@@ -183,6 +203,23 @@ const ALRRegistryScript: QuartzComponent = () => {
       });
     }
 
+    function cardExpandHtml(item) {
+      var echoesHtml = item.echoes && item.echoes.length
+        ? item.echoes.map(echoChipHtml).join('')
+        : '<span class="alr-reg-no-echo">No associated Echoes on record.</span>';
+      return '<div class="alr-reg-card-expand-inner">'
+        + '<div class="alr-reg-detail-grid alr-reg-detail-grid-4">'
+        + detailCell('Reality Tier', item.rts + ' — ' + item.rtsLabel)
+        + detailCell('Divergence', item.rds + ' — ' + item.rdsLabel)
+        + detailCell('Collapse Class', item.rcc + ' — ' + item.rccLabel)
+        + detailCell('Status', item.status.charAt(0).toUpperCase() + item.status.slice(1))
+        + '</div>'
+        + '<div class="alr-reg-detail-cell-label" style="margin-bottom:6px">Associated Echoes</div>'
+        + '<div class="alr-reg-detail-echoes">' + echoesHtml + '</div>'
+        + '<a href="' + item.href + '" class="alr-reg-view-btn alr-reg-card-view-btn">View Full Report &rarr;</a>'
+        + '</div>';
+    }
+
     function selectRow(index) {
       var item = items[index];
       if (!item) return;
@@ -190,9 +227,15 @@ const ALRRegistryScript: QuartzComponent = () => {
       if (rowsWrap) {
         rowsWrap.querySelectorAll('.alr-reg-row').forEach(function(r) {
           r.classList.remove('alr-reg-row-selected');
+          var exp = r.querySelector('.alr-reg-card-expand');
+          if (exp) exp.innerHTML = '';
         });
         var target = rowsWrap.querySelector('.alr-reg-row[data-index="' + index + '"]');
-        if (target) target.classList.add('alr-reg-row-selected');
+        if (target) {
+          target.classList.add('alr-reg-row-selected');
+          var exp = target.querySelector('.alr-reg-card-expand');
+          if (exp) exp.innerHTML = cardExpandHtml(item);
+        }
       }
 
       var idEl = g('alr-reality-detail-id');
@@ -230,6 +273,7 @@ const ALRRegistryScript: QuartzComponent = () => {
       });
     }
 
+    if (items.length > 0) selectRow(0);
     applyFilter();
   }
 

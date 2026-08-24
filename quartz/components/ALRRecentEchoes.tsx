@@ -40,11 +40,12 @@ function getDateValue(file: any): number {
   return fmDate || modified || created || 0
 }
 
-function buildEchoItem(file: any): EchoItem {
+function buildEchoItem(file: any): EchoItem | null {
   const slug = String(file.slug ?? "")
   const title = String(file.frontmatter?.title ?? slug)
   const echoIdMatch = title.match(/ECHO-\d+/i) ?? slug.match(/ECHO-\d+/i)
-  const echoId = echoIdMatch ? echoIdMatch[0].toUpperCase() : "ECHO-???"
+  if (!echoIdMatch) return null
+  const echoId = echoIdMatch[0].toUpperCase()
 
   const nameFromTitle = title.replace(/^ECHO-\d+\s*[—-]\s*/i, "").trim()
   const name = nameFromTitle || title
@@ -73,6 +74,7 @@ const ALRRecentEchoes: QuartzComponent = ({ allFiles }: QuartzComponentProps & {
       return slug.startsWith("Echoes/") && !slug.endsWith("/index") && !slug.endsWith("/Index")
     })
     .map(buildEchoItem)
+    .filter((item: EchoItem | null): item is EchoItem => item !== null)
     .sort((a, b) => b.sortTime - a.sortTime)
     .slice(0, 7)
 
