@@ -107,7 +107,7 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
               />
             </g>
 
-            <rect x="0" y="190" width="680" height="30" fill="#0f0e0b" opacity="0.5" />
+            <rect class="alr-banner-vignette" x="0" y="190" width="680" height="30" fill="#0f0e0b" opacity="0.5" />
           </svg>
 
           <div class="alr-home-hero-overlay">

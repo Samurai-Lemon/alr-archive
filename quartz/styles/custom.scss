@@ -1974,6 +1974,28 @@ details[open] .alr-sb-chevron {
   .alr-reg-detail-cell { background: #f5f0e8 !important; border-color: #d8d0c4 !important; }
   .alr-reg-detail-cell-val { color: #4a4038 !important; }
 
+  .alr-reg-banner { background: #ede8de !important; border-bottom-color: #d8d0c4 !important; }
+  .alr-reg-banner-title { color: #2a2420 !important; }
+  .alr-reg-banner-sub { color: #6a6058 !important; }
+  .alr-reg-banner-meta-item { color: #a09888 !important; }
+  .alr-reg-id { color: #a85c42 !important; }
+  .alr-reg-stat-n { color: #a85c42 !important; }
+  .alr-reg-detail-id { color: #a85c42 !important; }
+  .alr-reg-tag-rts { color: #1a5a8a !important; border-color: #4a88c0 !important; background: #e0ecf8 !important; }
+  .alr-reg-tag-rds { color: #7a5a08 !important; border-color: #b08820 !important; background: #f4ead8 !important; }
+  .alr-reg-tag-rcc-1, .alr-reg-tag-esc-s1 { color: #0e6b50 !important; border-color: #2a9a78 !important; background: #e0f0ea !important; }
+  .alr-reg-tag-rcc-2, .alr-reg-tag-esc-s2 { color: #7a5a08 !important; border-color: #b08820 !important; background: #f4ead8 !important; }
+  .alr-reg-tag-rcc-3, .alr-reg-tag-esc-s4 { color: #8a2a10 !important; border-color: #c04828 !important; background: #f4e0d8 !important; }
+  .alr-reg-tag-esc-s3 { color: #7a4a08 !important; border-color: #a06820 !important; background: #f4e4d0 !important; }
+  .alr-reg-tag-ec-ent, .alr-reg-tag-ec-evt { color: #8a3a22 !important; border-color: #c87858 !important; background: #f0e8e0 !important; }
+  .alr-reg-tag-ec-obj { color: #0e6b50 !important; border-color: #2a9a78 !important; background: #e0f0ea !important; }
+  .alr-reg-tag-ec-loc { color: #1a5a8a !important; border-color: #4a88c0 !important; background: #e0ecf8 !important; }
+  .alr-reg-tag-ec-phn { color: #7a5a08 !important; border-color: #b08820 !important; background: #f4ead8 !important; }
+  .alr-reg-echo-chip { background: #f0e4da !important; border-color: #c87858 !important; color: #a85c42 !important; }
+  .alr-reg-echo-chip-link:hover { color: #8a4a32 !important; }
+  .alr-reg-view-btn { background: rgba(168,92,66,0.08) !important; color: #a85c42 !important; border-color: #a85c42 !important; }
+  .alr-reg-view-btn:hover { background: rgba(168,92,66,0.16) !important; }
+
   .callout[data-callout="info"] { background: #ede8de !important; }
   .callout[data-callout="note"] { background: #ede8de !important; }
   .callout[data-callout="abstract"] { background: #ede8de !important; }
@@ -1981,12 +2003,26 @@ details[open] .alr-sb-chevron {
   .callout[data-callout="warning"] { background: #f0ead8 !important; }
   .callout-content p { color: #3a3028 !important; }
 
-  .alr-banner-svg .alr-banner-bg { fill: #2a2218 !important; }
-  .alr-banner-svg .alr-banner-title { fill: #f5f0e8 !important; }
-  .alr-banner-svg .alr-banner-sub { fill: #9a8878 !important; }
-  .alr-banner-svg .alr-banner-eyebrow { fill: #cc785c !important; }
+  .alr-banner-svg .alr-banner-bg,
+  .alr-home-hero-svg .alr-banner-bg { fill: #e8e1d2 !important; }
+  .alr-home-hero-svg .alr-banner-vignette { fill: #d8cfbc !important; opacity: 0.6 !important; }
+  .alr-banner-svg .alr-banner-title { fill: #2a2420 !important; }
+  .alr-banner-svg .alr-banner-sub { fill: #6a6058 !important; }
+  .alr-banner-svg .alr-banner-eyebrow { fill: #a85c42 !important; }
+  .alr-banner-svg .alr-banner-status1 { fill: #a85c42 !important; }
   .alr-banner-svg .alr-banner-status2,
-  .alr-banner-svg .alr-banner-status3 { fill: #7a6858 !important; }
+  .alr-banner-svg .alr-banner-status3 { fill: #8a8175 !important; }
+  .alr-banner-svg .alr-banner-scanline,
+  .alr-home-hero-svg .alr-banner-scanline { stroke: #a85c42 !important; }
+  .alr-banner-svg circle,
+  .alr-home-hero-svg circle { fill: #a85c42 !important; }
+  .alr-banner-svg line[stroke="#cc785c"],
+  .alr-banner-svg rect[fill="#cc785c"],
+  .alr-home-hero-svg line[stroke="#cc785c"],
+  .alr-home-hero-svg rect[fill="#cc785c"] { stroke: #a85c42; fill: #a85c42; }
+  .alr-banner-svg g[opacity] path[fill="#cc785c"],
+  .alr-home-hero-svg g[opacity] path[fill="#cc785c"] { fill: #a85c42; }
+  .alr-home-hero-title { color: #2a2420 !important; }
 
   .alr-submit-section { background: #ede8de !important; border-color: #d8d0c4 !important; }
   .alr-submit-notice { background: #e8e3d8 !important; border-color: #c87858 !important; }
@@ -2022,7 +2058,7 @@ details[open] .alr-sb-chevron {
 
   .alr-home-status-card { background: rgba(237,232,222,0.85) !important; border-color: #d8d0c4 !important; }
   .alr-home-status-val { color: #a85c42 !important; }
-  .alr-home-status-val-dim { color: #c0b8ac !important; }
+  .alr-home-status-val-dim { color: #8a8175 !important; }
   .alr-home-status-sub { color: #a09888 !important; }
   .alr-home-status-label { color: #a09888 !important; }
   .alr-home-hero-sub { color: #7a7068 !important; }
@@ -2036,6 +2072,8 @@ details[open] .alr-sb-chevron {
   .alr-home-featured-title { color: #2a2420 !important; }
   .alr-home-featured-desc { color: #7a7068 !important; }
   .alr-home-featured-img { background: #e0d8cc !important; border-color: #d8d0c4 !important; }
+  .alr-home-featured-badge { background: #f0e4da !important; }
+  .alr-home-featured-btn:hover { background: #f0e4da !important; }
 
   .alr-terminal-intrusion { background: #e8e3d8 !important; border-color: #a85c42 !important; box-shadow: 0 0 24px rgba(168,92,66,0.12), 0 0 2px rgba(168,92,66,0.3), inset 0 0 40px rgba(0,0,0,0.04) !important; }
   .alr-terminal-titlebar { background: #ede8de !important; border-bottom-color: #d8d0c4 !important; }
@@ -2396,6 +2434,47 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
   @keyframes ordo-severe { 0%,100% { opacity: 0.7; } 50% { opacity: 0.9; } }
 }
 
+// ─── ORDO DAMNATIO MEMORIAE (light mode) ───────────────────
+// Same "redacted classified document" concept, re-themed as aged paper
+// instead of a black terminal. Everything downstream already reads these
+// as CSS custom properties, so redefining them here (at higher specificity)
+// re-colors the whole page without touching the rules that consume them.
+:root[saved-theme="light"] body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
+  --ordo-bg: #ece4d4; --ordo-surface: #e2d8c4; --ordo-surface-2: #ddd0b8;
+  --ordo-border: #c8b896; --ordo-border-hi: #b8a480; --ordo-red: #9a3820;
+  --ordo-red-bright: #b04020; --ordo-red-dim: #a88868; --ordo-text: #4a3a28;
+  --ordo-text-bright: #2a1e10; --ordo-text-mid: #5a4a34; --ordo-text-dim: #7a6a50;
+  --ordo-text-muted: #9a8a70; --ordo-danger: #a02010;
+
+  #quartz-header { background: #e2d8c4 !important; }
+  #quartz-header .search-bar { background: #ddd0b8 !important; }
+  .alr-topnav-dropdown-menu-inner { background: #ddd0b8 !important; }
+  #quartz-body .sidebar.left, .sidebar.left { background: #e2d8c4 !important; }
+  .alr-toggle-track { background: #d8c8a8 !important; }
+  .alr-terminal-intrusion { background: #ddd0b8 !important; }
+  .alr-terminal-titlebar { background: #d4c4a4 !important; }
+  .callout[data-callout="info"] { background: #e2d8c4 !important; }
+
+  .ordo-banner-svg [fill="#0a0806"], .ordo-banner-svg stop[stop-color="#0a0806"] { fill: #ece4d4 !important; }
+  .ordo-banner-svg [fill="#2a1008"] { fill: #c8b896 !important; }
+  .ordo-banner-svg [fill="#3a1a0e"] { fill: #b8a480 !important; }
+  .ordo-banner-svg [stroke="#2a1208"] { stroke: #b8a480 !important; }
+  .ordo-banner-svg [fill="#8a3020"] { fill: #9a3820 !important; }
+  .ordo-banner-svg text[fill="#8a4a28"] { fill: #6a3818 !important; }
+  .ordo-banner-svg text[fill="#e8d8b8"] { fill: #2a1e10 !important; }
+  .ordo-banner-svg text[fill="#8a5a38"] { fill: #6a4828 !important; }
+  .ordo-banner-svg text[fill="#8a5a30"] { fill: #6a4020 !important; }
+  .ordo-banner-svg text[fill="#5a2a18"] { fill: #4a2010 !important; }
+  .ordo-banner-svg text[fill="#9a3020"] { fill: #a83820 !important; }
+  .ordo-banner-svg text[fill="#4a2a18"] { fill: #3a2010 !important; }
+
+  .ordo-threat-strip { border-bottom-color: #c8b896 !important; }
+  .ordo-threat-file { background: rgba(154,56,32,0.08) !important; border-color: #c87858 !important; color: #8a4020 !important; }
+  .ordo-threat-severe { background: rgba(154,56,32,0.12) !important; border-color: #9a3020 !important; color: #9a3020 !important; }
+  .ordo-threat-dim { background: #e2d8c4 !important; border-color: #c8b896 !important; color: #7a6a50 !important; }
+  .ordo-threat-sep { background: #c8b896 !important; }
+}
+
 // ─── SHOP PAGE ────────────────────────────────────────────
 .alr-shop { display: flex; flex-direction: column; gap: 20px; padding-top: 28px; }
 .alr-shop-header { padding-bottom: 20px; border-bottom: 0.5px solid #222018; }
@@ -2427,12 +2506,12 @@ body[data-slug="Shop-Soon"] .page-header { display: block !important; height: au
 
 :root[saved-theme="light"] {
   .alr-shop-header { border-bottom-color: #d8d0c4 !important; }
-  .alr-shop-sub { color: #7a7068 !important; }
-  .alr-shop-notice { background: #e8e3d8 !important; border-color: #c87858 !important; }
+  .alr-shop-sub { color: #6a6058 !important; }
+  .alr-shop-notice { background: #f0ead8 !important; border-color: #c87858 !important; }
   .alr-shop-section { background: #ede8de !important; border-color: #d8d0c4 !important; }
   .alr-shop-placeholder { border-color: #d8d0c4 !important; }
-  .alr-shop-placeholder-text { color: #7a7068 !important; }
-  .alr-shop-placeholder-sub { color: #a09888 !important; }
+  .alr-shop-placeholder-text { color: #5a5048 !important; }
+  .alr-shop-placeholder-sub { color: #8a8175 !important; }
 }
 
 // ─── SHOP PRODUCT GRID ────────────────────────────────────
@@ -2516,4 +2595,5 @@ body[data-slug="Index/Reality-Registry"] .page-header { display: block !importan
   .alr-lc-banner-title { color: #2a2420 !important; }
   .alr-lc-banner-sub { color: #7a7068 !important; }
   .alr-lc-banner-meta-item { color: #a09888 !important; }
+  .alr-lc-svgwrap { background: #ddd6c8 !important; }
 }
