@@ -37,6 +37,7 @@ import ALRTerminalIntrusion from "./ALRTerminalIntrusion"
 import OrdoBanner from "./OrdoBanner"
 import ALRShop from "./ALRShop"
 import ALRLabelCreator from "./ALRLabelCreator"
+import ALRLabelCreatorScript from "./ALRLabelCreatorScript"
 
 export {
   ArticleTitle,
@@ -78,4 +79,5 @@ export {
   OrdoBanner,
   ALRShop,
   ALRLabelCreator,
+  ALRLabelCreatorScript,
 }

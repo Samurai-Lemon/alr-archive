@@ -23,6 +23,7 @@ export const sharedPageComponents: SharedLayout = {
   ],
   afterBody: [
     Component.ALRSoundEngine(),
+    Component.ALRLabelCreatorScript(),
   ],
   footer: Component.Footer({
     links: {},
