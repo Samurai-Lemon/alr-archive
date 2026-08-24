@@ -1513,34 +1513,9 @@ details[open] .alr-sb-chevron {
   margin-bottom: 8px;
 }
 
-// ─── COLLAPSED DARKMODE ROW ───────────────────────────────
+// ─── COLLAPSED: HIDE AUDIO / DARK MODE TOGGLES ─────────────
 .alr-collapsed .alr-sb-bottom {
-  width: 48px;
-  margin-top: 0;
-  padding: 8px 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-top: 0.5px solid #222018;
-}
-
-.alr-collapsed .alr-sb-darkmode-row {
-  width: 40px !important;
-  padding: 8px 0 !important;
-  justify-content: center !important;
-  gap: 0 !important;
-  border-radius: 8px !important;
-}
-
-.alr-collapsed .alr-sb-darkmode-row > svg {
-  display: none !important;
-}
-
-.alr-collapsed .alr-sb-darkmode-toggle {
-  display: flex !important;
-  justify-content: center !important;
-  width: auto !important;
-  margin-left: 0 !important;
+  display: none;
 }
 
 // ─── REGISTRY TABLE ───────────────────────────────────────
