@@ -2117,17 +2117,17 @@ details[open] .alr-sb-chevron {
 
 // ─── ALR BANNER ───────────────────────────────────────────
 .alr-banner-svg { display: block; width: 100%; height: auto; }
-.alr-banner-svg .alr-banner-bg { animation: alrBannerBackgroundShift 24s ease-in-out infinite; transform-origin: center; }
+.alr-banner-svg .alr-banner-bg, .alr-home-hero-svg .alr-banner-bg { animation: alrBannerBackgroundShift 24s ease-in-out infinite; transform-origin: center; }
 .alr-banner-svg .alr-banner-title { animation: alrBannerTitlePulse 10s ease-in-out infinite; }
 .alr-banner-svg .alr-banner-eyebrow { fill: #cc785c !important; opacity: 1 !important; }
 .alr-banner-svg .alr-banner-sub { opacity: 0.8; }
 .alr-banner-svg .alr-banner-status2 { animation: alrBannerStatusFlicker 9s ease-in-out infinite; }
 .alr-banner-svg .alr-banner-status3 { animation: alrBannerStatusFlicker 13s ease-in-out infinite; }
-.alr-banner-svg circle { animation: alrBannerNodeBlink 4.2s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
-.alr-banner-svg circle:nth-of-type(2n) { animation-duration: 5.3s; }
-.alr-banner-svg circle:nth-of-type(3n) { animation-duration: 6.6s; }
-.alr-banner-svg circle:nth-of-type(4n) { animation-duration: 7.4s; }
-.alr-banner-svg .alr-banner-scanline { animation: alrBannerDashFlow 3.2s linear infinite; }
+.alr-banner-svg circle, .alr-home-hero-svg circle { animation: alrBannerNodeBlink 4.2s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+.alr-banner-svg circle:nth-of-type(2n), .alr-home-hero-svg circle:nth-of-type(2n) { animation-duration: 5.3s; }
+.alr-banner-svg circle:nth-of-type(3n), .alr-home-hero-svg circle:nth-of-type(3n) { animation-duration: 6.6s; }
+.alr-banner-svg circle:nth-of-type(4n), .alr-home-hero-svg circle:nth-of-type(4n) { animation-duration: 7.4s; }
+.alr-banner-svg .alr-banner-scanline, .alr-home-hero-svg .alr-banner-scanline { animation: alrBannerDashFlow 3.2s linear infinite; }
 
 @keyframes alrBannerBackgroundShift { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(1.03); } }
 @keyframes alrBannerTitlePulse { 0%, 100% { opacity: 0.9; } 50% { opacity: 1; } }
@@ -2136,7 +2136,8 @@ details[open] .alr-sb-chevron {
 @keyframes alrBannerDashFlow { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -10; } }
 
 @media (prefers-reduced-motion: reduce) {
-  .alr-banner-svg .alr-banner-bg, .alr-banner-svg .alr-banner-title, .alr-banner-svg .alr-banner-status2, .alr-banner-svg .alr-banner-status3, .alr-banner-svg circle, .alr-banner-svg .alr-banner-scanline { animation: none !important; }
+  .alr-banner-svg .alr-banner-bg, .alr-banner-svg .alr-banner-title, .alr-banner-svg .alr-banner-status2, .alr-banner-svg .alr-banner-status3, .alr-banner-svg circle, .alr-banner-svg .alr-banner-scanline,
+  .alr-home-hero-svg .alr-banner-bg, .alr-home-hero-svg circle, .alr-home-hero-svg .alr-banner-scanline { animation: none !important; }
 }
 
 // ─── ALR SOUND TOGGLE ─────────────────────────────

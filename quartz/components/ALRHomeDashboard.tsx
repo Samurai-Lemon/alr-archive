@@ -44,7 +44,7 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
             viewBox="0 0 680 220"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <rect x="0" y="0" width="680" height="220" fill="#0f0e0b" />
+            <rect class="alr-banner-bg" x="0" y="0" width="680" height="220" fill="#0f0e0b" />
 
             <line x1="0" y1="30"  x2="680" y2="30"  stroke="#cc785c" stroke-width="0.3" opacity="0.15" />
             <line x1="0" y1="60"  x2="680" y2="60"  stroke="#cc785c" stroke-width="0.3" opacity="0.15" />
