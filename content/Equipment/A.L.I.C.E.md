@@ -6,7 +6,7 @@
 > **Operational Authority:** [[ALR Initiative]]
 
 ---
-![[A.L.I.C.E.png]]
+![[A.L.I.C.E.webp]]
 ## Development
 
 A.L.I.C.E. — Archivist Link Interface for Coordinated Exchange — is a communication device used by personnel within [[The Archive]] to coordinate research, exchange information, and access archived records.

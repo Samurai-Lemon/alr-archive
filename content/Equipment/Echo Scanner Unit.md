@@ -6,7 +6,7 @@
 > **Operational Authority:** [[ALR Initiative]]
 
 ---
-![[ECHO Scanner Unit.png]]
+![[ECHO Scanner Unit.webp]]
 ## Development
 
 The ECHO Scanner Unit is a device used by personnel to locate, analyze, and track anomalous phenomena classified as [[ECHOES]]. It serves as the primary investigative instrument used during field operations conducted by the [[ALR Initiative]].

@@ -56,7 +56,7 @@ const ALREchoHero: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
   const statusLabel = status.charAt(0).toUpperCase() + status.slice(1)
 
   const escClass = esc ? `alr-echo-hero-tag-${esc.toLowerCase()}` : ""
-  const imgSrc   = `/Images/${echoId}.png`
+  const imgSrc   = `/Images/${echoId}.webp`
 
   return (
     <div class="alr-echo-hero">

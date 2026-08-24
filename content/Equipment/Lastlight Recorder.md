@@ -6,7 +6,7 @@
 > **Operational Authority:** [[ALR Initiative]]
 
 ---
-![[Lastlight.png]]
+![[Lastlight.webp]]
 ## Development
 
 The Lastlight Recorder, commonly referred to as Lastlight, is a specialized device used during reality investigations to document the final observable state of a collapsing world. The device captures environmental, structural, and temporal data during the final stages of a reality's existence, shortly before it becomes part of [[The Unwritten]].
