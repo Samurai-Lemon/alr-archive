@@ -124,6 +124,13 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
                 <a href="/Foundations/ALR/ALR-Initiative" class="alr-home-hero-link-ghost">About the Initiative</a>
                 <a href="/Systems"                        class="alr-home-hero-link-ghost">Classification Systems</a>
               </div>
+
+              <div class="alr-home-hero-mstats">
+                <div class="alr-home-hero-mstat"><div class="alr-home-hero-mstat-n">{echoes.length}</div><div class="alr-home-hero-mstat-l">Echoes</div></div>
+                <div class="alr-home-hero-mstat"><div class="alr-home-hero-mstat-n">{realities.length}</div><div class="alr-home-hero-mstat-l">Realities</div></div>
+                <div class="alr-home-hero-mstat"><div class="alr-home-hero-mstat-n">{activeCycle}</div><div class="alr-home-hero-mstat-l">Cycle</div></div>
+                <div class="alr-home-hero-mstat"><div class="alr-home-hero-mstat-n">ALR-01</div><div class="alr-home-hero-mstat-l">Node</div></div>
+              </div>
             </div>
 
             <div class="alr-home-hero-right">

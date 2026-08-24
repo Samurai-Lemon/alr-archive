@@ -25,6 +25,7 @@ export const sharedPageComponents: SharedLayout = {
     Component.ALRSoundEngine(),
     Component.ALRLabelCreatorScript(),
     Component.ALRRegistryScript(),
+    Component.ALRMobileNav(),
   ],
   footer: Component.Footer({
     links: {},
