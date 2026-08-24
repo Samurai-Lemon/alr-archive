@@ -23,8 +23,8 @@ const ALRSoundEngine: QuartzComponent = () => {
               ambientBuffer: null,
               ambientSource: null,
               ambientGain: null,
-              loadingClick: false,
-              loadingAmbient: false,
+              clickBufferPromise: null,
+              ambientBufferPromise: null,
             };
 
             const emitState = () => {
@@ -53,30 +53,42 @@ const ALRSoundEngine: QuartzComponent = () => {
               return await ctx.decodeAudioData(arrayBuffer.slice(0));
             };
 
-            const loadClickBuffer = async () => {
-              if (state.clickBuffer || state.loadingClick) return;
-              state.loadingClick = true;
-
-              try {
-                state.clickBuffer = await loadBuffer(CLICK_SOUND);
-              } catch (err) {
-                console.error("Failed to load click sound:", err);
-              } finally {
-                state.loadingClick = false;
+            const loadClickBuffer = () => {
+              if (state.clickBuffer) return Promise.resolve(state.clickBuffer);
+              if (!state.clickBufferPromise) {
+                state.clickBufferPromise = loadBuffer(CLICK_SOUND)
+                  .then((buf) => {
+                    state.clickBuffer = buf;
+                    return buf;
+                  })
+                  .catch((err) => {
+                    console.error("Failed to load click sound:", err);
+                    return null;
+                  })
+                  .finally(() => {
+                    state.clickBufferPromise = null;
+                  });
               }
+              return state.clickBufferPromise;
             };
 
-            const loadAmbientBuffer = async () => {
-              if (state.ambientBuffer || state.loadingAmbient) return;
-              state.loadingAmbient = true;
-
-              try {
-                state.ambientBuffer = await loadBuffer(AMBIENT_SOUND);
-              } catch (err) {
-                console.error("Failed to load ambient sound:", err);
-              } finally {
-                state.loadingAmbient = false;
+            const loadAmbientBuffer = () => {
+              if (state.ambientBuffer) return Promise.resolve(state.ambientBuffer);
+              if (!state.ambientBufferPromise) {
+                state.ambientBufferPromise = loadBuffer(AMBIENT_SOUND)
+                  .then((buf) => {
+                    state.ambientBuffer = buf;
+                    return buf;
+                  })
+                  .catch((err) => {
+                    console.error("Failed to load ambient sound:", err);
+                    return null;
+                  })
+                  .finally(() => {
+                    state.ambientBufferPromise = null;
+                  });
               }
+              return state.ambientBufferPromise;
             };
 
             const stopAmbient = () => {
