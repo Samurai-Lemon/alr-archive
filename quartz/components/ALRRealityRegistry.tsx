@@ -257,7 +257,7 @@ const ALRRealityRegistry: QuartzComponent = ({
                   {rccLabels[selected.rcc] ?? selected.rcc}
                 </div>
               </div>
-              <a href={selected.href} class="alr-reg-view-btn" id="alr-reality-detail-link">
+              <a href={selected.href} class="alr-reg-view-btn internal" id="alr-reality-detail-link">
                 View Full Report →
               </a>
             </div>

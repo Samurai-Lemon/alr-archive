@@ -246,7 +246,7 @@ const ALREchoRegistry: QuartzComponent = ({
                   {ecTypeLabels[selected.ec] ?? selected.ec} · {escLabels[selected.esc] ?? selected.esc}
                 </div>
               </div>
-              <a href={selected.href} class="alr-reg-view-btn" id="alr-echo-detail-link">
+              <a href={selected.href} class="alr-reg-view-btn internal" id="alr-echo-detail-link">
                 View Full Entry →
               </a>
             </div>
