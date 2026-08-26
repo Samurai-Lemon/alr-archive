@@ -2099,7 +2099,7 @@ details[open] .alr-sb-chevron {
   .alr-reg-detail-cell { background: #f5f0e8 !important; border-color: #d8d0c4 !important; }
   .alr-reg-detail-cell-val { color: #4a4038 !important; }
 
-  .alr-reg-banner { background: #e2d7bd !important; border-bottom-color: #cebfa0 !important; }
+  .alr-reg-banner { background: #eae0c8 !important; border-bottom-color: #d9cba9 !important; }
   .alr-reg-banner::before { background: #9c4a2e !important; }
   .alr-reg-banner-eyebrow { color: #9c4a2e !important; }
   .alr-reg-banner-title { color: #2a2420 !important; }
@@ -2131,8 +2131,8 @@ details[open] .alr-sb-chevron {
   .callout-content p { color: #3a3028 !important; }
 
   .alr-banner-svg .alr-banner-bg,
-  .alr-home-hero-svg .alr-banner-bg { fill: #e2d7bd !important; }
-  .alr-home-hero-svg .alr-banner-vignette { fill: #cfc1a3 !important; opacity: 0.6 !important; }
+  .alr-home-hero-svg .alr-banner-bg { fill: #eae0c8 !important; }
+  .alr-home-hero-svg .alr-banner-vignette { fill: #dccdac !important; opacity: 0.6 !important; }
   .alr-banner-svg .alr-banner-title { fill: #2a2420 !important; }
   .alr-banner-svg .alr-banner-sub { fill: #574f42 !important; }
   .alr-banner-svg .alr-banner-eyebrow { fill: #9c4a2e !important; }
@@ -2140,15 +2140,15 @@ details[open] .alr-sb-chevron {
   .alr-banner-svg .alr-banner-status2,
   .alr-banner-svg .alr-banner-status3 { fill: #524a3c !important; }
   .alr-banner-svg .alr-banner-scanline,
-  .alr-home-hero-svg .alr-banner-scanline { stroke: #9c4a2e !important; }
+  .alr-home-hero-svg .alr-banner-scanline { stroke: #a85c42 !important; }
   .alr-banner-svg circle,
-  .alr-home-hero-svg circle { fill: #9c4a2e !important; }
+  .alr-home-hero-svg circle { fill: #a85c42 !important; }
   .alr-banner-svg line[stroke="#cc785c"],
   .alr-banner-svg rect[fill="#cc785c"],
   .alr-home-hero-svg line[stroke="#cc785c"],
-  .alr-home-hero-svg rect[fill="#cc785c"] { stroke: #9c4a2e; fill: #9c4a2e; }
+  .alr-home-hero-svg rect[fill="#cc785c"] { stroke: #a85c42; fill: #a85c42; }
   .alr-banner-svg g[opacity] path[fill="#cc785c"],
-  .alr-home-hero-svg g[opacity] path[fill="#cc785c"] { fill: #9c4a2e; }
+  .alr-home-hero-svg g[opacity] path[fill="#cc785c"] { fill: #a85c42; }
   .alr-home-hero-title { color: #2a2420 !important; }
 
   .alr-submit-section { background: #ede8de !important; border-color: #d8d0c4 !important; }
@@ -2376,7 +2376,7 @@ details[open] .alr-sb-chevron {
 .alr-banner-svg .alr-banner-sub, .alr-home-hero-svg .alr-banner-sub { fill: #85806f !important; opacity: 0.9; }
 .alr-banner-svg .alr-banner-status2, .alr-home-hero-svg .alr-banner-status2 { fill: #726c5c !important; animation: alrBannerStatusFlicker 9s ease-in-out infinite; }
 .alr-banner-svg .alr-banner-status3, .alr-home-hero-svg .alr-banner-status3 { fill: #726c5c !important; animation: alrBannerStatusFlicker 13s ease-in-out infinite; }
-.alr-banner-svg .alr-banner-scanline, .alr-home-hero-svg .alr-banner-scanline { stroke: #e0895c !important; }
+.alr-banner-svg .alr-banner-scanline, .alr-home-hero-svg .alr-banner-scanline { stroke: #cc785c !important; }
 .alr-banner-svg circle, .alr-home-hero-svg circle { animation: alrBannerNodeBlink 4.2s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
 .alr-banner-svg circle:nth-of-type(2n), .alr-home-hero-svg circle:nth-of-type(2n) { animation-duration: 5.3s; }
 .alr-banner-svg circle:nth-of-type(3n), .alr-home-hero-svg circle:nth-of-type(3n) { animation-duration: 6.6s; }
@@ -2761,7 +2761,7 @@ body[data-slug="Index/Reality-Registry"] .page-header { display: block !importan
 
 :root[saved-theme="light"] body[data-slug="label-creator"],
 :root[saved-theme="light"] {
-  .alr-lc-banner { background: #e2d7bd !important; border-bottom-color: #cebfa0 !important; }
+  .alr-lc-banner { background: #eae0c8 !important; border-bottom-color: #d9cba9 !important; }
   .alr-lc-banner::before { background: #9c4a2e !important; }
   .alr-lc-banner-title { color: #2a2420 !important; }
   .alr-lc-banner-sub { color: #574f42 !important; }
