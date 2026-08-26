@@ -950,11 +950,15 @@ hr {
   border-bottom: 0.5px solid #26251f;
   margin-left: -32px;
   margin-right: -32px;
+  aspect-ratio: 680 / 220;
+  min-height: 340px;
+  max-height: 400px;
 }
 
 .alr-home-hero-svg {
   display: block;
   width: 100%;
+  height: 100%;
 }
 
 .alr-home-hero-overlay {

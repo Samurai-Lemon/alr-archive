@@ -42,6 +42,7 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
             class="alr-home-hero-svg"
             width="100%"
             viewBox="0 0 680 220"
+            preserveAspectRatio="xMidYMid slice"
             xmlns="http://www.w3.org/2000/svg"
           >
             <rect class="alr-banner-bg" x="0" y="0" width="680" height="220" fill="#0f0e0b" />
