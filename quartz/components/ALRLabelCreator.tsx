@@ -148,12 +148,12 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
       <style dangerouslySetInnerHTML={{ __html: `
         .alr-lc{max-width:100%}
         .alr-lc-banner{background:#181714;border-bottom:0.5px solid #26251f;padding:28px 32px 24px;margin:-28px -32px 0;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;position:relative;overflow:hidden}
-        .alr-lc-banner::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:#a85c42;border-radius:0}
+        .alr-lc-banner::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:#e0895c;border-radius:0}
         .alr-lc-banner-inner{display:flex;flex-direction:column;gap:6px}
         .alr-lc-banner-title{font-size:26px;font-weight:500;color:#f0ece0;line-height:1.15;letter-spacing:-0.3px}
-        .alr-lc-banner-sub{font-size:12px;color:#555048;line-height:1.7;max-width:480px}
+        .alr-lc-banner-sub{font-size:12px;color:#85806f;line-height:1.7;max-width:480px}
         .alr-lc-banner-meta{display:flex;flex-direction:column;gap:4px;align-items:flex-end;flex-shrink:0}
-        .alr-lc-banner-meta-item{font-size:9px;color:#3a3830;letter-spacing:0.14em;font-family:var(--codeFont),monospace}
+        .alr-lc-banner-meta-item{font-size:9px;color:#5a5648;letter-spacing:0.14em;font-family:var(--codeFont),monospace}
         .alr-lc-wrap{border:1px solid var(--lightgray);border-radius:6px;overflow:hidden;font-family:var(--codeFont),'Courier New',monospace;margin-top:24px}
         .alr-lc-wrap{border:1px solid var(--lightgray);border-radius:6px;overflow:hidden;font-family:var(--codeFont),'Courier New',monospace}
         .alr-lc-topbar{background:var(--lightgray);padding:10px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--lightgray)}
