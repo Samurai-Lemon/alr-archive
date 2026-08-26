@@ -1422,25 +1422,26 @@ details[open] .alr-sb-chevron {
 
 .alr-sb-price-track-wrap {
   position: relative;
-  height: 14px;
+  height: 20px;
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
 .alr-sb-price-track {
   position: absolute;
   left: 0;
   right: 0;
-  height: 2px;
+  height: 5px;
   background: #26251f;
-  border-radius: 1px;
+  border-radius: 2.5px;
 }
 
 .alr-sb-price-fill {
   position: absolute;
-  height: 2px;
+  height: 5px;
   background: #cc785c;
-  border-radius: 1px;
+  border-radius: 2.5px;
 }
 
 .alr-sb-price-input {
@@ -1448,7 +1449,7 @@ details[open] .alr-sb-chevron {
   left: 0;
   width: 100%;
   margin: 0;
-  height: 14px;
+  height: 20px;
   background: transparent;
   pointer-events: none;
   -webkit-appearance: none;
@@ -1461,12 +1462,12 @@ details[open] .alr-sb-chevron {
 
 .alr-sb-price-input::-webkit-slider-runnable-track {
   background: transparent;
-  height: 14px;
+  height: 5px;
 }
 
 .alr-sb-price-input::-moz-range-track {
   background: transparent;
-  height: 14px;
+  height: 5px;
   border: none;
 }
 
@@ -1474,22 +1475,22 @@ details[open] .alr-sb-chevron {
   pointer-events: auto;
   -webkit-appearance: none;
   appearance: none;
-  width: 12px;
-  height: 12px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   background: #cc785c;
-  border: 2px solid #1a1915;
+  border: 3px solid #1a1915;
   cursor: pointer;
-  margin-top: 0;
+  margin-top: -6.5px;
 }
 
 .alr-sb-price-input::-moz-range-thumb {
   pointer-events: auto;
-  width: 12px;
-  height: 12px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   background: #cc785c;
-  border: 2px solid #1a1915;
+  border: 3px solid #1a1915;
   cursor: pointer;
 }
 

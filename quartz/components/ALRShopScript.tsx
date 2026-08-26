@@ -103,22 +103,24 @@ const ALRShopScript: QuartzComponent = () => {
     var slider = document.getElementById('alr-price-slider');
     if (!slider) return;
 
-    var minInput = document.getElementById('alr-price-min');
-    var maxInput = document.getElementById('alr-price-max');
-    var fill = document.getElementById('alr-price-fill');
     var minLabel = document.getElementById('alr-price-min-label');
     var maxLabel = document.getElementById('alr-price-max-label');
-    if (!minInput || !maxInput || !fill || !minLabel || !maxLabel) return;
+    var trackWrap = slider.querySelector('.alr-sb-price-track-wrap');
+    if (!minLabel || !maxLabel || !trackWrap) return;
 
-    // Strip any stale listeners from a previous init.
-    var freshMin = minInput.cloneNode(true);
-    minInput.parentNode.replaceChild(freshMin, minInput);
-    minInput = freshMin;
-    var freshMax = maxInput.cloneNode(true);
-    maxInput.parentNode.replaceChild(freshMax, maxInput);
-    maxInput = freshMax;
+    // Strip stale listeners from a previous init by cloning the whole wrapper
+    // (inputs + fill bar) in one go, rather than each piece separately.
+    var freshTrackWrap = trackWrap.cloneNode(true);
+    trackWrap.parentNode.replaceChild(freshTrackWrap, trackWrap);
+    trackWrap = freshTrackWrap;
+
+    var minInput = trackWrap.querySelector('#alr-price-min');
+    var maxInput = trackWrap.querySelector('#alr-price-max');
+    var fill = trackWrap.querySelector('#alr-price-fill');
+    if (!minInput || !maxInput || !fill) return;
 
     var sliderMax = Number(slider.getAttribute('data-max')) || 100;
+    var step = Number(minInput.step) || 1;
 
     function update() {
       var minVal = Number(minInput.value);
@@ -147,6 +149,28 @@ const ALRShopScript: QuartzComponent = () => {
     maxInput.addEventListener('input', function() {
       if (Number(maxInput.value) < Number(minInput.value)) {
         maxInput.value = minInput.value;
+      }
+      update();
+    });
+
+    // Clicking anywhere on the track (not on a thumb itself, which handles its
+    // own drag/click natively) jumps whichever handle is nearer to that spot.
+    trackWrap.addEventListener('click', function(evt) {
+      if (evt.target === minInput || evt.target === maxInput) return;
+
+      var rect = trackWrap.getBoundingClientRect();
+      var pct = (evt.clientX - rect.left) / rect.width;
+      pct = Math.max(0, Math.min(1, pct));
+      var rawVal = pct * sliderMax;
+      var val = Math.round(rawVal / step) * step;
+
+      var minVal = Number(minInput.value);
+      var maxVal = Number(maxInput.value);
+
+      if (Math.abs(val - minVal) <= Math.abs(val - maxVal)) {
+        minInput.value = String(Math.min(val, maxVal));
+      } else {
+        maxInput.value = String(Math.max(val, minVal));
       }
       update();
     });
