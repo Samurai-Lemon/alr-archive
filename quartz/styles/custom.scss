@@ -977,12 +977,13 @@ hr {
 }
 
 .alr-home-hero-title {
-  font-size: 44px;
+  font-family: var(--codeFont), monospace;
+  font-size: 40px;
   font-weight: 500;
   color: #f0ece0;
-  line-height: 1.15;
+  line-height: 1.2;
   margin-bottom: 14px;
-  letter-spacing: -0.3px;
+  letter-spacing: -0.5px;
 }
 
 .alr-home-hero-sub {
