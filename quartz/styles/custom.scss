@@ -1406,6 +1406,93 @@ details[open] .alr-sb-chevron {
   padding-left: 28px !important;
 }
 
+// ─── SHOP PRICE RANGE SLIDER ───────────────────────────────
+.alr-sb-price-slider {
+  padding: 6px 16px 2px;
+}
+
+.alr-sb-price-values {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: #cc785c;
+  font-family: var(--codeFont), monospace;
+  margin-bottom: 12px;
+}
+
+.alr-sb-price-track-wrap {
+  position: relative;
+  height: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.alr-sb-price-track {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #26251f;
+  border-radius: 1px;
+}
+
+.alr-sb-price-fill {
+  position: absolute;
+  height: 2px;
+  background: #cc785c;
+  border-radius: 1px;
+}
+
+.alr-sb-price-input {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  margin: 0;
+  height: 14px;
+  background: transparent;
+  pointer-events: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.alr-sb-price-input:focus {
+  outline: none;
+}
+
+.alr-sb-price-input::-webkit-slider-runnable-track {
+  background: transparent;
+  height: 14px;
+}
+
+.alr-sb-price-input::-moz-range-track {
+  background: transparent;
+  height: 14px;
+  border: none;
+}
+
+.alr-sb-price-input::-webkit-slider-thumb {
+  pointer-events: auto;
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #cc785c;
+  border: 2px solid #1a1915;
+  cursor: pointer;
+  margin-top: 0;
+}
+
+.alr-sb-price-input::-moz-range-thumb {
+  pointer-events: auto;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #cc785c;
+  border: 2px solid #1a1915;
+  cursor: pointer;
+}
+
 // ─── SIDEBAR BOTTOM ───────────────────────────────────────
 .alr-sb-bottom {
   margin-top: auto;
@@ -1946,6 +2033,9 @@ details[open] .alr-sb-chevron {
   .alr-sb-darkmode-label { color: #7a7068 !important; }
   .alr-sb-chevron { color: #a09888 !important; }
   .alr-sb-badge { background: #e8e3d8 !important; border-color: #d8d0c4 !important; color: #a09888 !important; }
+  .alr-sb-price-track { background: #d8d0c4 !important; }
+  .alr-sb-price-input::-webkit-slider-thumb { border-color: #ede8de !important; }
+  .alr-sb-price-input::-moz-range-thumb { border-color: #ede8de !important; }
   .alr-sb-darkmode-row { background: #e8e3d8 !important; border-color: #d8d0c4 !important; }
   .alr-sb-darkmode-row:hover { background: #ddd8cc !important; }
   .alr-toggle-track { background: #2a2824 !important; border-color: #3a3428 !important; }

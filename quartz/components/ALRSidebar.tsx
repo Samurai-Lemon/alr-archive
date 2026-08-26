@@ -306,22 +306,18 @@ const ALRSidebar: QuartzComponent = ({ allFiles, fileData }: QuartzComponentProp
 
           <div class="alr-sb-section">
             <div class="alr-sb-label">Price Range</div>
-            <a href="/Shop" class="alr-sb-item">
-              <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
-              <span class="alr-sb-text">Under $25</span>
-            </a>
-            <a href="/Shop" class="alr-sb-item">
-              <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
-              <span class="alr-sb-text">$25 — $50</span>
-            </a>
-            <a href="/Shop" class="alr-sb-item">
-              <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
-              <span class="alr-sb-text">$50 — $100</span>
-            </a>
-            <a href="/Shop" class="alr-sb-item">
-              <span class="alr-sb-dot" style={{ background: "#6b6860" }}></span>
-              <span class="alr-sb-text">Over $100</span>
-            </a>
+            <div class="alr-sb-price-slider" id="alr-price-slider" data-max="100">
+              <div class="alr-sb-price-values">
+                <span id="alr-price-min-label">$0</span>
+                <span id="alr-price-max-label">$100+</span>
+              </div>
+              <div class="alr-sb-price-track-wrap">
+                <div class="alr-sb-price-track"></div>
+                <div class="alr-sb-price-fill" id="alr-price-fill"></div>
+                <input type="range" class="alr-sb-price-input" id="alr-price-min" min="0" max="100" step="5" value="0" aria-label="Minimum price" />
+                <input type="range" class="alr-sb-price-input" id="alr-price-max" min="0" max="100" step="5" value="100" aria-label="Maximum price" />
+              </div>
+            </div>
           </div>
 
           <div class="alr-sb-bottom">

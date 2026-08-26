@@ -40,6 +40,7 @@ import ALRLabelCreator from "./ALRLabelCreator"
 import ALRLabelCreatorScript from "./ALRLabelCreatorScript"
 import ALRRegistryScript from "./ALRRegistryScript"
 import ALRMobileNav from "./ALRMobileNav"
+import ALRShopScript from "./ALRShopScript"
 
 export {
   ArticleTitle,
@@ -84,4 +85,5 @@ export {
   ALRLabelCreatorScript,
   ALRRegistryScript,
   ALRMobileNav,
+  ALRShopScript,
 }
