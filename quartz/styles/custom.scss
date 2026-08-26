@@ -2008,10 +2008,10 @@ details[open] .alr-sb-chevron {
   .alr-reg-detail-cell { background: #f5f0e8 !important; border-color: #d8d0c4 !important; }
   .alr-reg-detail-cell-val { color: #4a4038 !important; }
 
-  .alr-reg-banner { background: #ede8de !important; border-bottom-color: #d8d0c4 !important; }
+  .alr-reg-banner { background: #d9cdb3 !important; border-bottom-color: #c4b696 !important; }
   .alr-reg-banner-title { color: #2a2420 !important; }
   .alr-reg-banner-sub { color: #6a6058 !important; }
-  .alr-reg-banner-meta-item { color: #a09888 !important; }
+  .alr-reg-banner-meta-item { color: #6b6255 !important; }
   .alr-reg-id { color: #a85c42 !important; }
   .alr-reg-stat-n { color: #a85c42 !important; }
   .alr-reg-detail-id { color: #a85c42 !important; }
@@ -2038,14 +2038,14 @@ details[open] .alr-sb-chevron {
   .callout-content p { color: #3a3028 !important; }
 
   .alr-banner-svg .alr-banner-bg,
-  .alr-home-hero-svg .alr-banner-bg { fill: #e8e1d2 !important; }
-  .alr-home-hero-svg .alr-banner-vignette { fill: #d8cfbc !important; opacity: 0.6 !important; }
+  .alr-home-hero-svg .alr-banner-bg { fill: #d9cdb3 !important; }
+  .alr-home-hero-svg .alr-banner-vignette { fill: #c7b99c !important; opacity: 0.6 !important; }
   .alr-banner-svg .alr-banner-title { fill: #2a2420 !important; }
   .alr-banner-svg .alr-banner-sub { fill: #6a6058 !important; }
   .alr-banner-svg .alr-banner-eyebrow { fill: #a85c42 !important; }
   .alr-banner-svg .alr-banner-status1 { fill: #a85c42 !important; }
   .alr-banner-svg .alr-banner-status2,
-  .alr-banner-svg .alr-banner-status3 { fill: #8a8175 !important; }
+  .alr-banner-svg .alr-banner-status3 { fill: #5f5648 !important; }
   .alr-banner-svg .alr-banner-scanline,
   .alr-home-hero-svg .alr-banner-scanline { stroke: #a85c42 !important; }
   .alr-banner-svg circle,
@@ -2530,7 +2530,7 @@ body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"] {
   .alr-terminal-titlebar { background: #d4c4a4 !important; }
   .callout[data-callout="info"] { background: #e2d8c4 !important; }
 
-  .ordo-banner-svg [fill="#0a0806"], .ordo-banner-svg stop[stop-color="#0a0806"] { fill: #ece4d4 !important; }
+  .ordo-banner-svg [fill="#0a0806"], .ordo-banner-svg stop[stop-color="#0a0806"] { fill: #d4c4a0 !important; }
   .ordo-banner-svg [fill="#2a1008"] { fill: #c8b896 !important; }
   .ordo-banner-svg [fill="#3a1a0e"] { fill: #b8a480 !important; }
   .ordo-banner-svg [stroke="#2a1208"] { stroke: #b8a480 !important; }
@@ -2666,9 +2666,9 @@ body[data-slug="Index/Reality-Registry"] .page-header { display: block !importan
 
 :root[saved-theme="light"] body[data-slug="label-creator"],
 :root[saved-theme="light"] {
-  .alr-lc-banner { background: #ede8de !important; border-bottom-color: #d8d0c4 !important; }
+  .alr-lc-banner { background: #d9cdb3 !important; border-bottom-color: #c4b696 !important; }
   .alr-lc-banner-title { color: #2a2420 !important; }
   .alr-lc-banner-sub { color: #7a7068 !important; }
-  .alr-lc-banner-meta-item { color: #a09888 !important; }
+  .alr-lc-banner-meta-item { color: #6b6255 !important; }
   .alr-lc-svgwrap { background: #ddd6c8 !important; }
 }
