@@ -88,41 +88,45 @@ const AccountScript: QuartzComponent = () => {
     var container = document.getElementById(containerId);
     if (!container) return;
     if (!items || items.length === 0) {
-      container.innerHTML = '<div class="alr-shop-empty">' + emptyText + "</div>";
+      container.innerHTML = '<div class="alr-reg-empty">' + emptyText + "</div>";
       return;
     }
-    var html = '<div class="alr-account-list-rows">';
+    var html = "";
     items.forEach(function(item) { html += rowFn(item); });
-    html += "</div>";
     container.innerHTML = html;
+  }
+
+  function statusTagClass(status) {
+    if (status === "approved") return "alr-reg-tag-esc-s1";
+    if (status === "rejected") return "alr-reg-tag-esc-s4";
+    return "alr-reg-tag-esc-s2";
   }
 
   function renderOrders(orders) {
     renderList("alr-account-orders", orders, "No orders yet.", function(o) {
       var date = o.created_at ? new Date(o.created_at).toLocaleDateString() : "";
       var total = o.total != null ? escapeHtml(o.currency || "$") + " " + escapeHtml(o.total) : "";
-      return '<div class="alr-account-row"><div class="alr-account-row-main">' +
-        '<div class="alr-account-row-title">Order ' + escapeHtml(o.fourthwall_order_id || o.id) + "</div>" +
-        '<div class="alr-account-row-sub">' + escapeHtml(date) + "</div>" +
-        '</div><div class="alr-account-row-side">' + total + "</div></div>";
+      return '<div class="alr-reg-row alr-reg-row-simple"><div>' +
+        '<div class="alr-reg-id">' + escapeHtml(o.fourthwall_order_id || o.id) + "</div>" +
+        '<div class="alr-reg-name-sub">' + escapeHtml(date) + "</div>" +
+        '</div><div class="alr-reg-name">' + total + "</div></div>";
     });
   }
 
   function renderSubmissions(subs) {
     renderList("alr-account-submissions", subs, "No submissions yet.", function(s) {
       var date = s.created_at ? new Date(s.created_at).toLocaleDateString() : "";
-      return '<div class="alr-account-row"><div class="alr-account-row-main">' +
-        '<div class="alr-account-row-title">' + escapeHtml(s.title) + "</div>" +
-        '<div class="alr-account-row-sub">' + escapeHtml(s.submission_type) + " &middot; " + escapeHtml(date) + "</div>" +
-        '</div><div class="alr-account-row-side alr-account-status-' + escapeHtml(s.status) + '">' + escapeHtml(s.status) + "</div></div>";
+      return '<div class="alr-reg-row alr-reg-row-simple"><div>' +
+        '<div class="alr-reg-name">' + escapeHtml(s.title) + "</div>" +
+        '<div class="alr-reg-name-sub">' + escapeHtml(s.submission_type) + " &middot; " + escapeHtml(date) + "</div>" +
+        '</div><span class="alr-reg-tag ' + statusTagClass(s.status) + '">' + escapeHtml(s.status) + "</span></div>";
     });
   }
 
   function renderBadges(badges) {
     renderList("alr-account-badges", badges, "No badges earned yet.", function(b) {
-      return '<div class="alr-account-row"><div class="alr-account-row-main">' +
-        '<div class="alr-account-row-title">' + escapeHtml(b.badge_key) + "</div>" +
-        "</div></div>";
+      return '<div class="alr-reg-row alr-reg-row-simple"><div class="alr-reg-name">' +
+        escapeHtml(b.badge_key) + "</div></div>";
     });
   }
 
@@ -173,7 +177,7 @@ const AccountScript: QuartzComponent = () => {
 
     if (!CONFIGURED) {
       var authEl = document.getElementById("alr-account-auth");
-      if (authEl) authEl.innerHTML = '<div class="alr-shop-empty">Account system is not configured yet.</div>';
+      if (authEl) authEl.innerHTML = '<div class="alr-reg-empty">Account system is not configured yet.</div>';
       return;
     }
 
@@ -187,8 +191,8 @@ const AccountScript: QuartzComponent = () => {
     if (tabLogin && !tabLogin._alrBound) {
       tabLogin._alrBound = true;
       tabLogin.addEventListener("click", function() {
-        tabLogin.classList.add("active");
-        if (tabSignup) tabSignup.classList.remove("active");
+        tabLogin.classList.add("alr-reg-filter-active");
+        if (tabSignup) tabSignup.classList.remove("alr-reg-filter-active");
         if (loginForm) loginForm.style.display = "";
         if (signupForm) signupForm.style.display = "none";
       });
@@ -197,8 +201,8 @@ const AccountScript: QuartzComponent = () => {
     if (tabSignup && !tabSignup._alrBound) {
       tabSignup._alrBound = true;
       tabSignup.addEventListener("click", function() {
-        tabSignup.classList.add("active");
-        if (tabLogin) tabLogin.classList.remove("active");
+        tabSignup.classList.add("alr-reg-filter-active");
+        if (tabLogin) tabLogin.classList.remove("alr-reg-filter-active");
         if (signupForm) signupForm.style.display = "";
         if (loginForm) loginForm.style.display = "none";
       });

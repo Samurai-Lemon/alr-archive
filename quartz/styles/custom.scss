@@ -1996,38 +1996,9 @@ details[open] .alr-sb-chevron {
   line-height: 1.5;
 }
 
-// ─── ACCOUNT PAGE ─────────────────────────────────────────
-.alr-account-tabs { display: flex; gap: 8px; margin-top: 20px; margin-bottom: 18px; border-bottom: 0.5px solid #26251f; }
-.alr-account-tab { background: none; border: none; border-bottom: 2px solid transparent; padding: 8px 4px 10px; margin-right: 16px; font-size: 12px; font-weight: 500; letter-spacing: 0.04em; color: #6b6860; cursor: pointer; font-family: var(--bodyFont); }
-.alr-account-tab.active { color: #f0ece0; border-bottom-color: #cc785c; }
-.alr-account-form { margin-top: 0; }
-.alr-account-profile-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding-bottom: 20px; margin-bottom: 24px; border-bottom: 0.5px solid #26251f; }
-.alr-account-profile-name { font-size: 20px; font-weight: 500; color: #f0ece0; margin-bottom: 4px; }
-.alr-account-profile-email { font-size: 12px; color: #6b6860; }
-.alr-account-logout-btn { background: transparent !important; border: 1px solid #3a3830 !important; color: #a09888 !important; }
-.alr-account-logout-btn:hover { border-color: #cc785c !important; color: #f0ece0 !important; background: transparent !important; }
-.alr-account-section { margin-bottom: 28px; }
-.alr-account-list { margin-top: 10px; }
-.alr-account-list-rows { display: flex; flex-direction: column; gap: 8px; }
-.alr-account-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: #181714; border: 0.5px solid #26251f; border-radius: 8px; padding: 10px 14px; }
-.alr-account-row-title { font-size: 13px; color: #d8d4c8; margin-bottom: 2px; }
-.alr-account-row-sub { font-size: 11px; color: #6b6860; text-transform: capitalize; }
-.alr-account-row-side { font-size: 11px; color: #a09888; font-family: var(--codeFont); text-transform: uppercase; letter-spacing: 0.06em; flex-shrink: 0; }
-.alr-account-status-approved { color: #6fae7c; }
-.alr-account-status-pending { color: #cc785c; }
-.alr-account-status-rejected { color: #a85c42; }
-.alr-account-refresh-btn { background: none; border: none; padding: 0; margin-top: 10px; font-size: 11px; color: #cc785c; cursor: pointer; font-family: var(--bodyFont); text-decoration: underline; }
-
-:root[saved-theme="light"] {
-  .alr-account-tab { color: #7a7068; }
-  .alr-account-tab.active { color: #2a2420; }
-  .alr-account-profile-name { color: #2a2420; }
-  .alr-account-profile-email { color: #7a7068; }
-  .alr-account-row { background: #ede8de; border-color: #d8d0c4; }
-  .alr-account-row-title { color: #2a2420; }
-  .alr-account-row-sub { color: #7a7068; }
-  .alr-account-row-side { color: #7a7068; }
-}
+// ─── ACCOUNT PAGE (reuses .alr-reg-* registry styling; these are the few gaps) ──
+.alr-reg-row-simple { display: flex; align-items: center; justify-content: space-between; gap: 12px; cursor: default; }
+.alr-account-form { margin-top: 16px; }
 
 // ─── LIGHT MODE OVERRIDES ─────────────────────────────────
 :root[saved-theme="light"] {
