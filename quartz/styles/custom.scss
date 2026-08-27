@@ -177,6 +177,12 @@
   background: #201e18;
 }
 
+.alr-topnav-account-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .alr-topnav-dropdown {
   position: relative;
   display: flex;

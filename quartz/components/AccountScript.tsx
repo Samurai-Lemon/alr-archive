@@ -70,10 +70,8 @@ const AccountScript: QuartzComponent = () => {
     if (session && session.user) {
       label = (session.user.user_metadata && session.user.user_metadata.display_name) || session.user.email;
     }
-    var sbLabel = document.getElementById("alr-sb-account-label");
-    var topLink = document.getElementById("alr-topnav-account-link");
-    if (sbLabel) sbLabel.textContent = label;
-    if (topLink) topLink.textContent = label;
+    var topLabel = document.getElementById("alr-topnav-account-label");
+    if (topLabel) topLabel.textContent = label;
   }
 
   function syncNav() {

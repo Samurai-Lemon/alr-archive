@@ -53,7 +53,13 @@ const ALRTopNav: QuartzComponent = (_props: QuartzComponentProps) => {
         <a href="/label-creator" class="alr-topnav-link">Grading Terminal</a>
         <a href="/Shop" class="alr-topnav-link">Shop</a>
         <a href="/About" class="alr-topnav-link">About</a>
-        <a href="/Account" class="alr-topnav-link" id="alr-topnav-account-link">Log In</a>
+        <a href="/Account" class="alr-topnav-link alr-topnav-account-link" id="alr-topnav-account-link">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.3"/>
+            <path d="M2 12c0-2.5 2.2-4 5-4s5 1.5 5 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+          </svg>
+          <span id="alr-topnav-account-label">Log In</span>
+        </a>
       </nav>
 
       <script dangerouslySetInnerHTML={{__html: `
