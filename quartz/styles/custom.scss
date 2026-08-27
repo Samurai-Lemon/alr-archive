@@ -317,6 +317,8 @@ body {
   background: #1a1915 !important;
   padding: 0 32px 28px !important;
   overflow-x: hidden !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 .page-header {
