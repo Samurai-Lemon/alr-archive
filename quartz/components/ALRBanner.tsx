@@ -113,7 +113,7 @@ const ALRBanner: QuartzComponent = (_props: QuartzComponentProps) => {
         <text
           class="alr-banner-eyebrow"
           x="40"
-          y="72"
+          y="84"
           font-family="Inter, sans-serif"
           font-size="11"
           font-weight="400"
@@ -127,7 +127,7 @@ const ALRBanner: QuartzComponent = (_props: QuartzComponentProps) => {
         <text
           class="alr-banner-title"
           x="40"
-          y="98"
+          y="112"
           font-family="Inter, sans-serif"
           font-size="26"
           font-weight="500"
@@ -140,7 +140,7 @@ const ALRBanner: QuartzComponent = (_props: QuartzComponentProps) => {
         <text
           class="alr-banner-title"
           x="40"
-          y="126"
+          y="140"
           font-family="Inter, sans-serif"
           font-size="26"
           font-weight="500"
@@ -149,88 +149,6 @@ const ALRBanner: QuartzComponent = (_props: QuartzComponentProps) => {
         >
           is not empty.
         </text>
-
-        <g class="alr-banner-sub-glitch">
-          <text
-            class="alr-banner-sub alr-banner-sub-base"
-            x="40"
-            y="146"
-            font-family="Inter, sans-serif"
-            font-size="12"
-            font-weight="400"
-            fill="#6b6860"
-            opacity="0.8"
-          >
-            What remains when a reality collapses is not nothing.
-          </text>
-
-          <text
-            class="alr-banner-sub alr-banner-sub-base"
-            x="40"
-            y="162"
-            font-family="Inter, sans-serif"
-            font-size="12"
-            font-weight="400"
-            fill="#6b6860"
-            opacity="0.8"
-          >
-            Fragments persist. Echoes persist. We document what remains.
-          </text>
-
-          <text
-            class="alr-banner-sub alr-banner-sub-ghost1"
-            x="40"
-            y="146"
-            font-family="Inter, sans-serif"
-            font-size="12"
-            font-weight="400"
-            fill="#cc785c"
-            opacity="0"
-          >
-            What remains when a reality collapses is not nothing.
-            <animate
-              attributeName="opacity"
-              values="0;0;0;0.18;0.08;0"
-              keyTimes="0;0.968;0.972;0.974;0.977;1"
-              dur="22s"
-              repeatCount="indefinite"
-            />
-            <animate
-              attributeName="x"
-              values="40;40;41.4;38.8;40.6;40"
-              keyTimes="0;0.968;0.972;0.974;0.977;1"
-              dur="22s"
-              repeatCount="indefinite"
-            />
-          </text>
-
-          <text
-            class="alr-banner-sub alr-banner-sub-ghost2"
-            x="40"
-            y="146"
-            font-family="Inter, sans-serif"
-            font-size="12"
-            font-weight="400"
-            fill="#f0ece0"
-            opacity="0"
-          >
-            What remains when a reality collapses is not nothing.
-            <animate
-              attributeName="opacity"
-              values="0;0;0;0.12;0.06;0"
-              keyTimes="0;0.968;0.9725;0.975;0.978;1"
-              dur="22s"
-              repeatCount="indefinite"
-            />
-            <animate
-              attributeName="x"
-              values="40;40;39.1;40.9;39.7;40"
-              keyTimes="0;0.968;0.9725;0.975;0.978;1"
-              dur="22s"
-              repeatCount="indefinite"
-            />
-          </text>
-        </g>
 
         <text
           class="alr-banner-status1"
