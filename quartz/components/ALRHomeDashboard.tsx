@@ -115,7 +115,7 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
           <div class="alr-home-hero-overlay">
             <div class="alr-home-hero-left">
               <div class="alr-eyebrow">Archive of Lost Realities Initiative — Cycle {activeCycle}</div>
-              <div class="alr-home-hero-title">The Unwritten<br />is not empty.</div>
+              <div class="alr-home-hero-title">What's Unwritten<br />is not empty.</div>
               <div class="alr-home-hero-sub">
                 What remains when a reality collapses is not nothing.<br />
                 Fragments persist. Echoes persist. We document what remains.

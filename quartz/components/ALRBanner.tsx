@@ -113,7 +113,7 @@ const ALRBanner: QuartzComponent = (_props: QuartzComponentProps) => {
         <text
           class="alr-banner-eyebrow"
           x="40"
-          y="82"
+          y="72"
           font-family="Inter, sans-serif"
           font-size="11"
           font-weight="400"
@@ -121,47 +121,73 @@ const ALRBanner: QuartzComponent = (_props: QuartzComponentProps) => {
           fill="#cc785c"
           opacity="1"
         >
-          ARCHIVE OF LOST REALITIES INITIATIVE
+          ARCHIVE OF LOST REALITIES INITIATIVE — CYCLE 7
         </text>
 
         <text
           class="alr-banner-title"
           x="40"
-          y="112"
+          y="98"
           font-family="Inter, sans-serif"
-          font-size="28"
+          font-size="26"
           font-weight="500"
           fill="#f0ece0"
           opacity="0.9"
         >
-          The Unwritten
+          What's Unwritten
+        </text>
+
+        <text
+          class="alr-banner-title"
+          x="40"
+          y="126"
+          font-family="Inter, sans-serif"
+          font-size="26"
+          font-weight="500"
+          fill="#f0ece0"
+          opacity="0.9"
+        >
+          is not empty.
         </text>
 
         <g class="alr-banner-sub-glitch">
           <text
             class="alr-banner-sub alr-banner-sub-base"
             x="40"
-            y="134"
+            y="146"
             font-family="Inter, sans-serif"
             font-size="12"
             font-weight="400"
             fill="#6b6860"
             opacity="0.8"
           >
-            What remains when a reality stops?
+            What remains when a reality collapses is not nothing.
+          </text>
+
+          <text
+            class="alr-banner-sub alr-banner-sub-base"
+            x="40"
+            y="162"
+            font-family="Inter, sans-serif"
+            font-size="12"
+            font-weight="400"
+            fill="#6b6860"
+            opacity="0.8"
+          >
+            Fragments persist. Echoes persist. We document what remains.
           </text>
 
           <text
             class="alr-banner-sub alr-banner-sub-ghost1"
             x="40"
-            y="134"
+            y="146"
             font-family="Inter, sans-serif"
             font-size="12"
             font-weight="400"
             fill="#cc785c"
             opacity="0"
           >
-            What remains when a reality stops?
+            What remains when a reality collapses is not nothing.
             <animate
               attributeName="opacity"
               values="0;0;0;0.18;0.08;0"
@@ -181,14 +207,14 @@ const ALRBanner: QuartzComponent = (_props: QuartzComponentProps) => {
           <text
             class="alr-banner-sub alr-banner-sub-ghost2"
             x="40"
-            y="134"
+            y="146"
             font-family="Inter, sans-serif"
             font-size="12"
             font-weight="400"
             fill="#f0ece0"
             opacity="0"
           >
-            What remains when a reality stops?
+            What remains when a reality collapses is not nothing.
             <animate
               attributeName="opacity"
               values="0;0;0;0.12;0.06;0"
