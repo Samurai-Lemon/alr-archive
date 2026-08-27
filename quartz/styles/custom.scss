@@ -2378,7 +2378,7 @@ details[open] .alr-sb-chevron {
 .alr-home-hero-logo { fill: #e8894a !important; }
 :root[saved-theme="light"] .alr-home-hero-logo { fill: #c2632f !important; }
 .alr-banner-svg .alr-banner-bg, .alr-home-hero-svg .alr-banner-bg { animation: alrBannerBackgroundShift 24s ease-in-out infinite; transform-origin: center; }
-.alr-banner-svg .alr-banner-title { animation: alrBannerTitlePulse 10s ease-in-out infinite; }
+.alr-banner-svg .alr-banner-title { animation: alrBannerTitlePulse 10s ease-in-out infinite; font-family: var(--codeFont), monospace; }
 .alr-banner-svg .alr-banner-eyebrow, .alr-home-hero-svg .alr-banner-eyebrow { fill: #e0895c !important; opacity: 1 !important; }
 .alr-banner-svg .alr-banner-status1, .alr-home-hero-svg .alr-banner-status1 { fill: #e0895c !important; }
 .alr-banner-svg .alr-banner-sub, .alr-home-hero-svg .alr-banner-sub { fill: #85806f !important; opacity: 0.9; }
