@@ -4,7 +4,7 @@ compatibility_date = "2025-01-01"
 
 [vars]
 # Not secret (it's just your project's base URL) — safe to commit, but fill in your real one.
-SUPABASE_URL = "https://YOUR_PROJECT.supabase.co"
+SUPABASE_URL = "https://jkxduwtsssxayscbaxet.supabase.co"
 
 # Secrets (never put these here — set via `wrangler secret put <NAME>`):
 #   FOURTHWALL_WEBHOOK_SECRET

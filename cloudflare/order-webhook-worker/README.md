@@ -27,23 +27,13 @@ Edit `SUPABASE_URL` in `wrangler.toml` to your project's URL first (not secret, 
 3. Fourthwall generates a webhook secret in that same panel — that's the value for
    `FOURTHWALL_WEBHOOK_SECRET`, not something you invent yourself.
 
-## Verify field mapping before trusting it
+## Field mapping
 
-Fourthwall's public docs confirm the outer webhook envelope and the HMAC-SHA256 signature scheme,
-but not the exact field names inside an order's `data` payload. `src/index.ts`'s
-`extractOrderFields()` guesses a few plausible paths (`data.customer.email`, `data.id`,
-`data.lineItems`, `data.total.value`, etc.) with fallbacks, and always stores the *entire* raw
-`data` object in the `raw_payload` column regardless of whether the guesses are right — nothing is
-ever lost even if a field path is wrong.
-
-Before relying on this for real:
-
-1. Use Fourthwall's dashboard "send test webhook" button (or place a real test order).
-2. Run `npx wrangler tail` while it fires, or check a row's `raw_payload` column directly in the
-   Supabase table editor.
-3. If `customer_email` or `fourthwall_order_id` come back wrong/empty on a row, fix the paths in
-   `extractOrderFields()` and redeploy — everything else (signature check, upsert, user matching)
-   doesn't need to change.
+Confirmed against a real Fourthwall test webhook (2026-08-27) — `extractOrderFields()` in
+`src/index.ts` reads `data.email`, `data.id`, `data.offers` (line items), and
+`data.amounts.total.{value,currency}`. The full raw `data` object is always stored in the
+`raw_payload` column regardless, so nothing is lost if Fourthwall ever changes this shape — if a
+future order looks off, check that column first and adjust `extractOrderFields()` to match.
 
 ## Idempotency
 

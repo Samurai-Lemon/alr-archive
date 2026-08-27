@@ -2,12 +2,10 @@
 // service-role key (bypasses RLS — this is the only writer `orders` ever has, by design; see
 // supabase/schema.sql). Deployed separately from the main Quartz site; see README.md.
 //
-// NOTE: Fourthwall's public docs confirm the outer envelope shape ({ id, webhookId, shopId,
-// type, apiVersion, createdAt, testMode, data }) and the signature scheme, but not the exact
-// field names inside `data` for an order. This worker stores the full raw `data` blob regardless
-// of shape (nothing is ever lost) and *guesses* a few plausible paths for email/total/line items
-// with fallbacks. Use Fourthwall's dashboard "send test webhook" button, inspect a real payload
-// via `wrangler tail`, and adjust `extractOrderFields` below if the guessed paths are wrong.
+// Field paths in extractOrderFields() are confirmed against a real Fourthwall test webhook
+// (2026-08-27): `data.email`, `data.id`, `data.offers` (line items), and
+// `data.amounts.total.{value,currency}`. The full raw `data` blob is always stored regardless,
+// so nothing is lost even if Fourthwall changes this shape later.
 
 export interface Env {
   FOURTHWALL_WEBHOOK_SECRET: string
@@ -38,15 +36,14 @@ async function verifySignature(rawBody: string, signatureHeader: string | null, 
 }
 
 function extractOrderFields(data: any) {
-  const email: string | null =
-    data?.customer?.email ?? data?.email ?? data?.order?.customer?.email ?? data?.billingAddress?.email ?? null
+  const email: string | null = data?.email ?? data?.billing?.address?.email ?? null
 
-  const orderId: string | null = String(data?.id ?? data?.orderId ?? data?.order?.id ?? "") || null
+  const orderId: string | null = String(data?.id ?? data?.friendlyId ?? "") || null
 
-  const items = data?.lineItems ?? data?.items ?? data?.order?.lineItems ?? null
+  const items = data?.offers ?? null
 
-  const totalValue = data?.total?.value ?? data?.totalPrice?.value ?? data?.amount?.value ?? null
-  const totalCurrency = data?.total?.currency ?? data?.totalPrice?.currency ?? data?.amount?.currency ?? null
+  const totalValue = data?.amounts?.total?.value ?? null
+  const totalCurrency = data?.amounts?.total?.currency ?? null
 
   return { email, orderId, items, total: totalValue, currency: totalCurrency }
 }
