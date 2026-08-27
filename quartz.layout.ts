@@ -25,8 +25,6 @@ export const sharedPageComponents: SharedLayout = {
     Component.ALRSoundEngine(),
     Component.ALRLabelCreatorScript(),
     Component.ALRRegistryScript(),
-    Component.ALRMobileNav(),
-    Component.ALRShopScript(),
   ],
   footer: Component.Footer({
     links: {},
@@ -37,7 +35,7 @@ export const defaultContentPageLayout: PageLayout = {
   beforeBody: [
     Component.ConditionalRender({
       component: Component.ALRBanner(),
-      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isOrdo(page) && !isEcho(page) && !isShop(page),
+      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isOrdo(page) && !isEcho(page) && !isShop(page) && !isLabelCreator(page),
     }),
     Component.ConditionalRender({
       component: OrdoBanner(),
@@ -83,7 +81,7 @@ export const defaultListPageLayout: PageLayout = {
   beforeBody: [
     Component.ConditionalRender({
       component: Component.ALRBanner(),
-      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isOrdo(page) && !isEcho(page) && !isShop(page),
+      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isOrdo(page) && !isEcho(page) && !isShop(page) && !isLabelCreator(page),
     }),
     Component.ConditionalRender({
       component: OrdoBanner(),
