@@ -1997,7 +1997,10 @@ details[open] .alr-sb-chevron {
 }
 
 // ─── ACCOUNT PAGE (reuses .alr-reg-* registry styling; these are the few gaps) ──
-.alr-reg-row-simple { display: flex; align-items: center; justify-content: space-between; gap: 12px; cursor: default; }
+.alr-reg-row-simple { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.alr-account-static-row { cursor: default; }
+.alr-account-static-row:hover { background: transparent; }
+.alr-reg-detail-grid-auto { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
 .alr-account-form { margin-top: 16px; }
 
 // ─── LIGHT MODE OVERRIDES ─────────────────────────────────

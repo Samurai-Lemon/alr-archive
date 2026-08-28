@@ -92,7 +92,7 @@ const AccountScript: QuartzComponent = () => {
       return;
     }
     var html = "";
-    items.forEach(function(item) { html += rowFn(item); });
+    items.forEach(function(item, i) { html += rowFn(item, i); });
     container.innerHTML = html;
   }
 
@@ -102,30 +102,95 @@ const AccountScript: QuartzComponent = () => {
     return "alr-reg-tag-esc-s2";
   }
 
+  function humanizeFieldName(key) {
+    return key.replace(/_/g, " ").replace(/\b\w/g, function(c) { return c.toUpperCase(); });
+  }
+
   function renderOrders(orders) {
     renderList("alr-account-orders", orders, "No orders yet.", function(o) {
       var date = o.created_at ? new Date(o.created_at).toLocaleDateString() : "";
       var total = o.total != null ? escapeHtml(o.currency || "$") + " " + escapeHtml(o.total) : "";
-      return '<div class="alr-reg-row alr-reg-row-simple"><div>' +
+      return '<div class="alr-reg-row alr-reg-row-simple alr-account-static-row"><div>' +
         '<div class="alr-reg-id">' + escapeHtml(o.fourthwall_order_id || o.id) + "</div>" +
         '<div class="alr-reg-name-sub">' + escapeHtml(date) + "</div>" +
         '</div><div class="alr-reg-name">' + total + "</div></div>";
     });
   }
 
+  // Full submitted form content isn't visible anywhere else once sent — clicking a row here
+  // is the only way to read back what was submitted before Archive Operations reviews it.
+  var currentSubmissions = [];
+
+  function renderSubmissionDetail(index) {
+    var panel = document.getElementById("alr-account-submission-detail");
+    if (!panel) return;
+    var sub = currentSubmissions[index];
+
+    var container = document.getElementById("alr-account-submissions");
+    if (container) {
+      container.querySelectorAll(".alr-reg-row").forEach(function(row) {
+        row.classList.remove("alr-reg-row-selected");
+      });
+      var activeRow = container.querySelector('[data-index="' + index + '"]');
+      if (activeRow) activeRow.classList.add("alr-reg-row-selected");
+    }
+
+    if (!sub) {
+      panel.style.display = "none";
+      panel.innerHTML = "";
+      return;
+    }
+
+    var date = sub.created_at ? new Date(sub.created_at).toLocaleDateString() : "";
+    var html = '<div class="alr-reg-detail-head"><div>' +
+      '<div class="alr-reg-detail-id">' + escapeHtml((sub.submission_type || "").toUpperCase()) + " &middot; " +
+      escapeHtml((sub.status || "").toUpperCase()) + "</div>" +
+      '<div class="alr-reg-detail-title">' + escapeHtml(sub.title) + "</div>" +
+      '<div class="alr-reg-detail-sub">Submitted ' + escapeHtml(date) + "</div>" +
+      "</div></div>";
+
+    html += '<div class="alr-reg-detail-grid alr-reg-detail-grid-auto">';
+    var data = sub.form_data || {};
+    Object.keys(data).forEach(function(key) {
+      if (key === "declaration") return;
+      var val = data[key];
+      if (val === "" || val == null) return;
+      html += '<div class="alr-reg-detail-cell">' +
+        '<div class="alr-reg-detail-cell-label">' + escapeHtml(humanizeFieldName(key)) + "</div>" +
+        '<div class="alr-reg-detail-cell-val">' + escapeHtml(val) + "</div></div>";
+    });
+    html += "</div>";
+
+    panel.innerHTML = html;
+    panel.style.display = "";
+  }
+
   function renderSubmissions(subs) {
-    renderList("alr-account-submissions", subs, "No submissions yet.", function(s) {
+    currentSubmissions = subs || [];
+
+    renderList("alr-account-submissions", subs, "No submissions yet.", function(s, i) {
       var date = s.created_at ? new Date(s.created_at).toLocaleDateString() : "";
-      return '<div class="alr-reg-row alr-reg-row-simple"><div>' +
+      return '<div class="alr-reg-row alr-reg-row-simple" data-index="' + i + '"><div>' +
         '<div class="alr-reg-name">' + escapeHtml(s.title) + "</div>" +
         '<div class="alr-reg-name-sub">' + escapeHtml(s.submission_type) + " &middot; " + escapeHtml(date) + "</div>" +
         '</div><span class="alr-reg-tag ' + statusTagClass(s.status) + '">' + escapeHtml(s.status) + "</span></div>";
     });
+
+    var container = document.getElementById("alr-account-submissions");
+    if (container) {
+      container.querySelectorAll(".alr-reg-row").forEach(function(row) {
+        row.addEventListener("click", function() {
+          renderSubmissionDetail(Number(row.getAttribute("data-index")));
+        });
+      });
+    }
+
+    renderSubmissionDetail(currentSubmissions.length > 0 ? 0 : -1);
   }
 
   function renderBadges(badges) {
     renderList("alr-account-badges", badges, "No badges earned yet.", function(b) {
-      return '<div class="alr-reg-row alr-reg-row-simple"><div class="alr-reg-name">' +
+      return '<div class="alr-reg-row alr-reg-row-simple alr-account-static-row"><div class="alr-reg-name">' +
         escapeHtml(b.badge_key) + "</div></div>";
     });
   }

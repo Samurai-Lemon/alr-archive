@@ -97,7 +97,7 @@ const ALRAccount: QuartzComponent = (_props: QuartzComponentProps) => {
           </div>
           <div class="alr-submit-hint" id="alr-account-claim-status" style="margin:-12px 0 20px"></div>
 
-          <div class="alr-reg-table-wrap" style="margin-bottom:20px">
+          <div class="alr-reg-table-wrap" style="margin-bottom:16px">
             <div class="alr-reg-table-head">
               <div class="alr-reg-th">Your Submissions</div>
             </div>
@@ -105,6 +105,7 @@ const ALRAccount: QuartzComponent = (_props: QuartzComponentProps) => {
               <div class="alr-reg-empty">Loading submissions...</div>
             </div>
           </div>
+          <div id="alr-account-submission-detail" class="alr-reg-detail" style="display:none"></div>
 
           <div class="alr-reg-table-wrap">
             <div class="alr-reg-table-head">
