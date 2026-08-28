@@ -1704,6 +1704,8 @@ details[open] .alr-sb-chevron {
 .alr-reg-detail-title { font-size: 16px; font-weight: 500; color: #f0ece0; margin-bottom: 2px; }
 .alr-reg-detail-sub { font-size: 11px; color: #6b6860; }
 .alr-reg-detail-grid { display: grid; gap: 10px; margin-bottom: 12px; }
+.alr-reg-detail-grid-2 { grid-template-columns: repeat(2, 1fr); }
+.alr-reg-detail-grid-3 { grid-template-columns: repeat(3, 1fr); }
 .alr-reg-detail-grid-4 { grid-template-columns: repeat(4, 1fr); }
 .alr-reg-detail-grid-5 { grid-template-columns: repeat(5, 1fr); }
 .alr-reg-detail-cell { background: #181714; border: 0.5px solid #26251f; border-radius: 4px; padding: 8px 10px; }
@@ -1718,7 +1720,7 @@ details[open] .alr-sb-chevron {
   .alr-reg-banner-meta { position: static; align-items: flex-start; margin-top: 10px; }
   .alr-reg-body { padding: 20px 1rem 0; }
   .alr-reg-stats { grid-template-columns: repeat(2, 1fr); }
-  .alr-reg-detail-grid-4, .alr-reg-detail-grid-5 { grid-template-columns: repeat(2, 1fr); }
+  .alr-reg-detail-grid-3, .alr-reg-detail-grid-4, .alr-reg-detail-grid-5 { grid-template-columns: repeat(2, 1fr); }
 
   // Controls: search first, filter chips in their own scrollable row below.
   .alr-reg-controls { flex-direction: column; align-items: stretch; gap: 10px; }
@@ -2000,8 +2002,19 @@ details[open] .alr-sb-chevron {
 .alr-reg-row-simple { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .alr-account-static-row { cursor: default; }
 .alr-account-static-row:hover { background: transparent; }
-.alr-reg-detail-grid-auto { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
 .alr-account-form { margin-top: 16px; }
+
+// Prose sections in a submission's detail view (Description, Observed Behavior, etc.) —
+// mirrors the ## section + divider structure of an actual Echo/Reality entry page.
+.alr-account-detail-section { padding-top: 12px; margin-top: 12px; border-top: 0.5px solid #1e1c18; }
+.alr-account-detail-section-label { font-size: 9px; color: #3a3830; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+.alr-account-detail-section-text { font-size: 12px; color: #a8a49a; line-height: 1.7; white-space: pre-wrap; }
+
+:root[saved-theme="light"] {
+  .alr-account-detail-section { border-top-color: #e0d8cc; }
+  .alr-account-detail-section-label { color: #a09888; }
+  .alr-account-detail-section-text { color: #4a4038; }
+}
 
 // ─── LIGHT MODE OVERRIDES ─────────────────────────────────
 :root[saved-theme="light"] {

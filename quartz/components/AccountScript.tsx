@@ -102,9 +102,72 @@ const AccountScript: QuartzComponent = () => {
     return "alr-reg-tag-esc-s2";
   }
 
-  function humanizeFieldName(key) {
-    return key.replace(/_/g, " ").replace(/\b\w/g, function(c) { return c.toUpperCase(); });
-  }
+  // Mirrors quartz/util/alrClassifications.ts — duplicated here because this script runs as a
+  // plain browser <script>, not through the TSX build, so it can't import that module directly.
+  var EC_LABELS = { ENT: "Entity", OBJ: "Object", LOC: "Location", PHN: "Phenomenon", EVT: "Event" };
+  var ESC_LABELS = { S1: "Stable", S2: "Volatile", S3: "Fractured", S4: "Terminal" };
+  var RTS_LABELS = { T1: "Fragmentary", T2: "Localized", T3: "Developed", T4: "Grand", T5: "Cosmic" };
+  var RDS_LABELS = { A: "Analogous", B: "Variant", C: "Divergent", D: "Exotic" };
+  var RCC_LABELS = { "RCC-1": "Silent Collapse", "RCC-2": "Systemic Failure", "RCC-3": "Catastrophic Collapse" };
+
+  // Same classification-cell + prose-section split used by the real Echo/Reality entries and
+  // the registry's own detail panel, per submission type's actual form fields.
+  var SUBMISSION_LAYOUTS = {
+    echo: {
+      classification: [
+        { key: "ec", label: "Echo Class", labels: EC_LABELS },
+        { key: "esc", label: "Stability", labels: ESC_LABELS },
+        { key: "rcc", label: "Collapse Class", labels: RCC_LABELS },
+        { key: "rts", label: "Origin Tier", labels: RTS_LABELS },
+        { key: "rds", label: "Divergence", labels: RDS_LABELS },
+      ],
+      sections: [
+        { key: "echo_description", label: "Description" },
+        { key: "observed_behavior", label: "Observed Behavior" },
+        { key: "manifestation_pattern", label: "Manifestation Pattern" },
+        { key: "investigator_notes", label: "Investigator Notes" },
+      ],
+    },
+    reality: {
+      classification: [
+        { key: "rts", label: "Origin Tier", labels: RTS_LABELS },
+        { key: "rds", label: "Divergence", labels: RDS_LABELS },
+        { key: "rcc", label: "Collapse Class", labels: RCC_LABELS },
+      ],
+      sections: [
+        { key: "investigation_overview", label: "Overview" },
+        { key: "environmental_observations", label: "Environmental Observations" },
+        { key: "civilizational_status", label: "Civilizational Status" },
+        { key: "collapse_evidence", label: "Collapse Evidence" },
+        { key: "echo_manifestations", label: "Echo Manifestations" },
+        { key: "investigator_notes", label: "Investigator Notes" },
+      ],
+    },
+    equipment: {
+      classification: [
+        { key: "device_type", label: "Device Type" },
+        { key: "operational_status", label: "Status" },
+      ],
+      sections: [
+        { key: "primary_function", label: "Primary Function" },
+        { key: "operating_procedure", label: "Operating Procedure" },
+        { key: "known_limitations", label: "Known Limitations" },
+        { key: "engineer_notes", label: "Engineer Notes" },
+      ],
+    },
+    organization: {
+      classification: [
+        { key: "operational_status", label: "Status" },
+        { key: "primary_domain", label: "Primary Domain" },
+      ],
+      sections: [
+        { key: "description", label: "Description" },
+        { key: "history", label: "History" },
+        { key: "primary_activities", label: "Primary Activities" },
+        { key: "submitter_notes", label: "Submitter Notes" },
+      ],
+    },
+  };
 
   function renderOrders(orders) {
     renderList("alr-account-orders", orders, "No orders yet.", function(o) {
@@ -145,6 +208,9 @@ const AccountScript: QuartzComponent = () => {
     }
 
     var date = sub.created_at ? new Date(sub.created_at).toLocaleDateString() : "";
+    var data = sub.form_data || {};
+    var layout = SUBMISSION_LAYOUTS[sub.submission_type] || { classification: [], sections: [] };
+
     var html = '<div class="alr-reg-detail-head"><div>' +
       '<div class="alr-reg-detail-id">' + escapeHtml((sub.submission_type || "").toUpperCase()) + " &middot; " +
       escapeHtml((sub.status || "").toUpperCase()) + "</div>" +
@@ -152,17 +218,26 @@ const AccountScript: QuartzComponent = () => {
       '<div class="alr-reg-detail-sub">Submitted ' + escapeHtml(date) + "</div>" +
       "</div></div>";
 
-    html += '<div class="alr-reg-detail-grid alr-reg-detail-grid-auto">';
-    var data = sub.form_data || {};
-    Object.keys(data).forEach(function(key) {
-      if (key === "declaration") return;
-      var val = data[key];
-      if (val === "" || val == null) return;
-      html += '<div class="alr-reg-detail-cell">' +
-        '<div class="alr-reg-detail-cell-label">' + escapeHtml(humanizeFieldName(key)) + "</div>" +
-        '<div class="alr-reg-detail-cell-val">' + escapeHtml(val) + "</div></div>";
+    var classCells = layout.classification.filter(function(f) { return data[f.key]; });
+    if (classCells.length > 0) {
+      html += '<div class="alr-reg-detail-grid alr-reg-detail-grid-' + classCells.length + '">';
+      classCells.forEach(function(f) {
+        var code = data[f.key];
+        var val = f.labels ? escapeHtml(code) + " — " + escapeHtml(f.labels[code] || code) : escapeHtml(code);
+        html += '<div class="alr-reg-detail-cell">' +
+          '<div class="alr-reg-detail-cell-label">' + escapeHtml(f.label) + "</div>" +
+          '<div class="alr-reg-detail-cell-val">' + val + "</div></div>";
+      });
+      html += "</div>";
+    }
+
+    layout.sections.forEach(function(s) {
+      var text = data[s.key];
+      if (!text) return;
+      html += '<div class="alr-account-detail-section">' +
+        '<div class="alr-account-detail-section-label">' + escapeHtml(s.label) + "</div>" +
+        '<div class="alr-account-detail-section-text">' + escapeHtml(text) + "</div></div>";
     });
-    html += "</div>";
 
     panel.innerHTML = html;
     panel.style.display = "";
