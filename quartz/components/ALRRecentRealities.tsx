@@ -81,27 +81,29 @@ const ALRRecentRealities: QuartzComponent = ({
         </a>
       </div>
 
-      {realities.map((reality) => (
-        <div class="alr-real-row">
-          <div class="alr-real-id">
-            <a href={reality.href} class="internal">
-              {reality.realityId}
-            </a>
-          </div>
-          <div class="alr-real-info">
-            <div class="alr-real-rcc">
-              {reality.rcc} — {getRccLabel(reality.rcc)}
+      <div class="alr-real-rows">
+        {realities.map((reality) => (
+          <div class="alr-real-row">
+            <div class="alr-real-id">
+              <a href={reality.href} class="internal">
+                {reality.realityId}
+              </a>
             </div>
-            <div class="alr-real-tags">
-              <span class="alr-rtag">{reality.rts}</span>
-              <span class="alr-rtag">RDS: {reality.rds}</span>
-              {reality.associatedEcho ? (
-                <span class="alr-rtag alr-rtag-echo">{reality.associatedEcho}</span>
-              ) : null}
+            <div class="alr-real-info">
+              <div class="alr-real-rcc">
+                {reality.rcc} — {getRccLabel(reality.rcc)}
+              </div>
+              <div class="alr-real-tags">
+                <span class="alr-rtag">{reality.rts}</span>
+                <span class="alr-rtag">RDS: {reality.rds}</span>
+                {reality.associatedEcho ? (
+                  <span class="alr-rtag alr-rtag-echo">{reality.associatedEcho}</span>
+                ) : null}
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   )
 }

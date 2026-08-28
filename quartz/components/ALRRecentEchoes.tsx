@@ -87,19 +87,21 @@ const ALRRecentEchoes: QuartzComponent = ({ allFiles }: QuartzComponentProps & {
         </a>
       </div>
 
-      {echoes.map((echo) => (
-        <div class="alr-echo-row">
-          <div class="alr-echo-dot" style={{ background: echo.dotColor }}></div>
-          <div class="alr-echo-id">{echo.echoId}</div>
-          <div class="alr-echo-name">
-            <a href={echo.href} class="internal">
-              {echo.name}
-            </a>
+      <div class="alr-echo-rows">
+        {echoes.map((echo) => (
+          <div class="alr-echo-row">
+            <div class="alr-echo-dot" style={{ background: echo.dotColor }}></div>
+            <div class="alr-echo-id">{echo.echoId}</div>
+            <div class="alr-echo-name">
+              <a href={echo.href} class="internal">
+                {echo.name}
+              </a>
+            </div>
+            <span class={`alr-etag alr-et-${echo.ec.toLowerCase()}`}>{echo.ec}</span>
+            <span class={`alr-etag alr-es-${echo.esc.toLowerCase()}`}>{echo.esc}</span>
           </div>
-          <span class={`alr-etag alr-et-${echo.ec.toLowerCase()}`}>{echo.ec}</span>
-          <span class={`alr-etag alr-es-${echo.esc.toLowerCase()}`}>{echo.esc}</span>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   )
 }

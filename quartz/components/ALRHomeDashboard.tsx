@@ -36,6 +36,34 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
     <>
       <div class="alr-home">
 
+        {/* ── MOBILE TOP ROW (compact brand + search trigger, mobile-only) ── */}
+        <div class="alr-home-mtop">
+          <div class="alr-home-mtop-brand">
+            <span class="alr-home-mtop-mark">◆</span>
+            <span class="alr-home-mtop-word">ALR ARCHIVE</span>
+          </div>
+          <button class="alr-home-mtop-search" id="alr-home-mtop-search" aria-label="Search">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <circle cx="11" cy="11" r="7" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+          </button>
+        </div>
+        <script dangerouslySetInnerHTML={{ __html: `
+(function() {
+  function wire() {
+    var btn = document.getElementById('alr-home-mtop-search');
+    if (!btn) return;
+    btn.onclick = function() {
+      var sb = document.querySelector('.search-button');
+      if (sb) sb.click();
+    };
+  }
+  wire();
+  document.addEventListener('nav', wire);
+})();
+        ` }} />
+
         {/* ── HERO — banner SVG as background ── */}
         <div class="alr-home-hero-wrap">
           <svg

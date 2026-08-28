@@ -45,6 +45,7 @@ import ALRAccount from "./ALRAccount"
 import AccountScript from "./AccountScript"
 import ALRAdmin from "./ALRAdmin"
 import ALRReadingProgress from "./ALRReadingProgress"
+import ALRSubmitWizard from "./ALRSubmitWizard"
 
 export {
   ArticleTitle,
@@ -94,4 +95,5 @@ export {
   AccountScript,
   ALRAdmin,
   ALRReadingProgress,
+  ALRSubmitWizard,
 }

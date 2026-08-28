@@ -1,0 +1,692 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #0a0a08; font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif; }
+    a { color: #cc785c; text-decoration: none; }
+    a:hover { color: #e8894a; }
+    .mono { font-family: "JetBrains Mono", ui-monospace, "SF Mono", monospace; }
+    .hscroll { display: flex; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
+    .hscroll::-webkit-scrollbar { display: none; }
+    .vscroll { overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none; }
+    .vscroll::-webkit-scrollbar { display: none; }
+    button { font-family: inherit; cursor: pointer; }
+  </style>
+</helmet>
+
+<div style="display:flex; flex-direction:column; align-items:center; padding:48px 24px; min-height:100vh; gap:16px;">
+
+  <div style="color:#8a8678; font-family: 'JetBrains Mono', monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:4px;">
+    ALR Initiative — Mobile Redesign · Tap around
+  </div>
+
+  <div style="position:relative; width:390px; height:844px; background:#111110; border-radius:44px; border:10px solid #050403; box-shadow:0 30px 80px rgba(0,0,0,0.6), inset 0 0 0 1px #26251f; overflow:hidden; display:flex; flex-direction:column;">
+
+    <!-- No persistent top bar — the bottom tab bar is the only fixed chrome. Each
+         drill-down screen gets its own inline back row at the top of its own
+         scrollable content instead of a shared header. -->
+    <sc-if value="{{screenIsEntry}}" hint-placeholder-val="{{false}}">
+      <div style="flex-shrink:0; height:2px; background:transparent; position:relative; z-index:5;"><div style="height:100%; width:38%; background:#cc785c;"></div></div>
+    </sc-if>
+
+    <!-- ── SCROLLABLE CONTENT ───────────────────────────────── -->
+    <div class="vscroll" style="flex:1; min-height:0; background:#1a1915; position:relative;">
+
+      <!-- HOME -->
+      <sc-if value="{{screenIsHome}}" hint-placeholder-val="{{true}}">
+        <div style="padding:16px 16px 24px;">
+
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:18px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <svg width="20" height="20" viewBox="0 0 557 480" fill="#cc785c" fill-rule="evenodd"><path d="M 531.0 468.5 L 384.0 467.5 L 283.0 400.5 L 271.0 403.5 L 184.0 463.5 L 172.0 468.5 L 26.0 468.5 L 14.5 461.0 L 11.5 454.0 L 14.5 439.0 L 250.5 39.0 L 269.0 13.5 L 285.0 11.5 L 298.5 24.0 L 542.5 438.0 L 545.5 446.0 L 544.5 458.0 L 531.0 468.5 Z M 448.5 429.0 L 480.0 428.5 L 484.5 425.0 L 484.5 419.0 L 287.5 85.0 L 282.0 78.5 L 276.0 78.5 L 77.5 411.0 L 73.5 425.0 L 78.0 428.5 L 96.0 429.5 L 159.0 428.5 L 237.5 376.0 L 237.5 371.0 L 232.0 365.5 L 175.0 328.5 L 170.5 324.0 L 169.5 317.0 L 262.5 155.0 L 271.0 145.5 L 283.0 143.5 L 293.5 151.0 L 389.5 316.0 L 388.5 323.0 L 382.0 329.5 L 325.0 366.5 L 321.5 370.0 L 322.5 377.0 L 395.0 426.5 L 409.0 429.5 L 448.5 429.0 Z M 283.5 345.0 L 332.0 311.5 L 335.5 303.0 L 284.5 217.0 L 276.0 215.5 L 222.5 308.0 L 274.0 344.5 L 283.5 345.0 Z"/></svg>
+              <span style="font-size:13px; color:#d8d4c8; font-weight:500;">ALR Initiative</span>
+            </div>
+            <button aria-label="Search" style="background:none; border:none; padding:4px; color:#8a8678; display:flex; align-items:center;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </button>
+          </div>
+
+          <div class="hscroll" style="gap:8px; margin-bottom:16px;">
+            <div style="flex-shrink:0; background:#181714; border:0.5px solid #26251f; border-radius:10px; padding:9px 14px;">
+              <div class="mono" style="font-size:15px; color:#cc785c; font-weight:600; line-height:1;">10</div>
+              <div style="font-size:9px; color:#4a4840; text-transform:uppercase; letter-spacing:0.08em; margin-top:3px;">Echoes</div>
+            </div>
+            <div style="flex-shrink:0; background:#181714; border:0.5px solid #26251f; border-radius:10px; padding:9px 14px;">
+              <div class="mono" style="font-size:15px; color:#cc785c; font-weight:600; line-height:1;">2</div>
+              <div style="font-size:9px; color:#4a4840; text-transform:uppercase; letter-spacing:0.08em; margin-top:3px;">Realities</div>
+            </div>
+            <div style="flex-shrink:0; background:#181714; border:0.5px solid #26251f; border-radius:10px; padding:9px 14px;">
+              <div class="mono" style="font-size:15px; color:#cc785c; font-weight:600; line-height:1;">7</div>
+              <div style="font-size:9px; color:#4a4840; text-transform:uppercase; letter-spacing:0.08em; margin-top:3px;">Cycle</div>
+            </div>
+            <div style="flex-shrink:0; background:#181714; border:0.5px solid #26251f; border-radius:10px; padding:9px 14px;">
+              <div class="mono" style="font-size:15px; color:#cc785c; font-weight:600; line-height:1;">54</div>
+              <div style="font-size:9px; color:#4a4840; text-transform:uppercase; letter-spacing:0.08em; margin-top:3px;">Terminal</div>
+            </div>
+          </div>
+
+          <button onClick="{{openFeatured}}" style="display:block; width:100%; text-align:left; background:#181714; border:0.5px solid #26251f; border-radius:14px; padding:0; overflow:hidden; margin-bottom:18px;">
+            <div style="height:120px; background:linear-gradient(135deg,#2a2015,#181008); display:flex; align-items:center; justify-content:center;">
+              <svg width="34" height="34" viewBox="0 0 557 480" fill="#cc785c" fill-rule="evenodd" opacity="0.35"><path d="M 531.0 468.5 L 384.0 467.5 L 283.0 400.5 L 271.0 403.5 L 184.0 463.5 L 172.0 468.5 L 26.0 468.5 L 14.5 461.0 L 11.5 454.0 L 14.5 439.0 L 250.5 39.0 L 269.0 13.5 L 285.0 11.5 L 298.5 24.0 L 542.5 438.0 L 545.5 446.0 L 544.5 458.0 L 531.0 468.5 Z"/></svg>
+            </div>
+            <div style="padding:14px;">
+              <div class="mono" style="font-size:9px; letter-spacing:0.12em; color:#e0895c; text-transform:uppercase; margin-bottom:6px;">Featured Echo · Rotating</div>
+              <div style="font-size:16px; color:#f0ece0; font-weight:600; margin-bottom:4px;">ECHO-127 — A Quiet Taker</div>
+              <div style="font-size:12px; color:#8a8678; line-height:1.5;">An anomalous remnant recovered from a collapsed reality. Classification data preserved within the Archive.</div>
+            </div>
+          </button>
+
+          <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:22px;">
+            <button onClick="{{goRegistryFromHome}}" style="background:#181714; border:0.5px solid #26251f; border-radius:12px; padding:14px 8px; display:flex; flex-direction:column; align-items:center; gap:6px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#cc785c" stroke-width="1.6"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+              <div style="font-size:10px; color:#c0bcb0;">Echo Registry</div>
+            </button>
+            <button onClick="{{goRealityFromHome}}" style="background:#181714; border:0.5px solid #26251f; border-radius:12px; padding:14px 8px; display:flex; flex-direction:column; align-items:center; gap:6px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#cc785c" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 3a15 15 0 0 1 0 18M3 12h18"/></svg>
+              <div style="font-size:10px; color:#c0bcb0; text-align:center;">Reality Registry</div>
+            </button>
+            <button onClick="{{goSubmit}}" style="background:#181714; border:0.5px solid #26251f; border-radius:12px; padding:14px 8px; display:flex; flex-direction:column; align-items:center; gap:6px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#cc785c" stroke-width="1.6"><path d="M12 5v14M5 12h14"/></svg>
+              <div style="font-size:10px; color:#c0bcb0;">Submit</div>
+            </button>
+          </div>
+
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+            <div style="font-size:9px; letter-spacing:0.1em; text-transform:uppercase; color:#4a4840; font-weight:600;">Recent Echoes</div>
+            <button onClick="{{goRegistryFromHome}}" style="background:none; border:none; font-size:10px; color:#cc785c; padding:0;">See all →</button>
+          </div>
+          <div class="hscroll" style="gap:10px; margin-bottom:22px; margin-left:-16px; margin-right:-16px; padding-left:16px; padding-right:16px;">
+            <button onClick="{{openRecent1}}" style="flex-shrink:0; width:150px; text-align:left; background:#181714; border:0.5px solid #26251f; border-radius:12px; padding:11px;">
+              <div class="mono" style="font-size:10px; color:#cc785c; margin-bottom:6px;">ECHO-000</div>
+              <div style="font-size:12px; color:#d8d4c8; font-weight:500; margin-bottom:8px; line-height:1.3;">The Archive</div>
+              <span style="display:inline-block; font-size:8px; padding:2px 6px; border-radius:2px; background:#06120d; color:#1d9e75; border:1px solid #0e4030;">S1</span>
+            </button>
+            <button onClick="{{openRecent2}}" style="flex-shrink:0; width:150px; text-align:left; background:#181714; border:0.5px solid #26251f; border-radius:12px; padding:11px;">
+              <div class="mono" style="font-size:10px; color:#cc785c; margin-bottom:6px;">ECHO-047</div>
+              <div style="font-size:12px; color:#d8d4c8; font-weight:500; margin-bottom:8px; line-height:1.3;">A Hollow Bloom</div>
+              <span style="display:inline-block; font-size:8px; padding:2px 6px; border-radius:2px; background:#1a1408; color:#d4a840; border:1px solid #4a3810;">S2</span>
+            </button>
+            <button onClick="{{openRecent3}}" style="flex-shrink:0; width:150px; text-align:left; background:#181714; border:0.5px solid #26251f; border-radius:12px; padding:11px;">
+              <div class="mono" style="font-size:10px; color:#cc785c; margin-bottom:6px;">ECHO-005</div>
+              <div style="font-size:12px; color:#d8d4c8; font-weight:500; margin-bottom:8px; line-height:1.3;">The Blood Painting</div>
+              <span style="display:inline-block; font-size:8px; padding:2px 6px; border-radius:2px; background:#1a1208; color:#c49030; border:1px solid #4a3010;">S3</span>
+            </button>
+          </div>
+
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+            <div style="font-size:9px; letter-spacing:0.1em; text-transform:uppercase; color:#4a4840; font-weight:600;">Recent Reality Reports</div>
+            <button onClick="{{goRealityFromHome}}" style="background:none; border:none; font-size:10px; color:#cc785c; padding:0;">See all →</button>
+          </div>
+          <div class="hscroll" style="gap:10px; margin-left:-16px; margin-right:-16px; padding-left:16px; padding-right:16px;">
+            <div style="flex-shrink:0; width:150px; background:#181714; border:0.5px solid #26251f; border-radius:12px; padding:11px;">
+              <div class="mono" style="font-size:10px; color:#cc785c; margin-bottom:6px;">R-007</div>
+              <div style="font-size:12px; color:#d8d4c8; font-weight:500; line-height:1.3;">Investigation Report</div>
+            </div>
+            <div style="flex-shrink:0; width:150px; background:#181714; border:0.5px solid #26251f; border-radius:12px; padding:11px;">
+              <div class="mono" style="font-size:10px; color:#cc785c; margin-bottom:6px;">R-019</div>
+              <div style="font-size:12px; color:#d8d4c8; font-weight:500; line-height:1.3;">Investigation Report</div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- REGISTRY -->
+      <sc-if value="{{screenIsRegistry}}" hint-placeholder-val="{{false}}">
+        <div style="padding:14px 16px 24px;">
+          <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:12px;">
+            <div style="font-size:18px; color:#f0ece0; font-weight:600;">{{registryTitle}}</div>
+            <div style="font-size:11px; color:#4a4840;">{{registryCount}}</div>
+          </div>
+          <div style="background:#181714; border:0.5px solid #26251f; border-radius:10px; padding:9px 12px; display:flex; align-items:center; gap:8px; margin-bottom:10px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4a4840" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <div style="font-size:12px; color:#4a4840;">Search registry…</div>
+          </div>
+          <div class="hscroll" style="gap:6px; margin-bottom:14px;">
+            <button style="flex-shrink:0; font-size:9px; letter-spacing:0.1em; text-transform:uppercase; padding:6px 12px; border-radius:20px; border:0.5px solid #cc785c; background:rgba(204,120,92,0.1); color:#cc785c;">All</button>
+            <button style="flex-shrink:0; font-size:9px; letter-spacing:0.1em; text-transform:uppercase; padding:6px 12px; border-radius:20px; border:0.5px solid #26251f; background:none; color:#4a4840;">S1</button>
+            <button style="flex-shrink:0; font-size:9px; letter-spacing:0.1em; text-transform:uppercase; padding:6px 12px; border-radius:20px; border:0.5px solid #26251f; background:none; color:#4a4840;">S2</button>
+            <button style="flex-shrink:0; font-size:9px; letter-spacing:0.1em; text-transform:uppercase; padding:6px 12px; border-radius:20px; border:0.5px solid #26251f; background:none; color:#4a4840;">S3</button>
+            <button style="flex-shrink:0; font-size:9px; letter-spacing:0.1em; text-transform:uppercase; padding:6px 12px; border-radius:20px; border:0.5px solid #26251f; background:none; color:#4a4840;">S4</button>
+          </div>
+
+          <sc-for list="{{registryRows}}" as="row" hint-placeholder-count="4">
+            <div style="background:#181714; border:0.5px solid {{row.borderColor}}; border-radius:12px; margin-bottom:8px; overflow:hidden;">
+              <button onClick="{{row.toggle}}" style="width:100%; background:none; border:none; padding:12px 14px; display:flex; align-items:center; gap:10px; text-align:left;">
+                <div style="width:34px; height:34px; border-radius:8px; background:#0f0e0b; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                  <span class="mono" style="font-size:9px; color:#cc785c;">{{row.ec}}</span>
+                </div>
+                <div style="flex:1; min-width:0;">
+                  <div class="mono" style="font-size:10px; color:#cc785c; margin-bottom:2px;">{{row.id}}</div>
+                  <div style="font-size:13px; color:#d8d4c8; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{row.name}}</div>
+                </div>
+                <span style="flex-shrink:0; font-size:9px; padding:3px 7px; border-radius:2px; background:{{row.tagBg}}; color:{{row.tagColor}}; border:1px solid {{row.tagBorder}};">{{row.esc}}</span>
+              </button>
+              <sc-if value="{{row.expanded}}" hint-placeholder-val="{{false}}">
+                <div style="padding:0 14px 14px;">
+                  <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:6px; margin-bottom:10px;">
+                    <div style="background:#141210; border-radius:6px; padding:7px 9px;">
+                      <div style="font-size:8px; color:#4a4840; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:2px;">Collapse Class</div>
+                      <div style="font-size:11px; color:#a8a49a;">{{row.rcc}}</div>
+                    </div>
+                    <div style="background:#141210; border-radius:6px; padding:7px 9px;">
+                      <div style="font-size:8px; color:#4a4840; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:2px;">Origin Tier</div>
+                      <div style="font-size:11px; color:#a8a49a;">{{row.rts}}</div>
+                    </div>
+                  </div>
+                  <button onClick="{{row.readFull}}" style="display:block; width:100%; text-align:center; background:rgba(204,120,92,0.08); border:0.5px solid #cc785c; color:#cc785c; border-radius:8px; padding:9px; font-size:11px; letter-spacing:0.05em;">Read Full Entry →</button>
+                </div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <!-- ENTRY -->
+      <sc-if value="{{screenIsEntry}}" hint-placeholder-val="{{false}}">
+        <div style="padding:14px 16px 32px;">
+          <button onClick="{{back}}" style="display:flex; align-items:center; gap:6px; background:none; border:none; padding:4px 0; margin:0 0 14px -4px; color:#8a8678;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+            <span class="mono" style="font-size:11px;">{{entry.id}}</span>
+          </button>
+
+          <div style="font-size:20px; color:#f0ece0; font-weight:600; margin-bottom:12px; line-height:1.25;">{{entry.title}}</div>
+
+          <div class="hscroll" style="gap:6px; margin-bottom:18px; margin-left:-16px; margin-right:-16px; padding-left:16px; padding-right:16px;">
+            <div style="flex-shrink:0; background:#141210; border:0.5px solid #26251f; border-radius:8px; padding:6px 10px;">
+              <div style="font-size:8px; color:#4a4840; text-transform:uppercase;">EC</div>
+              <div class="mono" style="font-size:11px; color:#a8a49a;">{{entry.ec}}</div>
+            </div>
+            <div style="flex-shrink:0; background:#141210; border:0.5px solid #26251f; border-radius:8px; padding:6px 10px;">
+              <div style="font-size:8px; color:#4a4840; text-transform:uppercase;">ESC</div>
+              <div class="mono" style="font-size:11px; color:{{entry.escColor}};">{{entry.esc}}</div>
+            </div>
+            <div style="flex-shrink:0; background:#141210; border:0.5px solid #26251f; border-radius:8px; padding:6px 10px;">
+              <div style="font-size:8px; color:#4a4840; text-transform:uppercase;">RTS</div>
+              <div class="mono" style="font-size:11px; color:#a8a49a;">{{entry.rts}}</div>
+            </div>
+            <div style="flex-shrink:0; background:#141210; border:0.5px solid #26251f; border-radius:8px; padding:6px 10px;">
+              <div style="font-size:8px; color:#4a4840; text-transform:uppercase;">RDS</div>
+              <div class="mono" style="font-size:11px; color:#a8a49a;">{{entry.rds}}</div>
+            </div>
+          </div>
+
+          <div style="font-size:9px; letter-spacing:0.1em; text-transform:uppercase; color:#4a4840; font-weight:600; margin-bottom:8px;">Description</div>
+          <p style="font-size:13.5px; color:#a8a49a; line-height:1.75; margin:0 0 16px;">{{entry.desc1}}</p>
+          <p style="font-size:13.5px; color:#a8a49a; line-height:1.75; margin:0 0 20px;">{{entry.desc2}}</p>
+
+          <div style="font-size:9px; letter-spacing:0.1em; text-transform:uppercase; color:#4a4840; font-weight:600; margin-bottom:8px;">Observed Behavior</div>
+          <p style="font-size:13.5px; color:#a8a49a; line-height:1.75; margin:0 0 20px;">{{entry.behavior}}</p>
+
+          <button onClick="{{toggleNotes}}" style="display:flex; align-items:center; justify-content:space-between; width:100%; background:#181714; border:0.5px solid #26251f; border-radius:10px; padding:12px 14px; margin-bottom:0;">
+            <span style="font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:#c0bcb0;">Archive Notes (2)</span>
+            <span style="color:#4a4840; display:flex; transform:{{notesChevron}};">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+          <sc-if value="{{notesOpen}}" hint-placeholder-val="{{false}}">
+            <div style="background:#141210; border:0.5px solid #26251f; border-top:none; border-radius:0 0 10px 10px; margin-top:-1px; padding:12px 14px;">
+              <div style="font-size:11px; color:#726c5c; line-height:1.6; margin-bottom:10px;"><span class="mono" style="color:#cc785c;">M. Voss, Archive Operations —</span> The oldest entry in the catalog. Classification framework formally flagged as potentially inapplicable.</div>
+              <div style="font-size:11px; color:#726c5c; line-height:1.6;"><span class="mono" style="color:#cc785c;">E. Maren, Investigator —</span> I have worked inside this structure longer than anywhere else. It feels like it has been waiting.</div>
+            </div>
+          </sc-if>
+        </div>
+      </sc-if>
+
+      <!-- SHOP -->
+      <sc-if value="{{screenIsShop}}" hint-placeholder-val="{{false}}">
+        <div style="padding:14px 16px 24px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+            <div style="font-size:18px; color:#f0ece0; font-weight:600;">ALR Procurement</div>
+            <button onClick="{{toggleFilter}}" style="display:flex; align-items:center; gap:5px; background:#181714; border:0.5px solid #26251f; border-radius:8px; padding:7px 11px; color:#c0bcb0; font-size:11px;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="7" x2="20" y2="7"/><circle cx="9" cy="7" r="2.3"/><line x1="4" y1="17" x2="20" y2="17"/><circle cx="16" cy="17" r="2.3"/></svg>
+              Filter
+            </button>
+          </div>
+          <div class="hscroll" style="gap:6px; margin-bottom:16px;">
+            <button style="flex-shrink:0; font-size:9px; letter-spacing:0.08em; text-transform:uppercase; padding:6px 12px; border-radius:20px; border:0.5px solid #cc785c; background:rgba(204,120,92,0.1); color:#cc785c;">All</button>
+            <button style="flex-shrink:0; font-size:9px; letter-spacing:0.08em; text-transform:uppercase; padding:6px 12px; border-radius:20px; border:0.5px solid #26251f; background:none; color:#4a4840;">Apparel</button>
+            <button style="flex-shrink:0; font-size:9px; letter-spacing:0.08em; text-transform:uppercase; padding:6px 12px; border-radius:20px; border:0.5px solid #26251f; background:none; color:#4a4840;">Headwear</button>
+            <button style="flex-shrink:0; font-size:9px; letter-spacing:0.08em; text-transform:uppercase; padding:6px 12px; border-radius:20px; border:0.5px solid #26251f; background:none; color:#4a4840;">Prints</button>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <div style="background:#181714; border:0.5px solid #26251f; border-radius:12px; overflow:hidden;">
+              <div style="aspect-ratio:1; background:#0f0e0b; display:flex; align-items:center; justify-content:center;">
+                <svg width="26" height="26" viewBox="0 0 557 480" fill="#cc785c" fill-rule="evenodd" opacity="0.18"><path d="M 531.0 468.5 L 384.0 467.5 L 283.0 400.5 L 271.0 403.5 L 184.0 463.5 L 172.0 468.5 L 26.0 468.5 L 14.5 461.0 L 11.5 454.0 L 14.5 439.0 L 250.5 39.0 L 269.0 13.5 L 285.0 11.5 L 298.5 24.0 L 542.5 438.0 L 545.5 446.0 L 544.5 458.0 L 531.0 468.5 Z"/></svg>
+              </div>
+              <div style="padding:10px;">
+                <div style="font-size:11px; color:#d8d4c8; margin-bottom:4px;">Field Operative Tee</div>
+                <div class="mono" style="font-size:12px; color:#cc785c; font-weight:600;">$28</div>
+              </div>
+            </div>
+            <div style="background:#181714; border:0.5px solid #26251f; border-radius:12px; overflow:hidden;">
+              <div style="aspect-ratio:1; background:#0f0e0b; display:flex; align-items:center; justify-content:center;">
+                <svg width="26" height="26" viewBox="0 0 557 480" fill="#cc785c" fill-rule="evenodd" opacity="0.18"><path d="M 531.0 468.5 L 384.0 467.5 L 283.0 400.5 L 271.0 403.5 L 184.0 463.5 L 172.0 468.5 L 26.0 468.5 L 14.5 461.0 L 11.5 454.0 L 14.5 439.0 L 250.5 39.0 L 269.0 13.5 L 285.0 11.5 L 298.5 24.0 L 542.5 438.0 L 545.5 446.0 L 544.5 458.0 L 531.0 468.5 Z"/></svg>
+              </div>
+              <div style="padding:10px;">
+                <div style="font-size:11px; color:#d8d4c8; margin-bottom:4px;">Archive Patch Set</div>
+                <div class="mono" style="font-size:12px; color:#cc785c; font-weight:600;">$14</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ACCOUNT -->
+      <sc-if value="{{screenIsAccount}}" hint-placeholder-val="{{false}}">
+        <div style="padding:20px 16px 24px;">
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:22px;">
+            <div style="width:52px; height:52px; border-radius:50%; background:#2a1c14; border:1px solid #cc785c; display:flex; align-items:center; justify-content:center; font-size:18px; color:#cc785c; font-weight:600;">E</div>
+            <div>
+              <div style="font-size:16px; color:#f0ece0; font-weight:600;">E. Maren</div>
+              <div style="font-size:11px; color:#726c5c;">maren@example.com</div>
+            </div>
+          </div>
+
+          <button onClick="{{goAccountOrders}}" style="display:flex; align-items:center; width:100%; background:#181714; border:0.5px solid #26251f; border-radius:12px 12px 0 0; border-bottom:0.5px solid #1e1c18; padding:14px; gap:10px;">
+            <div style="flex:1; text-align:left; font-size:13px; color:#d8d4c8;">Orders</div>
+            <span class="mono" style="font-size:11px; color:#4a4840;">1</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4a4840" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+          <button onClick="{{goAccountSubs}}" style="display:flex; align-items:center; width:100%; background:#181714; border:0.5px solid #26251f; border-top:none; border-bottom:0.5px solid #1e1c18; padding:14px; gap:10px;">
+            <div style="flex:1; text-align:left; font-size:13px; color:#d8d4c8;">Submissions</div>
+            <span class="mono" style="font-size:11px; color:#4a4840;">3</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4a4840" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+          <div style="display:flex; align-items:center; width:100%; background:#181714; border:0.5px solid #26251f; border-top:none; border-radius:0 0 12px 12px; padding:14px; gap:10px; margin-bottom:22px;">
+            <div style="flex:1; text-align:left; font-size:13px; color:#d8d4c8;">Badges</div>
+            <span class="mono" style="font-size:11px; color:#4a4840;">0</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3a3830" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+
+          <button style="display:block; width:100%; text-align:center; background:none; border:1px solid #3a3830; color:#a09888; border-radius:10px; padding:11px; font-size:12px;">Log Out</button>
+        </div>
+      </sc-if>
+
+      <!-- ACCOUNT ORDERS -->
+      <sc-if value="{{screenIsAccountOrders}}" hint-placeholder-val="{{false}}">
+        <div style="padding:14px 16px 24px;">
+          <button onClick="{{back}}" style="display:flex; align-items:center; gap:6px; background:none; border:none; padding:4px 0; margin:0 0 14px -4px; color:#8a8678;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+            <span style="font-size:12px;">Account</span>
+          </button>
+          <div style="font-size:16px; color:#f0ece0; font-weight:600; margin-bottom:14px;">Your Orders</div>
+          <div style="background:#181714; border:0.5px solid #26251f; border-radius:12px; padding:13px 14px;">
+            <div class="mono" style="font-size:11px; color:#cc785c; margin-bottom:3px;">F2LGPYCV</div>
+            <div style="font-size:11px; color:#726c5c; margin-bottom:8px;">8/27/2026</div>
+            <div class="mono" style="font-size:13px; color:#d8d4c8; font-weight:600;">USD 16.00</div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ACCOUNT SUBMISSIONS -->
+      <sc-if value="{{screenIsAccountSubs}}" hint-placeholder-val="{{false}}">
+        <div style="padding:14px 16px 24px;">
+          <button onClick="{{back}}" style="display:flex; align-items:center; gap:6px; background:none; border:none; padding:4px 0; margin:0 0 14px -4px; color:#8a8678;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+            <span style="font-size:12px;">Account</span>
+          </button>
+          <div style="font-size:16px; color:#f0ece0; font-weight:600; margin-bottom:14px;">Your Submissions</div>
+          <div style="background:#181714; border:0.5px solid #26251f; border-radius:12px; padding:13px 14px; margin-bottom:8px; display:flex; align-items:center; justify-content:space-between; gap:10px;">
+            <div>
+              <div style="font-size:13px; color:#d8d4c8; margin-bottom:3px;">The Hollow Gate</div>
+              <div style="font-size:11px; color:#726c5c;">echo · 8/27/2026</div>
+            </div>
+            <span style="font-size:9px; padding:3px 7px; border-radius:2px; background:#1a1408; color:#d4a840; border:1px solid #4a3810;">pending</span>
+          </div>
+          <div style="background:#181714; border:0.5px solid #26251f; border-radius:12px; padding:13px 14px; margin-bottom:8px; display:flex; align-items:center; justify-content:space-between; gap:10px;">
+            <div>
+              <div style="font-size:13px; color:#d8d4c8; margin-bottom:3px;">Silent Array</div>
+              <div style="font-size:11px; color:#726c5c;">reality · 8/20/2026</div>
+            </div>
+            <span style="font-size:9px; padding:3px 7px; border-radius:2px; background:#06120d; color:#1d9e75; border:1px solid #0e4030;">approved</span>
+          </div>
+          <div style="background:#181714; border:0.5px solid #26251f; border-radius:12px; padding:13px 14px; display:flex; align-items:center; justify-content:space-between; gap:10px;">
+            <div>
+              <div style="font-size:13px; color:#d8d4c8; margin-bottom:3px;">Broken Relay</div>
+              <div style="font-size:11px; color:#726c5c;">equipment · 8/10/2026</div>
+            </div>
+            <span style="font-size:9px; padding:3px 7px; border-radius:2px; background:#1e1008; color:#c45a3a; border:1px solid #4a2010;">rejected</span>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- SUBMIT WIZARD -->
+      <sc-if value="{{screenIsSubmit}}" hint-placeholder-val="{{false}}">
+        <div style="padding:14px 16px 24px;">
+          <button onClick="{{back}}" style="display:flex; align-items:center; gap:6px; background:none; border:none; padding:4px 0; margin:0 0 14px -4px; color:#8a8678;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+            <span style="font-size:12px;">Cancel</span>
+          </button>
+          <div style="display:flex; gap:5px; margin-bottom:18px;">
+            <div style="flex:1; height:3px; border-radius:2px; background:{{stepDot1}};"></div>
+            <div style="flex:1; height:3px; border-radius:2px; background:{{stepDot2}};"></div>
+            <div style="flex:1; height:3px; border-radius:2px; background:{{stepDot3}};"></div>
+            <div style="flex:1; height:3px; border-radius:2px; background:{{stepDot4}};"></div>
+          </div>
+
+          <sc-if value="{{stepIs1}}" hint-placeholder-val="{{true}}">
+            <div style="font-size:9px; letter-spacing:0.1em; text-transform:uppercase; color:#e0895c; margin-bottom:6px;">Step 1 of 4</div>
+            <div style="font-size:17px; color:#f0ece0; font-weight:600; margin-bottom:18px;">Your Identity</div>
+            <div style="margin-bottom:14px;">
+              <div style="font-size:11px; color:#8a8678; margin-bottom:6px;">Name or Handle</div>
+              <div style="background:#181714; border:0.5px solid #26251f; border-radius:8px; padding:11px 13px; font-size:13px; color:#d8d4c8;">E. Maren</div>
+            </div>
+            <div>
+              <div style="font-size:11px; color:#8a8678; margin-bottom:6px;">Contact Email</div>
+              <div style="background:#181714; border:0.5px solid #26251f; border-radius:8px; padding:11px 13px; font-size:13px; color:#d8d4c8;">maren@example.com</div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{stepIs2}}" hint-placeholder-val="{{false}}">
+            <div style="font-size:9px; letter-spacing:0.1em; text-transform:uppercase; color:#e0895c; margin-bottom:6px;">Step 2 of 4</div>
+            <div style="font-size:17px; color:#f0ece0; font-weight:600; margin-bottom:18px;">Classification</div>
+            <div style="font-size:11px; color:#8a8678; margin-bottom:8px;">Echo Class</div>
+            <div class="hscroll" style="gap:6px; margin-bottom:16px;">
+              <button style="flex-shrink:0; font-size:11px; padding:8px 14px; border-radius:20px; border:0.5px solid #26251f; background:none; color:#8a8678;">Entity</button>
+              <button style="flex-shrink:0; font-size:11px; padding:8px 14px; border-radius:20px; border:0.5px solid #26251f; background:none; color:#8a8678;">Object</button>
+              <button style="flex-shrink:0; font-size:11px; padding:8px 14px; border-radius:20px; border:0.5px solid #cc785c; background:rgba(204,120,92,0.12); color:#cc785c;">Location</button>
+              <button style="flex-shrink:0; font-size:11px; padding:8px 14px; border-radius:20px; border:0.5px solid #26251f; background:none; color:#8a8678;">Event</button>
+            </div>
+            <div style="font-size:11px; color:#8a8678; margin-bottom:8px;">Stability</div>
+            <div class="hscroll" style="gap:6px;">
+              <button style="flex-shrink:0; font-size:11px; padding:8px 14px; border-radius:20px; border:0.5px solid #cc785c; background:rgba(204,120,92,0.12); color:#cc785c;">S1 Stable</button>
+              <button style="flex-shrink:0; font-size:11px; padding:8px 14px; border-radius:20px; border:0.5px solid #26251f; background:none; color:#8a8678;">S2 Volatile</button>
+              <button style="flex-shrink:0; font-size:11px; padding:8px 14px; border-radius:20px; border:0.5px solid #26251f; background:none; color:#8a8678;">S3 Fractured</button>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{stepIs3}}" hint-placeholder-val="{{false}}">
+            <div style="font-size:9px; letter-spacing:0.1em; text-transform:uppercase; color:#e0895c; margin-bottom:6px;">Step 3 of 4</div>
+            <div style="font-size:17px; color:#f0ece0; font-weight:600; margin-bottom:18px;">Field Documentation</div>
+            <div style="margin-bottom:14px;">
+              <div style="font-size:11px; color:#8a8678; margin-bottom:6px;">Echo Designation</div>
+              <div style="background:#181714; border:0.5px solid #26251f; border-radius:8px; padding:11px 13px; font-size:13px; color:#d8d4c8;">The Hollow Gate</div>
+            </div>
+            <div>
+              <div style="font-size:11px; color:#8a8678; margin-bottom:6px;">Description</div>
+              <div style="background:#181714; border:0.5px solid #26251f; border-radius:8px; padding:11px 13px; font-size:13px; color:#d8d4c8; min-height:70px;">A door that leads nowhere and everywhere. It hums faintly when approached.</div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{stepIs4}}" hint-placeholder-val="{{false}}">
+            <div style="font-size:9px; letter-spacing:0.1em; text-transform:uppercase; color:#e0895c; margin-bottom:6px;">Step 4 of 4</div>
+            <div style="font-size:17px; color:#f0ece0; font-weight:600; margin-bottom:18px;">Review &amp; Submit</div>
+            <sc-if value="{{submitted}}" hint-placeholder-val="{{false}}">
+              <div style="text-align:center; padding:30px 10px;">
+                <div style="width:48px; height:48px; border-radius:50%; background:rgba(29,158,117,0.12); border:1px solid #1d9e75; display:flex; align-items:center; justify-content:center; margin:0 auto 14px;">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1d9e75" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div style="font-size:14px; color:#f0ece0; margin-bottom:6px;">Submission received</div>
+                <div style="font-size:11px; color:#726c5c;">Entered the Archive review queue.</div>
+              </div>
+            </sc-if>
+            <sc-if value="{{notSubmitted}}" hint-placeholder-val="{{true}}">
+              <div style="background:#181714; border:0.5px solid #26251f; border-radius:10px; padding:14px; margin-bottom:16px;">
+                <div style="display:flex; justify-content:space-between; padding-bottom:8px; margin-bottom:8px; border-bottom:0.5px solid #1e1c18;"><span style="font-size:11px; color:#726c5c;">Designation</span><span style="font-size:11px; color:#d8d4c8;">The Hollow Gate</span></div>
+                <div style="display:flex; justify-content:space-between; padding-bottom:8px; margin-bottom:8px; border-bottom:0.5px solid #1e1c18;"><span style="font-size:11px; color:#726c5c;">Class</span><span style="font-size:11px; color:#d8d4c8;">LOC · S1</span></div>
+                <div style="display:flex; justify-content:space-between;"><span style="font-size:11px; color:#726c5c;">Submitter</span><span style="font-size:11px; color:#d8d4c8;">E. Maren</span></div>
+              </div>
+            </sc-if>
+          </sc-if>
+        </div>
+      </sc-if>
+
+    </div>
+
+    <!-- ── SUBMIT WIZARD FOOTER ─────────────────────────── -->
+    <sc-if value="{{screenIsSubmit}}" hint-placeholder-val="{{false}}">
+      <sc-if value="{{notSubmitted}}" hint-placeholder-val="{{true}}">
+        <div style="flex-shrink:0; display:flex; gap:10px; padding:12px 16px; background:#111110; border-top:0.5px solid #26251f;">
+          <sc-if value="{{stepIsAfter1}}" hint-placeholder-val="{{false}}">
+            <button onClick="{{stepBack}}" style="flex:0 0 auto; background:none; border:1px solid #3a3830; color:#a09888; border-radius:8px; padding:11px 18px; font-size:12px;">Back</button>
+          </sc-if>
+          <button onClick="{{stepNext}}" style="flex:1; background:#cc785c; border:none; color:#f0ece0; border-radius:8px; padding:11px; font-size:12px; font-weight:600;">{{nextLabel}}</button>
+        </div>
+      </sc-if>
+    </sc-if>
+
+    <!-- ── BOTTOM NAV ───────────────────────────────────── -->
+    <div style="flex-shrink:0; display:grid; grid-template-columns:repeat(5,1fr); background:rgba(17,17,16,0.9); border-top:0.5px solid #26251f; padding:7px 0 10px;">
+      <button onClick="{{goHome}}" style="display:flex; flex-direction:column; align-items:center; gap:3px; background:none; border:none; padding:4px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{tabHomeColor}}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        <span style="font-size:8px; letter-spacing:0.06em; text-transform:uppercase; color:{{tabHomeColor}};">Home</span>
+      </button>
+      <button onClick="{{goRegistry}}" style="display:flex; flex-direction:column; align-items:center; gap:3px; background:none; border:none; padding:4px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{tabRegistryColor}}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        <span style="font-size:8px; letter-spacing:0.06em; text-transform:uppercase; color:{{tabRegistryColor}};">Registry</span>
+      </button>
+      <button onClick="{{goShop}}" style="display:flex; flex-direction:column; align-items:center; gap:3px; background:none; border:none; padding:4px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{tabShopColor}}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2l1.5 5M18 2l-1.5 5M4 7h16l-1.5 12a2 2 0 0 1-2 1.8H7.5a2 2 0 0 1-2-1.8z"/></svg>
+        <span style="font-size:8px; letter-spacing:0.06em; text-transform:uppercase; color:{{tabShopColor}};">Shop</span>
+      </button>
+      <button onClick="{{goAccount}}" style="display:flex; flex-direction:column; align-items:center; gap:3px; background:none; border:none; padding:4px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{tabAccountColor}}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span style="font-size:8px; letter-spacing:0.06em; text-transform:uppercase; color:{{tabAccountColor}};">Account</span>
+      </button>
+      <button onClick="{{toggleMore}}" style="display:flex; flex-direction:column; align-items:center; gap:3px; background:none; border:none; padding:4px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4a4840" stroke-width="1.6" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        <span style="font-size:8px; letter-spacing:0.06em; text-transform:uppercase; color:#4a4840;">More</span>
+      </button>
+    </div>
+
+    <!-- ── MORE DRAWER OVERLAY ──────────────────────────── -->
+    <sc-if value="{{moreOpen}}" hint-placeholder-val="{{false}}">
+      <div onClick="{{toggleMore}}" style="position:absolute; inset:0; background:rgba(0,0,0,0.5); z-index:20;"></div>
+      <div style="position:absolute; top:0; left:0; bottom:0; width:74%; background:#141210; border-right:0.5px solid #26251f; z-index:21; padding:20px 16px; display:flex; flex-direction:column; gap:4px;">
+        <div style="font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:#4a4840; margin-bottom:10px;">Archive</div>
+        <div style="font-size:13px; color:#c0bcb0; padding:10px 0;">Foundations</div>
+        <div style="font-size:13px; color:#c0bcb0; padding:10px 0;">Systems</div>
+        <div style="font-size:13px; color:#c0bcb0; padding:10px 0;">Equipment</div>
+        <div style="font-size:13px; color:#c0bcb0; padding:10px 0;">Protocols</div>
+        <div style="font-size:13px; color:#c0bcb0; padding:10px 0;">Grading Terminal</div>
+        <div style="margin-top:auto; font-size:10px; color:#3a3830;">Full sidebar tree lives here — same drawer, curated for a thumb.</div>
+      </div>
+    </sc-if>
+
+    <!-- ── SHOP FILTER SHEET ────────────────────────────── -->
+    <sc-if value="{{filterSheetOpen}}" hint-placeholder-val="{{false}}">
+      <div onClick="{{toggleFilter}}" style="position:absolute; inset:0; background:rgba(0,0,0,0.5); z-index:20;"></div>
+      <div style="position:absolute; left:0; right:0; bottom:0; background:#141210; border-top:0.5px solid #26251f; border-radius:16px 16px 0 0; z-index:21; padding:8px 20px 24px;">
+        <div style="width:36px; height:4px; border-radius:2px; background:#26251f; margin:0 auto 18px;"></div>
+        <div style="font-size:14px; color:#f0ece0; font-weight:600; margin-bottom:16px;">Price Range</div>
+        <div style="height:5px; border-radius:3px; background:#26251f; position:relative; margin-bottom:10px;">
+          <div style="position:absolute; left:15%; right:35%; top:0; bottom:0; background:#cc785c; border-radius:3px;"></div>
+          <div style="position:absolute; left:15%; top:50%; width:16px; height:16px; border-radius:50%; background:#f0ece0; border:2px solid #cc785c; transform:translate(-50%,-50%);"></div>
+          <div style="position:absolute; left:65%; top:50%; width:16px; height:16px; border-radius:50%; background:#f0ece0; border:2px solid #cc785c; transform:translate(-50%,-50%);"></div>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:11px; color:#8a8678; margin-bottom:20px;"><span>$15</span><span>$65</span></div>
+        <button onClick="{{toggleFilter}}" style="display:block; width:100%; background:#cc785c; border:none; color:#f0ece0; border-radius:8px; padding:12px; font-size:12px; font-weight:600;">Apply</button>
+      </div>
+    </sc-if>
+
+  </div>
+</div>
+
+</x-dc>
+<script data-dc-script data-props='{"accent":{"editor":"color","default":"#cc785c","section":"Theme"}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      screen: "home",
+      prevScreen: "home",
+      activeTab: "home",
+      entryId: "e000",
+      registryType: "echo",
+      expandedRow: "e000",
+      moreOpen: false,
+      filterSheetOpen: false,
+      notesOpen: false,
+      step: 1,
+      submitted: false,
+    };
+  }
+
+  nav(screen, parent, extra) {
+    return () => this.setState(Object.assign({ screen: screen, prevScreen: parent || "home", moreOpen: false }, extra || {}));
+  }
+
+  back() {
+    return () => this.setState({ screen: this.state.prevScreen || "home" });
+  }
+
+  toggleMore() {
+    return () => this.setState({ moreOpen: !this.state.moreOpen });
+  }
+
+  toggleFilter() {
+    return () => this.setState({ filterSheetOpen: !this.state.filterSheetOpen });
+  }
+
+  toggleNotes() {
+    return () => this.setState({ notesOpen: !this.state.notesOpen });
+  }
+
+  toggleRow(id) {
+    return () => this.setState({ expandedRow: this.state.expandedRow === id ? null : id });
+  }
+
+  stepNext() {
+    return () => {
+      if (this.state.step >= 4) {
+        this.setState({ submitted: true });
+        return;
+      }
+      this.setState({ step: this.state.step + 1 });
+    };
+  }
+
+  stepBack() {
+    return () => this.setState({ step: Math.max(1, this.state.step - 1) });
+  }
+
+  renderVals() {
+    const accent = this.props.accent || "#cc785c";
+    const s = this.state.screen;
+
+    const echoRows = [
+      { id: "ECHO-000", key: "e000", ec: "LOC", name: "The Archive", esc: "S1", rcc: "RCC-1 — Silent Collapse", rts: "T5 — Cosmic", tagBg: "#06120d", tagColor: "#1d9e75", tagBorder: "#0e4030" },
+      { id: "ECHO-047", key: "e047", ec: "PHN", name: "A Hollow Bloom", esc: "S2", rcc: "RCC-1 — Silent Collapse", rts: "T2 — Localized", tagBg: "#1a1408", tagColor: "#d4a840", tagBorder: "#4a3810" },
+      { id: "ECHO-005", key: "e005", ec: "OBJ", name: "The Blood Painting", esc: "S3", rcc: "RCC-2 — Systemic Failure", rts: "T3 — Developed", tagBg: "#1a1208", tagColor: "#c49030", tagBorder: "#4a3010" },
+      { id: "ECHO-031", key: "e031", ec: "ENT", name: "Those Who Sleep", esc: "S1", rcc: "RCC-1 — Silent Collapse", rts: "T4 — Grand", tagBg: "#06120d", tagColor: "#1d9e75", tagBorder: "#0e4030" },
+    ];
+
+    const realityRows = [
+      { id: "R-007", key: "r007", ec: "RTY", name: "Investigation Report — Site Delta", esc: "T4", rcc: "RCC-2 — Systemic Failure", rts: "T4 — Grand", tagBg: "#1a1408", tagColor: "#d4a840", tagBorder: "#4a3810" },
+      { id: "R-019", key: "r019", ec: "RTY", name: "Investigation Report — Site Nine", esc: "T2", rcc: "RCC-1 — Silent Collapse", rts: "T2 — Localized", tagBg: "#06120d", tagColor: "#1d9e75", tagBorder: "#0e4030" },
+    ];
+
+    const registryData = this.state.registryType === "reality" ? realityRows : echoRows;
+
+    const registryRows = registryData.map((r) => ({
+      id: r.id, ec: r.ec, name: r.name, esc: r.esc, rcc: r.rcc, rts: r.rts,
+      tagBg: r.tagBg, tagColor: r.tagColor, tagBorder: r.tagBorder,
+      borderColor: this.state.expandedRow === r.key ? accent : "#26251f",
+      expanded: this.state.expandedRow === r.key,
+      toggle: this.toggleRow(r.key),
+      readFull: this.nav("entry", "registry", { entryId: r.key, activeTab: "registry" }),
+    }));
+
+    const entryData = {
+      e000: { id: "ECHO-000", title: "The Archive", ec: "LOC — Location", esc: "S1 — Stable", escColor: "#1d9e75", rts: "T5 — Cosmic", rds: "D — Exotic",
+        desc1: "ECHO-000, designated The Archive, is an anomalous extradimensional structure of indeterminate origin. It is the first Echo formally registered in the ALR Initiative catalog and currently serves as the operational headquarters of the Initiative.",
+        desc2: "The interior contains libraries, research halls, and archival storage spaces — all structurally sound, consistently lit by a sourceless ambient light, and navigable without specialized equipment.",
+        behavior: "The structure responds to operational need. New rooms appear when additional archival space is required. None of these changes have ever been observed in process." },
+      e047: { id: "ECHO-047", title: "A Hollow Bloom", ec: "PHN — Phenomenon", esc: "S2 — Volatile", escColor: "#d4a840", rts: "T2 — Localized", rds: "B — Variant",
+        desc1: "A recurring floral growth pattern observed forming on structural surfaces near collapse sites. No root structure, mycelium, or substrate penetration has ever been observed.",
+        desc2: "The blossoms do not grow. They appear complete, fully formed, within a single manifestation event.",
+        behavior: "Manifests in clusters following localized reality stress. Dissipates without residue after 48–72 hours, with no two manifestation events sharing a growth pattern." },
+      e005: { id: "ECHO-005", title: "The Blood Painting", ec: "OBJ — Object", esc: "S3 — Fractured", escColor: "#c49030", rts: "T3 — Developed", rds: "C — Divergent",
+        desc1: "A framed canvas recovered from a residential collapse site. The pigment composition does not match any known artistic medium catalogued by the Initiative.",
+        desc2: "The image depicted shifts subtly between viewings, though no two observers have ever agreed on what changed.",
+        behavior: "Handling requires certified containment protocol. Extended proximity has been correlated with reported disorientation in field personnel." },
+      e031: { id: "ECHO-031", title: "Those Who Sleep", ec: "ENT — Entity", esc: "S1 — Stable", escColor: "#1d9e75", rts: "T4 — Grand", rds: "A — Analogous",
+        desc1: "A cluster of dormant humanoid entities recovered in situ, arranged in a formation consistent with the source reality's burial customs.",
+        desc2: "No vital signs have been recorded across any documented observation period, yet decomposition has not been observed either.",
+        behavior: "No entity in the cluster has been observed to move, though personnel report an inconsistent sense of being counted upon entering the containment chamber." },
+      e127: { id: "ECHO-127", title: "A Quiet Taker", ec: "ENT — Entity", esc: "S2 — Volatile", escColor: "#d4a840", rts: "T3 — Developed", rds: "B — Variant",
+        desc1: "An anomalous remnant recovered from a collapsed reality. Classification data preserved within the Archive.",
+        desc2: "Full documentation is pending formal review by the Echo Research Division.",
+        behavior: "Behavioral data collection is ongoing." },
+    };
+
+    const entry = entryData[this.state.entryId] || entryData.e000;
+
+    const isSubmitGroup = s.indexOf("submit") === 0;
+    const tab = this.state.activeTab;
+
+    return {
+      accent: accent,
+
+      screenIsHome: s === "home",
+      screenIsRegistry: s === "registry",
+      screenIsEntry: s === "entry",
+      screenIsShop: s === "shop",
+      screenIsAccount: s === "account",
+      screenIsAccountOrders: s === "account-orders",
+      screenIsAccountSubs: s === "account-subs",
+      screenIsSubmit: isSubmitGroup,
+
+      registryTitle: this.state.registryType === "reality" ? "Reality Registry" : "Echo Registry",
+      registryCount: this.state.registryType === "reality" ? "2 documented" : "10 documented",
+      entry: entry,
+
+      goHome: this.nav("home", "home", { activeTab: "home" }),
+      goRegistry: this.nav("registry", "registry", { activeTab: "registry", registryType: "echo", expandedRow: null }),
+      goShop: this.nav("shop", "shop", { activeTab: "shop" }),
+      goAccount: this.nav("account", "account", { activeTab: "account" }),
+      goSubmit: this.nav("submit", "home", { step: 1, submitted: false, activeTab: null }),
+      goRegistryFromHome: this.nav("registry", "home", { activeTab: "registry", registryType: "echo", expandedRow: null }),
+      goRealityFromHome: this.nav("registry", "home", { activeTab: "registry", registryType: "reality", expandedRow: null }),
+      openFeatured: this.nav("entry", "home", { entryId: "e127", activeTab: "home" }),
+      openRecent1: this.nav("entry", "home", { entryId: "e000", activeTab: "home" }),
+      openRecent2: this.nav("entry", "home", { entryId: "e047", activeTab: "home" }),
+      openRecent3: this.nav("entry", "home", { entryId: "e005", activeTab: "home" }),
+      goAccountOrders: this.nav("account-orders", "account", { activeTab: "account" }),
+      goAccountSubs: this.nav("account-subs", "account", { activeTab: "account" }),
+      back: this.back(),
+      toggleMore: this.toggleMore(),
+      toggleFilter: this.toggleFilter(),
+      toggleNotes: this.toggleNotes(),
+      notesOpen: this.state.notesOpen,
+      notesChevron: this.state.notesOpen ? "rotate(180deg)" : "rotate(0deg)",
+      moreOpen: this.state.moreOpen,
+      filterSheetOpen: this.state.filterSheetOpen,
+
+      registryRows: registryRows,
+
+      tabHomeColor: tab === "home" ? accent : "#4a4840",
+      tabRegistryColor: tab === "registry" ? accent : "#4a4840",
+      tabShopColor: tab === "shop" ? accent : "#4a4840",
+      tabAccountColor: tab === "account" ? accent : "#4a4840",
+
+      stepIs1: this.state.step === 1,
+      stepIs2: this.state.step === 2,
+      stepIs3: this.state.step === 3,
+      stepIs4: this.state.step === 4,
+      stepDot1: this.state.step >= 1 ? accent : "#26251f",
+      stepDot2: this.state.step >= 2 ? accent : "#26251f",
+      stepDot3: this.state.step >= 3 ? accent : "#26251f",
+      stepDot4: this.state.step >= 4 ? accent : "#26251f",
+      nextLabel: this.state.step >= 4 ? "Submit for Review" : "Continue",
+      stepNext: this.stepNext(),
+      stepBack: this.stepBack(),
+      stepIsAfter1: this.state.step > 1,
+      submitted: this.state.submitted,
+      notSubmitted: !this.state.submitted,
+    };
+  }
+}
+</script>
+</body>
+</html>

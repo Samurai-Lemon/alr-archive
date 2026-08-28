@@ -32,6 +32,12 @@ const ALREchoHero: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
       <div class="alr-echo-hero-gradient" />
 
       <div class="alr-echo-hero-topbar">
+        <a href="/Index/ECHO-Registry" class="alr-echo-hero-back">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+          Registry
+        </a>
         <div class="alr-echo-hero-designation">E.C.H.O. — Archive of Lost Realities Initiative</div>
         {rccLabel && <div class="alr-echo-hero-rcc">{rccLabel}</div>}
       </div>
@@ -136,6 +142,23 @@ ALREchoHero.css = `
   color: rgba(106,104,96,0.45);
   font-family: var(--codeFont);
 }
+
+.alr-echo-hero-back {
+  display: none;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #e8e4d8;
+  font-family: var(--codeFont);
+  background: rgba(20,19,16,0.55);
+  border: 0.5px solid rgba(204,120,92,0.3);
+  border-radius: 20px;
+  padding: 5px 12px 5px 8px;
+  -webkit-tap-highlight-color: transparent;
+}
+.alr-echo-hero-back svg { flex-shrink: 0; }
+.alr-echo-hero-back:active { background: rgba(20,19,16,0.8); }
 
 .alr-echo-hero-content {
   position: absolute;
@@ -259,6 +282,29 @@ ALREchoHero.css = `
 
   .alr-echo-hero-title {
     font-size: 26px !important;
+  }
+
+  .alr-echo-hero-topbar {
+    padding: calc(12px + env(safe-area-inset-top, 0px)) 16px 12px;
+  }
+  .alr-echo-hero-back { display: flex; }
+  .alr-echo-hero-designation, .alr-echo-hero-rcc { display: none; }
+
+  .alr-echo-hero-content { padding: 20px 16px; }
+
+  .alr-echo-hero-eyebrow, .alr-echo-hero-meta {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin: 0 -16px;
+    padding: 0 16px;
+  }
+  .alr-echo-hero-eyebrow::-webkit-scrollbar, .alr-echo-hero-meta::-webkit-scrollbar { display: none; }
+  .alr-echo-hero-eyebrow { padding-bottom: 2px; }
+  .alr-echo-hero-meta { padding-top: 2px; }
+  .alr-echo-hero-id, .alr-echo-hero-tag, .alr-echo-hero-meta-item, .alr-echo-hero-divider, .alr-echo-hero-meta-sep {
+    flex-shrink: 0;
   }
 }
 `
