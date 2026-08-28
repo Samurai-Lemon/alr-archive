@@ -40,7 +40,7 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
         <div class="alr-home-mtop">
           <div class="alr-home-mtop-brand">
             <span class="alr-home-mtop-mark">◆</span>
-            <span class="alr-home-mtop-word">ALR ARCHIVE</span>
+            <span class="alr-home-mtop-word">ALR Initiative</span>
           </div>
           <button class="alr-home-mtop-search" id="alr-home-mtop-search" aria-label="Search">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
@@ -191,19 +191,19 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
         <div class="alr-home-stats-strip">
           <div class="alr-home-stat-cell">
             <div class="alr-home-stat-n">{echoes.length}</div>
-            <div class="alr-home-stat-l">Echoes documented</div>
+            <div class="alr-home-stat-l" data-short="Echoes">Echoes documented</div>
           </div>
           <div class="alr-home-stat-cell">
             <div class="alr-home-stat-n">{realities.length}</div>
-            <div class="alr-home-stat-l">Realities investigated</div>
+            <div class="alr-home-stat-l" data-short="Realities">Realities investigated</div>
           </div>
           <div class="alr-home-stat-cell">
             <div class="alr-home-stat-n alr-red">{terminalEchoes.length}</div>
-            <div class="alr-home-stat-l">Terminal echoes (S4)</div>
+            <div class="alr-home-stat-l" data-short="Terminal">Terminal echoes (S4)</div>
           </div>
           <div class="alr-home-stat-cell">
             <div class="alr-home-stat-n alr-muted">{activeCycle}</div>
-            <div class="alr-home-stat-l">Active cycle</div>
+            <div class="alr-home-stat-l" data-short="Cycle">Active cycle</div>
           </div>
         </div>
 

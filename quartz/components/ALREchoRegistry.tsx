@@ -138,7 +138,10 @@ const ALREchoRegistry: QuartzComponent = ({
           <div class="alr-reg-banner-meta-item">CYCLE {activeCycle} · ARCHIVE OPS</div>
         </div>
         <div class="alr-reg-banner-eyebrow">ALR Initiative — Archive</div>
-        <div class="alr-reg-banner-title">Echo Registry</div>
+        <div class="alr-reg-banner-titlerow">
+          <div class="alr-reg-banner-title">Echo Registry</div>
+          <div class="alr-reg-banner-count">{echoes.length} documented</div>
+        </div>
         <div class="alr-reg-banner-sub">
           Formal index of documented Echoes. Entries update automatically as new records are added to
           the Archive.

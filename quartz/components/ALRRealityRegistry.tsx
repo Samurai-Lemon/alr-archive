@@ -141,7 +141,10 @@ const ALRRealityRegistry: QuartzComponent = ({
           <div class="alr-reg-banner-meta-item">CYCLE {activeCycle} · ARCHIVE OPS</div>
         </div>
         <div class="alr-reg-banner-eyebrow">ALR Initiative — Archive</div>
-        <div class="alr-reg-banner-title">Reality Registry</div>
+        <div class="alr-reg-banner-titlerow">
+          <div class="alr-reg-banner-title">Reality Registry</div>
+          <div class="alr-reg-banner-count">{realities.length} documented</div>
+        </div>
         <div class="alr-reg-banner-sub">
           Formal index of investigated realities. Entries update automatically as new investigation
           reports are added to the Archive.

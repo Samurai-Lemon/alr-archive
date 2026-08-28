@@ -14,15 +14,15 @@ const items = [
     icon: `<rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>`,
   },
   {
-    href: "/Echoes/ECHOES",
-    label: "Echoes",
-    match: (slug: string) => slug.startsWith("Echoes/"),
-    icon: `<circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>`,
+    href: "/Shop",
+    label: "Shop",
+    match: (slug: string) => slug === "Shop",
+    icon: `<path d="M6 2l1.5 5M18 2l-1.5 5M4 7h16l-1.5 12a2 2 0 0 1-2 1.8H7.5a2 2 0 0 1-2-1.8z"/>`,
   },
   {
-    href: "/About",
-    label: "Archive",
-    match: (slug: string) => slug === "About",
+    href: "/Account",
+    label: "Account",
+    match: (slug: string) => slug === "Account" || slug === "Admin",
     icon: `<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>`,
   },
 ]
@@ -39,7 +39,7 @@ const ALRMobileNav: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
           <span
             class="alr-mnav-icon"
             dangerouslySetInnerHTML={{
-              __html: `<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${item.icon}</svg>`,
+              __html: `<svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${item.icon}</svg>`,
             }}
           />
           <span class="alr-mnav-label">{item.label}</span>
@@ -57,7 +57,7 @@ const ALRMobileNav: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
         <span
           class="alr-mnav-icon"
           dangerouslySetInnerHTML={{
-            __html: `<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${moreIcon}</svg>`,
+            __html: `<svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round">${moreIcon}</svg>`,
           }}
         />
         <span class="alr-mnav-label">More</span>

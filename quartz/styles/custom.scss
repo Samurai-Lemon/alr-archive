@@ -1648,6 +1648,8 @@ details[open] .alr-sb-chevron {
 .alr-reg-banner-meta-item { font-size: 9px; color: #5a5648; letter-spacing: 0.14em; }
 .alr-reg-banner-eyebrow { font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: #e0895c; margin-bottom: 8px; }
 .alr-reg-banner-title { font-size: 26px; font-weight: 500; color: #f0ece0; margin-bottom: 6px; letter-spacing: -0.3px; }
+.alr-reg-banner-titlerow { display: block; }
+.alr-reg-banner-count { display: none; }
 .alr-reg-banner-sub { font-size: 12px; color: #85806f; line-height: 1.7; max-width: 560px; }
 
 .alr-reg-body { padding: 24px 2rem 0; }
@@ -2369,11 +2371,11 @@ details[open] .alr-sb-chevron {
     position: fixed;
     left: 0; right: 0; bottom: 0;
     z-index: 150;
-    background: rgba(17, 17, 16, 0.82);
+    background: rgba(17, 17, 16, 0.9);
     -webkit-backdrop-filter: saturate(180%) blur(16px);
     backdrop-filter: saturate(180%) blur(16px);
     border-top: 0.5px solid #26251f;
-    padding: 6px 0 calc(6px + env(safe-area-inset-bottom, 0px));
+    padding: 7px 0 calc(10px + env(safe-area-inset-bottom, 0px));
   }
   .alr-mnav-item,
   .alr-mnav-more {
@@ -2399,30 +2401,30 @@ details[open] .alr-sb-chevron {
   .alr-mnav-active .alr-mnav-icon svg { stroke: #cc785c; stroke-width: 2; }
   .alr-mnav-active .alr-mnav-label { color: #cc785c; font-weight: 600; }
 
-  // ─── HOMEPAGE — MOBILE TOP ROW ──────────────
-  .alr-home { gap: 14px !important; }
+  // ─── HOMEPAGE — MOBILE TOP ROW (matches the approved mockup 1:1) ──
+  .alr-home { gap: 0 !important; padding: 16px 16px 24px !important; }
   .alr-home-mtop {
     display: flex !important;
     align-items: center;
     justify-content: space-between;
-    margin: 0 -16px !important;
-    padding: 12px 16px;
-    padding-top: calc(12px + env(safe-area-inset-top, 0px));
-    border-bottom: 0.5px solid #26251f;
+    margin: 0 !important;
+    padding: 0 !important;
+    padding-top: env(safe-area-inset-top, 0px) !important;
+    border-bottom: none !important;
+    margin-bottom: 18px !important;
   }
-  .alr-home-mtop-brand { display: flex; align-items: center; gap: 7px; }
+  .alr-home-mtop-brand { display: flex; align-items: center; gap: 8px; }
   .alr-home-mtop-mark { color: #cc785c; font-size: 15px; line-height: 1; }
-  .alr-home-mtop-word { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: #d8d2c4; }
+  .alr-home-mtop-word { font-size: 13px; font-weight: 500; letter-spacing: normal; text-transform: none; color: #d8d4c8; }
   .alr-home-mtop-search {
     display: flex; align-items: center; justify-content: center;
-    width: 32px; height: 32px; border-radius: 50%;
-    background: #181714; border: 0.5px solid #26251f; color: #8a8478;
+    width: auto; height: auto; border-radius: 0;
+    background: none; border: none; padding: 4px; color: #8a8678;
     -webkit-tap-highlight-color: transparent;
   }
-  .alr-home-mtop-search:active { transform: scale(0.9); background: #1e1c18; }
-  :root[saved-theme="light"] .alr-home-mtop { border-bottom-color: #d8d0c4; }
+  .alr-home-mtop-search:active { opacity: 0.6; }
   :root[saved-theme="light"] .alr-home-mtop-word { color: #2a2420; }
-  :root[saved-theme="light"] .alr-home-mtop-search { background: #ede8de; border-color: #d8d0c4; color: #7a7068; }
+  :root[saved-theme="light"] .alr-home-mtop-search { color: #7a7068; }
 
   // Full hero banner replaced by the compact top row above — hide it on mobile.
   .alr-home-hero-wrap { display: none !important; }
@@ -2430,8 +2432,8 @@ details[open] .alr-sb-chevron {
   // ─── STATS STRIP → horizontal scroll chips ──
   .alr-home-stats-strip {
     display: flex !important;
-    margin: 0 -16px !important;
-    padding: 2px 16px 4px !important;
+    margin: 0 0 16px !important;
+    padding: 0 !important;
     gap: 8px !important;
     overflow-x: auto !important;
     -webkit-overflow-scrolling: touch;
@@ -2440,87 +2442,119 @@ details[open] .alr-sb-chevron {
   .alr-home-stats-strip::-webkit-scrollbar { display: none; }
   .alr-home-stat-cell {
     flex: 0 0 auto !important;
-    min-width: 108px;
-    padding: 10px 14px !important;
+    padding: 9px 14px !important;
     border: 0.5px solid #26251f !important;
     border-radius: 10px !important;
-    background: #141310;
+    background: #181714;
   }
   .alr-home-stat-cell:nth-child(n) { border-right: 0.5px solid #26251f !important; border-bottom: 0.5px solid #26251f !important; }
-  .alr-home-stat-n { font-size: 19px !important; }
-  .alr-home-stat-l { font-size: 8.5px !important; }
-  :root[saved-theme="light"] .alr-home-stat-cell { background: #f4f0e8; }
+  .alr-home-stat-n, .alr-home-stat-n.alr-red, .alr-home-stat-n.alr-muted { font-size: 15px !important; font-weight: 600 !important; color: #cc785c !important; line-height: 1 !important; }
+  .alr-home-stat-l { font-size: 0 !important; margin-top: 3px !important; }
+  .alr-home-stat-l::after { content: attr(data-short); font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: #4a4840; }
+  :root[saved-theme="light"] .alr-home-stat-cell { background: #f4f0e8; border-color: #d8d0c4 !important; }
+  :root[saved-theme="light"] .alr-home-stat-l::after { color: #a09888; }
 
-  // ─── MISSION → 3-up quick-action tiles ──────
+  // ─── MISSION → 3-up quick-action tiles, each individually bordered ──
   .alr-mission {
+    background: none !important; border: none !important;
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    padding: 12px !important; gap: 8px !important; margin: 0 !important;
+    padding: 0 !important; gap: 8px !important; margin: 0 0 22px !important;
   }
-  .alr-mission-item { align-items: center !important; text-align: center; }
-  .alr-mission-title { font-size: 10.5px !important; }
+  .alr-mission-item {
+    align-items: center !important; text-align: center;
+    background: #181714 !important; border: 0.5px solid #26251f !important;
+    border-radius: 12px !important; padding: 14px 8px !important;
+  }
+  .alr-mission-title { font-size: 10px !important; color: #c0bcb0 !important; }
   .alr-mission-desc { display: none !important; }
-  .alr-mission-symbol { font-size: 16px !important; margin-bottom: 3px !important; }
-  .alr-mission-link { font-size: 0 !important; }
-  .alr-mission-link::after { content: "Open →"; font-size: 9.5px; }
+  .alr-mission-symbol { font-size: 18px !important; margin-bottom: 6px !important; color: #cc785c !important; }
+  .alr-mission-link { display: none !important; }
+  :root[saved-theme="light"] .alr-mission-item { background: #f4f0e8 !important; border-color: #d8d0c4 !important; }
 
-  // ─── FEATURED ECHO ──────────────────────────
+  // ─── FEATURED ECHO — whole card is one tap target, no button chrome/badge ──
   .alr-home-featured {
     grid-template-columns: 1fr !important;
-    grid-template-rows: 160px auto !important;
+    grid-template-rows: 120px auto !important;
     padding: 0 !important;
-    margin: 0 !important;
+    margin: 0 0 22px !important;
+    position: relative !important;
   }
   .alr-home-featured-img {
     display: flex !important;
     width: 100% !important;
     aspect-ratio: unset !important;
-    height: 160px !important;
+    height: 120px !important;
     border-radius: 10px 10px 0 0 !important;
     border: none !important;
     border-bottom: 0.5px solid #26251f !important;
   }
+  .alr-home-featured-badge { display: none !important; }
   .alr-home-featured-left {
-    padding: 14px 16px 16px !important;
+    padding: 14px 14px 14px !important;
     order: 2 !important;
   }
   .alr-home-featured-title { font-size: 16px !important; }
-  .alr-home-featured-desc { font-size: 11px !important; }
+  .alr-home-featured-desc { font-size: 12px !important; }
+  .alr-home-featured-tags { display: none !important; }
+  // Invisible full-card overlay so the whole card is tappable, matching the mockup's
+  // single wrapping <button> — the real link/text stay for desktop, just hidden here.
+  .alr-home-featured-btn {
+    position: absolute !important; inset: 0 !important;
+    font-size: 0 !important; padding: 0 !important; border: none !important; background: none !important;
+  }
 
-  // ─── RECENT ECHOES / REALITIES → horizontal carousels ──
+  // ─── RECENT ECHOES / REALITIES — bare label row + individually-bordered carousel cards,
+  // no outer card chrome (matches the mockup's flat section treatment, not desktop's nested card) ──
   // min-width: 0 everywhere along this chain — otherwise the 1fr grid track and flex
   // children refuse to shrink below the intrinsic width of the horizontal scroller's
   // content, blowing the card out past the viewport instead of scrolling internally.
-  .alr-grid { grid-template-columns: minmax(0, 1fr) !important; margin: 0 !important; gap: 14px !important; }
+  .alr-grid { grid-template-columns: minmax(0, 1fr) !important; margin: 0 !important; gap: 22px !important; }
   .alr-grid, .alr-card-stack, .alr-card.alr-card-wide, #alr-recent-echoes-slot, #alr-recent-realities-slot {
     min-width: 0 !important;
+  }
+  #alr-recent-echoes-slot, #alr-recent-realities-slot {
+    background: none !important; border: none !important; border-radius: 0 !important;
+  }
+  #alr-recent-echoes-slot .alr-card-head, #alr-recent-realities-slot .alr-card-head {
+    padding: 0 !important; border-bottom: none !important; margin-bottom: 10px !important;
+  }
+  #alr-recent-echoes-slot .alr-card-head-title, #alr-recent-realities-slot .alr-card-head-title {
+    font-size: 9px !important; letter-spacing: 0.1em !important; font-weight: 600 !important;
+  }
+  #alr-recent-echoes-slot .alr-card-head-action, #alr-recent-realities-slot .alr-card-head-action {
+    font-size: 10px !important; border: none !important;
   }
   .alr-echo-rows, .alr-real-rows {
     display: flex !important;
     overflow-x: auto !important;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    gap: 8px !important;
-    padding: 2px 16px 10px !important;
+    gap: 10px !important;
+    padding: 0 16px 4px !important;
     margin: 0 -16px !important;
   }
   .alr-echo-rows::-webkit-scrollbar, .alr-real-rows::-webkit-scrollbar { display: none; }
   .alr-echo-row, .alr-real-row {
     flex: 0 0 auto !important;
-    width: 168px !important;
+    width: 150px !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: flex-start !important;
     gap: 6px !important;
-    padding: 12px !important;
+    padding: 11px !important;
     border: 0.5px solid #26251f !important;
-    border-radius: 10px !important;
-    background: #141310 !important;
+    border-radius: 12px !important;
+    background: #181714 !important;
     white-space: normal !important;
   }
   .alr-echo-row:last-child, .alr-real-row:last-child { border-bottom: 0.5px solid #26251f !important; }
-  :root[saved-theme="light"] .alr-echo-row, :root[saved-theme="light"] .alr-real-row { background: #f4f0e8 !important; }
+  :root[saved-theme="light"] .alr-echo-row, :root[saved-theme="light"] .alr-real-row { background: #f4f0e8 !important; border-color: #d8d0c4 !important; }
   .alr-real-info { display: flex !important; flex-direction: column !important; gap: 6px !important; }
-  .alr-real-tags, .alr-echo-row .alr-etag { flex-wrap: wrap !important; }
+  // Match the mockup's leaner carousel card: id + name + a single severity pill, no
+  // status dot and no duplicate EC tag (still shown in full on Registry, untouched there).
+  .alr-echo-dot { display: none !important; }
+  .alr-echo-row .alr-etag:first-of-type { display: none !important; }
+  .alr-real-tags { display: none !important; }
 
   .alr-stats { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
   .alr-personnel { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
@@ -2561,6 +2595,21 @@ details[open] .alr-sb-chevron {
     cursor: pointer; -webkit-tap-highlight-color: transparent;
   }
   .alr-wizard-next { flex: 1; }
+
+  // ─── REGISTRY / ACCOUNT / ADMIN BANNER — compact bare title row, matching the mockup
+  // (no eyebrow, no meta lines, no description, no card chrome) instead of the desktop's
+  // full decorative banner. Shared by Registry, Account and Admin, which all use .alr-reg-*.
+  .alr-reg-banner {
+    background: none !important; border-bottom: none !important;
+    padding: calc(16px + env(safe-area-inset-top, 0px)) 16px 4px !important;
+  }
+  .alr-reg-banner::before { display: none !important; }
+  .alr-reg-banner-meta, .alr-reg-banner-eyebrow, .alr-reg-banner-sub { display: none !important; }
+  .alr-reg-banner-title { font-size: 18px !important; margin-bottom: 0 !important; }
+  .alr-reg-banner-titlerow { display: flex !important; align-items: baseline !important; justify-content: space-between !important; }
+  .alr-reg-banner-count { display: block !important; font-size: 11px !important; color: #4a4840 !important; }
+  .alr-reg-stats { display: none !important; }
+  .alr-reg-body { padding: 10px 16px 0 !important; }
 
   // ─── SHOP — mobile filter trigger (opens the real sidebar price slider) ──
   .alr-shop-mobile-filter {
