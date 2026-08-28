@@ -20,6 +20,11 @@ const AccountScript: QuartzComponent = () => {
   var SUPABASE_SDK_SRC = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
   var CONFIGURED = SUPABASE_URL.indexOf("YOUR_SUPABASE") !== 0;
 
+  // Captured once, at the top of this real page load — the confirmation link always lands here
+  // as a fresh navigation (never an SPA nav), and Supabase's client strips these params from the
+  // URL shortly after parsing the session, so this needs to be read before that happens.
+  var justConfirmedSignup = /type=signup/.test(window.location.hash) || /type=signup/.test(window.location.search);
+
   var clientPromise = null;
 
   function getClient() {
@@ -434,7 +439,14 @@ const AccountScript: QuartzComponent = () => {
         var password = document.getElementById("alr-account-signup-password").value;
         if (status) status.textContent = "Creating account...";
         getClient().then(function(sb) {
-          return sb.auth.signUp({ email: email, password: password, options: { data: { display_name: name } } });
+          return sb.auth.signUp({
+            email: email,
+            password: password,
+            options: {
+              data: { display_name: name },
+              emailRedirectTo: window.location.origin + "/Account"
+            }
+          });
         }).then(function(res) {
           if (res.error) { if (status) status.textContent = res.error.message; return; }
           if (status) status.textContent = res.data && res.data.session ? "" : "Check your email to confirm your account.";
@@ -472,6 +484,11 @@ const AccountScript: QuartzComponent = () => {
         if (session) {
           showLoggedIn(session);
           claimAndLoad(sb);
+          if (justConfirmedSignup) {
+            var claimStatus = document.getElementById("alr-account-claim-status");
+            if (claimStatus) claimStatus.textContent = "Email confirmed — welcome to the Archive.";
+            window.history.replaceState(null, "", window.location.pathname);
+          }
         } else {
           showLoggedOut();
         }

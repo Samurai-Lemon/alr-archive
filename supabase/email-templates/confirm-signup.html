@@ -1,0 +1,153 @@
+<!--
+  Supabase Auth template: Confirm signup
+  Paste this whole file into: Supabase Dashboard -> Authentication -> Emails -> Confirm signup -> Message body.
+  Suggested Subject heading: Confirm your email to activate Archive access
+
+  Available variable used below: {{ .ConfirmationURL }}
+  (Supabase also exposes {{ .Token }}, {{ .TokenHash }}, {{ .SiteURL }}, {{ .Email }}, {{ .RedirectTo }}
+  if you ever need to build a custom confirmation route instead of the default one.)
+
+  Dark is the primary, guaranteed-everywhere rendering (inline styles, matches the site's default
+  theme). The <style> block below is a progressive enhancement: clients that honor
+  prefers-color-scheme and support <style> in <head> (Apple Mail, Outlook.com/new Outlook, some
+  others) will flip it to the light palette instead. Gmail strips most <head> CSS and some Gmail
+  apps auto-invert dark emails with their own heuristics -- this is a best-effort layer, not a
+  guarantee, which is why the inline dark styles are the safe baseline underneath it.
+-->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark light">
+<meta name="supported-color-schemes" content="dark light">
+<style>
+  @media (prefers-color-scheme: light) {
+    .email-page   { background: #f5f2eb !important; }
+    .email-card   { background: #ffffff !important; border-color: #e3dcc9 !important; }
+    .email-rule   { background: #a85c42 !important; }
+    .email-brand  { color: #2a2420 !important; }
+    .email-cycle  { color: #a09888 !important; }
+    .email-eyebrow{ color: #5a5048 !important; }
+    .email-tag    { color: #7a5a08 !important; background: #f4ead8 !important; border-color: #b08820 !important; }
+    .email-h1     { color: #2a2420 !important; }
+    .email-body   { color: #5a5048 !important; }
+    .email-cta    { background: #a85c42 !important; }
+    .email-cta a  { color: #fdfaf3 !important; }
+    .email-fallback   { color: #7a7265 !important; }
+    .email-fallback a { color: #a85c42 !important; }
+    .email-expiry { color: #a09888 !important; }
+    .email-divider{ background: #e8e3d8 !important; }
+    .email-footer { color: #a09888 !important; }
+    .email-logo path { fill: #a85c42 !important; }
+  }
+</style>
+</head>
+<body class="email-page" style="margin:0;padding:0;background:#0f0e0b;">
+
+  <!-- preheader: shows as the inbox preview snippet, hidden in the body -->
+  <div style="display:none;max-height:0;overflow:hidden;font-size:1px;line-height:1px;color:#0f0e0b;">
+    Confirm your email to activate Archive access — submissions, orders, and badges won't attach to your profile until you do.
+  </div>
+
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" class="email-page" style="background:#0f0e0b;">
+    <tr>
+      <td>
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;margin:0 auto;">
+          <tr><td style="height:32px;line-height:32px;font-size:0;">&nbsp;</td></tr>
+
+          <!-- card -->
+          <tr>
+            <td>
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" class="email-card" style="background:#1a1915;border:1px solid #26251f;border-radius:10px;overflow:hidden;">
+                <tr><td class="email-rule" style="height:2px;line-height:2px;font-size:0;background:#cc785c;">&nbsp;</td></tr>
+
+                <!-- header -->
+                <tr>
+                  <td style="padding:26px 28px 0 28px;">
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td style="vertical-align:middle;">
+                          <table role="presentation" cellpadding="0" cellspacing="0"><tr>
+                            <td style="vertical-align:middle;padding-right:8px;">
+                              <svg class="email-logo" width="15" height="13" viewBox="0 0 557 480" fill="#cc785c" fill-rule="evenodd" xmlns="http://www.w3.org/2000/svg"><path d="M 531.0 468.5 L 384.0 467.5 L 283.0 400.5 L 271.0 403.5 L 184.0 463.5 L 172.0 468.5 L 26.0 468.5 L 14.5 461.0 L 11.5 454.0 L 14.5 439.0 L 250.5 39.0 L 269.0 13.5 L 285.0 11.5 L 298.5 24.0 L 542.5 438.0 L 545.5 446.0 L 544.5 458.0 L 531.0 468.5 Z M 448.5 429.0 L 480.0 428.5 L 484.5 425.0 L 484.5 419.0 L 287.5 85.0 L 282.0 78.5 L 276.0 78.5 L 77.5 411.0 L 73.5 425.0 L 78.0 428.5 L 96.0 429.5 L 159.0 428.5 L 237.5 376.0 L 237.5 371.0 L 232.0 365.5 L 175.0 328.5 L 170.5 324.0 L 169.5 317.0 L 262.5 155.0 L 271.0 145.5 L 283.0 143.5 L 293.5 151.0 L 389.5 316.0 L 388.5 323.0 L 382.0 329.5 L 325.0 366.5 L 321.5 370.0 L 322.5 377.0 L 395.0 426.5 L 409.0 429.5 L 448.5 429.0 Z M 283.5 345.0 L 332.0 311.5 L 335.5 303.0 L 284.5 217.0 L 276.0 215.5 L 222.5 308.0 L 274.0 344.5 L 283.5 345.0 Z"/></svg>
+                            </td>
+                            <td class="email-brand" style="vertical-align:middle;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px;font-weight:600;letter-spacing:0.04em;color:#d8d4c8;">ALR INITIATIVE — archive</td>
+                          </tr></table>
+                        </td>
+                        <td align="right" class="email-cycle" style="vertical-align:middle;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:9px;letter-spacing:0.1em;color:#4a4840;">CYCLE 7</td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+
+                <!-- eyebrow + pending tag -->
+                <tr>
+                  <td style="padding:22px 28px 0 28px;">
+                    <table role="presentation" cellpadding="0" cellspacing="0"><tr>
+                      <td class="email-eyebrow" style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#8a8678;padding-right:8px;">Archive access request</td>
+                      <td class="email-tag" style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:9px;letter-spacing:0.08em;color:#c49030;background:#1a1208;border:1px solid #4a3010;border-radius:3px;padding:2px 7px;">PENDING</td>
+                    </tr></table>
+                  </td>
+                </tr>
+
+                <!-- heading -->
+                <tr>
+                  <td class="email-h1" style="padding:12px 28px 0 28px;font-family:Inter,-apple-system,sans-serif;font-size:21px;font-weight:600;color:#f0ece0;line-height:1.35;">
+                    Confirm your email to<br>activate Archive access.
+                  </td>
+                </tr>
+
+                <!-- body -->
+                <tr>
+                  <td class="email-body" style="padding:14px 28px 0 28px;font-family:Inter,-apple-system,sans-serif;font-size:14px;line-height:1.7;color:#a8a49a;">
+                    An account request has been logged under this address. Before submissions, order tracking, and badge records can be attached to your profile, we need to confirm you own this inbox.
+                  </td>
+                </tr>
+
+                <!-- CTA -->
+                <tr>
+                  <td style="padding:26px 28px 0 28px;">
+                    <table role="presentation" cellpadding="0" cellspacing="0"><tr>
+                      <td class="email-cta" style="border-radius:7px;background:#cc785c;">
+                        <a href="{{ .ConfirmationURL }}" style="display:inline-block;padding:13px 26px;font-family:Inter,-apple-system,sans-serif;font-size:14px;font-weight:600;color:#1a1210;text-decoration:none;">Confirm Email Address</a>
+                      </td>
+                    </tr></table>
+                  </td>
+                </tr>
+
+                <!-- fallback link -->
+                <tr>
+                  <td class="email-fallback" style="padding:18px 28px 0 28px;font-family:Inter,-apple-system,sans-serif;font-size:12px;line-height:1.6;color:#5a5750;">
+                    Or paste this into your browser:<br>
+                    <a href="{{ .ConfirmationURL }}" style="color:#cc785c;text-decoration:none;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;word-break:break-all;">{{ .ConfirmationURL }}</a>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td class="email-expiry" style="padding:20px 28px 0 28px;font-family:Inter,-apple-system,sans-serif;font-size:11.5px;line-height:1.6;color:#4a4840;">
+                    This link expires after a short window for security. If it has lapsed, just sign up again to get a new one.
+                  </td>
+                </tr>
+
+                <tr><td style="height:26px;line-height:26px;font-size:0;">&nbsp;</td></tr>
+                <tr><td class="email-divider" style="height:1px;line-height:1px;font-size:0;background:#26251f;">&nbsp;</td></tr>
+
+                <!-- footer -->
+                <tr>
+                  <td class="email-footer" style="padding:16px 28px 20px 28px;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:9.5px;letter-spacing:0.05em;color:#3a3830;line-height:1.8;">
+                    You're receiving this because an Archive account was requested with this address at alrinitiative.com.<br>
+                    If this wasn't you, no action is needed — the request will lapse on its own.
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <tr><td style="height:32px;line-height:32px;font-size:0;">&nbsp;</td></tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
