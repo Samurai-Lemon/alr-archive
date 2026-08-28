@@ -27,6 +27,8 @@ const items = [
   },
 ]
 
+const moreIcon = `<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>`
+
 const ALRMobileNav: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
   const slug = String(fileData?.slug ?? "")
 
@@ -43,6 +45,43 @@ const ALRMobileNav: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
           <span class="alr-mnav-label">{item.label}</span>
         </a>
       ))}
+      {/* Not a link — reuses the existing hamburger drawer (ALRTopNav.tsx) that already holds
+          the full sidebar, rather than duplicating that open/close/overlay logic here. Every
+          primary nav entry point now lives in this one bar, like a native app's "More" tab. */}
+      <button
+        type="button"
+        class="alr-mnav-more"
+        id="alr-mnav-more-btn"
+        aria-label="Open menu"
+      >
+        <span
+          class="alr-mnav-icon"
+          dangerouslySetInnerHTML={{
+            __html: `<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${moreIcon}</svg>`,
+          }}
+        />
+        <span class="alr-mnav-label">More</span>
+      </button>
+
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+            (function() {
+              function initMore() {
+                var btn = document.getElementById("alr-mnav-more-btn");
+                if (!btn || btn._alrBound) return;
+                btn._alrBound = true;
+                btn.addEventListener("click", function() {
+                  var menuBtn = document.getElementById("alr-mobile-menu-btn");
+                  if (menuBtn) menuBtn.click();
+                });
+              }
+              document.addEventListener("DOMContentLoaded", initMore);
+              document.addEventListener("nav", initMore);
+            })();
+          `,
+        }}
+      />
     </div>
   )
 }

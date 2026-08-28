@@ -44,6 +44,7 @@ import ALRShopScript from "./ALRShopScript"
 import ALRAccount from "./ALRAccount"
 import AccountScript from "./AccountScript"
 import ALRAdmin from "./ALRAdmin"
+import ALRReadingProgress from "./ALRReadingProgress"
 
 export {
   ArticleTitle,
@@ -92,4 +93,5 @@ export {
   ALRAccount,
   AccountScript,
   ALRAdmin,
+  ALRReadingProgress,
 }

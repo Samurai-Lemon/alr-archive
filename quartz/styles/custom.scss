@@ -1740,7 +1740,7 @@ details[open] .alr-sb-chevron {
   // Table -> stacked cards, one per entry.
   .alr-reg-table-wrap { border: none; border-radius: 0; overflow: visible; background: transparent; }
   .alr-reg-table-head { display: none; }
-  .alr-reg-row.alr-reg-grid-echo, .alr-reg-row.alr-reg-grid-reality {
+  .alr-reg-row.alr-reg-grid-echo, .alr-reg-row.alr-reg-grid-reality, .alr-reg-row.alr-reg-row-simple {
     display: block;
     background: #181714;
     border: 0.5px solid #26251f;
@@ -1756,6 +1756,17 @@ details[open] .alr-sb-chevron {
 
   .alr-reg-row-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
 
+  // Account/Admin rows (alr-reg-row-simple) are a plain two-child flex row on desktop
+  // (label block + status tag/value) — stack them into their own column instead of block flow
+  // so the status tag doesn't end up flush-left on its own line.
+  .alr-reg-row.alr-reg-row-simple {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .alr-reg-row.alr-reg-row-simple > .alr-reg-tag { align-self: flex-start; }
+
   .alr-reg-card-expand:not(:empty) {
     display: block;
     margin-top: 10px;
@@ -1766,11 +1777,14 @@ details[open] .alr-sb-chevron {
   .alr-reg-card-expand .alr-reg-view-btn { display: block; width: 100%; text-align: center; box-sizing: border-box; }
   .alr-reg-card-expand .alr-reg-detail-echoes { margin-bottom: 4px; }
 
-  // The shared bottom detail panel is superseded by each card's own inline expansion.
-  .alr-reg-detail { display: none; }
+  // The shared bottom detail panel is superseded by each echo/reality card's own inline
+  // expansion — but Account/Admin use a single shared panel below their list instead (no
+  // per-row inline expansion), so that one must stay visible and is excluded here.
+  .alr-reg-detail:not(.alr-account-shared-detail) { display: none; }
 
   :root[saved-theme="light"] .alr-reg-row.alr-reg-grid-echo,
-  :root[saved-theme="light"] .alr-reg-row.alr-reg-grid-reality { background: #ede8de; border-color: #d8d0c4; }
+  :root[saved-theme="light"] .alr-reg-row.alr-reg-grid-reality,
+  :root[saved-theme="light"] .alr-reg-row.alr-reg-row-simple { background: #ede8de; border-color: #d8d0c4; }
   :root[saved-theme="light"] .alr-reg-row-selected { border-color: #a85c42; }
   :root[saved-theme="light"] .alr-reg-card-expand:not(:empty) { border-top-color: #d8d0c4; }
 }
@@ -2055,7 +2069,7 @@ details[open] .alr-sb-chevron {
   .alr-topnav-dropdown-item:hover { color: #a85c42 !important; background: #e8e3d8 !important; }
 
   .alr-mobile-menu-btn { color: #a09888 !important; }
-  .alr-mnav { background: #ede8de !important; border-top-color: #d8d0c4 !important; }
+  .alr-mnav { background: rgba(237, 232, 222, 0.82) !important; border-top-color: #d8d0c4 !important; }
   .alr-mnav-icon svg { stroke: #a09888 !important; }
   .alr-mnav-label { color: #a09888 !important; }
   .alr-mnav-active .alr-mnav-icon svg { stroke: #a85c42 !important; }
@@ -2265,14 +2279,15 @@ details[open] .alr-sb-chevron {
 }
 
 .alr-mnav { display: none; }
+.alr-reading-progress { display: none; }
 
 /// ═══════════════════════════════════════════════
 // ─── MOBILE ───────────────────────────────────
 // ═══════════════════════════════════════════════
 @media (max-width: 800px) {
-  #quartz-root { padding-top: 48px !important; display: block !important; width: 100% !important; max-width: 100% !important; }
+  #quartz-root { padding-top: calc(48px + env(safe-area-inset-top, 0px)) !important; display: block !important; width: 100% !important; max-width: 100% !important; }
   .page { display: block !important; width: 100% !important; max-width: 100% !important; margin: 0 !important; padding: 0 !important; grid-template-columns: none !important; grid-template-areas: none !important; }
-  #quartz-header { position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; width: 100% !important; height: 48px !important; min-height: 48px !important; padding: 0 12px !important; gap: 10px !important; z-index: 200 !important; box-sizing: border-box !important; display: flex !important; align-items: center !important; overflow: hidden !important; }
+  #quartz-header { position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; width: 100% !important; height: calc(48px + env(safe-area-inset-top, 0px)) !important; min-height: calc(48px + env(safe-area-inset-top, 0px)) !important; padding: env(safe-area-inset-top, 0px) 12px 0 12px !important; gap: 10px !important; z-index: 200 !important; box-sizing: border-box !important; display: flex !important; align-items: center !important; overflow: hidden !important; }
   #quartz-header header { display: flex !important; align-items: center !important; gap: 10px !important; width: 100% !important; min-width: 0 !important; overflow: hidden !important; }
   #quartz-header .page-title { display: none !important; }
   #quartz-header .search { flex: 1 !important; min-width: 0 !important; max-width: none !important; }
@@ -2282,36 +2297,103 @@ details[open] .alr-sb-chevron {
   .alr-mobile-overlay { display: block !important; pointer-events: none !important; top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important; }
   .alr-mobile-overlay.alr-mobile-overlay-open { pointer-events: auto !important; }
   .page > #quartz-body, #quartz-body { display: block !important; width: 100% !important; max-width: 100% !important; margin: 0 !important; padding: 0 !important; grid-template-columns: none !important; grid-template-areas: none !important; }
-  #quartz-body .sidebar.left, .sidebar.left { display: flex !important; position: fixed !important; top: 0 !important; left: 0 !important; width: 80vw !important; max-width: 300px !important; height: 100vh !important; z-index: 201 !important; transform: translateX(-100%) !important; transition: transform 0.3s ease !important; overflow-y: auto !important; pointer-events: none !important; flex-direction: column !important; }
+  #quartz-body .sidebar.left, .sidebar.left { display: flex !important; position: fixed !important; top: 0 !important; left: 0 !important; width: 80vw !important; max-width: 300px !important; height: 100vh !important; z-index: 201 !important; transform: translateX(-100%) !important; transition: transform 0.3s ease !important; overflow-y: auto !important; pointer-events: none !important; flex-direction: column !important; padding-top: env(safe-area-inset-top, 0px) !important; padding-bottom: env(safe-area-inset-bottom, 0px) !important; box-sizing: border-box !important; }
   .sidebar.left.alr-mobile-open, #quartz-body .sidebar.left.alr-mobile-open { transform: translateX(0) !important; pointer-events: auto !important; }
   .alr-sb-collapse-btn { display: none !important; }
   #quartz-body .center { display: block !important; width: 100% !important; max-width: 100% !important; min-width: 0 !important; box-sizing: border-box !important; padding: 0 16px 84px 16px !important; margin: 0 !important; position: relative !important; left: 0 !important; }
   #quartz-body .center > article, #quartz-body .center > .popover-hint, .page .center > article, .page .center > .popover-hint { display: block !important; width: 100% !important; max-width: 100% !important; min-width: 0 !important; box-sizing: border-box !important; grid-area: unset !important; margin: 0 auto !important; padding: 0 !important; position: static !important; left: auto !important; }
   #quartz-body .center .page-header { display: block !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }
 
+  // ─── READING PROGRESS ───────────────────────
+  .alr-reading-progress {
+    position: fixed;
+    top: calc(48px + env(safe-area-inset-top, 0px));
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: transparent;
+    z-index: 199;
+    display: block;
+  }
+  .alr-reading-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: #cc785c;
+    transition: width 0.1s linear;
+  }
+
+  // ─── NATIVE-FEELING PAGE TRANSITIONS ────────
+  // Only the content area gets a name (and therefore its own transition group) — the header,
+  // sidebar, and bottom nav are left unnamed so they stay visually static while the screen
+  // content slides, matching how a native app keeps its chrome fixed between screens. Wrapped
+  // in spa.inline.ts's feature detection (View Transitions API + this same breakpoint), so this
+  // CSS is inert with no visual effect on any browser that never starts a transition.
+  #quartz-body .center { view-transition-name: alr-page-content; }
+
+  ::view-transition-group(alr-page-content) {
+    animation-duration: 0.28s;
+    animation-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  html:not(.alr-nav-back)::view-transition-old(alr-page-content) { animation-name: alr-slide-out-left; }
+  html:not(.alr-nav-back)::view-transition-new(alr-page-content) { animation-name: alr-slide-in-right; }
+  html.alr-nav-back::view-transition-old(alr-page-content) { animation-name: alr-slide-out-right; }
+  html.alr-nav-back::view-transition-new(alr-page-content) { animation-name: alr-slide-in-left; }
+
+  @keyframes alr-slide-in-right {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+  }
+  @keyframes alr-slide-out-left {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(-25%); opacity: 0.4; }
+  }
+  @keyframes alr-slide-in-left {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+  }
+  @keyframes alr-slide-out-right {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(25%); opacity: 0.4; }
+  }
+
   // ─── MOBILE BOTTOM NAV ──────────────────────
+  // Translucent/blurred like a native tab bar (not a flat opaque strip), generous touch
+  // targets (44px+ per the Apple/Google HIG minimum), and a tap-scale press animation.
   .alr-mnav {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     position: fixed;
     left: 0; right: 0; bottom: 0;
     z-index: 150;
-    background: #111110;
+    background: rgba(17, 17, 16, 0.82);
+    -webkit-backdrop-filter: saturate(180%) blur(16px);
+    backdrop-filter: saturate(180%) blur(16px);
     border-top: 0.5px solid #26251f;
-    padding: 8px 0 calc(10px + env(safe-area-inset-bottom, 0px));
+    padding: 6px 0 calc(6px + env(safe-area-inset-bottom, 0px));
   }
-  .alr-mnav-item {
+  .alr-mnav-item,
+  .alr-mnav-more {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 3px;
+    min-height: 48px;
     text-decoration: none !important;
     border-bottom: none !important;
+    background: none;
+    border: none;
+    font-family: inherit;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.12s ease;
   }
-  .alr-mnav-icon svg { width: 18px; height: 18px; stroke: #4a4840; }
+  .alr-mnav-item:active,
+  .alr-mnav-more:active { transform: scale(0.88); }
+  .alr-mnav-icon svg { width: 20px; height: 20px; stroke: #4a4840; transition: stroke 0.15s ease; }
   .alr-mnav-label { font-size: 8px; letter-spacing: 0.08em; text-transform: uppercase; color: #4a4840; }
-  .alr-mnav-active .alr-mnav-icon svg { stroke: #cc785c; }
-  .alr-mnav-active .alr-mnav-label { color: #cc785c; }
+  .alr-mnav-active .alr-mnav-icon svg { stroke: #cc785c; stroke-width: 2; }
+  .alr-mnav-active .alr-mnav-label { color: #cc785c; font-weight: 600; }
 
   // ─── HOMEPAGE HERO ──────────────────────────
   .alr-home { gap: 0 !important; }
@@ -2394,10 +2476,15 @@ details[open] .alr-sb-chevron {
 
   // ─── MISC ───────────────────────────────────
   .alr-registry { overflow-x: auto !important; }
-  article h1 { font-size: 18px !important; }
-  article h2 { font-size: 14px !important; }
-  article h3 { font-size: 13px !important; }
-  article p  { font-size: 13px !important; }
+
+  // ─── ARTICLE READING RHYTHM ─────────────────
+  // Deliberate mobile reading tuning, not just a flat shrink of the desktop sizes — a narrower
+  // column reads better with slightly more line-height and heading breathing room.
+  article h1 { font-size: 18px !important; margin-bottom: 10px !important; }
+  article h2 { font-size: 14px !important; margin-top: 28px !important; margin-bottom: 8px !important; }
+  article h3 { font-size: 13px !important; margin-top: 20px !important; }
+  article p  { font-size: 13.5px !important; line-height: 1.75 !important; margin-bottom: 14px !important; }
+  article li { line-height: 1.7 !important; }
   .alr-home-ad-wrap { max-width: 100% !important; margin-left: 0 !important; }
   html, body { overflow-x: hidden !important; }
   img, svg, video, canvas, iframe { max-width: 100% !important; height: auto !important; }

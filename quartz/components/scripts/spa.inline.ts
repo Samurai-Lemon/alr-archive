@@ -101,8 +101,23 @@ async function _navigate(url: URL, isBack: boolean = false) {
   announcer.dataset.persist = ""
   html.body.appendChild(announcer)
 
-  // morph body
-  await micromorph(document.body, html.body)
+  // morph body — on mobile, wrap the swap in a View Transition for a native-feeling slide
+  // instead of an instant DOM swap. Feature-detected with a plain fallback to the original
+  // behavior on any browser without support (or when the user prefers reduced motion), so this
+  // can only ever add a transition, never break navigation.
+  const supportsViewTransitions = typeof (document as any).startViewTransition === "function"
+  const isMobileViewport = window.matchMedia("(max-width: 800px)").matches
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+
+  if (supportsViewTransitions && isMobileViewport && !prefersReducedMotion) {
+    document.documentElement.classList.toggle("alr-nav-back", isBack)
+    const transition = (document as any).startViewTransition(() =>
+      micromorph(document.body, html.body),
+    )
+    await transition.updateCallbackDone
+  } else {
+    await micromorph(document.body, html.body)
+  }
 
   // scroll into place and add history
   if (!isBack) {

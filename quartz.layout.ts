@@ -30,6 +30,7 @@ export const sharedPageComponents: SharedLayout = {
     Component.ALRMobileNav(),
     Component.ALRShopScript(),
     Component.AccountScript(),
+    Component.ALRReadingProgress(),
   ],
   footer: Component.Footer({
     links: {},

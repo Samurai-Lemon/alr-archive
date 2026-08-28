@@ -43,7 +43,7 @@ const ALRAdmin: QuartzComponent = (_props: QuartzComponentProps) => {
             </div>
           </div>
 
-          <div id="alr-admin-detail" class="alr-reg-detail" style="display:none"></div>
+          <div id="alr-admin-detail" class="alr-reg-detail alr-account-shared-detail" style="display:none"></div>
         </div>
 
       </div>
