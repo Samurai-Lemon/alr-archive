@@ -183,6 +183,14 @@
   gap: 6px;
 }
 
+.alr-topnav-account-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #cc785c;
+  flex-shrink: 0;
+}
+
 .alr-topnav-dropdown {
   position: relative;
   display: flex;
@@ -2003,6 +2011,7 @@ details[open] .alr-sb-chevron {
 .alr-account-static-row { cursor: default; }
 .alr-account-static-row:hover { background: transparent; }
 .alr-account-form { margin-top: 16px; }
+.alr-account-new-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #cc785c; margin-right: 6px; vertical-align: middle; }
 
 // Prose sections in a submission's detail view (Description, Observed Behavior, etc.) —
 // mirrors the ## section + divider structure of an actual Echo/Reality entry page.

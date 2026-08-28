@@ -59,6 +59,7 @@ const ALRTopNav: QuartzComponent = (_props: QuartzComponentProps) => {
             <path d="M2 12c0-2.5 2.2-4 5-4s5 1.5 5 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
           </svg>
           <span id="alr-topnav-account-label">Log In</span>
+          <span class="alr-topnav-account-dot" id="alr-topnav-account-dot" style="display:none"></span>
         </a>
       </nav>
 

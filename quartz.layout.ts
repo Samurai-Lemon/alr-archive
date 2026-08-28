@@ -12,6 +12,7 @@ const isEcho = (page: any) => page.fileData.frontmatter?.type === "echo"
 const isShop = (page: any) => page.fileData.slug === "Shop"
 const isLabelCreator = (page: any) => page.fileData.slug === "label-creator"
 const isAccount = (page: any) => page.fileData.slug === "Account"
+const isAdmin = (page: any) => page.fileData.slug === "Admin"
 
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
@@ -39,7 +40,7 @@ export const defaultContentPageLayout: PageLayout = {
   beforeBody: [
     Component.ConditionalRender({
       component: Component.ALRBanner(),
-      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isOrdo(page) && !isEcho(page) && !isShop(page) && !isLabelCreator(page) && !isAccount(page),
+      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isOrdo(page) && !isEcho(page) && !isShop(page) && !isLabelCreator(page) && !isAccount(page) && !isAdmin(page),
     }),
     Component.ConditionalRender({
       component: OrdoBanner(),
@@ -77,6 +78,10 @@ export const defaultContentPageLayout: PageLayout = {
       component: Component.ALRAccount(),
       condition: isAccount,
     }),
+    Component.ConditionalRender({
+      component: Component.ALRAdmin(),
+      condition: isAdmin,
+    }),
   ],
   left: [
     Component.ALRSidebar(),
@@ -89,7 +94,7 @@ export const defaultListPageLayout: PageLayout = {
   beforeBody: [
     Component.ConditionalRender({
       component: Component.ALRBanner(),
-      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isOrdo(page) && !isEcho(page) && !isShop(page) && !isLabelCreator(page) && !isAccount(page),
+      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isOrdo(page) && !isEcho(page) && !isShop(page) && !isLabelCreator(page) && !isAccount(page) && !isAdmin(page),
     }),
     Component.ConditionalRender({
       component: OrdoBanner(),
@@ -121,11 +126,11 @@ export const defaultListPageLayout: PageLayout = {
     }),
     Component.ConditionalRender({
       component: Component.ArticleTitle(),
-      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isEcho(page) && !isShop(page) && !isLabelCreator(page) && !isAccount(page),
+      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isEcho(page) && !isShop(page) && !isLabelCreator(page) && !isAccount(page) && !isAdmin(page),
     }),
     Component.ConditionalRender({
       component: Component.ContentMeta(),
-      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isEcho(page) && !isShop(page) && !isLabelCreator(page) && !isAccount(page),
+      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isEcho(page) && !isShop(page) && !isLabelCreator(page) && !isAccount(page) && !isAdmin(page),
     }),
   ],
   left: [

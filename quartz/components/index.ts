@@ -43,6 +43,7 @@ import ALRMobileNav from "./ALRMobileNav"
 import ALRShopScript from "./ALRShopScript"
 import ALRAccount from "./ALRAccount"
 import AccountScript from "./AccountScript"
+import ALRAdmin from "./ALRAdmin"
 
 export {
   ArticleTitle,
@@ -90,4 +91,5 @@ export {
   ALRShopScript,
   ALRAccount,
   AccountScript,
+  ALRAdmin,
 }

@@ -74,6 +74,21 @@ const AccountScript: QuartzComponent = () => {
     if (topLabel) topLabel.textContent = label;
   }
 
+  function updateNotificationDot() {
+    var dot = document.getElementById("alr-topnav-account-dot");
+    if (!dot) return;
+    getClient().then(function(sb) {
+      return sb.auth.getSession().then(function(res) {
+        var session = res.data.session;
+        if (!session) { dot.style.display = "none"; return; }
+        return sb.from("submissions").select("status, status_updated_at, seen_at").eq("user_id", session.user.id).then(function(res2) {
+          var hasUnseen = (res2.data || []).some(function(s) { return isUnseen(s); });
+          dot.style.display = hasUnseen ? "" : "none";
+        });
+      });
+    }).catch(function() {});
+  }
+
   function syncNav() {
     if (!CONFIGURED) return;
     getClient().then(function(sb) {
@@ -81,6 +96,7 @@ const AccountScript: QuartzComponent = () => {
     }).then(function(res) {
       updateNavForSession(res.data.session);
     }).catch(function() {});
+    updateNotificationDot();
   }
 
   // ── /Account page: render helpers ─────────────────────────────────────
@@ -180,33 +196,17 @@ const AccountScript: QuartzComponent = () => {
     });
   }
 
-  // Full submitted form content isn't visible anywhere else once sent — clicking a row here
-  // is the only way to read back what was submitted before Archive Operations reviews it.
-  // Clicking the already-expanded row again collapses it (currentDetailIndex tracks that).
-  var currentSubmissions = [];
-  var currentDetailIndex = -1;
+  // A submission counts as an unseen update once Archive Operations has reviewed it (moved off
+  // "pending") and the submitter hasn't opened its detail view since that review happened.
+  function isUnseen(sub) {
+    if (!sub || sub.status === "pending") return false;
+    if (!sub.seen_at) return true;
+    return new Date(sub.seen_at).getTime() < new Date(sub.status_updated_at).getTime();
+  }
 
-  function renderSubmissionDetail(index) {
-    var panel = document.getElementById("alr-account-submission-detail");
-    if (!panel) return;
-    currentDetailIndex = index;
-    var sub = currentSubmissions[index];
-
-    var container = document.getElementById("alr-account-submissions");
-    if (container) {
-      container.querySelectorAll(".alr-reg-row").forEach(function(row) {
-        row.classList.remove("alr-reg-row-selected");
-      });
-      var activeRow = container.querySelector('[data-index="' + index + '"]');
-      if (activeRow) activeRow.classList.add("alr-reg-row-selected");
-    }
-
-    if (!sub) {
-      panel.style.display = "none";
-      panel.innerHTML = "";
-      return;
-    }
-
+  // Shared with the /Admin review queue: classification-cell + prose-section body used by both
+  // the submitter's own read-only view and the admin's review view.
+  function buildSubmissionDetailHtml(sub) {
     var date = sub.created_at ? new Date(sub.created_at).toLocaleDateString() : "";
     var data = sub.form_data || {};
     var layout = SUBMISSION_LAYOUTS[sub.submission_type] || { classification: [], sections: [] };
@@ -239,17 +239,63 @@ const AccountScript: QuartzComponent = () => {
         '<div class="alr-account-detail-section-text">' + escapeHtml(text) + "</div></div>";
     });
 
-    panel.innerHTML = html;
-    panel.style.display = "";
+    if (sub.reviewer_notes) {
+      html += '<div class="alr-submit-notice" style="margin-top:16px"><div class="alr-submit-notice-dot"></div>' +
+        '<div><div class="alr-submit-notice-title">Archive Operations Note</div>' +
+        '<div class="alr-submit-notice-text">' + escapeHtml(sub.reviewer_notes) + "</div></div></div>";
+    }
+
+    return html;
   }
 
-  function renderSubmissions(subs) {
+  // Full submitted form content isn't visible anywhere else once sent — clicking a row here
+  // is the only way to read back what was submitted before Archive Operations reviews it.
+  // Clicking the already-expanded row again collapses it (currentDetailIndex tracks that).
+  var currentSubmissions = [];
+  var currentDetailIndex = -1;
+
+  function renderSubmissionDetail(index) {
+    var panel = document.getElementById("alr-account-submission-detail");
+    if (!panel) return;
+    currentDetailIndex = index;
+    var sub = currentSubmissions[index];
+
+    var container = document.getElementById("alr-account-submissions");
+    if (container) {
+      container.querySelectorAll(".alr-reg-row").forEach(function(row) {
+        row.classList.remove("alr-reg-row-selected");
+      });
+      var activeRow = container.querySelector('[data-index="' + index + '"]');
+      if (activeRow) activeRow.classList.add("alr-reg-row-selected");
+    }
+
+    if (!sub) {
+      panel.style.display = "none";
+      panel.innerHTML = "";
+      return;
+    }
+
+    panel.innerHTML = buildSubmissionDetailHtml(sub);
+    panel.style.display = "";
+
+    if (isUnseen(sub)) {
+      sub.seen_at = new Date().toISOString();
+      renderSubmissions(currentSubmissions, index);
+      getClient().then(function(sb) {
+        return sb.rpc("mark_submission_seen", { submission_id: sub.id });
+      }).catch(function() {});
+      updateNotificationDot();
+    }
+  }
+
+  function renderSubmissions(subs, keepDetailIndex) {
     currentSubmissions = subs || [];
 
     renderList("alr-account-submissions", subs, "No submissions yet.", function(s, i) {
       var date = s.created_at ? new Date(s.created_at).toLocaleDateString() : "";
+      var dot = isUnseen(s) ? '<span class="alr-account-new-dot" title="Updated"></span>' : "";
       return '<div class="alr-reg-row alr-reg-row-simple" data-index="' + i + '"><div>' +
-        '<div class="alr-reg-name">' + escapeHtml(s.title) + "</div>" +
+        '<div class="alr-reg-name">' + dot + escapeHtml(s.title) + "</div>" +
         '<div class="alr-reg-name-sub">' + escapeHtml(s.submission_type) + " &middot; " + escapeHtml(date) + "</div>" +
         '</div><span class="alr-reg-tag ' + statusTagClass(s.status) + '">' + escapeHtml(s.status) + "</span></div>";
     });
@@ -264,7 +310,15 @@ const AccountScript: QuartzComponent = () => {
       });
     }
 
-    renderSubmissionDetail(currentSubmissions.length > 0 ? 0 : -1);
+    var target = keepDetailIndex != null ? keepDetailIndex : (currentSubmissions.length > 0 ? 0 : -1);
+    if (keepDetailIndex != null) {
+      var activeRow = container && container.querySelector('[data-index="' + target + '"]');
+      if (activeRow) activeRow.classList.add("alr-reg-row-selected");
+      var panel = document.getElementById("alr-account-submission-detail");
+      if (panel) { panel.innerHTML = buildSubmissionDetailHtml(currentSubmissions[target]); panel.style.display = ""; }
+    } else {
+      renderSubmissionDetail(target);
+    }
   }
 
   function renderBadges(badges) {
@@ -490,10 +544,153 @@ const AccountScript: QuartzComponent = () => {
     });
   }
 
+  // ── /Admin: submission review queue (not linked anywhere — reached by URL, gated by RLS) ──
+  var adminSubmissions = [];
+  var adminStatusFilter = "all";
+  var adminDetailId = null;
+
+  function onAdminPage() {
+    return window.location.pathname === "/Admin" || window.location.pathname === "/Admin/";
+  }
+
+  function renderAdminQueue() {
+    var visible = adminSubmissions.filter(function(s) {
+      return adminStatusFilter === "all" || s.status === adminStatusFilter;
+    });
+
+    renderList("alr-admin-queue", visible, "No submissions match this filter.", function(s) {
+      var data = s.form_data || {};
+      var date = s.created_at ? new Date(s.created_at).toLocaleDateString() : "";
+      var submitter = data.submitter_name || data.submitter_email || "Unknown";
+      return '<div class="alr-reg-row alr-reg-row-simple" data-id="' + escapeHtml(s.id) + '"><div>' +
+        '<div class="alr-reg-name">' + escapeHtml(s.title) + "</div>" +
+        '<div class="alr-reg-name-sub">' + escapeHtml(s.submission_type) + " &middot; " + escapeHtml(submitter) + " &middot; " + escapeHtml(date) + "</div>" +
+        '</div><span class="alr-reg-tag ' + statusTagClass(s.status) + '">' + escapeHtml(s.status) + "</span></div>";
+    });
+
+    var container = document.getElementById("alr-admin-queue");
+    if (container) {
+      container.querySelectorAll(".alr-reg-row").forEach(function(row) {
+        row.addEventListener("click", function() {
+          var id = row.getAttribute("data-id");
+          renderAdminDetail(id === adminDetailId ? null : id);
+        });
+      });
+      if (adminDetailId) {
+        var activeRow = container.querySelector('[data-id="' + adminDetailId + '"]');
+        if (activeRow) activeRow.classList.add("alr-reg-row-selected");
+      }
+    }
+  }
+
+  function renderAdminDetail(id) {
+    adminDetailId = id;
+    var panel = document.getElementById("alr-admin-detail");
+    if (!panel) return;
+
+    var sub = adminSubmissions.filter(function(s) { return s.id === id; })[0];
+    if (!sub) {
+      panel.style.display = "none";
+      panel.innerHTML = "";
+      renderAdminQueue();
+      return;
+    }
+
+    var html = buildSubmissionDetailHtml(sub);
+    html += '<div class="alr-account-detail-section">' +
+      '<div class="alr-account-detail-section-label">Reviewer Notes</div>' +
+      '<textarea class="alr-submit-textarea" id="alr-admin-notes-input" rows="3" placeholder="Visible to the submitter once you approve or reject.">' +
+      escapeHtml(sub.reviewer_notes || "") + "</textarea></div>" +
+      '<div class="alr-submit-actions" style="margin-top:12px">' +
+      '<button type="button" class="alr-submit-btn" id="alr-admin-approve-btn">Approve</button>' +
+      '<button type="button" class="alr-submit-btn" id="alr-admin-reject-btn" style="background:#a85c42">Reject</button>' +
+      '<span class="alr-submit-hint" id="alr-admin-save-status"></span></div>';
+
+    panel.innerHTML = html;
+    panel.style.display = "";
+    renderAdminQueue();
+
+    function saveReview(sb, status) {
+      var status$ = document.getElementById("alr-admin-save-status");
+      var notes = document.getElementById("alr-admin-notes-input").value;
+      if (status$) status$.textContent = "Saving...";
+      sb.from("submissions").update({ status: status, reviewer_notes: notes }).eq("id", sub.id).then(function(res) {
+        if (res.error) { if (status$) status$.textContent = res.error.message; return; }
+        sub.status = status;
+        sub.reviewer_notes = notes;
+        if (status$) status$.textContent = "Saved.";
+        renderAdminQueue();
+      }).catch(function(err) {
+        if (status$) status$.textContent = "Failed: " + err.message;
+      });
+    }
+
+    getClient().then(function(sb) {
+      var approveBtn = document.getElementById("alr-admin-approve-btn");
+      var rejectBtn = document.getElementById("alr-admin-reject-btn");
+      if (approveBtn) approveBtn.addEventListener("click", function() { saveReview(sb, "approved"); });
+      if (rejectBtn) rejectBtn.addEventListener("click", function() { saveReview(sb, "rejected"); });
+    });
+  }
+
+  function initAdminPage() {
+    if (!onAdminPage()) return;
+
+    var gate = document.getElementById("alr-admin-gate");
+    var content = document.getElementById("alr-admin-content");
+    if (!gate || !content) return;
+
+    if (!CONFIGURED) {
+      gate.innerHTML = '<div class="alr-reg-empty">Account system is not configured yet.</div>';
+      return;
+    }
+
+    getClient().then(function(sb) {
+      return sb.auth.getSession().then(function(res) {
+        var session = res.data.session;
+        if (!session) {
+          gate.innerHTML = '<div class="alr-reg-empty">Log in via <a href="/Account" class="internal">/Account</a> first.</div>';
+          content.style.display = "none";
+          return;
+        }
+        return sb.from("profiles").select("is_admin").eq("id", session.user.id).single().then(function(profRes) {
+          if (!profRes.data || !profRes.data.is_admin) {
+            gate.innerHTML = '<div class="alr-reg-empty">ACCESS DENIED — Insufficient clearance.</div>';
+            content.style.display = "none";
+            return;
+          }
+
+          gate.style.display = "none";
+          content.style.display = "";
+
+          var filterBtns = document.querySelectorAll("#alr-admin-content [data-status-filter]");
+          filterBtns.forEach(function(btn) {
+            if (btn._alrBound) return;
+            btn._alrBound = true;
+            btn.addEventListener("click", function() {
+              filterBtns.forEach(function(b) { b.classList.remove("alr-reg-filter-active"); });
+              btn.classList.add("alr-reg-filter-active");
+              adminStatusFilter = btn.getAttribute("data-status-filter");
+              renderAdminQueue();
+            });
+          });
+
+          sb.from("submissions").select("*").order("created_at", { ascending: false }).then(function(subRes) {
+            adminSubmissions = subRes.data || [];
+            renderAdminQueue();
+          });
+        });
+      });
+    }).catch(function() {
+      gate.innerHTML = '<div class="alr-reg-empty">Something went wrong checking access.</div>';
+    });
+  }
+
   function initAccount() {
     syncNav();
     initAccountPage();
     initSubmitFormHook();
+    initAdminPage();
   }
 
   document.addEventListener("DOMContentLoaded", initAccount);
@@ -506,6 +703,7 @@ const AccountScript: QuartzComponent = () => {
     getClient().then(function(sb) {
       sb.auth.onAuthStateChange(function(_event, session) {
         updateNavForSession(session);
+        updateNotificationDot();
         if (onAccountPage()) {
           if (session) {
             showLoggedIn(session);
