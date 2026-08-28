@@ -119,11 +119,14 @@ const AccountScript: QuartzComponent = () => {
 
   // Full submitted form content isn't visible anywhere else once sent — clicking a row here
   // is the only way to read back what was submitted before Archive Operations reviews it.
+  // Clicking the already-expanded row again collapses it (currentDetailIndex tracks that).
   var currentSubmissions = [];
+  var currentDetailIndex = -1;
 
   function renderSubmissionDetail(index) {
     var panel = document.getElementById("alr-account-submission-detail");
     if (!panel) return;
+    currentDetailIndex = index;
     var sub = currentSubmissions[index];
 
     var container = document.getElementById("alr-account-submissions");
@@ -180,7 +183,8 @@ const AccountScript: QuartzComponent = () => {
     if (container) {
       container.querySelectorAll(".alr-reg-row").forEach(function(row) {
         row.addEventListener("click", function() {
-          renderSubmissionDetail(Number(row.getAttribute("data-index")));
+          var idx = Number(row.getAttribute("data-index"));
+          renderSubmissionDetail(idx === currentDetailIndex ? -1 : idx);
         });
       });
     }
