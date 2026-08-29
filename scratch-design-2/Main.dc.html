@@ -1,0 +1,648 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #0a0a08; font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif; }
+    a { color: #cc785c; text-decoration: none; }
+    a:hover { color: #e8894a; }
+    .mono { font-family: "JetBrains Mono", ui-monospace, "SF Mono", monospace; }
+    .hscroll { display: flex; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
+    .hscroll::-webkit-scrollbar { display: none; }
+    .vscroll { overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none; }
+    .vscroll::-webkit-scrollbar { display: none; }
+    button { font-family: inherit; cursor: pointer; }
+  </style>
+</helmet>
+
+<div style="display:flex; flex-direction:column; align-items:center; padding:48px 24px; min-height:100vh; gap:16px;">
+
+  <div style="color:#8a8678; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:4px;">
+    ALR Initiative — Procurement &amp; Field Archive · Tap around
+  </div>
+
+  <div style="position:relative; width:390px; height:844px; background:#111110; border-radius:44px; border:10px solid #050403; box-shadow:0 30px 80px rgba(0,0,0,0.6), inset 0 0 0 1px #26251f; overflow:hidden; display:flex; flex-direction:column;">
+
+    <!-- ── SCROLLABLE CONTENT ───────────────────────────────── -->
+    <div class="vscroll" style="flex:1; min-height:0; background:#1a1915; position:relative;">
+
+      <!-- ══════════════ SPLASH ══════════════ -->
+      <sc-if value="{{screenIsSplash}}" hint-placeholder-val="{{true}}">
+        <button onClick="{{goLogin}}" style="display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%; height:100%; min-height:844px; background:radial-gradient(circle at 50% 38%, #1c1a15 0%, #0f0e0b 68%); border:none; padding:0; gap:22px;">
+          <svg width="46" height="40" viewBox="0 0 557 480" fill="#cc785c" fill-rule="evenodd" xmlns="http://www.w3.org/2000/svg" opacity="0.92"><path d="M 531.0 468.5 L 384.0 467.5 L 283.0 400.5 L 271.0 403.5 L 184.0 463.5 L 172.0 468.5 L 26.0 468.5 L 14.5 461.0 L 11.5 454.0 L 14.5 439.0 L 250.5 39.0 L 269.0 13.5 L 285.0 11.5 L 298.5 24.0 L 542.5 438.0 L 545.5 446.0 L 544.5 458.0 L 531.0 468.5 Z M 448.5 429.0 L 480.0 428.5 L 484.5 425.0 L 484.5 419.0 L 287.5 85.0 L 282.0 78.5 L 276.0 78.5 L 77.5 411.0 L 73.5 425.0 L 78.0 428.5 L 96.0 429.5 L 159.0 428.5 L 237.5 376.0 L 237.5 371.0 L 232.0 365.5 L 175.0 328.5 L 170.5 324.0 L 169.5 317.0 L 262.5 155.0 L 271.0 145.5 L 283.0 143.5 L 293.5 151.0 L 389.5 316.0 L 388.5 323.0 L 382.0 329.5 L 325.0 366.5 L 321.5 370.0 L 322.5 377.0 L 395.0 426.5 L 409.0 429.5 L 448.5 429.0 Z M 283.5 345.0 L 332.0 311.5 L 335.5 303.0 L 284.5 217.0 L 276.0 215.5 L 222.5 308.0 L 274.0 344.5 L 283.5 345.0 Z"/></svg>
+          <div style="text-align:center;">
+            <div style="font-size:19px; font-weight:600; letter-spacing:0.1em; color:#f0ece0; text-transform:uppercase;">ALR Initiative</div>
+            <div class="mono" style="font-size:10px; letter-spacing:0.16em; color:#5a5750; text-transform:uppercase; margin-top:6px;">Archive of Lost Realities</div>
+          </div>
+          <div class="mono" style="position:absolute; bottom:54px; font-size:9px; letter-spacing:0.14em; color:#3a3830; text-transform:uppercase;">Tap to continue</div>
+        </button>
+      </sc-if>
+
+      <!-- ══════════════ LOGIN ══════════════ -->
+      <sc-if value="{{screenIsLogin}}" hint-placeholder-val="{{false}}">
+        <div style="padding:56px 24px 24px;">
+          <div class="mono" style="font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:#cc785c; margin-bottom:8px;">Archive Access</div>
+          <div style="font-size:22px; font-weight:600; color:#f0ece0; margin-bottom:22px;">Sign in to the Archive.</div>
+
+          <div style="display:flex; gap:8px; margin-bottom:20px;">
+            <button style="flex:1; font-size:11px; letter-spacing:0.06em; text-transform:uppercase; padding:9px; border-radius:6px; border:0.5px solid #cc785c; background:rgba(204,120,92,0.1); color:#cc785c;">Log In</button>
+            <button style="flex:1; font-size:11px; letter-spacing:0.06em; text-transform:uppercase; padding:9px; border-radius:6px; border:0.5px solid #26251f; background:none; color:#8a8678;">Create Account</button>
+          </div>
+
+          <div style="margin-bottom:14px;">
+            <div style="font-size:11px; color:#8a8678; margin-bottom:6px;">Email</div>
+            <div style="background:#181714; border:0.5px solid #26251f; border-radius:8px; padding:12px 14px; font-size:13px; color:#5a5750;">investigator@example.com</div>
+          </div>
+          <div style="margin-bottom:26px;">
+            <div style="font-size:11px; color:#8a8678; margin-bottom:6px;">Password</div>
+            <div style="background:#181714; border:0.5px solid #26251f; border-radius:8px; padding:12px 14px; font-size:13px; color:#5a5750;">••••••••••</div>
+          </div>
+
+          <button onClick="{{goHome}}" style="display:block; width:100%; background:#cc785c; border:none; color:#1a1210; border-radius:8px; padding:13px; font-size:13px; font-weight:600;">Log In</button>
+          <div style="text-align:center; margin-top:16px; font-size:11px; color:#5a5750;">Forgot your password?</div>
+        </div>
+      </sc-if>
+
+      <!-- ══════════════ HOME ══════════════ -->
+      <sc-if value="{{screenIsHome}}" hint-placeholder-val="{{false}}">
+        <div style="padding:20px 16px 24px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:18px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <svg width="15" height="13" viewBox="0 0 557 480" fill="#cc785c" fill-rule="evenodd"><path d="M 531.0 468.5 L 384.0 467.5 L 283.0 400.5 L 271.0 403.5 L 184.0 463.5 L 172.0 468.5 L 26.0 468.5 L 14.5 461.0 L 11.5 454.0 L 14.5 439.0 L 250.5 39.0 L 269.0 13.5 L 285.0 11.5 L 298.5 24.0 L 542.5 438.0 L 545.5 446.0 L 544.5 458.0 L 531.0 468.5 Z M 448.5 429.0 L 480.0 428.5 L 484.5 425.0 L 484.5 419.0 L 287.5 85.0 L 282.0 78.5 L 276.0 78.5 L 77.5 411.0 L 73.5 425.0 L 78.0 428.5 L 96.0 429.5 L 159.0 428.5 L 237.5 376.0 L 237.5 371.0 L 232.0 365.5 L 175.0 328.5 L 170.5 324.0 L 169.5 317.0 L 262.5 155.0 L 271.0 145.5 L 283.0 143.5 L 293.5 151.0 L 389.5 316.0 L 388.5 323.0 L 382.0 329.5 L 325.0 366.5 L 321.5 370.0 L 322.5 377.0 L 395.0 426.5 L 409.0 429.5 L 448.5 429.0 Z M 283.5 345.0 L 332.0 311.5 L 335.5 303.0 L 284.5 217.0 L 276.0 215.5 L 222.5 308.0 L 274.0 344.5 L 283.5 345.0 Z"/></svg>
+              <span style="font-size:13px; color:#d8d4c8; font-weight:500;">ALR Initiative</span>
+            </div>
+            <button aria-label="Search" style="background:none; border:none; padding:4px; color:#8a8678;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </button>
+          </div>
+
+          <div class="hscroll" style="gap:8px; margin-bottom:22px;">
+            <div style="flex-shrink:0; background:#181714; border:0.5px solid #26251f; border-radius:10px; padding:9px 14px;">
+              <div class="mono" style="font-size:15px; color:#cc785c; font-weight:600;">10</div>
+              <div style="font-size:9px; color:#4a4840; text-transform:uppercase; letter-spacing:0.08em; margin-top:3px;">Echoes</div>
+            </div>
+            <div style="flex-shrink:0; background:#181714; border:0.5px solid #26251f; border-radius:10px; padding:9px 14px;">
+              <div class="mono" style="font-size:15px; color:#cc785c; font-weight:600;">2</div>
+              <div style="font-size:9px; color:#4a4840; text-transform:uppercase; letter-spacing:0.08em; margin-top:3px;">Realities</div>
+            </div>
+            <div style="flex-shrink:0; background:#181714; border:0.5px solid #26251f; border-radius:10px; padding:9px 14px;">
+              <div class="mono" style="font-size:15px; color:#cc785c; font-weight:600;">7</div>
+              <div style="font-size:9px; color:#4a4840; text-transform:uppercase; letter-spacing:0.08em; margin-top:3px;">Cycle</div>
+            </div>
+          </div>
+
+          <div style="font-size:9px; letter-spacing:0.1em; text-transform:uppercase; color:#4a4840; font-weight:600; margin-bottom:10px;">Explore</div>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <button onClick="{{goRegistryGrid}}" style="display:flex; align-items:center; gap:12px; text-align:left; background:#181714; border:0.5px solid #26251f; border-radius:12px; padding:14px;">
+              <div style="width:34px; height:34px; border-radius:8px; background:#0f0e0b; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cc785c" stroke-width="1.6"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+              </div>
+              <div style="flex:1;">
+                <div style="font-size:13px; color:#d8d4c8; font-weight:500;">Registry — Grid View</div>
+                <div style="font-size:11px; color:#726c5c; margin-top:2px;">Browse Echoes and Realities as cards.</div>
+              </div>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4a4840" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+            <button onClick="{{goLog}}" style="display:flex; align-items:center; gap:12px; text-align:left; background:#181714; border:0.5px solid #26251f; border-radius:12px; padding:14px;">
+              <div style="width:34px; height:34px; border-radius:8px; background:#0f0e0b; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cc785c" stroke-width="1.6"><rect x="3" y="4" width="18" height="17" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg>
+              </div>
+              <div style="flex:1;">
+                <div style="font-size:13px; color:#d8d4c8; font-weight:500;">Archive Log</div>
+                <div style="font-size:11px; color:#726c5c; margin-top:2px;">Operations records by Cycle.</div>
+              </div>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4a4840" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+            <button onClick="{{goShopGrid}}" style="display:flex; align-items:center; gap:12px; text-align:left; background:#181714; border:0.5px solid #26251f; border-radius:12px; padding:14px;">
+              <div style="width:34px; height:34px; border-radius:8px; background:#0f0e0b; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cc785c" stroke-width="1.6"><path d="M6 2l1.5 5M18 2l-1.5 5M4 7h16l-1.5 12a2 2 0 0 1-2 1.8H7.5a2 2 0 0 1-2-1.8z"/></svg>
+              </div>
+              <div style="flex:1;">
+                <div style="font-size:13px; color:#d8d4c8; font-weight:500;">Procurement</div>
+                <div style="font-size:11px; color:#726c5c; margin-top:2px;">Field equipment replicas &amp; archive goods.</div>
+              </div>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4a4840" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ══════════════ REGISTRY — GRID VIEW ══════════════ -->
+      <sc-if value="{{screenIsRegistryGrid}}" hint-placeholder-val="{{false}}">
+        <div style="padding:14px 16px 24px;">
+          <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:12px;">
+            <div style="font-size:18px; color:#f0ece0; font-weight:600;">{{registryTitle}}</div>
+            <div style="font-size:11px; color:#4a4840;">{{registryCount}}</div>
+          </div>
+          <div style="display:flex; gap:8px; margin-bottom:16px;">
+            <button onClick="{{setRegEcho}}" style="flex:1; font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase; padding:8px 10px; border-radius:20px; border:0.5px solid {{echoToggleBorder}}; background:{{echoToggleBg}}; color:{{echoToggleColor}};">Echoes</button>
+            <button onClick="{{setRegReality}}" style="flex:1; font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase; padding:8px 10px; border-radius:20px; border:0.5px solid {{realityToggleBorder}}; background:{{realityToggleBg}}; color:{{realityToggleColor}};">Realities</button>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <sc-for list="{{gridItems}}" as="item" hint-placeholder-count="4">
+              <button onClick="{{item.open}}" style="text-align:left; background:#181714; border:0.5px solid #26251f; border-radius:12px; overflow:hidden;">
+                <div style="aspect-ratio:1.3; background:{{item.tintBg}}; display:flex; align-items:center; justify-content:center;">
+                  <div class="mono" style="font-size:13px; color:{{item.tintColor}}; letter-spacing:0.06em;">{{item.ec}}</div>
+                </div>
+                <div style="padding:11px;">
+                  <div class="mono" style="font-size:9.5px; color:#cc785c; margin-bottom:4px;">{{item.id}}</div>
+                  <div style="font-size:12px; color:#d8d4c8; font-weight:500; margin-bottom:8px; line-height:1.3;">{{item.name}}</div>
+                  <span style="display:inline-block; font-size:8px; padding:2px 6px; border-radius:2px; background:{{item.tagBg}}; color:{{item.tagColor}}; border:1px solid {{item.tagBorder}};">{{item.tag}}</span>
+                </div>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ══════════════ ENTRY (Echo / Reality detail + Field Dispatch) ══════════════ -->
+      <sc-if value="{{screenIsEntry}}" hint-placeholder-val="{{false}}">
+        <div style="padding:14px 16px 32px;">
+          <button onClick="{{back}}" style="display:flex; align-items:center; gap:6px; background:none; border:none; padding:4px 0; margin:0 0 14px -4px; color:#8a8678;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+            <span class="mono" style="font-size:11px;">{{entry.id}}</span>
+          </button>
+
+          <div style="font-size:20px; color:#f0ece0; font-weight:600; margin-bottom:12px; line-height:1.25;">{{entry.title}}</div>
+
+          <div class="hscroll" style="gap:6px; margin-bottom:20px; margin-left:-16px; margin-right:-16px; padding-left:16px; padding-right:16px;">
+            <div style="flex-shrink:0; background:#141210; border:0.5px solid #26251f; border-radius:8px; padding:6px 10px;">
+              <div style="font-size:8px; color:#4a4840; text-transform:uppercase;">EC</div>
+              <div class="mono" style="font-size:11px; color:#a8a49a;">{{entry.ec}}</div>
+            </div>
+            <div style="flex-shrink:0; background:#141210; border:0.5px solid #26251f; border-radius:8px; padding:6px 10px;">
+              <div style="font-size:8px; color:#4a4840; text-transform:uppercase;">ESC</div>
+              <div class="mono" style="font-size:11px; color:{{entry.escColor}};">{{entry.esc}}</div>
+            </div>
+            <div style="flex-shrink:0; background:#141210; border:0.5px solid #26251f; border-radius:8px; padding:6px 10px;">
+              <div style="font-size:8px; color:#4a4840; text-transform:uppercase;">RTS</div>
+              <div class="mono" style="font-size:11px; color:#a8a49a;">{{entry.rts}}</div>
+            </div>
+            <div style="flex-shrink:0; background:#141210; border:0.5px solid #26251f; border-radius:8px; padding:6px 10px;">
+              <div style="font-size:8px; color:#4a4840; text-transform:uppercase;">RDS</div>
+              <div class="mono" style="font-size:11px; color:#a8a49a;">{{entry.rds}}</div>
+            </div>
+          </div>
+
+          <p style="font-size:13.5px; color:#a8a49a; line-height:1.75; margin:0 0 20px;">{{entry.desc}}</p>
+
+          <div style="display:flex; gap:6px; margin-bottom:0; border-bottom:0.5px solid #26251f;">
+            <button onClick="{{setDispatchReports}}" style="flex:1; font-size:11px; letter-spacing:0.05em; text-transform:uppercase; padding:10px; background:none; border:none; border-bottom:2px solid {{reportsTabColor}}; color:{{reportsTabColor}};">Reports</button>
+            <button onClick="{{setDispatchNotes}}" style="flex:1; font-size:11px; letter-spacing:0.05em; text-transform:uppercase; padding:10px; background:none; border:none; border-bottom:2px solid {{notesTabColor}}; color:{{notesTabColor}};">Field Notes</button>
+          </div>
+
+          <div style="padding:16px 2px 0;">
+            <sc-if value="{{showReports}}" hint-placeholder-val="{{true}}">
+              <div style="font-size:12.5px; color:#8a8678; line-height:1.7;">{{entry.behavior}}</div>
+            </sc-if>
+            <sc-if value="{{showNotes}}" hint-placeholder-val="{{false}}">
+              <sc-for list="{{entry.notes}}" as="note" hint-placeholder-count="2">
+                <div style="margin-bottom:14px; padding-bottom:14px; border-bottom:0.5px solid #1e1c18;">
+                  <div class="mono" style="font-size:10.5px; color:#cc785c; margin-bottom:4px;">{{note.author}}</div>
+                  <div style="font-size:12px; color:#726c5c; line-height:1.6;">{{note.text}}</div>
+                </div>
+              </sc-for>
+            </sc-if>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ══════════════ SHOP — GRID ══════════════ -->
+      <sc-if value="{{screenIsShopGrid}}" hint-placeholder-val="{{false}}">
+        <div style="padding:14px 16px 24px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;">
+            <div style="font-size:18px; color:#f0ece0; font-weight:600;">Procurement</div>
+            <button onClick="{{goCart}}" style="position:relative; background:#181714; border:0.5px solid #26251f; border-radius:8px; padding:8px 10px; color:#c0bcb0;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2l1.5 5M18 2l-1.5 5M4 7h16l-1.5 12a2 2 0 0 1-2 1.8H7.5a2 2 0 0 1-2-1.8z"/></svg>
+              <sc-if value="{{hasCartItems}}" hint-placeholder-val="{{false}}">
+                <span class="mono" style="position:absolute; top:-6px; right:-6px; background:#cc785c; color:#1a1210; font-size:9px; font-weight:700; border-radius:8px; padding:1px 5px; min-width:15px; text-align:center;">{{cartCount}}</span>
+              </sc-if>
+            </button>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <sc-for list="{{products}}" as="p" hint-placeholder-count="4">
+              <button onClick="{{p.open}}" style="text-align:left; background:#181714; border:0.5px solid #26251f; border-radius:12px; overflow:hidden;">
+                <div style="aspect-ratio:1; background:#0f0e0b; display:flex; align-items:center; justify-content:center;">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#cc785c" stroke-width="1.2" opacity="0.5"><rect x="4" y="4" width="16" height="16" rx="2"/><circle cx="9" cy="10" r="1.4" fill="#cc785c" stroke="none"/><path d="M4 16l4.5-4.5 3 3L16 9.5l4 4"/></svg>
+                </div>
+                <div style="padding:10px;">
+                  <div style="font-size:11px; color:#d8d4c8; margin-bottom:4px;">{{p.name}}</div>
+                  <div class="mono" style="font-size:12px; color:#cc785c; font-weight:600;">{{p.priceLabel}}</div>
+                </div>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ══════════════ PRODUCT DETAIL ══════════════ -->
+      <sc-if value="{{screenIsProduct}}" hint-placeholder-val="{{false}}">
+        <div style="padding-bottom:24px;">
+          <button onClick="{{back}}" style="position:absolute; top:14px; left:16px; z-index:2; display:flex; align-items:center; justify-content:center; width:32px; height:32px; border-radius:50%; background:rgba(15,14,11,0.7); border:0.5px solid #26251f; color:#e8e4d8;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button onClick="{{toggleWatch}}" style="position:absolute; top:14px; right:16px; z-index:2; display:flex; align-items:center; justify-content:center; width:32px; height:32px; border-radius:50%; background:rgba(15,14,11,0.7); border:0.5px solid #26251f; color:{{watchColor}};">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="{{watchFill}}" stroke="currentColor" stroke-width="1.8"><path d="M6 3h12v18l-6-4.5L6 21z"/></svg>
+          </button>
+
+          <div style="height:230px; background:#0f0e0b; display:flex; align-items:center; justify-content:center; border-bottom:0.5px solid #26251f;">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#cc785c" stroke-width="1" opacity="0.4"><rect x="4" y="4" width="16" height="16" rx="2"/><circle cx="9" cy="10" r="1.4" fill="#cc785c" stroke="none"/><path d="M4 16l4.5-4.5 3 3L16 9.5l4 4"/></svg>
+          </div>
+
+          <div style="padding:20px 16px 0;">
+            <div class="mono" style="font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:#4a4840; margin-bottom:6px;">Archive Collection — Field Replica</div>
+            <div style="font-size:18px; color:#f0ece0; font-weight:600; margin-bottom:8px;">{{product.name}}</div>
+            <div class="mono" style="font-size:17px; color:#cc785c; font-weight:600; margin-bottom:16px;">{{product.priceLabel}}</div>
+            <p style="font-size:13px; color:#a8a49a; line-height:1.7; margin:0 0 22px;">{{product.desc}}</p>
+
+            <button onClick="{{addToCart}}" style="display:block; width:100%; background:#cc785c; border:none; color:#1a1210; border-radius:8px; padding:13px; font-size:13px; font-weight:600;">{{addToCartLabel}}</button>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ══════════════ CART ══════════════ -->
+      <sc-if value="{{screenIsCart}}" hint-placeholder-val="{{false}}">
+        <div style="padding:14px 16px 24px;">
+          <button onClick="{{back}}" style="display:flex; align-items:center; gap:6px; background:none; border:none; padding:4px 0; margin:0 0 14px -4px; color:#8a8678;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+            <span style="font-size:12px;">Continue browsing</span>
+          </button>
+          <div style="font-size:18px; color:#f0ece0; font-weight:600; margin-bottom:16px;">Cart</div>
+
+          <sc-if value="{{cartEmpty}}" hint-placeholder-val="{{false}}">
+            <div style="text-align:center; padding:50px 20px; color:#5a5750; font-size:12.5px;">No items in cart yet.</div>
+          </sc-if>
+
+          <sc-for list="{{cartItems}}" as="item" hint-placeholder-count="2">
+            <div style="display:flex; align-items:center; gap:12px; background:#181714; border:0.5px solid #26251f; border-radius:10px; padding:12px; margin-bottom:8px;">
+              <div style="width:46px; height:46px; border-radius:8px; background:#0f0e0b; flex-shrink:0; display:flex; align-items:center; justify-content:center;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#cc785c" stroke-width="1.2" opacity="0.5"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 16l4.5-4.5 3 3L16 9.5l4 4"/></svg>
+              </div>
+              <div style="flex:1; min-width:0;">
+                <div style="font-size:12.5px; color:#d8d4c8; margin-bottom:3px;">{{item.name}}</div>
+                <div class="mono" style="font-size:12px; color:#cc785c;">{{item.priceLabel}}</div>
+              </div>
+              <button onClick="{{item.remove}}" style="background:none; border:none; color:#5a5750; padding:6px;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+            </div>
+          </sc-for>
+
+          <sc-if value="{{cartHasItems}}" hint-placeholder-val="{{false}}">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:18px; padding-top:14px; border-top:0.5px solid #26251f;">
+              <span style="font-size:12px; color:#8a8678;">Total</span>
+              <span class="mono" style="font-size:16px; color:#f0ece0; font-weight:600;">{{cartTotalLabel}}</span>
+            </div>
+            <button onClick="{{checkout}}" style="display:block; width:100%; background:#cc785c; border:none; color:#1a1210; border-radius:8px; padding:13px; font-size:13px; font-weight:600; margin-top:16px;">Checkout</button>
+          </sc-if>
+        </div>
+      </sc-if>
+
+      <!-- ══════════════ THANKS ══════════════ -->
+      <sc-if value="{{screenIsThanks}}" hint-placeholder-val="{{false}}">
+        <div style="padding:80px 24px; text-align:center;">
+          <div style="width:52px; height:52px; border-radius:50%; background:rgba(29,158,117,0.12); border:1px solid #1d9e75; display:flex; align-items:center; justify-content:center; margin:0 auto 18px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1d9e75" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div style="font-size:17px; color:#f0ece0; font-weight:600; margin-bottom:8px;">Procurement request received.</div>
+          <div style="font-size:12.5px; color:#726c5c; line-height:1.6; margin-bottom:26px;">Order ref <span class="mono" style="color:#a8a49a;">ALR-7F291</span> logged under Cycle 7 — Archive Operations. Dispatch typically clears within 7–14 cycles.</div>
+          <button onClick="{{goShopGrid}}" style="display:inline-block; background:none; border:1px solid #3a3830; color:#a09888; border-radius:8px; padding:11px 22px; font-size:12px;">Continue Browsing</button>
+        </div>
+      </sc-if>
+
+      <!-- ══════════════ ARCHIVE LOG ══════════════ -->
+      <sc-if value="{{screenIsLog}}" hint-placeholder-val="{{false}}">
+        <div style="padding:14px 16px 24px;">
+          <button onClick="{{back}}" style="display:flex; align-items:center; gap:6px; background:none; border:none; padding:4px 0; margin:0 0 14px -4px; color:#8a8678;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+            <span style="font-size:12px;">Home</span>
+          </button>
+          <div style="font-size:18px; color:#f0ece0; font-weight:600; margin-bottom:16px;">Archive Log</div>
+
+          <div class="hscroll" style="gap:8px; margin-bottom:20px;">
+            <sc-for list="{{cycles}}" as="cyc" hint-placeholder-count="7">
+              <button onClick="{{cyc.select}}" style="flex-shrink:0; width:44px; height:54px; border-radius:10px; border:0.5px solid {{cyc.border}}; background:{{cyc.bg}}; color:{{cyc.color}}; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;">
+                <span style="font-size:8px; text-transform:uppercase; letter-spacing:0.05em; opacity:0.8;">Cyc</span>
+                <span class="mono" style="font-size:15px; font-weight:600;">{{cyc.n}}</span>
+              </button>
+            </sc-for>
+          </div>
+
+          <div style="font-size:9px; letter-spacing:0.1em; text-transform:uppercase; color:#4a4840; font-weight:600; margin-bottom:10px;">{{logHeading}}</div>
+
+          <sc-if value="{{logEmpty}}" hint-placeholder-val="{{false}}">
+            <div style="text-align:center; padding:40px 10px; color:#5a5750; font-size:12px;">No further records for this Cycle.</div>
+          </sc-if>
+
+          <sc-for list="{{logRows}}" as="row" hint-placeholder-count="3">
+            <div style="display:flex; align-items:flex-start; gap:10px; padding:12px 0; border-bottom:0.5px solid #1e1c18;">
+              <div style="width:7px; height:7px; border-radius:50%; margin-top:5px; flex-shrink:0; background:{{row.dot}};"></div>
+              <div>
+                <div class="mono" style="font-size:10px; text-transform:uppercase; letter-spacing:0.06em; color:{{row.dot}}; margin-bottom:4px;">{{row.label}}</div>
+                <div style="font-size:12.5px; color:#c0bcb0; line-height:1.55; margin-bottom:4px;">{{row.text}}</div>
+                <div style="font-size:10.5px; color:#4a4840;">{{row.division}}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+    </div>
+
+    <!-- ── BOTTOM NAV (matches the shipped site's mobile tab bar) ── -->
+    <sc-if value="{{showChrome}}" hint-placeholder-val="{{false}}">
+      <div style="position:relative; z-index:5; flex-shrink:0; display:grid; grid-template-columns:repeat(5,1fr); background:rgba(17,17,16,0.9); border-top:0.5px solid #26251f; padding:7px 0 10px;">
+        <button onClick="{{goHome}}" style="display:flex; flex-direction:column; align-items:center; gap:3px; background:none; border:none; padding:4px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{tabHomeColor}}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+          <span style="font-size:8px; letter-spacing:0.06em; text-transform:uppercase; color:{{tabHomeColor}};">Home</span>
+        </button>
+        <button onClick="{{goRegistryGrid}}" style="display:flex; flex-direction:column; align-items:center; gap:3px; background:none; border:none; padding:4px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{tabRegistryColor}}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          <span style="font-size:8px; letter-spacing:0.06em; text-transform:uppercase; color:{{tabRegistryColor}};">Registry</span>
+        </button>
+        <button onClick="{{goShopGrid}}" style="position:relative; display:flex; flex-direction:column; align-items:center; gap:3px; background:none; border:none; padding:4px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{tabShopColor}}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2l1.5 5M18 2l-1.5 5M4 7h16l-1.5 12a2 2 0 0 1-2 1.8H7.5a2 2 0 0 1-2-1.8z"/></svg>
+          <span style="font-size:8px; letter-spacing:0.06em; text-transform:uppercase; color:{{tabShopColor}};">Shop</span>
+          <sc-if value="{{hasCartItems}}" hint-placeholder-val="{{false}}">
+            <span class="mono" style="position:absolute; top:0px; right:26px; background:#cc785c; color:#1a1210; font-size:8px; font-weight:700; border-radius:7px; padding:1px 4px;">{{cartCount}}</span>
+          </sc-if>
+        </button>
+        <button onClick="{{goAccount}}" style="display:flex; flex-direction:column; align-items:center; gap:3px; background:none; border:none; padding:4px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{tabAccountColor}}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span style="font-size:8px; letter-spacing:0.06em; text-transform:uppercase; color:{{tabAccountColor}};">Account</span>
+        </button>
+        <button onClick="{{toggleMore}}" style="display:flex; flex-direction:column; align-items:center; gap:3px; background:none; border:none; padding:4px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4a4840" stroke-width="1.6" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          <span style="font-size:8px; letter-spacing:0.06em; text-transform:uppercase; color:#4a4840;">More</span>
+        </button>
+      </div>
+    </sc-if>
+
+    <!-- ── ACCOUNT (minimal — not the focus of this exploration) ── -->
+    <sc-if value="{{screenIsAccount}}" hint-placeholder-val="{{false}}">
+      <div style="position:absolute; inset:0; background:#1a1915; padding:20px 16px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:10px;">
+        <div style="width:52px; height:52px; border-radius:50%; background:#2a1c14; border:1px solid #cc785c; display:flex; align-items:center; justify-content:center; font-size:18px; color:#cc785c; font-weight:600;">E</div>
+        <div style="font-size:15px; color:#f0ece0; font-weight:600;">E. Maren</div>
+        <div style="font-size:11px; color:#726c5c;">Account, orders and badges live on the real Account page — not part of this exploration.</div>
+      </div>
+    </sc-if>
+
+    <!-- ── MORE DRAWER OVERLAY ── -->
+    <sc-if value="{{moreOpen}}" hint-placeholder-val="{{false}}">
+      <div onClick="{{toggleMore}}" style="position:absolute; inset:0; background:rgba(0,0,0,0.5); z-index:20;"></div>
+      <div style="position:absolute; top:0; left:0; bottom:0; width:74%; background:#141210; border-right:0.5px solid #26251f; z-index:21; padding:20px 16px; display:flex; flex-direction:column; gap:4px;">
+        <div style="font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:#4a4840; margin-bottom:10px;">Archive</div>
+        <div style="font-size:13px; color:#c0bcb0; padding:10px 0;">Foundations</div>
+        <div style="font-size:13px; color:#c0bcb0; padding:10px 0;">Systems</div>
+        <div style="font-size:13px; color:#c0bcb0; padding:10px 0;">Equipment</div>
+        <div style="font-size:13px; color:#c0bcb0; padding:10px 0;">Protocols</div>
+        <div style="font-size:13px; color:#c0bcb0; padding:10px 0;">Grading Terminal</div>
+        <div style="margin-top:auto; font-size:10px; color:#3a3830;">Full sidebar tree lives here — same drawer as the shipped site.</div>
+      </div>
+    </sc-if>
+
+  </div>
+</div>
+
+</x-dc>
+<script data-dc-script data-props='{"accent":{"editor":"color","default":"#cc785c","section":"Theme"}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      screen: "splash",
+      prevScreen: "splash",
+      activeTab: "home",
+      entryId: "e000",
+      registryType: "echo",
+      productId: "p1",
+      cart: ["p1"],
+      moreOpen: false,
+      dispatchTab: "reports",
+      cycleSelected: 7,
+    };
+  }
+
+  nav(screen, parent, extra) {
+    return () => this.setState(Object.assign({ screen: screen, prevScreen: parent || "home", moreOpen: false }, extra || {}));
+  }
+
+  back() {
+    return () => this.setState({ screen: this.state.prevScreen || "home" });
+  }
+
+  toggleMore() { return () => this.setState({ moreOpen: !this.state.moreOpen }); }
+  setRegType(t) { return () => this.setState({ registryType: t }); }
+  setDispatch(t) { return () => this.setState({ dispatchTab: t }); }
+  selectCycle(n) { return () => this.setState({ cycleSelected: n }); }
+
+  toggleWatch() {
+    return () => {
+      var w = this.state.watched || {};
+      var id = this.state.productId;
+      w = Object.assign({}, w, { [id]: !w[id] });
+      this.setState({ watched: w });
+    };
+  }
+
+  addToCart() {
+    return () => {
+      var id = this.state.productId;
+      if (this.state.cart.indexOf(id) === -1) {
+        this.setState({ cart: this.state.cart.concat([id]) });
+      }
+    };
+  }
+
+  removeFromCart(id) {
+    return () => this.setState({ cart: this.state.cart.filter(function(x) { return x !== id; }) });
+  }
+
+  checkout() {
+    return () => this.setState({ screen: "thanks", prevScreen: "shop-grid", cart: [] });
+  }
+
+  renderVals() {
+    const accent = this.props.accent || "#cc785c";
+    const s = this.state.screen;
+    const watched = this.state.watched || {};
+
+    const echoData = [
+      { id: "ECHO-000", key: "e000", ec: "LOC", name: "The Archive", tag: "S1", tagBg: "#06120d", tagColor: "#1d9e75", tagBorder: "#0e4030", tintBg: "#0e1c2a", tintColor: "#378add",
+        detail: { ec: "LOC — Location", esc: "S1 — Stable", escColor: "#1d9e75", rts: "T5 — Cosmic", rds: "D — Exotic",
+          desc: "ECHO-000, designated The Archive, is an anomalous extradimensional structure of indeterminate origin. It is the first Echo formally registered in the ALR Initiative catalog and currently serves as the operational headquarters of the Initiative.",
+          behavior: "The structure responds to operational need. New rooms appear when additional archival space is required. None of these changes have ever been observed in process.",
+          notes: [{ author: "M. Voss, Archive Operations", text: "The oldest entry in the catalog. Classification framework formally flagged as potentially inapplicable." }, { author: "E. Maren, Investigator", text: "I have worked inside this structure longer than anywhere else. It feels like it has been waiting." }] } },
+      { id: "ECHO-005", key: "e005", ec: "OBJ", name: "The Blood Painting", tag: "S3", tagBg: "#1a1208", tagColor: "#c49030", tagBorder: "#4a3010", tintBg: "#1c1408", tintColor: "#ba7517",
+        detail: { ec: "OBJ — Object", esc: "S3 — Fractured", escColor: "#c49030", rts: "T3 — Developed", rds: "C — Divergent",
+          desc: "A framed canvas recovered from a residential collapse site. The pigment composition does not match any known artistic medium catalogued by the Initiative.",
+          behavior: "Handling requires certified containment protocol. Extended proximity has been correlated with reported disorientation in field personnel.",
+          notes: [{ author: "N. Ossic, Echo Research", text: "The composition changes between manifestations, but the character of suffering it depicts never does." }] } },
+      { id: "ECHO-031", key: "e031", ec: "ENT", name: "Those Who Sleep", tag: "S1", tagBg: "#06120d", tagColor: "#1d9e75", tagBorder: "#0e4030", tintBg: "#160e22", tintColor: "#7f77dd",
+        detail: { ec: "ENT — Entity", esc: "S1 — Stable", escColor: "#1d9e75", rts: "T4 — Grand", rds: "A — Analogous",
+          desc: "A cluster of dormant humanoid entities recovered in situ, arranged in a formation consistent with the source reality's burial customs.",
+          behavior: "No entity in the cluster has been observed to move, though personnel report an inconsistent sense of being counted upon entering the containment chamber.",
+          notes: [{ author: "J. Calloway, Reality Investigation", text: "Reclassification under review — manifestation pattern shows increased frequency this cycle." }] } },
+      { id: "ECHO-127", key: "e127", ec: "ENT", name: "A Quiet Taker", tag: "S2", tagBg: "#1a1408", tagColor: "#d4a840", tagBorder: "#4a3810", tintBg: "#160e22", tintColor: "#7f77dd",
+        detail: { ec: "ENT — Entity", esc: "S2 — Volatile", escColor: "#d4a840", rts: "T3 — Developed", rds: "B — Variant",
+          desc: "An anomalous remnant recovered from a collapsed reality. Classification data preserved within the Archive.",
+          behavior: "Full documentation is pending formal review by the Echo Research Division.",
+          notes: [] } },
+    ];
+
+    const realityData = [
+      { id: "R-007", key: "r007", ec: "RTY", name: "Reality R-007", tag: "T4", tagBg: "#1a1408", tagColor: "#d4a840", tagBorder: "#4a3810", tintBg: "#1c1108", tintColor: "#c49030",
+        detail: { ec: "RCC-2 — Systemic Failure", esc: "T4", escColor: "#d4a840", rts: "T4 — Grand", rds: "B — Variant",
+          desc: "Investigation report from Site Delta. Field teams recovered partial structural remains and one associated Echo prior to full collapse.",
+          behavior: "Site access remains restricted pending a follow-up survey by Reality Investigation.",
+          notes: [] } },
+      { id: "R-019", key: "r019", ec: "RTY", name: "Reality R-019", tag: "T2", tagBg: "#06120d", tagColor: "#1d9e75", tagBorder: "#0e4030", tintBg: "#0e1c2a", tintColor: "#378add",
+        detail: { ec: "RCC-1 — Silent Collapse", esc: "T2", escColor: "#1d9e75", rts: "T2 — Localized", rds: "C — Divergent",
+          desc: "Field documentation complete. Entry transferred to Archive Operations following a stable multi-cycle observation window.",
+          behavior: "No further field activity scheduled for this reality.",
+          notes: [] } },
+    ];
+
+    const registryData = this.state.registryType === "reality" ? realityData : echoData;
+    const gridItems = registryData.map((r) => ({
+      id: r.id, ec: r.ec, name: r.name, tag: r.tag, tagBg: r.tagBg, tagColor: r.tagColor, tagBorder: r.tagBorder,
+      tintBg: r.tintBg, tintColor: r.tintColor,
+      open: this.nav("entry", "registry-grid", { entryId: r.key, activeTab: "registry", dispatchTab: "reports" }),
+    }));
+
+    const allEntries = echoData.concat(realityData);
+    const found = allEntries.filter((e) => e.key === this.state.entryId)[0] || echoData[0];
+    const entry = Object.assign({ id: found.id, title: found.name }, found.detail);
+
+    const products = [
+      { key: "p1", name: "Lastlight Recorder — Field Replica", price: 58, desc: "A non-functional field replica of the Initiative's standard-issue Lastlight Recorder. Housed in the same weighted casing used by active field units." },
+      { key: "p2", name: "Echo Scanner Unit — Handheld", price: 72, desc: "Handheld display replica of the Echo Scanner Unit issued to Echo Research personnel. Display glass is inert; casing is accurate to spec." },
+      { key: "p3", name: "A.L.I.C.E. — Collector's Edition", price: 124, desc: "A limited desk-scale replica of the Archive Linguistic Interface. Ships in archival packaging with a numbered provenance card." },
+      { key: "p4", name: "Field Operative Tee", price: 28, desc: "Heavyweight cotton, printed with the Archive Operations mark. Cut for fieldwork, not fashion." },
+    ];
+    const productMap = {};
+    products.forEach((p) => { productMap[p.key] = p; });
+
+    const productsForGrid = products.map((p) => ({
+      name: p.name, priceLabel: "$" + p.price,
+      open: this.nav("product", "shop-grid", { productId: p.key, activeTab: "shop" }),
+    }));
+
+    const currentProduct = productMap[this.state.productId] || products[0];
+
+    const cartItems = this.state.cart.map((id) => {
+      var p = productMap[id];
+      return { name: p.name, priceLabel: "$" + p.price, remove: this.removeFromCart(id) };
+    });
+    const cartTotal = this.state.cart.reduce((sum, id) => sum + (productMap[id] ? productMap[id].price : 0), 0);
+
+    const logData = {
+      7: [
+        { dot: "#993c1d", label: "S4 — Terminal review", text: "ECHO-003 stability review due. S4 classification pending.", division: "Archive Operations" },
+        { dot: "#854f0b", label: "S3 — Reclassification pending", text: "ECHO-031 reclassification under review. Manifestation pattern shows increased frequency.", division: "Echo Research Division" },
+        { dot: "#3c3489", label: "Field — Transfer complete", text: "R-019 field documentation complete. Entry transferred to Archive Operations.", division: "Reality Investigation Division" },
+      ],
+      6: [
+        { dot: "#3c3489", label: "Field — Survey opened", text: "Site Delta survey opened following partial structural collapse.", division: "Reality Investigation Division" },
+      ],
+    };
+    const activeCycle = this.state.cycleSelected;
+    const logRows = logData[activeCycle] || [];
+
+    const cycles = [7, 6, 5, 4, 3, 2, 1].map((n) => ({
+      n: n,
+      select: this.selectCycle(n),
+      border: n === activeCycle ? accent : "#26251f",
+      bg: n === activeCycle ? "rgba(204,120,92,0.12)" : "#181714",
+      color: n === activeCycle ? accent : "#8a8678",
+    }));
+
+    const tab = this.state.activeTab;
+    const isChromeScreen = ["home", "registry-grid", "entry", "shop-grid", "product", "cart", "thanks", "log", "account"].indexOf(s) !== -1;
+
+    return {
+      screenIsSplash: s === "splash",
+      screenIsLogin: s === "login",
+      screenIsHome: s === "home",
+      screenIsRegistryGrid: s === "registry-grid",
+      screenIsEntry: s === "entry",
+      screenIsShopGrid: s === "shop-grid",
+      screenIsProduct: s === "product",
+      screenIsCart: s === "cart",
+      screenIsThanks: s === "thanks",
+      screenIsLog: s === "log",
+      screenIsAccount: s === "account",
+      showChrome: isChromeScreen,
+
+      goLogin: this.nav("login", "splash"),
+      goHome: this.nav("home", "home", { activeTab: "home" }),
+      goRegistryGrid: this.nav("registry-grid", "registry-grid", { activeTab: "registry" }),
+      goShopGrid: this.nav("shop-grid", "shop-grid", { activeTab: "shop" }),
+      goCart: this.nav("cart", "shop-grid", { activeTab: "shop" }),
+      goAccount: this.nav("account", "account", { activeTab: "account" }),
+      goLog: this.nav("log", "home", { activeTab: "home" }),
+      toggleMore: this.toggleMore(),
+      moreOpen: this.state.moreOpen,
+      back: this.back(),
+
+      registryTitle: this.state.registryType === "reality" ? "Reality Registry" : "Echo Registry",
+      registryCount: this.state.registryType === "reality" ? "2 documented" : "10 documented",
+      setRegEcho: this.setRegType("echo"),
+      setRegReality: this.setRegType("reality"),
+      echoToggleBorder: this.state.registryType === "echo" ? accent : "#26251f",
+      echoToggleBg: this.state.registryType === "echo" ? "rgba(204,120,92,0.1)" : "none",
+      echoToggleColor: this.state.registryType === "echo" ? accent : "#8a8678",
+      realityToggleBorder: this.state.registryType === "reality" ? accent : "#26251f",
+      realityToggleBg: this.state.registryType === "reality" ? "rgba(204,120,92,0.1)" : "none",
+      realityToggleColor: this.state.registryType === "reality" ? accent : "#8a8678",
+      gridItems: gridItems,
+
+      entry: entry,
+      setDispatchReports: this.setDispatch("reports"),
+      setDispatchNotes: this.setDispatch("notes"),
+      showReports: this.state.dispatchTab === "reports",
+      showNotes: this.state.dispatchTab === "notes",
+      reportsTabColor: this.state.dispatchTab === "reports" ? accent : "#4a4840",
+      notesTabColor: this.state.dispatchTab === "notes" ? accent : "#4a4840",
+
+      products: productsForGrid,
+      product: { name: currentProduct.name, priceLabel: "$" + currentProduct.price, desc: currentProduct.desc },
+      addToCart: this.addToCart(),
+      addToCartLabel: this.state.cart.indexOf(this.state.productId) !== -1 ? "Added to Cart" : "Add to Cart",
+      toggleWatch: this.toggleWatch(),
+      watchColor: watched[this.state.productId] ? accent : "#e8e4d8",
+      watchFill: watched[this.state.productId] ? accent : "none",
+
+      cartItems: cartItems,
+      cartEmpty: cartItems.length === 0,
+      cartHasItems: cartItems.length > 0,
+      hasCartItems: cartItems.length > 0,
+      cartCount: String(cartItems.length),
+      cartTotalLabel: "$" + cartTotal,
+      checkout: this.checkout(),
+
+      cycles: cycles,
+      logHeading: "Cycle " + activeCycle + " — Operations Log",
+      logRows: logRows,
+      logEmpty: logRows.length === 0,
+
+      tabHomeColor: tab === "home" ? accent : "#4a4840",
+      tabRegistryColor: tab === "registry" ? accent : "#4a4840",
+      tabShopColor: tab === "shop" ? accent : "#4a4840",
+      tabAccountColor: tab === "account" ? accent : "#4a4840",
+    };
+  }
+}
+</script>
+</body>
+</html>
