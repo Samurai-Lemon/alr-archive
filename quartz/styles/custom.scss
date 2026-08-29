@@ -1650,6 +1650,7 @@ details[open] .alr-sb-chevron {
 .alr-reg-banner-title { font-size: 26px; font-weight: 500; color: #f0ece0; margin-bottom: 6px; letter-spacing: -0.3px; }
 .alr-reg-banner-titlerow { display: block; }
 .alr-reg-banner-count { display: none; }
+.alr-reg-type-toggle { display: none; }
 .alr-reg-banner-sub { font-size: 12px; color: #85806f; line-height: 1.7; max-width: 560px; }
 
 .alr-reg-body { padding: 24px 2rem 0; }
@@ -2610,6 +2611,37 @@ details[open] .alr-sb-chevron {
   .alr-reg-banner-count { display: block !important; font-size: 11px !important; color: #4a4840 !important; }
   .alr-reg-stats { display: none !important; }
   .alr-reg-body { padding: 10px 16px 0 !important; }
+
+  // Quick Echo/Reality switcher, so the Registry tab isn't a dead end into just one type —
+  // the other registry is one tap away instead of buried in the "More" drawer's sidebar tree.
+  .alr-reg-type-toggle {
+    display: flex !important;
+    gap: 8px;
+    padding: 0 16px 4px;
+  }
+  .alr-reg-type-btn {
+    flex: 1;
+    text-align: center;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 8px 10px;
+    border-radius: 20px;
+    border: 0.5px solid #26251f;
+    background: none;
+    color: #8a8678 !important;
+    text-decoration: none !important;
+    border-bottom: 0.5px solid #26251f !important;
+  }
+  .alr-reg-type-btn.alr-reg-type-active {
+    border-color: #cc785c;
+    background: rgba(204,120,92,0.1);
+    color: #cc785c !important;
+    border-bottom-color: #cc785c !important;
+  }
+  :root[saved-theme="light"] .alr-reg-type-btn { border-color: #d8d0c4; color: #7a7068 !important; }
+  :root[saved-theme="light"] .alr-reg-type-btn.alr-reg-type-active { border-color: #a85c42; background: rgba(168,92,66,0.1); color: #a85c42 !important; }
 
   // ─── SHOP — mobile filter trigger (opens the real sidebar price slider) ──
   .alr-shop-mobile-filter {

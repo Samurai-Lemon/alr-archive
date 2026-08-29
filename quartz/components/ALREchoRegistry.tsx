@@ -148,6 +148,11 @@ const ALREchoRegistry: QuartzComponent = ({
         </div>
       </div>
 
+      <div class="alr-reg-type-toggle">
+        <a href="/Index/ECHO-Registry" class="alr-reg-type-btn alr-reg-type-active internal">Echoes</a>
+        <a href="/Index/Reality-Registry" class="alr-reg-type-btn internal">Realities</a>
+      </div>
+
       <div class="alr-reg-body">
         <div class="alr-reg-stats">
           <div class="alr-reg-stat-cell">
