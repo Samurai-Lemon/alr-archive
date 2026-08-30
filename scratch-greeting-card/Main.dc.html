@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    .mono { font-family: "JetBrains Mono", ui-monospace, "SF Mono", monospace; }
+  </style>
+</helmet>
+
+<div style="position:relative; width:1500px; height:2100px; background:#0f0e0b; overflow:hidden; font-family:Inter,-apple-system,sans-serif;">
+
+  <!-- grid-pattern field, reproducing the homepage hero banner's exact visual language -->
+  <svg width="1500" height="2100" viewBox="0 0 1500 2100" style="position:absolute; inset:0;">
+    <line x1="0" y1="300" x2="1500" y2="300" stroke="#cc785c" stroke-width="1" opacity="0.14"/>
+    <line x1="0" y1="600" x2="1500" y2="600" stroke="#cc785c" stroke-width="1" opacity="0.14"/>
+    <line x1="0" y1="900" x2="1500" y2="900" stroke="#cc785c" stroke-width="1" opacity="0.14"/>
+    <line x1="0" y1="1200" x2="1500" y2="1200" stroke="#cc785c" stroke-width="1" opacity="0.14"/>
+    <line x1="0" y1="1500" x2="1500" y2="1500" stroke="#cc785c" stroke-width="1" opacity="0.14"/>
+    <line x1="0" y1="1800" x2="1500" y2="1800" stroke="#cc785c" stroke-width="1" opacity="0.14"/>
+    <line x1="150" y1="0" x2="150" y2="2100" stroke="#cc785c" stroke-width="1" opacity="0.14"/>
+    <line x1="450" y1="0" x2="450" y2="2100" stroke="#cc785c" stroke-width="1" opacity="0.14"/>
+    <line x1="750" y1="0" x2="750" y2="2100" stroke="#cc785c" stroke-width="1" opacity="0.14"/>
+    <line x1="1050" y1="0" x2="1050" y2="2100" stroke="#cc785c" stroke-width="1" opacity="0.14"/>
+    <line x1="1350" y1="0" x2="1350" y2="2100" stroke="#cc785c" stroke-width="1" opacity="0.14"/>
+
+    <rect x="151" y="301" width="298" height="298" fill="#cc785c" opacity="0.04"/>
+    <rect x="751" y="1" width="298" height="298" fill="#cc785c" opacity="0.035"/>
+    <rect x="1051" y="901" width="298" height="298" fill="#cc785c" opacity="0.045"/>
+    <rect x="1" y="1501" width="148" height="298" fill="#cc785c" opacity="0.03"/>
+    <rect x="1051" y="1801" width="298" height="298" fill="#cc785c" opacity="0.04"/>
+
+    <circle cx="1180" cy="260" r="4" fill="#cc785c" opacity="0.32"/>
+    <circle cx="1240" cy="410" r="2.5" fill="#cc785c" opacity="0.22"/>
+    <circle cx="1120" cy="520" r="3" fill="#cc785c" opacity="0.24"/>
+    <circle cx="300" cy="1750" r="3" fill="#cc785c" opacity="0.22"/>
+    <circle cx="220" cy="1620" r="2" fill="#cc785c" opacity="0.18"/>
+    <circle cx="380" cy="1880" r="4" fill="#cc785c" opacity="0.26"/>
+    <circle cx="1260" cy="1080" r="2.5" fill="#cc785c" opacity="0.2"/>
+
+
+    <line x1="0" y1="40" x2="1500" y2="40" stroke="#cc785c" stroke-width="3" opacity="0.6"/>
+    <line x1="0" y1="2060" x2="1500" y2="2060" stroke="#cc785c" stroke-width="3" opacity="0.6"/>
+  </svg>
+
+  <!-- large watermark mark, sitting behind the content -->
+  <svg width="1100" height="946" viewBox="0 0 557 480" fill="#cc785c" fill-rule="evenodd" xmlns="http://www.w3.org/2000/svg" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); opacity:0.16;">
+    <path d="M 531.0 468.5 L 384.0 467.5 L 283.0 400.5 L 271.0 403.5 L 184.0 463.5 L 172.0 468.5 L 26.0 468.5 L 14.5 461.0 L 11.5 454.0 L 14.5 439.0 L 250.5 39.0 L 269.0 13.5 L 285.0 11.5 L 298.5 24.0 L 542.5 438.0 L 545.5 446.0 L 544.5 458.0 L 531.0 468.5 Z M 448.5 429.0 L 480.0 428.5 L 484.5 425.0 L 484.5 419.0 L 287.5 85.0 L 282.0 78.5 L 276.0 78.5 L 77.5 411.0 L 73.5 425.0 L 78.0 428.5 L 96.0 429.5 L 159.0 428.5 L 237.5 376.0 L 237.5 371.0 L 232.0 365.5 L 175.0 328.5 L 170.5 324.0 L 169.5 317.0 L 262.5 155.0 L 271.0 145.5 L 283.0 143.5 L 293.5 151.0 L 389.5 316.0 L 388.5 323.0 L 382.0 329.5 L 325.0 366.5 L 321.5 370.0 L 322.5 377.0 L 395.0 426.5 L 409.0 429.5 L 448.5 429.0 Z M 283.5 345.0 L 332.0 311.5 L 335.5 303.0 L 284.5 217.0 L 276.0 215.5 L 222.5 308.0 L 274.0 344.5 L 283.5 345.0 Z"/>
+  </svg>
+
+  <!-- content, mirroring the homepage hero's exact anatomy: eyebrow, headline, tags — layered above the mark -->
+  <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:0 150px;">
+
+    <div class="mono" style="font-size:21px; letter-spacing:0.2em; text-transform:uppercase; color:#cc785c; margin-bottom:64px;">Archive of Lost Realities Initiative — Cycle 7</div>
+
+    <div class="mono" style="font-size:60px; font-weight:500; color:#f0ece0; line-height:1.24; letter-spacing:-1px; margin-bottom:64px; text-shadow:0 4px 40px rgba(15,14,11,0.8);">
+      Seasons change.<br>The Archive remains.
+    </div>
+
+    <div style="display:flex; gap:16px;">
+      <span class="mono" style="font-size:16px; color:#cc785c; border:1px solid #8a4a32; border-radius:6px; padding:12px 22px; background:rgba(10,10,8,0.6);">CYCLE 7</span>
+      <span class="mono" style="font-size:16px; color:#cc785c; border:1px solid #8a4a32; border-radius:6px; padding:12px 22px; background:rgba(10,10,8,0.6);">ARCHIVE OPERATIONS</span>
+    </div>
+
+    <div style="position:absolute; bottom:88px; left:0; right:0;">
+      <div class="mono" style="font-size:16px; letter-spacing:0.16em; text-transform:uppercase; color:#4a4840;">ALR Initiative — Archive</div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

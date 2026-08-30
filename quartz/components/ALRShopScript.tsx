@@ -16,7 +16,7 @@ const ALRShopScript: QuartzComponent = () => {
         __html: `
 (function() {
   var PROXY = "https://alr-shop-proxy.lamouttejohn.workers.dev/";
-  var SHOP = "john-lamoutte-shop";
+  var SHOP_DOMAIN = "shop.alrinitiative.com";
 
   function formatPrice(amount, currency) {
     return new Intl.NumberFormat('en-US', { style: 'currency', currency: currency || 'USD' }).format(amount);
@@ -35,7 +35,7 @@ const ALRShopScript: QuartzComponent = () => {
       if (allProducts.length > 0) {
         container.innerHTML = '<div class="alr-shop-empty">No products match the current price range.</div>';
       } else {
-        container.innerHTML = '<div class="alr-shop-empty">No products currently available. <a href="https://' + SHOP + '.fourthwall.com" target="_blank">Visit the store directly.</a></div>';
+        container.innerHTML = '<div class="alr-shop-empty">No products currently available. <a href="https://' + SHOP_DOMAIN + '" target="_blank">Visit the store directly.</a></div>';
       }
       return;
     }
@@ -44,7 +44,7 @@ const ALRShopScript: QuartzComponent = () => {
     products.forEach(function(product) {
       var image = product.images && product.images[0] ? product.images[0].url : '';
       var price = product.variants && product.variants[0] ? formatPrice(product.variants[0].unitPrice.value, product.variants[0].unitPrice.currency) : '';
-      var url = 'https://' + SHOP + '.fourthwall.com/products/' + product.slug;
+      var url = 'https://' + SHOP_DOMAIN + '/products/' + product.slug;
 
       html += '<div class="alr-shop-card">';
       if (image) {
@@ -85,7 +85,7 @@ const ALRShopScript: QuartzComponent = () => {
       .catch(function(err) {
         window.__ALR_SHOP_ALL_PRODUCTS__ = [];
         if (container) {
-          container.innerHTML = '<div class="alr-shop-empty">Unable to load products. <a href="https://' + SHOP + '.fourthwall.com" target="_blank">Visit the store directly.</a></div>';
+          container.innerHTML = '<div class="alr-shop-empty">Unable to load products. <a href="https://' + SHOP_DOMAIN + '" target="_blank">Visit the store directly.</a></div>';
         }
       });
   }

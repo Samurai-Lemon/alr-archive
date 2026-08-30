@@ -1,0 +1,77 @@
+<style>
+/* ── ALR Initiative theme override for Fourthwall's theme CSS variables ──
+   Pulled these variable names directly from your live storefront's
+   css-variables.scss.css, so this rewrites the same variables your theme
+   already uses everywhere (buttons, backgrounds, text) rather than fighting
+   individual component classes. */
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  /* Core palette — matches quartz.config.ts on the main site */
+  --color-background: #0f0e0b;
+  --color-on-background: #f0ece0;
+  --color-background-rgb: 15, 14, 11;
+  --color-on-background-rgb: 240, 236, 224;
+  --color-background-brightness: 15;
+
+  --color-primary: #cc785c;
+  --color-on-primary: #1a1210;
+  --color-primary-rgb: 204, 120, 92;
+  --color-on-primary-rgb: 26, 18, 16;
+
+  --color-product-image-background: #181714;
+  --color-product-image-background-rgb: 24, 23, 20;
+
+  /* Typography — Inter was already your base font; JetBrains Mono replaces
+     the default display serif to match the site's terminal-style headings */
+  --font-family-heading: "JetBrains Mono", ui-monospace, monospace;
+  --font-family-accent: "JetBrains Mono", ui-monospace, monospace;
+
+  /* Softened corners to match the site's 6–10px card/button radius
+     instead of the theme's default sharp 0px corners */
+  --primary-button-border-radius: 6px 6px 6px 6px;
+  --secondary-button-border-radius: 6px 6px 6px 6px;
+  --image-corner-radius: 8px;
+  --input-corner-radius: 6px;
+}
+
+/* Header / footer: force the dark surface explicitly in case any part of
+   the theme reads a cached/computed color instead of the variable */
+.header,
+.footer {
+  background-color: var(--color-background) !important;
+  border-color: rgba(204, 120, 92, 0.18) !important;
+}
+
+.footer__menu-link,
+.header__link {
+  transition: color 0.15s ease;
+}
+.footer__menu-link:hover,
+.header__link:hover {
+  color: #cc785c !important;
+}
+
+/* Same faint scanline atmosphere as the main site's body::after */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.08) 2px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+}
+
+/* Scrollbar to match */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: #111110; }
+::-webkit-scrollbar-thumb { background: #26251f; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #cc785c; }
+</style>
