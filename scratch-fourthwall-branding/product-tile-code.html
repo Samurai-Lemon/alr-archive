@@ -1,0 +1,80 @@
+<style>
+/* ── ALR-styled product tiles ──────────────────────────────────────────
+   Class names (.product-tile, .tile__*) pulled directly from your live
+   storefront's HTML, so this targets what's actually there rather than
+   guessing. Mirrors .alr-shop-card's exact values from the main site. */
+
+.product-tile {
+  background: #181714 !important;
+  border: 0.5px solid #26251f !important;
+  border-radius: 10px !important;
+  overflow: hidden !important;
+  transition: border-color 0.2s, transform 0.2s !important;
+}
+.product-tile:hover {
+  border-color: #8a4a32 !important;
+  transform: translateY(-2px);
+}
+
+.tile__image,
+.image.image--background-color {
+  background: #0f0e0b !important;
+}
+
+.tile__description {
+  padding: 12px 14px 14px !important;
+  text-align: left !important;
+}
+
+/* "Archive Collection" eyebrow — decorative label, matches the main
+   site's category tag above each product name */
+.tile__description::before {
+  content: "Archive Collection";
+  display: block;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #3a3830;
+  margin-bottom: 5px;
+}
+
+.tile__heading {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #d8d4c8 !important;
+  line-height: 1.4 !important;
+  margin: 0 0 6px !important;
+  text-transform: none !important;
+}
+
+.tile__prices {
+  justify-content: flex-start !important;
+}
+.tile__price,
+.tile__price--original {
+  font-family: "JetBrains Mono", ui-monospace, monospace !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  color: #cc785c !important;
+}
+
+/* "Procure" pseudo-button — the whole tile is already one link, so this
+   is a visual label only, not a second clickable element */
+.tile__prices::after {
+  content: "Procure →";
+  margin-left: auto;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: #f0ece0;
+  background: #cc785c;
+  border-radius: 5px;
+  padding: 6px 12px;
+  transition: background 0.15s;
+}
+.product-tile:hover .tile__prices::after {
+  background: #a85c42;
+}
+</style>

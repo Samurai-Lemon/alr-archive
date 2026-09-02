@@ -32,6 +32,7 @@ export const sharedPageComponents: SharedLayout = {
     Component.AccountScript(),
     Component.ALRReadingProgress(),
     Component.ALRSubmitWizard(),
+    Component.ALRFollowBanner(),
   ],
   footer: Component.Footer({
     links: {},

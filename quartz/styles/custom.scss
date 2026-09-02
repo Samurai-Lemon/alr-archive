@@ -2282,10 +2282,73 @@ details[open] .alr-sb-chevron {
   body::after {
     background: repeating-linear-gradient(to bottom, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px) !important;
   }
+
+  .alr-follow-banner { background: rgba(237, 232, 222, 0.92) !important; border-top-color: #d8d0c4 !important; }
+  .alr-follow-item { color: #a85c42 !important; }
 }
 
 .alr-mnav { display: none; }
 .alr-reading-progress { display: none; }
+
+// ─── FOLLOW BANNER — fixed marquee bar, every page, every viewport ──
+// Two identical halves of the track sit side by side; animating the whole track from
+// translateX(0) to translateX(-50%) scrolls the first half fully offscreen exactly as the
+// second (identical) half reaches the start position, so the loop reads as continuous.
+.alr-follow-banner {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 140; // just under .alr-mnav's 150, so nav wins if they ever visually meet
+  height: 34px;
+  overflow: hidden;
+  background: rgba(15, 14, 11, 0.92);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  border-top: 0.5px solid #26251f;
+}
+.alr-follow-track {
+  display: flex;
+  width: max-content;
+  height: 100%;
+  animation: alrFollowScroll 26s linear infinite;
+}
+.alr-follow-half {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.alr-follow-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 28px;
+  height: 100%;
+  font-family: "JetBrains Mono", var(--codeFont), monospace;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #cc785c !important;
+  text-decoration: none !important;
+  border-bottom: none !important;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.alr-follow-item svg { flex-shrink: 0; opacity: 0.85; }
+.alr-follow-banner:hover .alr-follow-track { animation-play-state: paused; }
+
+@keyframes alrFollowScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .alr-follow-track { animation: none !important; }
+}
+
+// Real page content (the actual <footer>) needs bottom clearance so this fixed bar never
+// covers the last line of every page — see the mobile-specific increase further down, which
+// stacks this on top of the existing mobile-nav clearance instead of replacing it.
+footer { padding-bottom: 34px !important; }
 
 /// ═══════════════════════════════════════════════
 // ─── MOBILE ───────────────────────────────────
@@ -2307,7 +2370,15 @@ details[open] .alr-sb-chevron {
   #quartz-body .center { display: block !important; width: 100% !important; max-width: 100% !important; min-width: 0 !important; box-sizing: border-box !important; padding: 0 16px 24px 16px !important; margin: 0 !important; position: relative !important; left: 0 !important; }
   // The real <footer> renders as a sibling of #quartz-body, outside .center, so its own
   // bottom padding is what actually needs to clear the fixed bottom nav bar.
-  footer { padding: 12px 16px calc(84px + env(safe-area-inset-bottom, 0px)) 16px !important; margin: 0 !important; box-sizing: border-box !important; }
+  footer { padding: 12px 16px calc(84px + 34px + env(safe-area-inset-bottom, 0px)) 16px !important; margin: 0 !important; box-sizing: border-box !important; }
+
+  // Follow banner stacks above the mobile bottom nav instead of competing with it for the
+  // same strip — .alr-mnav is ~7px + 34px content + 10px + safe-area tall (see its own rule).
+  .alr-follow-banner {
+    bottom: calc(70px + env(safe-area-inset-bottom, 0px));
+    height: 30px;
+  }
+  .alr-follow-item { font-size: 9.5px; padding: 0 20px; }
   #quartz-body .center > article, #quartz-body .center > .popover-hint, .page .center > article, .page .center > .popover-hint { display: block !important; width: 100% !important; max-width: 100% !important; min-width: 0 !important; box-sizing: border-box !important; grid-area: unset !important; margin: 0 auto !important; padding: 0 !important; position: static !important; left: auto !important; }
   #quartz-body .center .page-header { display: block !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }
 
