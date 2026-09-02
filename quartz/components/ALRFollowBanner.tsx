@@ -8,13 +8,13 @@ const REPEATS = 5
 
 const ALRFollowBanner: QuartzComponent = () => {
   const unit = (
-    <a href="https://www.instagram.com/ALR-Initiative" class="alr-follow-item" target="_blank" rel="noopener noreferrer">
+    <a href="https://www.instagram.com/alrinitiative" class="alr-follow-item" target="_blank" rel="noopener noreferrer">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
         <rect x="2" y="2" width="20" height="20" rx="5" />
         <circle cx="12" cy="12" r="4" />
         <circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" stroke="none" />
       </svg>
-      <span>Follow the Archive on Instagram — @ALR-Initiative</span>
+      <span>Follow the Archive on Instagram — @alrinitiative</span>
     </a>
   )
 
