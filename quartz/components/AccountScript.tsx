@@ -398,6 +398,11 @@ const AccountScript: QuartzComponent = () => {
         if (tabSignup) tabSignup.classList.remove("alr-reg-filter-active");
         if (loginForm) loginForm.style.display = "";
         if (signupForm) signupForm.style.display = "none";
+        // Clear whatever was typed into the form we're leaving, so it doesn't
+        // still be sitting there next time this tab is switched back to.
+        if (signupForm) signupForm.reset();
+        var signupStatus = document.getElementById("alr-account-signup-status");
+        if (signupStatus) signupStatus.textContent = "";
       });
     }
 
@@ -408,6 +413,9 @@ const AccountScript: QuartzComponent = () => {
         if (tabLogin) tabLogin.classList.remove("alr-reg-filter-active");
         if (signupForm) signupForm.style.display = "";
         if (loginForm) loginForm.style.display = "none";
+        if (loginForm) loginForm.reset();
+        var loginStatus = document.getElementById("alr-account-login-status");
+        if (loginStatus) loginStatus.textContent = "";
       });
     }
 
