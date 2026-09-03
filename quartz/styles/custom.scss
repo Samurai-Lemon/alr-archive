@@ -434,15 +434,102 @@ body[data-slug="index"] .page-header {
   overflow: visible !important;
 }
 
-// ─── HOMEPAGE AD SLOT ─────────────────────────────────────
+// ─── HOMEPAGE AD ROW — dispatch card (field note + real chart + shop promo) beside the ad ──
+.alr-home-ad-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  margin-top: 14px;
+  margin-bottom: 6px;
+}
+
+.alr-home-dispatch {
+  flex: 1;
+  min-width: 0;
+  padding: 16px;
+}
+
+.alr-home-dispatch-eyebrow {
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #cc785c;
+  font-family: var(--codeFont);
+  margin-bottom: 8px;
+}
+
+.alr-home-dispatch-quote {
+  font-size: 13px;
+  color: #c0bcb0;
+  line-height: 1.6;
+  font-style: italic;
+  margin-bottom: 4px;
+  min-height: 42px;
+}
+
+.alr-home-dispatch-attr {
+  font-size: 10.5px;
+  color: #726c5c;
+  font-family: var(--codeFont);
+  margin-bottom: 16px;
+}
+
+.alr-home-dispatch-chart-label {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #4a4840;
+  margin-bottom: 8px;
+}
+
+.alr-home-dispatch-bar {
+  display: flex;
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #0f0e0b;
+  gap: 2px;
+  margin-bottom: 8px;
+}
+.alr-home-dispatch-bar span { display: block; height: 100%; }
+
+.alr-home-dispatch-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.alr-home-dispatch-legend span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10.5px;
+  color: #8a8678;
+  font-family: var(--codeFont);
+}
+.alr-home-dispatch-legend i {
+  display: block;
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+}
+
+.alr-home-dispatch-shop {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 14px;
+  border-top: 0.5px solid #222018;
+  font-size: 11.5px;
+  color: #726c5c;
+  line-height: 1.5;
+}
+.alr-home-dispatch-shop a { font-size: 12px; font-weight: 500; }
+
 .alr-home-ad-wrap {
   width: 100%;
   max-width: 420px;
-  margin-left: auto;
-  margin-top: 14px;
-  margin-bottom: 6px;
-  padding-top: 8px;
-  border-top: 0.5px solid #222018;
+  flex: 0 0 auto;
 }
 
 .alr-home-ad-head {
@@ -2228,6 +2315,12 @@ details[open] .alr-sb-chevron {
 
   .alr-home-ad-wrap { border-top-color: #d8d0c4 !important; }
   .alr-home-ad-label { color: #8a8175 !important; }
+  .alr-home-dispatch-quote { color: #4a4038 !important; }
+  .alr-home-dispatch-attr,
+  .alr-home-dispatch-chart-label,
+  .alr-home-dispatch-legend span { color: #7a7068 !important; }
+  .alr-home-dispatch-bar { background: #ffffff !important; }
+  .alr-home-dispatch-shop { color: #7a7068 !important; border-top-color: #d8d0c4 !important; }
   .alr-home-ad-box { background: #ede8de !important; border-color: #d8d0c4 !important; }
   .alr-home-ad-foot { color: #8a8175 !important; }
 
@@ -2507,7 +2600,7 @@ footer { padding-bottom: 34px !important; }
   .alr-mission,
   .alr-grid,
   .alr-card-full,
-  .alr-home-ad-wrap {
+  .alr-home-ad-row {
     display: none !important;
   }
 
@@ -2785,7 +2878,7 @@ article .callout:nth-child(n+7){ animation-delay: 0.55s; }
 .alr-home-featured    { animation: alrCardIn 0.5s ease forwards; animation-delay: 0.25s; opacity: 0; }
 .alr-grid             { animation: alrCardIn 0.5s ease forwards; animation-delay: 0.32s; opacity: 0; }
 .alr-card-full        { animation: alrCardIn 0.5s ease forwards; animation-delay: 0.40s; opacity: 0; }
-.alr-home-ad-wrap     { animation: alrCardIn 0.5s ease forwards; animation-delay: 0.47s; opacity: 0; }
+.alr-home-ad-row      { animation: alrCardIn 0.5s ease forwards; animation-delay: 0.47s; opacity: 0; }
 
 @keyframes alrSidebarSectionIn { from { opacity: 0; transform: translateX(-4px); } to { opacity: 1; transform: translateX(0); } }
 
@@ -2824,7 +2917,7 @@ article .callout:nth-child(n+7){ animation-delay: 0.55s; }
   #quartz-body .center > article, #quartz-body .center > .popover-hint,
   article .callout, .alr-hero, .alr-home-hero-wrap, .alr-home-stats-strip,
   .alr-home-featured, .alr-mission, .alr-grid, .alr-card-full,
-  .alr-home-ad-wrap, .alr-sb-section, .alr-sb-bottom {
+  .alr-home-ad-row, .alr-sb-section, .alr-sb-bottom {
     animation: none !important; opacity: 1 !important; transform: none !important;
   }
   #quartz-header .page-title a::after { animation: none !important; }
