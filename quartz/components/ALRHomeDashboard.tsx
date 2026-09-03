@@ -32,31 +32,19 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
 
   const activeCycle = "7"
 
-  // Real counts (same source as the stats strip above), not invented numbers — used by the
-  // small stability-class chart in the dispatch card next to the ad slot.
-  const escCounts: Record<"S1" | "S2" | "S3" | "S4", number> = { S1: 0, S2: 0, S3: 0, S4: 0 }
-  echoes.forEach((file) => {
-    const fm = (file.frontmatter ?? {}) as Record<string, unknown>
-    const esc = String(fm.esc ?? "").toUpperCase().trim()
-    const key = (["S1", "S2", "S3", "S4"] as const).includes(esc as any) ? (esc as "S1" | "S2" | "S3" | "S4") : "S1"
-    escCounts[key]++
-  })
-  const escTotal = Math.max(1, echoes.length)
-  const escPct = {
-    S1: (escCounts.S1 / escTotal) * 100,
-    S2: (escCounts.S2 / escTotal) * 100,
-    S3: (escCounts.S3 / escTotal) * 100,
-    S4: (escCounts.S4 / escTotal) * 100,
-  }
-
-  // Established in-universe voices, reused verbatim from the site's existing Archive
-  // Notes content (not invented here) — rotates client-side, same pattern as the
-  // featured-echo rotation below.
+  // Field notes from Archive personnel — some drawn from existing entry documentation,
+  // some newly logged for echoes that didn't have a note yet. Rotates client-side, same
+  // pattern as the featured-echo rotation below.
   const dispatchQuotes = [
     { text: "The oldest entry in the catalog. Classification framework formally flagged as potentially inapplicable.", attr: "M. Voss, Archive Operations" },
-    { text: "I have worked inside this structure longer than anywhere else. It feels like it has been waiting.", attr: "E. Maren, Investigator" },
+    { text: "I have worked inside this structure longer than anywhere else. It feels like it has been waiting.", attr: "E. Maren, Reality Investigation" },
     { text: "The composition changes between manifestations, but the character of suffering it depicts never does.", attr: "N. Ossic, Echo Research" },
     { text: "Reclassification under review — manifestation pattern shows increased frequency this cycle.", attr: "J. Calloway, Reality Investigation" },
+    { text: "They arrange themselves around whoever is filing, not whoever asked them to. I still don't know how they decide.", attr: "L. Dray, Archive Operations" },
+    { text: "You feel it before you see it in the dream. That's the part nobody warns new investigators about.", attr: "V. Arend, Echo Research" },
+    { text: "The file insists 'comfortable' is the correct word for the first phase. The recording equipment has failed on every attempt to document what comes after.", attr: "K. Albrecht, Device Development" },
+    { text: "The receptionist's desk is always empty. I have started to find that worse than if someone were sitting at it.", attr: "J. Calloway, Reality Investigation" },
+    { text: "R-031's collapse field keeps producing them. We stopped counting after the fourth recovery site.", attr: "E. Maren, Reality Investigation" },
   ]
 
   return (
@@ -446,28 +434,13 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
           </div>
         </div>
 
-        {/* ── DISPATCH CARD (field note + real stability chart + shop promo) + AD ── */}
+        {/* ── DISPATCH CARD (sticky-note field notes + shop promo) + AD ── */}
         <div class="alr-home-ad-row">
-          <div class="alr-card alr-home-dispatch">
+          <div class="alr-home-dispatch">
+            <div class="alr-home-dispatch-pin"></div>
             <div class="alr-home-dispatch-eyebrow">Archive Field Note — Cycle {activeCycle}</div>
             <div class="alr-home-dispatch-quote" id="alr-home-dispatch-quote">{dispatchQuotes[0].text}</div>
             <div class="alr-home-dispatch-attr" id="alr-home-dispatch-attr">— {dispatchQuotes[0].attr}</div>
-
-            <div class="alr-home-dispatch-chart">
-              <div class="alr-home-dispatch-chart-label">Echoes by Stability Class</div>
-              <div class="alr-home-dispatch-bar">
-                <span style={{ width: `${escPct.S1}%`, background: "#1d9e75" }}></span>
-                <span style={{ width: `${escPct.S2}%`, background: "#d4a840" }}></span>
-                <span style={{ width: `${escPct.S3}%`, background: "#c49030" }}></span>
-                <span style={{ width: `${escPct.S4}%`, background: "#c45a3a" }}></span>
-              </div>
-              <div class="alr-home-dispatch-legend">
-                <span><i style={{ background: "#1d9e75" }}></i>S1 {escCounts.S1}</span>
-                <span><i style={{ background: "#d4a840" }}></i>S2 {escCounts.S2}</span>
-                <span><i style={{ background: "#c49030" }}></i>S3 {escCounts.S3}</span>
-                <span><i style={{ background: "#c45a3a" }}></i>S4 {escCounts.S4}</span>
-              </div>
-            </div>
 
             <div class="alr-home-dispatch-shop">
               <span>Field equipment &amp; archive materials support ongoing operations.</span>
