@@ -836,6 +836,33 @@ hr {
 .alr-card-full { width: 100%; }
 .alr-card-wide { width: 100%; }
 
+// Director's Log — long-form editorial content, styled distinctly from the
+// dashboard's data cards to read as writing rather than another data widget.
+.alr-home-directorlog { border-color: #2e2a20; }
+.alr-directorlog-body {
+  padding: 18px 24px 20px;
+  max-width: 640px;
+}
+.alr-directorlog-body p {
+  font-size: 13px;
+  line-height: 1.75;
+  color: #9a9488;
+  margin-bottom: 14px;
+}
+.alr-directorlog-body p:first-of-type::first-letter {
+  font-size: 26px;
+  font-weight: 500;
+  color: #cc785c;
+  padding-right: 2px;
+}
+.alr-directorlog-sig {
+  font-size: 11px;
+  font-family: var(--codeFont);
+  color: #726c5c;
+  letter-spacing: 0.05em;
+  margin-top: 6px;
+}
+
 .alr-card-head {
   padding: 10px 16px;
   border-bottom: 0.5px solid #222018;
@@ -2210,6 +2237,9 @@ details[open] .alr-sb-chevron {
   .alr-card-head-title { color: #a09888 !important; }
   .alr-card-head-action { color: #c87858 !important; }
 
+  .alr-directorlog-body p { color: #5a5048 !important; }
+  .alr-directorlog-sig { color: #8a8175 !important; }
+
   .alr-echo-row { border-bottom-color: #e0d8cc !important; }
   .alr-echo-id { color: #7a7068 !important; }
   .alr-echo-name { color: #2a2420 !important; }
@@ -2867,7 +2897,8 @@ article .callout:nth-child(n+7){ animation-delay: 0.55s; }
 .alr-home-featured    { animation: alrCardIn 0.5s ease forwards; animation-delay: 0.25s; opacity: 0; }
 .alr-grid             { animation: alrCardIn 0.5s ease forwards; animation-delay: 0.32s; opacity: 0; }
 .alr-card-full        { animation: alrCardIn 0.5s ease forwards; animation-delay: 0.40s; opacity: 0; }
-.alr-home-ad-row      { animation: alrCardIn 0.5s ease forwards; animation-delay: 0.47s; opacity: 0; }
+.alr-home-directorlog { animation-delay: 0.44s; }
+.alr-home-ad-row      { animation: alrCardIn 0.5s ease forwards; animation-delay: 0.50s; opacity: 0; }
 
 @keyframes alrSidebarSectionIn { from { opacity: 0; transform: translateX(-4px); } to { opacity: 1; transform: translateX(0); } }
 

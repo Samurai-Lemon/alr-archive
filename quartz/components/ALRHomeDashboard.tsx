@@ -434,6 +434,47 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
           </div>
         </div>
 
+        {/* ── DIRECTOR'S LOG — original long-form editorial content, deliberately placed
+             immediately before the ad row so the ad sits beside substantive writing
+             rather than only navigation/list widgets ── */}
+        <div class="alr-card alr-card-full alr-home-directorlog">
+          <div class="alr-card-head">
+            <span class="alr-card-head-title">From the Office of the Director — Cycle {activeCycle}</span>
+          </div>
+          <div class="alr-directorlog-body">
+            <p>
+              Seven cycles into sustained operation, the Archive holds {echoes.length} confirmed Echoes and {realities.length} fully investigated
+              realities — modest totals against the scale of what the Unwritten has produced, and a number I do not expect to grow
+              quickly. Confirmation is slow work. Every entry in this catalog survived a process built specifically to reject
+              anything that could be explained another way.
+            </p>
+            <p>
+              This cycle's correspondence has been dominated by ECHO-003. The entity has held a stable classification since its
+              filing, paired from the beginning with ECHO-002 as a linked entry, and its scheduled S4 review is now the
+              most-discussed item on the Directorate's desk. Reviews of this kind are not procedural formalities. An S4
+              reclassification changes who is permitted near an anomaly, how it is documented, and in several cases, whether
+              documentation continues at all. I have read every field note submitted on ECHO-003 this cycle. I do not have
+              anything reassuring to add to them.
+            </p>
+            <p>
+              R-031's collapse field continues to produce recoverable material well past the point Reality Investigation
+              projected it would go quiet. The Still Ones are the fourth class of remnant catalogued from that site alone.
+              Whatever the reality was before it ended, it does not appear to be finished ending.
+            </p>
+            <p>
+              Elsewhere, R-019's field documentation closed out clean and was transferred to Archive Operations without
+              incident — the kind of entry that does not generate discussion, and is exactly as valuable to this catalog as
+              the ones that do.
+            </p>
+            <p>
+              None of this is offered as reassurance. The Archive does not exist to reassure anyone, including the people
+              who staff it. It exists so that what has been observed is not lost twice — once to whatever ended it, and
+              again to the absence of a record. That is the whole of the mandate, and it has not changed since Cycle 1.
+            </p>
+            <div class="alr-directorlog-sig">— Office of the Director</div>
+          </div>
+        </div>
+
         {/* ── DISPATCH CARD (sticky-note field notes + shop promo) + AD ── */}
         <div class="alr-home-ad-row">
           <div class="alr-home-dispatch">
