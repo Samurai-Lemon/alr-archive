@@ -2,6 +2,7 @@ import { PageLayout, SharedLayout } from "./quartz/cfg"
 import * as Component from "./quartz/components"
 import OrdoBanner from "./quartz/components/OrdoBanner"
 import ALREchoHero from "./quartz/components/ALREchoHero"
+import ALRContentAdvisory from "./quartz/components/ALRContentAdvisory"
 import OrdoThreatStrip from "./quartz/components/OrdoThreatStrip"
 
 const isHome = (page: any) => page.fileData.slug === "index" || page.fileData.slug === ""
@@ -9,6 +10,7 @@ const isEchoRegistry = (page: any) => page.fileData.slug === "Index/ECHO-Registr
 const isRealityRegistry = (page: any) => page.fileData.slug === "Index/Reality-Registry"
 const isOrdo = (page: any) => page.fileData.slug === "Foundations/Opposition/Ordo-Damnatio-Memoriae"
 const isEcho = (page: any) => page.fileData.frontmatter?.type === "echo"
+const isReality = (page: any) => page.fileData.frontmatter?.type === "reality"
 const isShop = (page: any) => page.fileData.slug === "Shop"
 const isLabelCreator = (page: any) => page.fileData.slug === "label-creator"
 const isAccount = (page: any) => page.fileData.slug === "Account"
@@ -56,6 +58,10 @@ export const defaultContentPageLayout: PageLayout = {
     Component.ConditionalRender({
       component: ALREchoHero(),
       condition: isEcho,
+    }),
+    Component.ConditionalRender({
+      component: ALRContentAdvisory(),
+      condition: (page) => isEcho(page) || isReality(page),
     }),
     Component.ConditionalRender({
       component: Component.ALRHomeDashboard(),
@@ -110,6 +116,10 @@ export const defaultListPageLayout: PageLayout = {
     Component.ConditionalRender({
       component: ALREchoHero(),
       condition: isEcho,
+    }),
+    Component.ConditionalRender({
+      component: ALRContentAdvisory(),
+      condition: (page) => isEcho(page) || isReality(page),
     }),
     Component.ConditionalRender({
       component: Component.ALRHomeDashboard(),

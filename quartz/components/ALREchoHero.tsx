@@ -12,6 +12,7 @@ const ALREchoHero: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
   const rcc    = String(fm.rcc ?? "")
   const title  = String(fm.title ?? fileData.slug ?? "")
   const status = String(fm.status ?? "documented")
+  const submittedBy = String(fm.submitted_by ?? "").trim()
 
   const ecLabel     = ec  ? `${ec} — ${ecTypeLabels[ec]   ?? ec}`  : ""
   const escLabel    = esc ? `${esc} — ${escLabels[esc]    ?? esc}` : ""
@@ -84,6 +85,15 @@ const ALREchoHero: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
             <span class="alr-echo-hero-meta-label">Status</span>
             <span class="alr-echo-hero-meta-value">{statusLabel}</span>
           </div>
+          {submittedBy && (
+            <>
+              <div class="alr-echo-hero-meta-sep" />
+              <div class="alr-echo-hero-meta-item">
+                <span class="alr-echo-hero-meta-label">Contributed by</span>
+                <span class="alr-echo-hero-meta-value">{submittedBy}</span>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

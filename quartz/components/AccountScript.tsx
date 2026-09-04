@@ -215,12 +215,14 @@ const AccountScript: QuartzComponent = () => {
     var date = sub.created_at ? new Date(sub.created_at).toLocaleDateString() : "";
     var data = sub.form_data || {};
     var layout = SUBMISSION_LAYOUTS[sub.submission_type] || { classification: [], sections: [] };
+    var submitter = data.submitter_name || data.submitter_email || "";
 
     var html = '<div class="alr-reg-detail-head"><div>' +
       '<div class="alr-reg-detail-id">' + escapeHtml((sub.submission_type || "").toUpperCase()) + " &middot; " +
       escapeHtml((sub.status || "").toUpperCase()) + "</div>" +
       '<div class="alr-reg-detail-title">' + escapeHtml(sub.title) + "</div>" +
-      '<div class="alr-reg-detail-sub">Submitted ' + escapeHtml(date) + "</div>" +
+      '<div class="alr-reg-detail-sub">Submitted ' + escapeHtml(date) +
+      (submitter ? " &middot; " + escapeHtml(submitter) : "") + "</div>" +
       "</div></div>";
 
     var classCells = layout.classification.filter(function(f) { return data[f.key]; });
