@@ -749,7 +749,7 @@ const ALRSidebar: QuartzComponent = ({ allFiles, fileData }: QuartzComponentProp
 
         function resetALRAnimations() {
           var targets = document.querySelectorAll(
-            '#quartz-body .center > article, #quartz-body .center > .popover-hint, article .callout, .alr-hero, .alr-mission, .alr-grid, .alr-card-full, .alr-home-ad-wrap'
+            '#quartz-body .center > article, #quartz-body .center > .popover-hint, article .callout, .alr-hero, .alr-grid, .alr-card-full, .alr-home-ad-wrap'
           );
           targets.forEach(function(el) {
             el.style.animation = 'none';

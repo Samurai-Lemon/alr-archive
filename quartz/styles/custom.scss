@@ -791,29 +791,6 @@ hr {
   color: #4a4840;
 }
 
-.alr-mission {
-  background: #181714;
-  border: 0.5px solid #26251f;
-  border-radius: 10px;
-  padding: 18px 20px;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-}
-
-.alr-mission-title {
-  font-size: 12px;
-  font-weight: 500;
-  color: #9a9488;
-  margin-bottom: 4px;
-}
-
-.alr-mission-desc {
-  font-size: 11px;
-  color: #3a3830;
-  line-height: 1.6;
-}
-
 .alr-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
@@ -1203,39 +1180,6 @@ hr {
   color: #2a2820;
 }
 
-// ─── STATS STRIP ──────────────────────────────
-
-.alr-home-stats-strip {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  background: #111110;
-  border-bottom: 0.5px solid #26251f;
-  margin-left: -32px;
-  margin-right: -32px;
-}
-
-.alr-home-stat-cell {
-  padding: 14px 20px;
-  border-right: 0.5px solid #26251f;
-}
-
-.alr-home-stat-cell:last-child {
-  border-right: none;
-}
-
-.alr-home-stat-n {
-  font-size: 26px;
-  font-weight: 500;
-  color: #cc785c;
-  margin-bottom: 2px;
-}
-
-.alr-home-stat-l {
-  font-size: 9px;
-  color: #3a3830;
-  letter-spacing: 0.04em;
-}
-
 // ─── FEATURED ECHO ────────────────────────────
 
 .alr-home-featured {
@@ -1319,35 +1263,6 @@ hr {
   padding: 5px 10px;
   position: relative;
   z-index: 1;
-}
-
-// ─── MISSION IMPROVEMENTS ─────────────────────
-
-.alr-mission-item {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.alr-mission-symbol {
-  font-size: 16px;
-  color: #cc785c;
-  margin-bottom: 4px;
-  opacity: 0.6;
-}
-
-.alr-mission-link {
-  font-size: 10px;
-  color: #7a5040 !important;
-  text-decoration: none !important;
-  border-bottom: none !important;
-  letter-spacing: 0.04em;
-  margin-top: 4px;
-  transition: color 0.15s ease;
-}
-
-.alr-mission-link:hover {
-  color: #cc785c !important;
 }
 
 // ─── ALR SIDEBAR NAV ──────────────────────────────────────
@@ -2226,13 +2141,6 @@ details[open] .alr-sb-chevron {
   .alr-stat-num.alr-muted { color: #8a8278 !important; }
   .alr-stat-lbl { color: #6a6058 !important; }
 
-  .alr-mission { background: #ede8de !important; border-color: #d8d0c4 !important; }
-  .alr-mission-title { color: #2a2420 !important; }
-  .alr-mission-desc { color: #5a5048 !important; }
-  .alr-mission-link { color: #c87858 !important; }
-  .alr-mission-link:hover { color: #a85c42 !important; }
-  .alr-mission-symbol { color: #a85c42 !important; }
-
   .alr-card { background: #ede8de !important; border-color: #d8d0c4 !important; }
   .alr-card-head { border-bottom-color: #d8d0c4 !important; }
   .alr-card-head-title { color: #a09888 !important; }
@@ -2368,10 +2276,6 @@ details[open] .alr-sb-chevron {
   .alr-home-hero-sub { color: #7a7068 !important; }
   .alr-home-hero-link { background: rgba(237,232,222,0.8) !important; }
   .alr-home-hero-link-ghost { background: rgba(237,232,222,0.6) !important; }
-  .alr-home-stats-strip { background: #ede8de !important; border-bottom-color: #d8d0c4 !important; }
-  .alr-home-stat-cell { border-right-color: #d8d0c4 !important; }
-  .alr-home-stat-n { color: #a85c42 !important; }
-  .alr-home-stat-l { color: #a09888 !important; }
   .alr-home-featured { background: #ede8de !important; border-color: #d8d0c4 !important; }
   .alr-home-featured-title { color: #2a2420 !important; }
   .alr-home-featured-desc { color: #7a7068 !important; }
@@ -2616,8 +2520,6 @@ footer { padding-bottom: 34px !important; }
   .alr-home-hero-sub { font-size: 12.5px !important; max-width: 100% !important; margin-bottom: 16px !important; }
   .alr-home-hero-link, .alr-home-hero-link-ghost { font-size: 11px !important; padding: 7px 13px !important; }
 
-  .alr-home-stats-strip,
-  .alr-mission,
   .alr-grid,
   .alr-card-full,
   .alr-home-ad-row {
@@ -2893,8 +2795,6 @@ article .callout:nth-child(n+7){ animation-delay: 0.55s; }
 
 .alr-hero             { animation: alrCardIn 0.5s ease forwards; animation-delay: 0.05s; opacity: 0; }
 .alr-home-hero-wrap   { animation: alrCardIn 0.5s ease forwards; animation-delay: 0.05s; opacity: 0; }
-.alr-home-stats-strip { animation: alrCardIn 0.5s ease forwards; animation-delay: 0.12s; opacity: 0; }
-.alr-mission          { animation: alrCardIn 0.5s ease forwards; animation-delay: 0.18s; opacity: 0; }
 .alr-home-featured    { animation: alrCardIn 0.5s ease forwards; animation-delay: 0.25s; opacity: 0; }
 .alr-grid             { animation: alrCardIn 0.5s ease forwards; animation-delay: 0.32s; opacity: 0; }
 .alr-card-full        { animation: alrCardIn 0.5s ease forwards; animation-delay: 0.40s; opacity: 0; }
@@ -2936,8 +2836,8 @@ article .callout:nth-child(n+7){ animation-delay: 0.55s; }
 
 @media (prefers-reduced-motion: reduce) {
   #quartz-body .center > article, #quartz-body .center > .popover-hint,
-  article .callout, .alr-hero, .alr-home-hero-wrap, .alr-home-stats-strip,
-  .alr-home-featured, .alr-mission, .alr-grid, .alr-card-full,
+  article .callout, .alr-hero, .alr-home-hero-wrap,
+  .alr-home-featured, .alr-grid, .alr-card-full,
   .alr-home-ad-row, .alr-sb-section, .alr-sb-bottom {
     animation: none !important; opacity: 1 !important; transform: none !important;
   }

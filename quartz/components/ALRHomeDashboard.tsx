@@ -202,54 +202,6 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
           </div>
         </div>
 
-        {/* ── STATS STRIP ── */}
-        <div class="alr-home-stats-strip">
-          <div class="alr-home-stat-cell">
-            <div class="alr-home-stat-n">{echoes.length}</div>
-            <div class="alr-home-stat-l" data-short="Echoes">Echoes documented</div>
-          </div>
-          <div class="alr-home-stat-cell">
-            <div class="alr-home-stat-n">{realities.length}</div>
-            <div class="alr-home-stat-l" data-short="Realities">Realities investigated</div>
-          </div>
-          <div class="alr-home-stat-cell">
-            <div class="alr-home-stat-n alr-red">{terminalEchoes.length}</div>
-            <div class="alr-home-stat-l" data-short="Terminal">Terminal echoes (S4)</div>
-          </div>
-          <div class="alr-home-stat-cell">
-            <div class="alr-home-stat-n alr-muted">{activeCycle}</div>
-            <div class="alr-home-stat-l" data-short="Cycle">Active cycle</div>
-          </div>
-        </div>
-
-        {/* ── MISSION ROW ── */}
-        <div class="alr-mission">
-          <div class="alr-mission-item">
-            <div class="alr-mission-symbol">◈</div>
-            <div class="alr-mission-title">Document echoes</div>
-            <div class="alr-mission-desc">
-              Classify and preserve anomalous remnants recovered from collapsed realities.
-            </div>
-            <a href="/Index/ECHO-Registry" class="alr-mission-link">Browse Echo Registry →</a>
-          </div>
-          <div class="alr-mission-item">
-            <div class="alr-mission-symbol">◉</div>
-            <div class="alr-mission-title">Investigate realities</div>
-            <div class="alr-mission-desc">
-              Deploy field teams to survey collapsed reality sites and recover evidence.
-            </div>
-            <a href="/Index/Reality-Registry" class="alr-mission-link">Browse Reality Registry →</a>
-          </div>
-          <div class="alr-mission-item">
-            <div class="alr-mission-symbol">◌</div>
-            <div class="alr-mission-title">Archive lost realities</div>
-            <div class="alr-mission-desc">
-              Maintain an institutional record of civilizations and worlds lost to the Unwritten.
-            </div>
-            <a href="/Foundations/ALR/ALR-Initiative" class="alr-mission-link">Read the mandate →</a>
-          </div>
-        </div>
-
         {/* ── FEATURED ECHO ── */}
         <div class="alr-home-featured" id="alr-featured-echo">
           <div class="alr-home-featured-left">
