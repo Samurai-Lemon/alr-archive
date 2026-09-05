@@ -58,6 +58,11 @@ create table public.submissions (
   reviewer_notes text,
   status_updated_at timestamptz not null default now(),
   seen_at timestamptz,
+  -- Set by the submission-publish-worker once it opens a PR for an approved submission — see
+  -- ../cloudflare/submission-publish-worker/README.md. Null until then; also doubles as the
+  -- idempotency guard so a redelivered webhook doesn't open a second PR for the same submission.
+  github_pr_url text,
+  published_at timestamptz,
   created_at timestamptz not null default now()
 );
 

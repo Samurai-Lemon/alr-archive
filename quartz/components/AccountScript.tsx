@@ -210,8 +210,9 @@ const AccountScript: QuartzComponent = () => {
   }
 
   // Shared with the /Admin review queue: classification-cell + prose-section body used by both
-  // the submitter's own read-only view and the admin's review view.
-  function buildSubmissionDetailHtml(sub) {
+  // the submitter's own read-only view and the admin's review view. showPrLink is admin-only —
+  // it's a raw GitHub PR url and this repo may not be public, so it's never shown to submitters.
+  function buildSubmissionDetailHtml(sub, showPrLink) {
     var date = sub.created_at ? new Date(sub.created_at).toLocaleDateString() : "";
     var data = sub.form_data || {};
     var layout = SUBMISSION_LAYOUTS[sub.submission_type] || { classification: [], sections: [] };
@@ -250,6 +251,14 @@ const AccountScript: QuartzComponent = () => {
       html += '<div class="alr-submit-notice" style="margin-top:16px"><div class="alr-submit-notice-dot"></div>' +
         '<div><div class="alr-submit-notice-title">Archive Operations Note</div>' +
         '<div class="alr-submit-notice-text">' + escapeHtml(sub.reviewer_notes) + "</div></div></div>";
+    }
+
+    if (showPrLink && sub.github_pr_url) {
+      html += '<div class="alr-submit-notice" style="margin-top:16px"><div class="alr-submit-notice-dot"></div>' +
+        '<div><div class="alr-submit-notice-title">Draft entry generated</div>' +
+        '<div class="alr-submit-notice-text">A pull request was opened from this submission — review and merge to publish.</div>' +
+        '<a href="' + escapeHtml(sub.github_pr_url) + '" target="_blank" rel="noopener noreferrer" class="internal" style="display:inline-block;margin-top:6px;font-size:12px;font-weight:500">View PR &rarr;</a>' +
+        "</div></div>";
     }
 
     return html;
@@ -623,7 +632,7 @@ const AccountScript: QuartzComponent = () => {
       return;
     }
 
-    var html = buildSubmissionDetailHtml(sub);
+    var html = buildSubmissionDetailHtml(sub, true);
     html += '<div class="alr-account-detail-section">' +
       '<div class="alr-account-detail-section-label">Reviewer Notes</div>' +
       '<textarea class="alr-submit-textarea" id="alr-admin-notes-input" rows="3" placeholder="Visible to the submitter once you approve or reject.">' +

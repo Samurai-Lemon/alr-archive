@@ -1,0 +1,15 @@
+name = "alr-submission-publish"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+
+[vars]
+# Not secret — safe to commit, but fill in your real values.
+SUPABASE_URL = "https://jkxduwtsssxayscbaxet.supabase.co"
+GITHUB_OWNER = "Samurai-Lemon"
+GITHUB_REPO = "alr-archive"
+GITHUB_BASE_BRANCH = "v4"
+
+# Secrets (never put these here — set via `wrangler secret put <NAME>`):
+#   SUPABASE_SERVICE_ROLE_KEY
+#   WEBHOOK_SECRET
+#   GITHUB_TOKEN
