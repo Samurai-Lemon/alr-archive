@@ -212,7 +212,8 @@ const AccountScript: QuartzComponent = () => {
   // Shared with the /Admin review queue: classification-cell + prose-section body used by both
   // the submitter's own read-only view and the admin's review view. showPrLink is admin-only —
   // it's a raw GitHub PR url and this repo may not be public, so it's never shown to submitters.
-  function buildSubmissionDetailHtml(sub, showPrLink) {
+  // allowDelete is the reverse — only the submitter's own view gets a delete button, never admin.
+  function buildSubmissionDetailHtml(sub, showPrLink, allowDelete) {
     var date = sub.created_at ? new Date(sub.created_at).toLocaleDateString() : "";
     var data = sub.form_data || {};
     var layout = SUBMISSION_LAYOUTS[sub.submission_type] || { classification: [], sections: [] };
@@ -261,6 +262,12 @@ const AccountScript: QuartzComponent = () => {
         "</div></div>";
     }
 
+    if (allowDelete) {
+      html += '<div class="alr-submit-actions" style="margin-top:16px">' +
+        '<button type="button" class="alr-submit-btn" id="alr-account-delete-btn" style="background:#a85c42">Delete Submission</button>' +
+        '<span class="alr-submit-hint" id="alr-account-delete-status"></span></div>';
+    }
+
     return html;
   }
 
@@ -291,8 +298,9 @@ const AccountScript: QuartzComponent = () => {
       return;
     }
 
-    panel.innerHTML = buildSubmissionDetailHtml(sub);
+    panel.innerHTML = buildSubmissionDetailHtml(sub, false, true);
     panel.style.display = "";
+    wireDeleteButton(sub);
 
     if (isUnseen(sub)) {
       sub.seen_at = new Date().toISOString();
@@ -302,6 +310,34 @@ const AccountScript: QuartzComponent = () => {
       }).catch(function() {});
       updateNotificationDot();
     }
+  }
+
+  // Shared by both places that render the self-view detail panel (renderSubmissionDetail, and
+  // the keepDetailIndex branch in renderSubmissions below) so the delete button works either way.
+  function wireDeleteButton(sub) {
+    var deleteBtn = document.getElementById("alr-account-delete-btn");
+    if (!deleteBtn) return;
+    deleteBtn.addEventListener("click", function() {
+      if (!window.confirm("Delete this submission? This can't be undone.")) return;
+      var status$ = document.getElementById("alr-account-delete-status");
+      deleteBtn.disabled = true;
+      if (status$) status$.textContent = "Deleting...";
+      getClient().then(function(sb) {
+        return sb.from("submissions").delete().eq("id", sub.id);
+      }).then(function(res) {
+        if (res.error) {
+          if (status$) status$.textContent = res.error.message;
+          deleteBtn.disabled = false;
+          return;
+        }
+        var idx = currentSubmissions.indexOf(sub);
+        if (idx !== -1) currentSubmissions.splice(idx, 1);
+        renderSubmissions(currentSubmissions);
+      }).catch(function(err) {
+        if (status$) status$.textContent = "Failed: " + err.message;
+        deleteBtn.disabled = false;
+      });
+    });
   }
 
   function renderSubmissions(subs, keepDetailIndex) {
@@ -331,7 +367,11 @@ const AccountScript: QuartzComponent = () => {
       var activeRow = container && container.querySelector('[data-index="' + target + '"]');
       if (activeRow) activeRow.classList.add("alr-reg-row-selected");
       var panel = document.getElementById("alr-account-submission-detail");
-      if (panel) { panel.innerHTML = buildSubmissionDetailHtml(currentSubmissions[target]); panel.style.display = ""; }
+      if (panel) {
+        panel.innerHTML = buildSubmissionDetailHtml(currentSubmissions[target], false, true);
+        panel.style.display = "";
+        wireDeleteButton(currentSubmissions[target]);
+      }
     } else {
       renderSubmissionDetail(target);
     }

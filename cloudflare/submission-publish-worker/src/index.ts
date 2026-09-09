@@ -393,6 +393,7 @@ export default {
 
     const secret = request.headers.get("X-Webhook-Secret")
     if (!secret || !timingSafeEqual(secret, env.WEBHOOK_SECRET)) {
+      console.error("Rejected: missing/invalid X-Webhook-Secret header", "got length", secret?.length, "expected length", env.WEBHOOK_SECRET.length)
       return new Response("Invalid signature", { status: 400 })
     }
 
@@ -400,19 +401,33 @@ export default {
     try {
       payload = await request.json()
     } catch {
+      console.error("Rejected: request body was not valid JSON")
       return new Response("Invalid JSON", { status: 400 })
     }
 
     if (payload.table !== "submissions" || payload.type !== "UPDATE") {
+      console.log("Ignored: not an UPDATE on submissions", "table=", payload.table, "type=", payload.type)
       return new Response("Ignored", { status: 200 })
     }
 
     const sub = payload.record
     const wasAlreadyApproved = payload.old_record?.status === "approved"
+    console.log(
+      "Received submission update", sub.id,
+      "new status=", sub.status,
+      "old status=", payload.old_record?.status,
+      "existing github_pr_url=", sub.github_pr_url,
+    )
     if (sub.status !== "approved" || wasAlreadyApproved || sub.github_pr_url) {
-      // Not a fresh approval, or already published (redelivery) — no-op, not an error.
+      console.log(
+        "Ignored:",
+        sub.status !== "approved" ? "new status is not 'approved'" :
+        wasAlreadyApproved ? "old status was already 'approved'" :
+        "github_pr_url already set (already published)"
+      )
       return new Response("Ignored", { status: 200 })
     }
+    console.log("Proceeding to publish submission", sub.id, sub.submission_type)
 
     try {
       const baseSha = await getBaseSha(env)
@@ -450,7 +465,7 @@ export default {
 
       return new Response(JSON.stringify({ ok: true, pr: prUrl }), { status: 200, headers: { "Content-Type": "application/json" } })
     } catch (err: any) {
-      console.error("Failed to publish submission", sub.id, err.message)
+      console.error("Failed to publish submission", sub.id, err.message, err.stack)
       return new Response(`Failed: ${err.message}`, { status: 500 })
     }
   },

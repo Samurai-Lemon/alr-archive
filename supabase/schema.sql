@@ -76,6 +76,13 @@ create policy "submissions are insertable by their owner"
   on public.submissions for insert
   with check (auth.uid() = user_id);
 
+-- Lets a submitter remove their own submission from their /Account page. Deleting the row has
+-- no effect on anything already published — the actual entry file (and any PR already opened)
+-- lives independently in the git repo once merged.
+create policy "submissions are deletable by their owner"
+  on public.submissions for delete
+  using (auth.uid() = user_id);
+
 -- The submitter can never update status/reviewer_notes themselves (no owner-scoped update
 -- policy for those) — only admins (below) and the seen-tracking RPC can touch this table further.
 
