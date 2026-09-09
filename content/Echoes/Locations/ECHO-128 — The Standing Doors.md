@@ -13,7 +13,7 @@ status: documented
 submitted_by: Samurai_Lemon
 ---
 
-# ECHO-128 — ECHO-072 — The Standing Doors
+# ECHO-128 — The Standing Doors
 
 > [!s3] Classification
 > **Designation:** E.C.H.O.

@@ -57,6 +57,14 @@ function safeFilename(name: string): string {
   return name.replace(/[\\/:*?"<>|]/g, "").trim()
 }
 
+// Submitters sometimes type their own "ECHO-072 — " prefix into the Echo Designation field
+// (understandably — that's how every existing entry reads). Since the real id is assigned here,
+// not by the submitter, strip anything that looks like a leading designation so the title never
+// doubles up, e.g. "ECHO-072 — The Standing Doors" -> "The Standing Doors".
+function stripLeadingEchoDesignation(name: string): string {
+  return name.replace(/^\s*ECHO-\d+\s*[—-]\s*/i, "").trim() || name.trim()
+}
+
 function frontmatterBlock(fields: Array<[string, string]>): string {
   const lines = fields.filter(([, v]) => v !== undefined && v !== null && v !== "")
   return "---\n" + lines.map(([k, v]) => `${k}: ${v}`).join("\n") + "\n---"
@@ -71,7 +79,7 @@ function buildEcho(sub: SubmissionRow, echoId: string): { path: string; content:
   const d = sub.form_data
   const ec = d.ec || "ENT"
   const esc = d.esc || "S1"
-  const name = d.echo_name || sub.title
+  const name = stripLeadingEchoDesignation(d.echo_name || sub.title)
   const folder = EC_FOLDER[ec] || "Entities"
   const title = `${echoId} — ${safeFilename(name)}`
 
