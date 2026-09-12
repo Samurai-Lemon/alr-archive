@@ -41,3 +41,15 @@ Fourthwall's own docs warn that events can be delivered out of order or more tha
 upsert is keyed on `fourthwall_order_id` (`on_conflict=fourthwall_order_id` + `Prefer:
 resolution=merge-duplicates`), so redeliveries just overwrite the same row rather than
 duplicating it.
+
+## Badges
+
+After a successful order upsert, if the order matched a real account (`findUserIdByEmail` found
+one), this grants the `field_equipped` badge (see `quartz/components/AccountScript.tsx`'s
+`BADGE_LABELS` for the display name) — any order, current or future products alike, since it's
+not tied to a specific product id. Guest checkouts with no matching account don't get it; if they
+later create an account and run `claim_orders()` to attach that old order, the badge still won't
+retroactively appear, since granting only happens on the live webhook event, not on claim. Uses
+the same `on_conflict` + `ignore-duplicates` pattern as the badges-granting code in
+`../submission-publish-worker/src/index.ts` (duplicated there, not shared — these are two
+separately deployed Workers).

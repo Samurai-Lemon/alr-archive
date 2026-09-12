@@ -377,10 +377,28 @@ const AccountScript: QuartzComponent = () => {
     }
   }
 
+  // Keys are granted server-side by submission-publish-worker, order-webhook-worker, and the
+  // one-time grant_founding_badges.sql — see cloudflare/*/README.md. Update here if a badge_key
+  // or its meaning ever changes on that side; this is display-only, granting is done elsewhere.
+  var BADGE_LABELS = {
+    contributor_echo: { label: "Field Contributor — Echo Research", desc: "Had an Echo submission approved." },
+    contributor_reality: { label: "Field Contributor — Reality Investigation", desc: "Had a Reality submission approved." },
+    contributor_equipment: { label: "Field Contributor — Device Development", desc: "Had an Equipment submission approved." },
+    contributor_organization: { label: "Field Contributor — Archive Operations", desc: "Had an Organization submission approved." },
+    correspondent_tier_1: { label: "Field Correspondent", desc: "5 approved submissions." },
+    correspondent_tier_2: { label: "Senior Field Correspondent", desc: "15 approved submissions." },
+    correspondent_tier_3: { label: "Distinguished Correspondent", desc: "30 approved submissions." },
+    field_equipped: { label: "Field Equipped", desc: "Purchased from the Archive Shop." },
+    founding_member: { label: "Founding Archivist", desc: "Held an account since the Archive's earliest cycles." }
+  };
+
   function renderBadges(badges) {
     renderList("alr-account-badges", badges, "No badges earned yet.", function(b) {
-      return '<div class="alr-reg-row alr-reg-row-simple alr-account-static-row"><div class="alr-reg-name">' +
-        escapeHtml(b.badge_key) + "</div></div>";
+      var meta = BADGE_LABELS[b.badge_key] || { label: b.badge_key, desc: "" };
+      return '<div class="alr-reg-row alr-reg-row-simple alr-account-static-row"><div>' +
+        '<div class="alr-reg-name">' + escapeHtml(meta.label) + "</div>" +
+        (meta.desc ? '<div class="alr-reg-name-sub">' + escapeHtml(meta.desc) + "</div>" : "") +
+        "</div></div>";
     });
   }
 

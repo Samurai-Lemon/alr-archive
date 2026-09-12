@@ -77,6 +77,24 @@ notices that and calls the Worker.
 5. It writes the PR url back onto the `submissions` row (`github_pr_url`, `published_at`) — the
    `/Admin` detail panel shows a "View PR →" link once that's set.
 
+## Badges
+
+Right after the fresh pending→approved transition is confirmed (step 1 above), before attempting
+the GitHub publish steps, the Worker grants: a per-type badge (`contributor_echo`,
+`contributor_reality`, `contributor_equipment`, or `contributor_organization`), and — after
+counting the submitter's total approved submissions — any cumulative-count badge they've now
+crossed (`correspondent_tier_1` at 5, `_tier_2` at 15, `_tier_3` at 30; see
+`SUBMISSION_COUNT_TIERS` in `src/index.ts`). Display names live in
+`quartz/components/AccountScript.tsx`'s `BADGE_LABELS`. This happens whether or not the GitHub
+publish succeeds — an approval earning a badge is independent of whether the auto-generated PR
+went through cleanly — and never throws, so a badge-granting failure can't take down the publish
+flow. Uses the badges table's `unique(user_id, badge_key)` constraint via `on_conflict` +
+`ignore-duplicates`, so re-granting a badge someone already has is a harmless no-op.
+
+The founding badge (`founding_member`) isn't granted here — it's a one-time backfill, see
+`../../supabase/grant_founding_badges.sql`. The shop badge (`field_equipped`) isn't granted here
+either — see `../order-webhook-worker/README.md`.
+
 ## Idempotency
 
 Supabase's own webhook docs warn deliveries can repeat or arrive out of order. The Worker only

@@ -77,6 +77,27 @@ async function upsertOrder(env: Env, row: Record<string, unknown>): Promise<Resp
   })
 }
 
+// Grants the "field_equipped" shop badge (see quartz/components/AccountScript.tsx's
+// BADGE_LABELS) on any order, current or future products alike — it's not tied to a specific
+// product id. Duplicated (not shared) with submission-publish-worker's identical helper since
+// these are two independently deployed Workers with no shared module between them, same as the
+// other small duplications already in this codebase. Uses the badges table's unique(user_id,
+// badge_key) constraint via on_conflict + ignore-duplicates, so a repeat purchase / redelivered
+// webhook is a harmless no-op, not an error.
+async function grantShopBadge(env: Env, userId: string): Promise<void> {
+  const res = await fetch(`${env.SUPABASE_URL}/rest/v1/badges?on_conflict=user_id,badge_key`, {
+    method: "POST",
+    headers: {
+      apikey: env.SUPABASE_SERVICE_ROLE_KEY,
+      Authorization: `Bearer ${env.SUPABASE_SERVICE_ROLE_KEY}`,
+      "Content-Type": "application/json",
+      Prefer: "resolution=ignore-duplicates,return=minimal",
+    },
+    body: JSON.stringify({ user_id: userId, badge_key: "field_equipped" }),
+  })
+  if (!res.ok) console.error("Failed to grant field_equipped badge to", userId, res.status, await res.text())
+}
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     if (request.method !== "POST") {
@@ -127,6 +148,11 @@ export default {
       console.error("Supabase upsert failed", upsertRes.status, await upsertRes.text())
       return new Response("Failed to store order", { status: 500 })
     }
+
+    // Guest checkouts (no matching account by email) have no user_id to attach a badge to —
+    // that's expected, not an error; they can still claim_orders() and pick it up later if they
+    // sign up (the badge itself only grants on a live order event, so it won't be backfilled).
+    if (userId) await grantShopBadge(env, userId)
 
     return new Response("OK", { status: 200 })
   },

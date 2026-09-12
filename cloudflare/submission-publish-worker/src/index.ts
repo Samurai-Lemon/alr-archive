@@ -22,6 +22,7 @@ export interface Env {
 
 interface SubmissionRow {
   id: string
+  user_id: string
   submission_type: "echo" | "reality" | "equipment" | "organization"
   title: string
   form_data: Record<string, string>
@@ -386,6 +387,74 @@ async function markPublished(env: Env, submissionId: string, prUrl: string): Pro
   })
 }
 
+// ── Badge granting — see quartz/components/AccountScript.tsx's BADGE_LABELS for display names.
+// Uses the badges table's unique(user_id, badge_key) constraint via on_conflict + ignore-
+// duplicates, so granting a badge someone already has is a harmless no-op, not an error. ────────
+
+const BADGE_BY_SUBMISSION_TYPE: Record<string, string> = {
+  echo: "contributor_echo",
+  reality: "contributor_reality",
+  equipment: "contributor_equipment",
+  organization: "contributor_organization",
+}
+
+// Cumulative total-approved-submissions milestones. Numbers are just a starting point — easy to
+// retune later since they only live here and in AccountScript.tsx's BADGE_LABELS.
+const SUBMISSION_COUNT_TIERS: Array<{ count: number; badge: string }> = [
+  { count: 5, badge: "correspondent_tier_1" },
+  { count: 15, badge: "correspondent_tier_2" },
+  { count: 30, badge: "correspondent_tier_3" },
+]
+
+async function grantBadge(env: Env, userId: string, badgeKey: string): Promise<void> {
+  const res = await fetch(`${env.SUPABASE_URL}/rest/v1/badges?on_conflict=user_id,badge_key`, {
+    method: "POST",
+    headers: {
+      apikey: env.SUPABASE_SERVICE_ROLE_KEY,
+      Authorization: `Bearer ${env.SUPABASE_SERVICE_ROLE_KEY}`,
+      "Content-Type": "application/json",
+      Prefer: "resolution=ignore-duplicates,return=minimal",
+    },
+    body: JSON.stringify({ user_id: userId, badge_key: badgeKey }),
+  })
+  if (!res.ok) console.error("Failed to grant badge", badgeKey, "to", userId, res.status, await res.text())
+}
+
+async function countApprovedSubmissions(env: Env, userId: string): Promise<number> {
+  const res = await fetch(
+    `${env.SUPABASE_URL}/rest/v1/submissions?user_id=eq.${userId}&status=eq.approved&select=id`,
+    {
+      headers: {
+        apikey: env.SUPABASE_SERVICE_ROLE_KEY,
+        Authorization: `Bearer ${env.SUPABASE_SERVICE_ROLE_KEY}`,
+        Prefer: "count=exact",
+      },
+    },
+  )
+  // Postgrest reports the total in the Content-Range response header (e.g. "0-4/5"), not the body.
+  const range = res.headers.get("content-range")
+  const total = range ? parseInt(range.split("/")[1], 10) : NaN
+  return Number.isFinite(total) ? total : 0
+}
+
+// Runs on every fresh pending -> approved transition, independent of whether the GitHub publish
+// step (elsewhere in this file) succeeds — a reviewer approving the submission is what earns the
+// badge, not whether the auto-generated file/PR happened to go through cleanly. Never throws:
+// a badge-granting hiccup should never take down the actual publish flow.
+async function grantSubmissionBadges(env: Env, sub: SubmissionRow): Promise<void> {
+  try {
+    const typeBadge = BADGE_BY_SUBMISSION_TYPE[sub.submission_type]
+    if (typeBadge) await grantBadge(env, sub.user_id, typeBadge)
+
+    const total = await countApprovedSubmissions(env, sub.user_id)
+    for (const tier of SUBMISSION_COUNT_TIERS) {
+      if (total >= tier.count) await grantBadge(env, sub.user_id, tier.badge)
+    }
+  } catch (err: any) {
+    console.error("Badge grant failed for submission", sub.id, err.message)
+  }
+}
+
 function timingSafeEqual(a: string, b: string): boolean {
   if (a.length !== b.length) return false
   let mismatch = 0
@@ -436,6 +505,7 @@ export default {
       return new Response("Ignored", { status: 200 })
     }
     console.log("Proceeding to publish submission", sub.id, sub.submission_type)
+    await grantSubmissionBadges(env, sub)
 
     try {
       const baseSha = await getBaseSha(env)
