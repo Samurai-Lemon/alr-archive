@@ -190,14 +190,41 @@ const AccountScript: QuartzComponent = () => {
     },
   };
 
+  // Fourthwall doesn't expose a real carrier tracking number/link to shop owners through any
+  // documented API (checked their actual OpenAPI spec) — this status is the most granular
+  // fulfillment signal actually available, sent via their ORDER_UPDATED webhook.
+  var ORDER_STATUS_LABELS = {
+    CONFIRMED: "Confirmed",
+    PARTIALLY_IN_PRODUCTION: "Partially in Production",
+    IN_PRODUCTION: "In Production",
+    PARTIALLY_SHIPPED: "Partially Shipped",
+    SHIPPED: "Shipped",
+    PARTIALLY_DELIVERED: "Partially Delivered",
+    DELIVERED: "Delivered",
+    CANCELLED: "Cancelled",
+    COMPLETED: "Completed"
+  };
+
+  function orderStatusTagClass(status) {
+    if (status === "DELIVERED" || status === "COMPLETED") return "alr-reg-tag-esc-s1";
+    if (status === "SHIPPED" || status === "PARTIALLY_SHIPPED" || status === "PARTIALLY_DELIVERED") return "alr-reg-tag-esc-s2";
+    if (status === "CANCELLED") return "alr-reg-tag-esc-s4";
+    return "alr-reg-tag-esc-s3";
+  }
+
   function renderOrders(orders) {
     renderList("alr-account-orders", orders, "No orders yet.", function(o) {
       var date = o.created_at ? new Date(o.created_at).toLocaleDateString() : "";
       var total = o.total != null ? escapeHtml(o.currency || "$") + " " + escapeHtml(o.total) : "";
+      var statusLabel = o.status ? (ORDER_STATUS_LABELS[o.status] || o.status) : "";
+      var statusPill = statusLabel
+        ? '<span class="alr-reg-tag ' + orderStatusTagClass(o.status) + '">' + escapeHtml(statusLabel) + "</span>"
+        : "";
       return '<div class="alr-reg-row alr-reg-row-simple alr-account-static-row"><div>' +
         '<div class="alr-reg-id">' + escapeHtml(o.fourthwall_order_id || o.id) + "</div>" +
         '<div class="alr-reg-name-sub">' + escapeHtml(date) + "</div>" +
-        '</div><div class="alr-reg-name">' + total + "</div></div>";
+        '</div><div style="display:flex;align-items:center;gap:10px">' + statusPill +
+        '<div class="alr-reg-name">' + total + "</div></div></div>";
     });
   }
 

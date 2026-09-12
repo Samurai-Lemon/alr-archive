@@ -1,11 +1,20 @@
-// Receives Fourthwall's ORDER_PLACED webhook and writes the order into Supabase using the
-// service-role key (bypasses RLS — this is the only writer `orders` ever has, by design; see
-// supabase/schema.sql). Deployed separately from the main Quartz site; see README.md.
+// Receives Fourthwall's ORDER_PLACED and ORDER_UPDATED webhooks and writes/updates the order in
+// Supabase using the service-role key (bypasses RLS — this is the only writer `orders` ever has,
+// by design; see supabase/schema.sql). Deployed separately from the main Quartz site; see
+// README.md.
 //
 // Field paths in extractOrderFields() are confirmed against a real Fourthwall test webhook
-// (2026-08-27): `data.email`, `data.id`, `data.offers` (line items), and
+// (2026-08-27): `data.email`, `data.id`, `data.offers` (line items), `data.status`, and
 // `data.amounts.total.{value,currency}`. The full raw `data` blob is always stored regardless,
 // so nothing is lost even if Fourthwall changes this shape later.
+//
+// ORDER_UPDATED has a different `data` shape than ORDER_PLACED — confirmed against Fourthwall's
+// real platform.json OpenAPI spec (fetched 2026-09-12), not guessed: `data` is
+// `{ order: <same Order shape as ORDER_PLACED's data>, update: { type: "STATUS" | "SHIPPING.ADDRESS" | "EMAIL", ... } }`,
+// so the order fields are nested one level deeper under `data.order`. That same spec confirms
+// Fourthwall does NOT expose a carrier tracking number or tracking URL to shop owners anywhere —
+// not on this webhook, not on GET /order/{id}. `status` (CONFIRMED, IN_PRODUCTION, SHIPPED,
+// DELIVERED, etc.) is the most granular fulfillment signal actually available.
 
 export interface Env {
   FOURTHWALL_WEBHOOK_SECRET: string
@@ -44,8 +53,18 @@ function extractOrderFields(data: any) {
 
   const totalValue = data?.amounts?.total?.value ?? null
   const totalCurrency = data?.amounts?.total?.currency ?? null
+  const status: string | null = data?.status ?? null
 
-  return { email, orderId, items, total: totalValue, currency: totalCurrency }
+  return { email, orderId, items, total: totalValue, currency: totalCurrency, status }
+}
+
+// ORDER_UPDATED nests the order under `data.order` instead of putting order fields on `data`
+// directly — see the file header comment for how this was confirmed.
+function extractOrderUpdateFields(data: any) {
+  const order = data?.order ?? {}
+  const orderId: string | null = String(order?.id ?? order?.friendlyId ?? "") || null
+  const status: string | null = order?.status ?? null
+  return { orderId, status }
 }
 
 async function findUserIdByEmail(env: Env, email: string): Promise<string | null> {
@@ -74,6 +93,24 @@ async function upsertOrder(env: Env, row: Record<string, unknown>): Promise<Resp
       Prefer: "resolution=merge-duplicates",
     },
     body: JSON.stringify(row),
+  })
+}
+
+// Plain PATCH, not an upsert — an ORDER_UPDATED for an order this Worker hasn't seen an
+// ORDER_PLACED for yet (Fourthwall's own docs warn deliveries can arrive out of order) just
+// matches zero rows and is silently skipped, rather than inserting a partial row that would fail
+// the orders table's NOT NULL constraints on customer_email/raw_payload anyway. The next status
+// update after ORDER_PLACED catches up will land normally.
+async function updateOrderStatus(env: Env, orderId: string, status: string): Promise<Response> {
+  return fetch(`${env.SUPABASE_URL}/rest/v1/orders?fourthwall_order_id=eq.${encodeURIComponent(orderId)}`, {
+    method: "PATCH",
+    headers: {
+      apikey: env.SUPABASE_SERVICE_ROLE_KEY,
+      Authorization: `Bearer ${env.SUPABASE_SERVICE_ROLE_KEY}`,
+      "Content-Type": "application/json",
+      Prefer: "return=minimal",
+    },
+    body: JSON.stringify({ status }),
   })
 }
 
@@ -119,12 +156,26 @@ export default {
       return new Response("Invalid JSON", { status: 400 })
     }
 
+    if (payload.type === "ORDER_UPDATED") {
+      const { orderId, status } = extractOrderUpdateFields(payload.data)
+      if (!orderId || !status) {
+        console.error("ORDER_UPDATED payload missing expected fields", JSON.stringify(payload.data))
+        return new Response("Missing expected fields", { status: 500 })
+      }
+      const patchRes = await updateOrderStatus(env, orderId, status)
+      if (!patchRes.ok) {
+        console.error("Supabase status update failed", patchRes.status, await patchRes.text())
+        return new Response("Failed to update order status", { status: 500 })
+      }
+      return new Response("OK", { status: 200 })
+    }
+
     if (payload.type !== "ORDER_PLACED") {
       // Acknowledge and ignore any other subscribed event types.
       return new Response("Ignored", { status: 200 })
     }
 
-    const { email, orderId, items, total, currency } = extractOrderFields(payload.data)
+    const { email, orderId, items, total, currency, status } = extractOrderFields(payload.data)
 
     if (!orderId || !email) {
       console.error("ORDER_PLACED payload missing expected fields", JSON.stringify(payload.data))
@@ -141,6 +192,7 @@ export default {
       items,
       total,
       currency,
+      status,
     }
 
     const upsertRes = await upsertOrder(env, row)

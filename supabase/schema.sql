@@ -143,6 +143,12 @@ create table public.orders (
   items jsonb,
   total numeric,
   currency text,
+  -- Fulfillment status from Fourthwall's ORDER_UPDATED webhook (CONFIRMED, IN_PRODUCTION,
+  -- SHIPPED, DELIVERED, etc.) — see cloudflare/order-webhook-worker/README.md. Null until the
+  -- first status webhook lands. This is the most granular signal Fourthwall's API actually
+  -- exposes to shop owners; real carrier tracking numbers/links aren't available via any
+  -- documented endpoint.
+  status text,
   created_at timestamptz not null default now()
 );
 
