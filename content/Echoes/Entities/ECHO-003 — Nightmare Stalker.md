@@ -12,7 +12,7 @@ rds: Unknown
 status: documented
 ---
 
-# ECHO-003 — [PENDING]
+# ECHO-003 — Nightmare Stalker
 
 > [!info] Classification
 > **Designation:** E.C.H.O.
