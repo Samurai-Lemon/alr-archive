@@ -2784,7 +2784,8 @@ body.alr-hallow-active .alr-home-hero-logo-wrap { display: none; }
   height: 6px;
   width: 100%;
   opacity: 0.95;
-  background: repeating-linear-gradient(-45deg, #cc785c 0 14px, #f2b705 14px 28px, #f7ecd8 28px 42px);
+  background-image: repeating-linear-gradient(-45deg, #cc785c 0 14px, #f2b705 14px 28px, #f7ecd8 28px 42px);
+  background-size: 42px 42px;
   animation: alrHallowStripeScroll 1.2s linear infinite;
 }
 
@@ -2800,12 +2801,12 @@ body.alr-hallow-active .alr-home-hero-logo-wrap { display: none; }
 .alr-hallow-bat-d { animation-delay: 6s; }
 .alr-hallow-bat-e { animation-delay: 3s; }
 
-@keyframes alrHallowStripeScroll { to { background-position: 42px 42px; } }
+@keyframes alrHallowStripeScroll { to { background-position: 42px 0; } }
 @keyframes alrHallowGlowPulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 0.4; } }
 @keyframes alrHallowBatDrift { 0%, 100% { transform: translate(0,0); opacity: 0.4; } 50% { transform: translate(-6px,3px); opacity: 0.6; } }
 
 :root[saved-theme="light"] .alr-hallow-stripe {
-  background: repeating-linear-gradient(-45deg, #9c4a2e 0 14px, #b98a2e 14px 28px, #574f42 28px 42px);
+  background-image: repeating-linear-gradient(-45deg, #9c4a2e 0 14px, #b98a2e 14px 28px, #574f42 28px 42px);
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -228,13 +228,13 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
               <ellipse cx="60" cy="150" rx="55" ry="15" class="alr-hallow-glow-fill" opacity="0.12" />
               <use href="#alr-hallow-pumpkin" class="alr-hallow-glow-fill" transform="scale(0.098)" />
             </g>
-            <g class="alr-hallow-bat" transform="translate(128,32)"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" transform="scale(0.012)" opacity="0.5" /></g>
-            <g class="alr-hallow-bat alr-hallow-bat-b" transform="translate(222,82)"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" transform="scale(0.0075)" opacity="0.4" /></g>
-            <g class="alr-hallow-bat alr-hallow-bat-c" transform="translate(552,40)"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" transform="scale(0.0095)" opacity="0.45" /></g>
-            <g class="alr-hallow-bat alr-hallow-bat-d" transform="translate(294,24)"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" transform="scale(0.006)" opacity="0.35" /></g>
-            <g class="alr-hallow-bat alr-hallow-bat-e" transform="translate(592,102)"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" transform="scale(0.0068)" opacity="0.4" /></g>
-            <g class="alr-hallow-bat alr-hallow-bat-b" transform="translate(360,16)"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" transform="scale(0.009)" opacity="0.5" /></g>
-            <g class="alr-hallow-bat alr-hallow-bat-d" transform="translate(630,50)"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" transform="scale(0.0105)" opacity="0.45" /></g>
+            <g transform="translate(128,32)"><g class="alr-hallow-bat"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" transform="scale(0.012)" opacity="0.5" /></g></g>
+            <g transform="translate(222,82)"><g class="alr-hallow-bat alr-hallow-bat-b"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" transform="scale(0.0075)" opacity="0.4" /></g></g>
+            <g transform="translate(552,40)"><g class="alr-hallow-bat alr-hallow-bat-c"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" transform="scale(0.0095)" opacity="0.45" /></g></g>
+            <g transform="translate(294,24)"><g class="alr-hallow-bat alr-hallow-bat-d"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" transform="scale(0.006)" opacity="0.35" /></g></g>
+            <g transform="translate(592,102)"><g class="alr-hallow-bat alr-hallow-bat-e"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" transform="scale(0.0068)" opacity="0.4" /></g></g>
+            <g transform="translate(360,16)"><g class="alr-hallow-bat alr-hallow-bat-b"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" transform="scale(0.009)" opacity="0.5" /></g></g>
+            <g transform="translate(630,50)"><g class="alr-hallow-bat alr-hallow-bat-d"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" transform="scale(0.0105)" opacity="0.45" /></g></g>
             <g class="alr-hallow-watermark" opacity="0.12">
               <use href="#alr-hallow-pumpkin" class="alr-home-hero-logo" transform="translate(392,6) scale(0.108)" />
             </g>
