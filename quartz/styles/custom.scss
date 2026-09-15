@@ -2794,6 +2794,11 @@ body.alr-hallow-active .alr-home-hero-logo-wrap { display: none; }
 :root[saved-theme="light"] .alr-hallow-glow-fill,
 :root[saved-theme="light"] .alr-hallow-bat-fill { fill: #a85c42; }
 
+.alr-hallow-face-cut { fill: #0f0e0b; }
+.alr-hallow-face-cut-stroke { fill: none; stroke: #0f0e0b; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+:root[saved-theme="light"] .alr-hallow-face-cut { fill: #eae0c8; }
+:root[saved-theme="light"] .alr-hallow-face-cut-stroke { stroke: #eae0c8; }
+
 .alr-hallow-glow { animation: alrHallowGlowPulse 5s ease-in-out infinite; }
 .alr-hallow-bat { animation: alrHallowBatDrift 9s ease-in-out infinite; }
 .alr-hallow-bat-b { animation-delay: 2s; }

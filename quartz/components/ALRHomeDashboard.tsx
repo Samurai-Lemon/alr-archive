@@ -224,9 +224,15 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
             />
 
             {/* ── Hallow Cycle seasonal layer — hidden except the week of Halloween (Oct 25–31), toggled by the script below ── */}
-            <g class="alr-hallow-glow" transform="translate(423,32)">
-              <ellipse cx="60" cy="150" rx="55" ry="15" class="alr-hallow-glow-fill" opacity="0.12" />
-              <use href="#alr-hallow-pumpkin" class="alr-hallow-glow-fill" transform="scale(0.098)" />
+            <g class="alr-hallow-glow" transform="translate(410,52)">
+              <ellipse cx="70" cy="176" rx="64" ry="17" class="alr-hallow-glow-fill" opacity="0.12" />
+              <use href="#alr-hallow-pumpkin" class="alr-hallow-glow-fill" transform="scale(0.115)" />
+              <g class="alr-hallow-face-cut">
+                <path d="M42 92 L60 92 L51 107 Z" />
+                <path d="M80 92 L98 92 L89 107 Z" />
+                <path d="M64 112 L76 112 L70 124 Z" />
+              </g>
+              <path class="alr-hallow-face-cut-stroke" d="M40 138 Q47 150 54 138 Q61 150 68 138 Q75 150 82 138 Q89 150 96 138" />
             </g>
             <g transform="translate(128,32)"><g class="alr-hallow-bat"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" transform="scale(0.012)" opacity="0.5" /></g></g>
             <g transform="translate(222,82)"><g class="alr-hallow-bat alr-hallow-bat-b"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" transform="scale(0.0075)" opacity="0.4" /></g></g>
