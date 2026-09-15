@@ -2767,6 +2767,51 @@ footer { padding-bottom: 34px !important; }
   .alr-home-hero-svg .alr-banner-bg, .alr-home-hero-svg circle, .alr-home-hero-svg .alr-banner-scanline { animation: none !important; }
 }
 
+// ─── HALLOW CYCLE (seasonal, week of Oct 25–31 only — see ALRHomeDashboard.tsx's date-check script) ───────────────────────────────
+.alr-hallow-stripe, .alr-hallow-glow, .alr-hallow-bat, .alr-hallow-watermark { display: none; }
+
+body.alr-hallow-active .alr-hallow-stripe { display: block; }
+body.alr-hallow-active .alr-hallow-glow,
+body.alr-hallow-active .alr-hallow-bat,
+body.alr-hallow-active .alr-hallow-watermark { display: inline; }
+body.alr-hallow-active .alr-home-hero-logo-wrap { display: none; }
+
+.alr-hallow-stripe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  height: 6px;
+  width: 100%;
+  opacity: 0.95;
+  background: repeating-linear-gradient(-45deg, #cc785c 0 14px, #f2b705 14px 28px, #f7ecd8 28px 42px);
+  animation: alrHallowStripeScroll 1.2s linear infinite;
+}
+
+.alr-hallow-glow-fill { fill: #cc785c; }
+.alr-hallow-bat-fill { fill: #cc785c; }
+:root[saved-theme="light"] .alr-hallow-glow-fill,
+:root[saved-theme="light"] .alr-hallow-bat-fill { fill: #a85c42; }
+
+.alr-hallow-glow { animation: alrHallowGlowPulse 5s ease-in-out infinite; }
+.alr-hallow-bat { animation: alrHallowBatDrift 9s ease-in-out infinite; }
+.alr-hallow-bat-b { animation-delay: 2s; }
+.alr-hallow-bat-c { animation-delay: 4s; }
+.alr-hallow-bat-d { animation-delay: 6s; }
+.alr-hallow-bat-e { animation-delay: 3s; }
+
+@keyframes alrHallowStripeScroll { to { background-position: 42px 42px; } }
+@keyframes alrHallowGlowPulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 0.4; } }
+@keyframes alrHallowBatDrift { 0%, 100% { transform: translate(0,0); opacity: 0.4; } 50% { transform: translate(-6px,3px); opacity: 0.6; } }
+
+:root[saved-theme="light"] .alr-hallow-stripe {
+  background: repeating-linear-gradient(-45deg, #9c4a2e 0 14px, #b98a2e 14px 28px, #574f42 28px 42px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .alr-hallow-stripe, .alr-hallow-glow, .alr-hallow-bat { animation: none !important; }
+}
+
 // ─── ALR SOUND TOGGLE ─────────────────────────────
 .alr-sound-toggle { appearance: none; border: 1px solid rgba(204,120,92,0.18); background: rgba(204,120,92,0.06); color: var(--darkgray); border-radius: 999px; padding: 0.38rem 0.75rem; font-size: 0.8rem; cursor: pointer; transition: border-color 120ms ease, background 120ms ease, transform 120ms ease; }
 .alr-sound-toggle:hover { border-color: rgba(204,120,92,0.35); background: rgba(204,120,92,0.1); transform: translateY(-1px); }
