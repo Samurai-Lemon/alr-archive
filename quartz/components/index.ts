@@ -32,6 +32,7 @@ import ALRHomeDashboard from "./ALRHomeDashboard"
 import ALREchoRegistry from "./ALREchoRegistry"
 import ALRRealityRegistry from "./ALRRealityRegistry"
 import ALRSoundEngine from "./ALRSoundEngine"
+import ALRHallowDefs from "./ALRHallowDefs"
 import ALRSoundToggle from "./ALRSoundToggle"
 import ALRTerminalIntrusion from "./ALRTerminalIntrusion"
 import OrdoBanner from "./OrdoBanner"
@@ -83,6 +84,7 @@ export {
   ALREchoRegistry,
   ALRRealityRegistry,
   ALRSoundEngine,
+  ALRHallowDefs,
   ALRSoundToggle,
   ALRTerminalIntrusion,
   OrdoBanner,

@@ -2,6 +2,8 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 
 const ALRBanner: QuartzComponent = (_props: QuartzComponentProps) => {
   return (
+    <div style="position:relative;">
+    <div class="alr-hallow-stripe" style="border-radius: 4px 4px 0 0;"></div>
     <svg
       class="alr-banner-svg"
       width="100%"
@@ -102,7 +104,15 @@ const ALRBanner: QuartzComponent = (_props: QuartzComponentProps) => {
           stroke-dasharray="6 4"
         />
 
-        <g transform="translate(483, 5) scale(0.354)" opacity="0.18">
+        {/* ── Hallow Cycle seasonal layer — hidden except the week of Halloween (Oct 25–31); defs/script live sitewide in ALRHallowDefs.tsx ── */}
+        <g transform="translate(70,18)"><g class="alr-hallow-bat"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" transform="scale(0.008)" opacity="0.45" /></g></g>
+        <g transform="translate(260,110)"><g class="alr-hallow-bat alr-hallow-bat-b"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" transform="scale(0.006)" opacity="0.35" /></g></g>
+        <g transform="translate(400,30)"><g class="alr-hallow-bat alr-hallow-bat-c"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" transform="scale(0.007)" opacity="0.4" /></g></g>
+        <g class="alr-hallow-watermark" opacity="0.14">
+          <use href="#alr-hallow-pumpkin" class="alr-home-hero-logo" transform="translate(500,8) scale(0.12)" />
+        </g>
+
+        <g class="alr-home-hero-logo-wrap" transform="translate(483, 5) scale(0.354)" opacity="0.18">
           <path
             d="M 531.0 468.5 L 384.0 467.5 L 283.0 400.5 L 271.0 403.5 L 184.0 463.5 L 172.0 468.5 L 26.0 468.5 L 14.5 461.0 L 11.5 454.0 L 14.5 439.0 L 250.5 39.0 L 269.0 13.5 L 285.0 11.5 L 298.5 24.0 L 542.5 438.0 L 545.5 446.0 L 544.5 458.0 L 531.0 468.5 Z M 448.5 429.0 L 480.0 428.5 L 484.5 425.0 L 484.5 419.0 L 287.5 85.0 L 282.0 78.5 L 276.0 78.5 L 77.5 411.0 L 73.5 425.0 L 78.0 428.5 L 96.0 429.5 L 159.0 428.5 L 237.5 376.0 L 237.5 371.0 L 232.0 365.5 L 175.0 328.5 L 170.5 324.0 L 169.5 317.0 L 262.5 155.0 L 271.0 145.5 L 283.0 143.5 L 293.5 151.0 L 389.5 316.0 L 388.5 323.0 L 382.0 329.5 L 325.0 366.5 L 321.5 370.0 L 322.5 377.0 L 395.0 426.5 L 409.0 429.5 L 448.5 429.0 Z M 283.5 345.0 L 332.0 311.5 L 335.5 303.0 L 284.5 217.0 L 276.0 215.5 L 222.5 308.0 L 274.0 344.5 L 283.5 345.0 Z"
             fill="#cc785c"
@@ -193,6 +203,7 @@ const ALRBanner: QuartzComponent = (_props: QuartzComponentProps) => {
         </text>
       </g>
     </svg>
+    </div>
   )
 }
 

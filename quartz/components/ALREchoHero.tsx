@@ -144,6 +144,11 @@ const ALREchoHero: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
         style={`background-image: url('${imgSrc}');`}
       />
       <EcTexture ec={ec} color={ecAccent.color} />
+      {/* Hallow Cycle seasonal layer — hidden except the week of Halloween (Oct 25–31); defs/script live sitewide in ALRHallowDefs.tsx */}
+      <svg class="alr-echo-hero-texture" viewBox="0 0 900 340" preserveAspectRatio="xMidYMid slice">
+        <g transform="translate(690,35)"><g class="alr-hallow-bat"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" transform="scale(0.02)" opacity="0.85" /></g></g>
+        <g transform="translate(800,80)"><g class="alr-hallow-bat alr-hallow-bat-c"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" transform="scale(0.014)" opacity="0.75" /></g></g>
+      </svg>
       <div class="alr-echo-hero-gradient" />
 
       <div class="alr-echo-hero-topbar">

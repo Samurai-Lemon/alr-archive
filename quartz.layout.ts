@@ -26,6 +26,7 @@ export const sharedPageComponents: SharedLayout = {
     Component.ReaderMode(),
   ],
   afterBody: [
+    Component.ALRHallowDefs(),
     Component.ALRSoundEngine(),
     Component.ALRLabelCreatorScript(),
     Component.ALRRegistryScript(),
