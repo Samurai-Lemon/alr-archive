@@ -87,6 +87,22 @@ const ALRHallowDefs: QuartzComponent = (_props: QuartzComponentProps) => {
           </g>
         </defs>
       </svg>
+
+      {/* Sitewide floating bats — fixed to the viewport so they show on every page, not just inside
+          banner/hero art (registries, Account, Admin, Shop, etc. have no hero to host them). */}
+      <div class="alr-hallow-page-bat alr-hallow-bat" style="top:64px; right:26px; width:20px; height:12px;">
+        <svg viewBox="0 0 1280 773" width="100%" height="100%"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" opacity="0.5" /></svg>
+      </div>
+      <div class="alr-hallow-page-bat alr-hallow-bat alr-hallow-bat-c" style="top:42%; right:14px; width:14px; height:9px;">
+        <svg viewBox="0 0 1280 773" width="100%" height="100%"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" opacity="0.4" /></svg>
+      </div>
+      <div class="alr-hallow-page-bat alr-hallow-bat alr-hallow-bat-e" style="bottom:78px; right:52px; width:16px; height:10px;">
+        <svg viewBox="0 0 1280 773" width="100%" height="100%"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" opacity="0.45" /></svg>
+      </div>
+      <div class="alr-hallow-page-bat alr-hallow-bat alr-hallow-bat-b" style="top:120px; left:24px; width:15px; height:9px;">
+        <svg viewBox="0 0 1280 773" width="100%" height="100%"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" opacity="0.4" /></svg>
+      </div>
+
       <script dangerouslySetInnerHTML={{ __html: `
 (function() {
   function isHallowWeek() {

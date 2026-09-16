@@ -2801,6 +2801,13 @@ body.alr-hallow-active .alr-home-hero-logo-wrap { display: none; }
 .alr-hallow-bat-d { animation-delay: 6s; }
 .alr-hallow-bat-e { animation-delay: 3s; }
 
+// Sitewide floating bats (fixed to the viewport, shown on every page — see ALRHallowDefs.tsx)
+.alr-hallow-page-bat { display: none; position: fixed; pointer-events: none; z-index: 40; }
+body.alr-hallow-active .alr-hallow-page-bat { display: block; }
+@media (max-width: 800px) {
+  .alr-hallow-page-bat { display: none !important; }
+}
+
 @keyframes alrHallowStripeScroll { to { background-position: 42px 0; } }
 @keyframes alrHallowGlowPulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 0.4; } }
 @keyframes alrHallowBatDrift { 0%, 100% { transform: translate(0,0); opacity: 0.4; } 50% { transform: translate(-6px,3px); opacity: 0.6; } }

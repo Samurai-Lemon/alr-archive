@@ -145,7 +145,7 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
             />
 
             {/* ── Hallow Cycle seasonal layer — hidden except the week of Halloween (Oct 25–31), toggled sitewide by ALRHallowDefs.tsx ── */}
-            <g class="alr-hallow-glow" transform="translate(430,27)">
+            <g class="alr-hallow-glow" transform="translate(335,27)">
               <ellipse cx="80" cy="160" rx="62" ry="16" class="alr-hallow-glow-fill" opacity="0.12" />
               <use href="#alr-hallow-pumpkin" class="alr-hallow-glow-fill" transform="scale(0.13)" />
             </g>
