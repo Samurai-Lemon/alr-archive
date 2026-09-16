@@ -103,17 +103,42 @@ const ALRHallowDefs: QuartzComponent = (_props: QuartzComponentProps) => {
         <svg viewBox="0 0 1280 773" width="100%" height="100%"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" opacity="0.4" /></svg>
       </div>
 
+      {/* One-time intro: a bat flies across and briefly covers the whole screen, masking the
+          moment the seasonal theme switches on. Only ever plays on a real page load/refresh —
+          the script below runs once per hard load, never on SPA `nav` (see the note there). */}
+      <div id="alr-hallow-intro" class="alr-hallow-intro" aria-hidden="true">
+        <svg viewBox="0 0 1280 773" class="alr-hallow-intro-bat"><use href="#alr-hallow-bat" fill="#0a0908" /></svg>
+      </div>
+
       <script dangerouslySetInnerHTML={{ __html: `
 (function() {
   function isHallowWeek() {
     var d = new Date();
     return d.getMonth() === 9 && d.getDate() >= 25 && d.getDate() <= 31;
   }
-  function applyHallow() {
+  function setThemeClass() {
     document.body.classList.toggle('alr-hallow-active', isHallowWeek());
   }
-  applyHallow();
-  document.addEventListener('nav', applyHallow);
+
+  // This whole IIFE only runs once per real page load/refresh (the script tag itself isn't
+  // re-executed by the SPA's DOM morph on internal navigation) — so the intro only plays once,
+  // and the 'nav' listener below is what keeps the theme class correct across SPA navigation
+  // afterward, without ever replaying the flyover.
+  var overlay = document.getElementById('alr-hallow-intro');
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (isHallowWeek() && overlay && !reduceMotion) {
+    overlay.style.display = 'flex';
+    setTimeout(setThemeClass, 900);
+    setTimeout(function () {
+      if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+    }, 1900);
+  } else {
+    if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
+    setThemeClass();
+  }
+
+  document.addEventListener('nav', setThemeClass);
 })();
       ` }} />
     </>
