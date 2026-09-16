@@ -144,10 +144,10 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
               stroke-dasharray="6 4"
             />
 
-            {/* ── Hallow Cycle seasonal layer — hidden except the week of Halloween (Oct 25–31), toggled by the script below ── */}
-            <g class="alr-hallow-glow" transform="translate(410,52)">
-              <ellipse cx="70" cy="176" rx="64" ry="17" class="alr-hallow-glow-fill" opacity="0.12" />
-              <use href="#alr-hallow-pumpkin" class="alr-hallow-glow-fill" transform="scale(0.115)" />
+            {/* ── Hallow Cycle seasonal layer — hidden except the week of Halloween (Oct 25–31), toggled sitewide by ALRHallowDefs.tsx ── */}
+            <g class="alr-hallow-glow" transform="translate(430,27)">
+              <ellipse cx="80" cy="160" rx="62" ry="16" class="alr-hallow-glow-fill" opacity="0.12" />
+              <use href="#alr-hallow-pumpkin" class="alr-hallow-glow-fill" transform="scale(0.13)" />
             </g>
             <g transform="translate(128,32)"><g class="alr-hallow-bat"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" transform="scale(0.012)" opacity="0.5" /></g></g>
             <g transform="translate(222,82)"><g class="alr-hallow-bat alr-hallow-bat-b"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" transform="scale(0.0075)" opacity="0.4" /></g></g>
@@ -156,12 +156,6 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
             <g transform="translate(592,102)"><g class="alr-hallow-bat alr-hallow-bat-e"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" transform="scale(0.0068)" opacity="0.4" /></g></g>
             <g transform="translate(360,16)"><g class="alr-hallow-bat alr-hallow-bat-b"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" transform="scale(0.009)" opacity="0.5" /></g></g>
             <g transform="translate(630,50)"><g class="alr-hallow-bat alr-hallow-bat-d"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" transform="scale(0.0105)" opacity="0.45" /></g></g>
-            <g class="alr-hallow-witchcat" transform="translate(468,157)" opacity="0.55">
-              <use href="#alr-hallow-witchcat" class="alr-hallow-witchcat-fill" transform="scale(0.0265)" />
-            </g>
-            <g class="alr-hallow-watermark" opacity="0.12">
-              <use href="#alr-hallow-pumpkin" class="alr-home-hero-logo" transform="translate(392,6) scale(0.108)" />
-            </g>
 
             <g class="alr-home-hero-logo-wrap" transform="translate(345, 10) scale(0.4)" opacity="0.12">
               <path

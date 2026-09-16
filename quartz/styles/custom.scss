@@ -2768,13 +2768,12 @@ footer { padding-bottom: 34px !important; }
 }
 
 // ─── HALLOW CYCLE (seasonal, week of Oct 25–31 only — see ALRHallowDefs.tsx's sitewide date-check script) ───────────────────────────────
-.alr-hallow-stripe, .alr-hallow-glow, .alr-hallow-bat, .alr-hallow-watermark, .alr-hallow-witchcat { display: none; }
+.alr-hallow-stripe, .alr-hallow-glow, .alr-hallow-bat, .alr-hallow-watermark { display: none; }
 
 body.alr-hallow-active .alr-hallow-stripe { display: block; }
 body.alr-hallow-active .alr-hallow-glow,
 body.alr-hallow-active .alr-hallow-bat,
-body.alr-hallow-active .alr-hallow-watermark,
-body.alr-hallow-active .alr-hallow-witchcat { display: inline; }
+body.alr-hallow-active .alr-hallow-watermark { display: inline; }
 body.alr-hallow-active .alr-home-hero-logo-wrap { display: none; }
 
 .alr-hallow-stripe {
@@ -2792,10 +2791,8 @@ body.alr-hallow-active .alr-home-hero-logo-wrap { display: none; }
 
 .alr-hallow-glow-fill { fill: #cc785c; }
 .alr-hallow-bat-fill { fill: #cc785c; }
-.alr-hallow-witchcat-fill { fill: #cc785c; }
 :root[saved-theme="light"] .alr-hallow-glow-fill,
-:root[saved-theme="light"] .alr-hallow-bat-fill,
-:root[saved-theme="light"] .alr-hallow-witchcat-fill { fill: #a85c42; }
+:root[saved-theme="light"] .alr-hallow-bat-fill { fill: #a85c42; }
 
 .alr-hallow-glow { animation: alrHallowGlowPulse 5s ease-in-out infinite; }
 .alr-hallow-bat { animation: alrHallowBatDrift 9s ease-in-out infinite; }
