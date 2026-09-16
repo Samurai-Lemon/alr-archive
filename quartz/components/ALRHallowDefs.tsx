@@ -116,8 +116,14 @@ const ALRHallowDefs: QuartzComponent = (_props: QuartzComponentProps) => {
     var d = new Date();
     return d.getMonth() === 9 && d.getDate() >= 25 && d.getDate() <= 31;
   }
+  // ?hallow=1 forces the theme on for previewing outside the real date window — remains in
+  // effect for the rest of this session's navigation since it's re-checked on every 'nav' too.
+  var forcePreview = /[?&]hallow=1\\b/.test(location.search);
+  function shouldBeHallow() {
+    return isHallowWeek() || forcePreview;
+  }
   function setThemeClass() {
-    document.body.classList.toggle('alr-hallow-active', isHallowWeek());
+    document.body.classList.toggle('alr-hallow-active', shouldBeHallow());
   }
 
   // This whole IIFE only runs once per real page load/refresh (the script tag itself isn't
@@ -127,7 +133,7 @@ const ALRHallowDefs: QuartzComponent = (_props: QuartzComponentProps) => {
   var overlay = document.getElementById('alr-hallow-intro');
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  if (isHallowWeek() && overlay && !reduceMotion) {
+  if (shouldBeHallow() && overlay && !reduceMotion) {
     overlay.style.display = 'flex';
     setTimeout(setThemeClass, 900);
     setTimeout(function () {
