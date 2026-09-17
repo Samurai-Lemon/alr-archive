@@ -2825,18 +2825,18 @@ body.alr-hallow-active .alr-hallow-page-bat { display: block; }
   overflow: hidden;
 }
 .alr-hallow-intro-bat {
-  width: 45vmax;
+  width: 42vw;
   min-width: 240px;
   height: auto;
   animation: alrHallowBatFlyover 1.8s cubic-bezier(0.45, 0, 0.55, 1) forwards;
 }
 @keyframes alrHallowBatFlyover {
-  0%   { transform: translateX(-70vw) translateY(16vh) scale(0.3) rotate(-6deg); opacity: 0; }
+  0%   { transform: translateX(-70vw) translateY(30vh) scale(0.3) rotate(-6deg); opacity: 0; }
   10%  { opacity: 1; }
-  48%  { transform: translateX(0vw) translateY(-2vh) scale(10) rotate(2deg); opacity: 1; }
-  58%  { transform: translateX(10vw) translateY(-4vh) scale(10.3) rotate(-1deg); opacity: 1; }
+  46%  { transform: translateX(-5vw) translateY(-28vh) scale(4.2) rotate(3deg); opacity: 1; }
+  56%  { transform: translateX(8vw) translateY(-30vh) scale(4.4) rotate(-2deg); opacity: 1; }
   90%  { opacity: 1; }
-  100% { transform: translateX(80vw) translateY(-22vh) scale(0.4) rotate(-8deg); opacity: 0; }
+  100% { transform: translateX(85vw) translateY(-45vh) scale(0.5) rotate(-8deg); opacity: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
   .alr-hallow-intro { display: none !important; }
