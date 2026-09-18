@@ -2814,8 +2814,11 @@ body.alr-hallow-active .alr-hallow-page-bat { display: block; }
 
 // One-time bat-swarm intro (see ALRHallowDefs.tsx) — hidden by default; the script flips
 // display:block only when it decides to play it, so this never renders outside that moment.
-// Each bat is one <svg>, individually positioned/timed via inline custom properties
-// (--x0/--y0/--x1/--y1/--s/--r) set per-instance in the component, sharing one keyframe here.
+// Each bat is one <svg> covering one cell of a grid laid over the viewport, individually
+// positioned/timed via inline custom properties (--x0/--y0 entry, --xp/--yp peak/hold position,
+// --x1/--y1 exit, --s0/--sp entry-exit vs. peak scale, --r tilt) set per-instance in the
+// component, sharing one keyframe here. Enough cells overlap at peak scale simultaneously to
+// black out the whole viewport for a beat before the theme reveal.
 .alr-hallow-intro {
   display: none;
   position: fixed;
@@ -2828,19 +2831,21 @@ body.alr-hallow-active .alr-hallow-page-bat { display: block; }
   position: absolute;
   top: 0;
   left: 0;
-  width: 14vmax;
-  min-width: 60px;
+  width: 26vmax;
+  min-width: 110px;
   height: auto;
   opacity: 0;
   animation-name: alrHallowSwarmFly;
-  animation-timing-function: linear;
+  animation-timing-function: ease-in-out;
   animation-fill-mode: forwards;
 }
 @keyframes alrHallowSwarmFly {
-  0%   { transform: translate(var(--x0), var(--y0)) scale(var(--s)) rotate(var(--r)); opacity: 0; }
+  0%   { transform: translate(var(--x0), var(--y0)) scale(var(--s0)) rotate(var(--r)); opacity: 0; }
   10%  { opacity: 1; }
-  88%  { opacity: 1; }
-  100% { transform: translate(var(--x1), var(--y1)) scale(var(--s)) rotate(var(--r)); opacity: 0; }
+  30%  { transform: translate(var(--xp), var(--yp)) scale(var(--sp)) rotate(var(--r)); opacity: 1; }
+  65%  { transform: translate(var(--xp), var(--yp)) scale(var(--sp)) rotate(var(--r)); opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translate(var(--x1), var(--y1)) scale(var(--s0)) rotate(var(--r)); opacity: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
   .alr-hallow-intro { display: none !important; }
