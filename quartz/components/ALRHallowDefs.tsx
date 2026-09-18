@@ -4,6 +4,27 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 // Hallow Cycle art (pumpkin, bat, witch+cat) so every banner/hero component across the site can
 // reference it via <use href="#alr-hallow-...">  without duplicating the path data per component,
 // plus the one date-check script that flips `alr-hallow-active` on <body> the week of Oct 25-31.
+// One-time intro swarm: each entry is one bat's flight — start/end position (vw/vh, relative to
+// the fixed full-screen overlay), a constant scale + tilt for that bat, and its own delay/duration
+// so the flock reads as staggered individuals crossing the screen rather than one big shape.
+const HALLOW_SWARM_BATS = [
+  { x0: -30, y0: 60, x1: 130, y1: -20, s: 0.9, r: -8, delay: 0, dur: 2.2 },
+  { x0: -45, y0: 75, x1: 115, y1: -10, s: 0.6, r: 4, delay: 80, dur: 2.4 },
+  { x0: -20, y0: 50, x1: 140, y1: -30, s: 1.3, r: -12, delay: 150, dur: 2.0 },
+  { x0: -55, y0: 85, x1: 105, y1: 5, s: 0.5, r: 10, delay: 220, dur: 2.6 },
+  { x0: -35, y0: 65, x1: 125, y1: -15, s: 0.8, r: -5, delay: 300, dur: 2.1 },
+  { x0: -60, y0: 90, x1: 100, y1: 10, s: 0.4, r: 14, delay: 380, dur: 2.5 },
+  { x0: -25, y0: 55, x1: 135, y1: -25, s: 1.1, r: -10, delay: 450, dur: 2.0 },
+  { x0: -40, y0: 70, x1: 120, y1: -5, s: 0.7, r: 6, delay: 530, dur: 2.3 },
+  { x0: -15, y0: 45, x1: 145, y1: -35, s: 1.5, r: -14, delay: 600, dur: 1.9 },
+  { x0: -50, y0: 80, x1: 110, y1: 0, s: 0.55, r: 12, delay: 680, dur: 2.4 },
+  { x0: -30, y0: 62, x1: 128, y1: -18, s: 0.95, r: -6, delay: 750, dur: 2.1 },
+  { x0: -20, y0: 40, x1: 138, y1: -28, s: 1.2, r: -9, delay: 820, dur: 2.0 },
+]
+// Last bat starts at 820ms and flies for 2.0s — the theme flip and overlay teardown below wait
+// for that to clear (with a little buffer) instead of firing mid-swarm.
+const HALLOW_SWARM_END_MS = Math.max(...HALLOW_SWARM_BATS.map((b) => b.delay + b.dur * 1000))
+
 const ALRHallowDefs: QuartzComponent = (_props: QuartzComponentProps) => {
   return (
     <>
@@ -2123,11 +2144,20 @@ l-8 55 -13 -75z"/>
         <svg viewBox="0 0 1280 773" width="100%" height="100%"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" opacity="0.4" /></svg>
       </div>
 
-      {/* One-time intro: a bat flies across and briefly covers the whole screen, masking the
-          moment the seasonal theme switches on. Only ever plays on a real page load/refresh —
+      {/* One-time intro: a swarm of bats streams across the screen, and the seasonal theme
+          switches on right after the last one clears. Only ever plays on a real page load/refresh —
           the script below runs once per hard load, never on SPA `nav` (see the note there). */}
       <div id="alr-hallow-intro" class="alr-hallow-intro" aria-hidden="true">
-        <svg viewBox="0 0 1280 773" class="alr-hallow-intro-bat"><use href="#alr-hallow-bat" fill="#0a0908" /></svg>
+        {HALLOW_SWARM_BATS.map((b, i) => (
+          <svg
+            key={i}
+            viewBox="0 0 1280 773"
+            class="alr-hallow-swarm-bat"
+            style={`--x0:${b.x0}vw;--y0:${b.y0}vh;--x1:${b.x1}vw;--y1:${b.y1}vh;--s:${b.s};--r:${b.r}deg;animation-delay:${b.delay}ms;animation-duration:${b.dur}s;`}
+          >
+            <use href="#alr-hallow-bat" fill="#0a0908" />
+          </svg>
+        ))}
       </div>
 
       <script dangerouslySetInnerHTML={{ __html: `
@@ -2153,18 +2183,25 @@ l-8 55 -13 -75z"/>
   var overlay = document.getElementById('alr-hallow-intro');
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // Quartz's SPA router fires a synthetic 'nav' event almost immediately on every real page
+  // load too (not just later client-side navigations) — so registering this listener up front
+  // made it fire setThemeClass right away, revealing the theme mid-swarm regardless of the
+  // setTimeout below. Only attaching it once the intro has actually finished (or immediately,
+  // on the no-intro branch) keeps the reveal genuinely gated behind the animation.
   if (shouldBeHallow() && overlay && !reduceMotion) {
-    overlay.style.display = 'flex';
-    setTimeout(setThemeClass, 900);
+    overlay.style.display = 'block';
+    setTimeout(function () {
+      setThemeClass();
+      document.addEventListener('nav', setThemeClass);
+    }, ${HALLOW_SWARM_END_MS});
     setTimeout(function () {
       if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
-    }, 1900);
+    }, ${HALLOW_SWARM_END_MS + 200});
   } else {
     if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
     setThemeClass();
+    document.addEventListener('nav', setThemeClass);
   }
-
-  document.addEventListener('nav', setThemeClass);
 })();
       ` }} />
     </>
