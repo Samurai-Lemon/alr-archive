@@ -10,7 +10,12 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 // peak scale to black out the whole viewport for a beat before the theme reveal.
 const HALLOW_SWARM_COLS = 7
 const HALLOW_SWARM_ROWS = 5
-const HALLOW_SWARM_DUR = 1.7
+const HALLOW_SWARM_DUR = 1.3
+// Must match the keyframe stops in custom.scss (alrHallowSwarmFly) — the % of each bat's own
+// animation where it's sitting still at full peak scale, used below to work out the one window
+// where every bat (regardless of its stagger delay) is simultaneously at peak.
+const HALLOW_SWARM_PEAK_START_PCT = 0.28
+const HALLOW_SWARM_PEAK_END_PCT = 0.62
 const HALLOW_SWARM_BATS: {
   x0: number; y0: number; xp: number; yp: number; x1: number; y1: number
   s0: number; sp: number; r: number; delay: number
@@ -33,15 +38,26 @@ for (let row = 0; row < HALLOW_SWARM_ROWS; row++) {
       s0: 0.3,
       sp: 1.8 + ((idx % 5) / 4) * 0.8,
       r: -14 + (idx % 7) * 4,
-      delay: (idx % 12) * 10,
+      delay: (idx % 12) * 8,
     })
   }
 }
-// Every bat shares one duration, so their individual 35%-55% "hold at peak" keyframe window
-// lands within a few hundred ms of every other bat's — that's what makes the overlap solid
-// instead of a few cells peaking while the rest are still mid-flight. The theme flip and
-// overlay teardown below wait for the slowest (highest-delay) bat to clear before firing.
-const HALLOW_SWARM_END_MS = Math.max(...HALLOW_SWARM_BATS.map((b) => b.delay + HALLOW_SWARM_DUR * 1000))
+// Every bat shares one duration, so their individual peak-hold keyframe window lands within a
+// few dozen ms of every other bat's — that's what makes the overlap solid instead of a few
+// cells peaking while the rest are still mid-flight.
+const HALLOW_SWARM_DELAYS = HALLOW_SWARM_BATS.map((b) => b.delay)
+const HALLOW_SWARM_MAX_DELAY = Math.max(...HALLOW_SWARM_DELAYS)
+const HALLOW_SWARM_MIN_DELAY = Math.min(...HALLOW_SWARM_DELAYS)
+// The one window where every bat, regardless of its stagger delay, is simultaneously sitting at
+// peak scale (the latest-starting bat has just reached peak; the earliest-starting bat hasn't
+// left it yet) — the theme flips right in the middle of that, genuinely hidden behind the swarm
+// instead of waiting for it to clear.
+const HALLOW_SWARM_REVEAL_MS = Math.round(
+  (HALLOW_SWARM_MAX_DELAY + HALLOW_SWARM_PEAK_START_PCT * HALLOW_SWARM_DUR * 1000 +
+    (HALLOW_SWARM_MIN_DELAY + HALLOW_SWARM_PEAK_END_PCT * HALLOW_SWARM_DUR * 1000)) / 2
+)
+// Overlay teardown still waits for the slowest (highest-delay) bat to fully clear.
+const HALLOW_SWARM_END_MS = HALLOW_SWARM_MAX_DELAY + HALLOW_SWARM_DUR * 1000
 
 const ALRHallowDefs: QuartzComponent = (_props: QuartzComponentProps) => {
   return (
@@ -2205,14 +2221,16 @@ l-8 55 -13 -75z"/>
   // Quartz's SPA router fires a synthetic 'nav' event almost immediately on every real page
   // load too (not just later client-side navigations) — so registering this listener up front
   // made it fire setThemeClass right away, revealing the theme mid-swarm regardless of the
-  // setTimeout below. Only attaching it once the intro has actually finished (or immediately,
-  // on the no-intro branch) keeps the reveal genuinely gated behind the animation.
+  // setTimeout below. Only attaching it once the reveal has actually happened (or immediately,
+  // on the no-intro branch) keeps it genuinely gated behind the animation.
   if (shouldBeHallow() && overlay && !reduceMotion) {
     overlay.style.display = 'block';
+    // Flip the theme while every bat is still sitting at peak scale, so the reveal happens
+    // behind the blackout instead of after the swarm has already cleared away.
     setTimeout(function () {
       setThemeClass();
       document.addEventListener('nav', setThemeClass);
-    }, ${HALLOW_SWARM_END_MS});
+    }, ${HALLOW_SWARM_REVEAL_MS});
     setTimeout(function () {
       if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
     }, ${HALLOW_SWARM_END_MS + 200});
