@@ -10,7 +10,7 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 // peak scale to black out the whole viewport for a beat before the theme reveal.
 const HALLOW_SWARM_COLS = 7
 const HALLOW_SWARM_ROWS = 5
-const HALLOW_SWARM_DUR = 3.0
+const HALLOW_SWARM_DUR = 1.7
 const HALLOW_SWARM_BATS: {
   x0: number; y0: number; xp: number; yp: number; x1: number; y1: number
   s0: number; sp: number; r: number; delay: number
@@ -33,7 +33,7 @@ for (let row = 0; row < HALLOW_SWARM_ROWS; row++) {
       s0: 0.3,
       sp: 1.8 + ((idx % 5) / 4) * 0.8,
       r: -14 + (idx % 7) * 4,
-      delay: (idx % 12) * 20,
+      delay: (idx % 12) * 10,
     })
   }
 }

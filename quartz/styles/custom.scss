@@ -2836,16 +2836,21 @@ body.alr-hallow-active .alr-hallow-page-bat { display: block; }
   height: auto;
   opacity: 0;
   animation-name: alrHallowSwarmFly;
-  animation-timing-function: ease-in-out;
   animation-fill-mode: forwards;
 }
+// translate()'s percentage component always resolves against the element's OWN static
+// width/height, independent of the scale() in the same transform — so "- 50%" here reliably
+// re-centers the bat on (--x0/--xp/--x1, --y0/--yp/--y1) at any scale. Without it, translate
+// alone places the bat's top-left corner at that point instead, which left every grid cell's
+// actual coverage offset down-and-right of its intended center — that's what was leaving the
+// top and left edges of the screen uncovered at peak.
 @keyframes alrHallowSwarmFly {
-  0%   { transform: translate(var(--x0), var(--y0)) scale(var(--s0)) rotate(var(--r)); opacity: 0; }
+  0%   { transform: translate(calc(var(--x0) - 50%), calc(var(--y0) - 50%)) scale(var(--s0)) rotate(var(--r)); opacity: 0; animation-timing-function: ease-out; }
   10%  { opacity: 1; }
-  30%  { transform: translate(var(--xp), var(--yp)) scale(var(--sp)) rotate(var(--r)); opacity: 1; }
-  65%  { transform: translate(var(--xp), var(--yp)) scale(var(--sp)) rotate(var(--r)); opacity: 1; }
-  90%  { opacity: 1; }
-  100% { transform: translate(var(--x1), var(--y1)) scale(var(--s0)) rotate(var(--r)); opacity: 0; }
+  28%  { transform: translate(calc(var(--xp) - 50%), calc(var(--yp) - 50%)) scale(var(--sp)) rotate(var(--r)); opacity: 1; animation-timing-function: linear; }
+  62%  { transform: translate(calc(var(--xp) - 50%), calc(var(--yp) - 50%)) scale(var(--sp)) rotate(var(--r)); opacity: 1; animation-timing-function: ease-in; }
+  88%  { opacity: 1; }
+  100% { transform: translate(calc(var(--x1) - 50%), calc(var(--y1) - 50%)) scale(var(--s0)) rotate(var(--r)); opacity: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
   .alr-hallow-intro { display: none !important; }
