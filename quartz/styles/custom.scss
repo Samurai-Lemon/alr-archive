@@ -2846,8 +2846,11 @@ body.alr-hallow-active .alr-hallow-page-bat { display: block; }
 // top and left edges of the screen uncovered at peak.
 @keyframes alrHallowSwarmFly {
   0%   { transform: translate(calc(var(--x0) - 50%), calc(var(--y0) - 50%)) scale(var(--s0)) rotate(var(--r)); opacity: 0; animation-timing-function: ease-out; }
-  10%  { opacity: 1; }
-  28%  { transform: translate(calc(var(--xp) - 50%), calc(var(--yp) - 50%)) scale(var(--sp)) rotate(var(--r)); opacity: 1; animation-timing-function: linear; }
+  8%   { opacity: 1; animation-timing-function: ease-in; }
+  // Barely moved and barely grown by here — this is the "small and scarce" beat where a bat
+  // reads as a distinct speck rather than something already swelling toward full size.
+  20%  { transform: translate(calc(var(--xm) - 50%), calc(var(--ym) - 50%)) scale(var(--sm)) rotate(var(--r)); opacity: 1; animation-timing-function: ease-out; }
+  30%  { transform: translate(calc(var(--xp) - 50%), calc(var(--yp) - 50%)) scale(var(--sp)) rotate(var(--r)); opacity: 1; animation-timing-function: linear; }
   62%  { transform: translate(calc(var(--xp) - 50%), calc(var(--yp) - 50%)) scale(var(--sp)) rotate(var(--r)); opacity: 1; animation-timing-function: ease-in; }
   88%  { opacity: 1; }
   100% { transform: translate(calc(var(--x1) - 50%), calc(var(--y1) - 50%)) scale(var(--s0)) rotate(var(--r)); opacity: 0; }

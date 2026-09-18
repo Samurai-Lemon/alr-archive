@@ -5,19 +5,21 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 // reference it via <use href="#alr-hallow-...">  without duplicating the path data per component,
 // plus the one date-check script that flips `alr-hallow-active` on <body> the week of Oct 25-31.
 // One-time intro swarm: a grid of bats (one per cell, positions in vw/vh over the fixed
-// full-screen overlay) each fly in from off one side, hold large at their cell's center during
-// a shared 35%-55% "peak" window, then continue out the far side — enough overlapping cells at
-// peak scale to black out the whole viewport for a beat before the theme reveal.
+// full-screen overlay), each scattered somewhere around the outside of the screen along the
+// line from center through its own cell, converging inward to hold large at that cell's center
+// during a shared peak window, then continuing on outward — enough overlapping cells at peak
+// scale to black out the whole viewport for a beat before the theme reveal.
 const HALLOW_SWARM_COLS = 7
 const HALLOW_SWARM_ROWS = 5
 const HALLOW_SWARM_DUR = 1.3
 // Must match the keyframe stops in custom.scss (alrHallowSwarmFly) — the % of each bat's own
 // animation where it's sitting still at full peak scale, used below to work out the one window
 // where every bat (regardless of its stagger delay) is simultaneously at peak.
-const HALLOW_SWARM_PEAK_START_PCT = 0.28
+const HALLOW_SWARM_PEAK_START_PCT = 0.30
 const HALLOW_SWARM_PEAK_END_PCT = 0.62
 const HALLOW_SWARM_BATS: {
-  x0: number; y0: number; xp: number; yp: number; x1: number; y1: number
+  x0: number; y0: number; xm: number; ym: number; sm: number
+  xp: number; yp: number; x1: number; y1: number
   s0: number; sp: number; r: number; delay: number
 }[] = []
 for (let row = 0; row < HALLOW_SWARM_ROWS; row++) {
@@ -28,17 +30,48 @@ for (let row = 0; row < HALLOW_SWARM_ROWS; row++) {
     const jitter = (n: number, spread: number) => (((idx * 37 + n * 13) % 100) / 100) * spread - spread / 2
     const xp = ((col + 0.5) / HALLOW_SWARM_COLS) * 100
     const yp = ((row + 0.5) / HALLOW_SWARM_ROWS) * 100
+    // Entry point radiates outward from screen center through this cell's peak position, rather
+    // than every bat sliding in from the same fixed diagonal — that uniform direction was what
+    // made the whole swarm read as one blob converging on the middle instead of individual bats
+    // scattering in from all sides (edges and corners alike) to fill the grid.
+    let dx = xp - 50
+    let dy = yp - 50
+    const dist = Math.sqrt(dx * dx + dy * dy)
+    if (dist < 1) {
+      // The one cell whose peak lands exactly on screen center has no direction to radiate
+      // from — give it an arbitrary diagonal instead of dividing by ~0.
+      dx = 1
+      dy = -1
+    }
+    const norm = Math.sqrt(dx * dx + dy * dy)
+    const ux = dx / norm
+    const uy = dy / norm
+    const entryDist = 58
+    const x0 = xp + ux * entryDist + jitter(1, 10)
+    const y0 = yp + uy * entryDist + jitter(2, 10)
+    const s0 = 0.22
+    const sp = 1.8 + ((idx % 5) / 4) * 0.8
     HALLOW_SWARM_BATS.push({
-      x0: xp - 42 + jitter(1, 12),
-      y0: yp + 42 + jitter(2, 12),
+      x0,
+      y0,
+      // A midpoint, reached partway through the entry segment, that's still mostly out at the
+      // entry position and barely grown — this is what keeps each bat reading as a small,
+      // distinct speck for a while before it rapidly swoops in and swells to peak size, instead
+      // of growing at a steady rate the whole way (which read as already-big almost immediately).
+      xm: x0 + (xp - x0) * 0.3,
+      ym: y0 + (yp - y0) * 0.3,
+      sm: s0 + (sp - s0) * 0.15,
       xp,
       yp,
       x1: xp + 42 + jitter(3, 12),
       y1: yp - 42 + jitter(4, 12),
-      s0: 0.3,
-      sp: 1.8 + ((idx % 5) / 4) * 0.8,
+      s0,
+      sp,
       r: -14 + (idx % 7) * 4,
-      delay: (idx % 12) * 8,
+      // Wider, denser stagger (18 buckets instead of 12, larger step) so the swarm visibly
+      // trickles in — a few scattered bats first, more arriving over time — rather than nearly
+      // all of them fading/growing in within the same ~100ms window.
+      delay: (idx % 18) * 15,
     })
   }
 }
@@ -2188,7 +2221,7 @@ l-8 55 -13 -75z"/>
             key={i}
             viewBox="0 0 1280 773"
             class="alr-hallow-swarm-bat"
-            style={`--x0:${b.x0}vw;--y0:${b.y0}vh;--xp:${b.xp}vw;--yp:${b.yp}vh;--x1:${b.x1}vw;--y1:${b.y1}vh;--s0:${b.s0};--sp:${b.sp};--r:${b.r}deg;animation-delay:${b.delay}ms;animation-duration:${HALLOW_SWARM_DUR}s;`}
+            style={`--x0:${b.x0}vw;--y0:${b.y0}vh;--xm:${b.xm}vw;--ym:${b.ym}vh;--xp:${b.xp}vw;--yp:${b.yp}vh;--x1:${b.x1}vw;--y1:${b.y1}vh;--s0:${b.s0};--sm:${b.sm};--sp:${b.sp};--r:${b.r}deg;animation-delay:${b.delay}ms;animation-duration:${HALLOW_SWARM_DUR}s;`}
           >
             <use href="#alr-hallow-bat" fill="#0a0908" />
           </svg>
