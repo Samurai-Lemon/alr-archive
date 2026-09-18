@@ -46,11 +46,25 @@ for (let row = 0; row < HALLOW_SWARM_ROWS; row++) {
     const norm = Math.sqrt(dx * dx + dy * dy)
     const ux = dx / norm
     const uy = dy / norm
+    // Perpendicular to the entry->peak line, so the midpoint below can bow sideways off a
+    // straight line — that's what turns each bat's own path into a curl/hook rather than a
+    // ruler-straight line, closer to how a real flock trails in.
+    const px = -uy
+    const py = ux
     const entryDist = 58
     const x0 = xp + ux * entryDist + jitter(1, 10)
     const y0 = yp + uy * entryDist + jitter(2, 10)
+    // Stagger bucket (0-17, arrival order) doubles as a size rank: the first bats to appear are
+    // the smallest, later ones progressively bigger — the small-in-the-distance-to-large-and-close
+    // trail look of a real flock, instead of sizes handed out with no relation to when each bat
+    // shows up.
+    const delayBucket = idx % 18
     const s0 = 0.22
-    const sp = 1.8 + ((idx % 5) / 4) * 0.8
+    const sp = 1.3 + (delayBucket / 17) * 1.5
+    // Bow direction alternates by cell so neighboring bats curl opposite ways rather than every
+    // path bending in visual lockstep.
+    const bowSign = idx % 2 === 0 ? 1 : -1
+    const bowAmount = entryDist * 0.4 * bowSign
     HALLOW_SWARM_BATS.push({
       x0,
       y0,
@@ -58,8 +72,10 @@ for (let row = 0; row < HALLOW_SWARM_ROWS; row++) {
       // entry position and barely grown — this is what keeps each bat reading as a small,
       // distinct speck for a while before it rapidly swoops in and swells to peak size, instead
       // of growing at a steady rate the whole way (which read as already-big almost immediately).
-      xm: x0 + (xp - x0) * 0.3,
-      ym: y0 + (yp - y0) * 0.3,
+      // Bowed off the straight entry->peak line so the path curls in like a real flock's rather
+      // than flying a ruler-straight line.
+      xm: x0 + (xp - x0) * 0.3 + px * bowAmount + jitter(5, 6),
+      ym: y0 + (yp - y0) * 0.3 + py * bowAmount + jitter(6, 6),
       sm: s0 + (sp - s0) * 0.15,
       xp,
       yp,
@@ -71,7 +87,7 @@ for (let row = 0; row < HALLOW_SWARM_ROWS; row++) {
       // Wider, denser stagger (18 buckets instead of 12, larger step) so the swarm visibly
       // trickles in — a few scattered bats first, more arriving over time — rather than nearly
       // all of them fading/growing in within the same ~100ms window.
-      delay: (idx % 18) * 15,
+      delay: delayBucket * 15,
     })
   }
 }
