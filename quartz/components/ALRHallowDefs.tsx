@@ -585,6 +585,13 @@ const ALRHallowDefs: QuartzComponent = (_props: QuartzComponentProps) => {
             54 -8 9 5 2 29 -17 23 -18 42 -35 42 -37z m2167 -20 c-2 -16 -4 -3 -4 27 0 30
             2 43 4 28 2 -16 2 -40 0 -55z m-2977 31 c0 -2 -13 2 -30 11 -16 9 -30 18 -30
             21 0 2 14 -2 30 -11 17 -9 30 -18 30 -21z"/>
+            {/* Carved jack-o-lantern face — the traced art above is a plain outline with no
+            face, so these four cutouts (hand-picked in the open belly area) are added
+            separately in the same jagged-edge style as the rest of the line art. */}
+            <path d="M4200 5190 L3400 4040 L3750 4190 L4000 4020 L4300 4240 L4550 4020 L5000 4040 Z"/>
+            <path d="M8600 5190 L9400 4040 L9050 4190 L8800 4020 L8500 4240 L8250 4020 L7800 4040 Z"/>
+            <path d="M6400 4740 L5850 3640 L6400 3840 L6950 3640 Z"/>
+            <path d="M3300 1640 L3900 2640 L4300 1840 L4900 2740 L5400 1840 L6100 2840 L6600 1840 L7200 2740 L7700 1840 L8300 2640 L8800 1740 L9500 1640 L9500 1240 L3300 1240 Z"/>
           </g>
           <g id="alr-hallow-bat" transform="translate(0,773) scale(0.1,-0.1)">
             <path d="M12696 7694 c-129 -50 -301 -136 -546 -275 -365 -206 -505 -268 -705
