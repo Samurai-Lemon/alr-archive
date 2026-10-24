@@ -2768,13 +2768,28 @@ footer { padding-bottom: 34px !important; }
 }
 
 // ─── HALLOW CYCLE (seasonal, week of Oct 25–31 only — see ALRHallowDefs.tsx's sitewide date-check script) ───────────────────────────────
-.alr-hallow-stripe, .alr-hallow-glow, .alr-hallow-bat, .alr-hallow-watermark { display: none; }
+// Opacity instead of display:none so the switch-on can fade in — display can't be transitioned
+// (an element isn't part of the render tree while display:none, so there's nothing to animate
+// from). None of these affect layout when invisible (absolute/fixed position, or SVG elements
+// that don't reflow), so leaving them "in" the DOM at opacity:0 the other 358 days is safe.
+.alr-hallow-stripe, .alr-hallow-glow, .alr-hallow-bat, .alr-hallow-watermark {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.9s ease;
+}
 
-body.alr-hallow-active .alr-hallow-stripe { display: block; }
+body.alr-hallow-active .alr-hallow-stripe { opacity: 0.95; }
 body.alr-hallow-active .alr-hallow-glow,
-body.alr-hallow-active .alr-hallow-bat,
-body.alr-hallow-active .alr-hallow-watermark { display: inline; }
-body.alr-hallow-active .alr-home-hero-logo-wrap { display: none; }
+body.alr-hallow-active .alr-hallow-bat { opacity: 1; }
+// Unlike glow/bat (wrapper <g>s around their own opacity-attributed children, so this class's
+// opacity compounds with theirs), alr-hallow-watermark carries its own "opacity=0.14" SVG
+// attribute directly — a CSS rule on the same element overrides that attribute rather than
+// multiplying with it, so the active state has to restate that subtlety explicitly or the
+// watermark would jump to fully opaque instead of its intended faint background presence.
+body.alr-hallow-active .alr-hallow-watermark { opacity: 0.14; }
+
+.alr-home-hero-logo-wrap { transition: opacity 0.9s ease; }
+body.alr-hallow-active .alr-home-hero-logo-wrap { opacity: 0; pointer-events: none; }
 
 .alr-hallow-stripe {
   position: absolute;
@@ -2783,10 +2798,8 @@ body.alr-hallow-active .alr-home-hero-logo-wrap { display: none; }
   z-index: 2;
   height: 6px;
   width: 100%;
-  opacity: 0.95;
   background-image: repeating-linear-gradient(-45deg, #cc785c 0 14px, #f2b705 14px 28px, #f7ecd8 28px 42px);
   background-size: 42px 42px;
-  animation: alrHallowStripeScroll 1.2s linear infinite;
 }
 
 .alr-hallow-glow-fill { fill: #cc785c; }
@@ -2794,16 +2807,26 @@ body.alr-hallow-active .alr-home-hero-logo-wrap { display: none; }
 :root[saved-theme="light"] .alr-hallow-glow-fill,
 :root[saved-theme="light"] .alr-hallow-bat-fill { fill: #a85c42; }
 
-.alr-hallow-glow { animation: alrHallowGlowPulse 5s ease-in-out infinite; }
-.alr-hallow-bat { animation: alrHallowBatDrift 9s ease-in-out infinite; }
-.alr-hallow-bat-b { animation-delay: 2s; }
-.alr-hallow-bat-c { animation-delay: 4s; }
-.alr-hallow-bat-d { animation-delay: 6s; }
-.alr-hallow-bat-e { animation-delay: 3s; }
+// These animations all drive opacity (glow pulse, bat drift) or a property that's pointless to
+// run while invisible (stripe scroll) — scoped to the active state only, both so they don't
+// fight the opacity:0/1 fade above and so they're not silently ticking the other 358 days.
+body.alr-hallow-active .alr-hallow-stripe { animation: alrHallowStripeScroll 1.2s linear infinite; }
+// alrHallowGlowPulse and alrHallowBatDrift both drive opacity themselves — a running CSS
+// animation always wins over a transition on the same property, so without a delay here they'd
+// hijack opacity the instant the active class lands and the 0.9s fade-in above would never be
+// seen at all. Starting them only after the fade completes (0.9s, plus each bat's own stagger
+// on top) lets the transition own opacity first, then hands off to the ambient pulse/drift.
+body.alr-hallow-active .alr-hallow-glow { animation: alrHallowGlowPulse 5s ease-in-out infinite; animation-delay: 0.9s; }
+body.alr-hallow-active .alr-hallow-bat { animation: alrHallowBatDrift 9s ease-in-out infinite; animation-delay: 0.9s; }
+body.alr-hallow-active .alr-hallow-bat-b { animation-delay: 2.9s; }
+body.alr-hallow-active .alr-hallow-bat-c { animation-delay: 4.9s; }
+body.alr-hallow-active .alr-hallow-bat-d { animation-delay: 6.9s; }
+body.alr-hallow-active .alr-hallow-bat-e { animation-delay: 3.9s; }
 
-// Sitewide floating bats (fixed to the viewport, shown on every page — see ALRHallowDefs.tsx)
-.alr-hallow-page-bat { display: none; position: fixed; pointer-events: none; z-index: 40; }
-body.alr-hallow-active .alr-hallow-page-bat { display: block; }
+// Sitewide floating bats (fixed to the viewport, shown on every page — see ALRHallowDefs.tsx).
+// Visibility itself comes from the shared .alr-hallow-bat opacity rule above (these elements
+// carry both classes); this one just adds the fixed positioning/stacking.
+.alr-hallow-page-bat { position: fixed; z-index: 40; }
 @media (max-width: 800px) {
   .alr-hallow-page-bat { display: none !important; }
 }

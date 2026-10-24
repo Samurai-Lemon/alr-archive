@@ -2142,7 +2142,15 @@ l-8 55 -13 -75z"/>
   // This whole IIFE only runs once per real page load/refresh (the script tag itself isn't
   // re-executed by the SPA's DOM morph on internal navigation); the 'nav' listener is what
   // keeps the theme class correct across SPA navigation afterward.
-  setThemeClass();
+  //
+  // The initial call is deferred two animation frames rather than run synchronously here —
+  // applying the class in the same tick the page is created leaves the browser no "before"
+  // (inactive, opacity:0) frame to paint, so the CSS fade-in transition has nothing to animate
+  // from and the theme just appears instantly instead of fading in. Two rAFs guarantee at least
+  // one full paint has happened with the class still absent before we add it.
+  requestAnimationFrame(function () {
+    requestAnimationFrame(setThemeClass);
+  });
   document.addEventListener('nav', setThemeClass);
 })();
       ` }} />
