@@ -47,6 +47,73 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
     { text: "R-031's collapse field keeps producing them. We stopped counting after the fourth recovery site.", attr: "E. Maren, Reality Investigation" },
   ]
 
+  // Personnel field notes, shown when a roster card is expanded. Reuses the voice already
+  // established by dispatchQuotes above (several entries are the same quotes) rather than
+  // inventing a second, inconsistent set of lines.
+  const personnelNotes: Record<string, string> = {
+    EM: "I have worked inside this structure longer than anywhere else. It feels like it has been waiting.",
+    VA: "You feel it before you see it in the dream. That's the part nobody warns new investigators about.",
+    MV: "The oldest entry in the catalog. Classification framework formally flagged as potentially inapplicable.",
+    KA: "The file insists 'comfortable' is the correct word for the first phase. The recording equipment has failed on every attempt to document what comes after.",
+    JC: "The receptionist's desk is always empty. I have started to find that worse than if someone were sitting at it.",
+    NO: "The composition changes between manifestations, but the character of suffering it depicts never does.",
+    LD: "They arrange themselves around whoever is filing, not whoever asked them to. I still don't know how they decide.",
+    DT: "Calibration drifts half a degree every cycle on the containment units. I log it as routine maintenance because I don't know what else to call it, and I'm not sure that's my decision to make.",
+  }
+
+  // Reality records, shaped the same way ALRRecentRealities.tsx extracts them, so the terminal
+  // below can search realities alongside echoes using one consistent record shape.
+  const getRccLabel = (rcc: string) => {
+    switch (rcc) {
+      case "RCC-1": return "Silent Collapse"
+      case "RCC-2": return "Systemic Failure"
+      case "RCC-3": return "Catastrophic Collapse"
+      default: return "Unknown Collapse"
+    }
+  }
+  const realityRecords = realities.map((file) => {
+    const fm = (file.frontmatter ?? {}) as Record<string, unknown>
+    const title = String(fm.title ?? file.slug ?? "")
+    const slug = String(file.slug ?? "")
+    const idMatch = title.match(/R-\d+/i) ?? slug.match(/R-\d+/i)
+    const id = idMatch ? idMatch[0].toUpperCase() : "R-???"
+    const rcc = String(fm.rcc ?? "RCC-1").toUpperCase().trim()
+    return {
+      id,
+      name: id,
+      slug,
+      kind: "reality" as const,
+      rcc,
+      rccLabel: getRccLabel(rcc),
+      rds: String(fm.rds ?? "B").toUpperCase().trim(),
+      rts: String(fm.rts ?? "T3").toUpperCase().trim(),
+      associatedEcho: String(fm.associatedEcho ?? fm.associatedecho ?? "").trim(),
+    }
+  })
+  const echoRecords = echoes.map((file) => {
+    const fm = (file.frontmatter ?? {}) as Record<string, unknown>
+    const title = String(fm.title ?? file.slug ?? "")
+    const slug = String(file.slug ?? "")
+    const idMatch = title.match(/ECHO-\d+/i) ?? slug.match(/ECHO-\d+/i)
+    const id = idMatch ? idMatch[0].toUpperCase() : "ECHO-???"
+    const name = title.replace(/^ECHO-\d+\s*[—-]\s*/i, "").trim() || id
+    return {
+      id,
+      name,
+      slug,
+      kind: "echo" as const,
+      ec: String(fm.ec ?? "").toUpperCase().trim(),
+      esc: String(fm.esc ?? "").toUpperCase().trim(),
+    }
+  })
+  // Looked up here (not hardcoded paths) so the notice links below stay correct even if these
+  // entries get renamed/moved — falls back to the registry if an id is ever missing.
+  const findEcho = (id: string) => echoRecords.find((e) => e.id === id)
+  const findReality = (id: string) => realityRecords.find((r) => r.id === id)
+  const echo003 = findEcho("ECHO-003")
+  const echo031 = findEcho("ECHO-031")
+  const r019 = findReality("R-019")
+
   return (
     <>
       <div class="alr-home">
@@ -194,27 +261,191 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
             <div class="alr-home-hero-right">
               <div class="alr-home-status-card">
                 <div class="alr-home-status-label">Echoes documented</div>
-                <div class="alr-home-status-val">{echoes.length}</div>
+                <div class="alr-home-status-val alr-count-up">{echoes.length}</div>
                 <div class="alr-home-status-sub">{echoes.length - terminalEchoes.length} active — {terminalEchoes.length} terminal</div>
               </div>
               <div class="alr-home-status-card">
                 <div class="alr-home-status-label">Realities investigated</div>
-                <div class="alr-home-status-val">{realities.length}</div>
+                <div class="alr-home-status-val alr-count-up">{realities.length}</div>
                 <div class="alr-home-status-sub">All RCC-1 Silent</div>
               </div>
               <div class="alr-home-status-card">
                 <div class="alr-home-status-label">Terminal echoes (S4)</div>
-                <div class="alr-home-status-val alr-red">{terminalEchoes.length}</div>
+                <div class="alr-home-status-val alr-red alr-count-up">{terminalEchoes.length}</div>
                 <div class="alr-home-status-sub">Highest severity class</div>
               </div>
               <div class="alr-home-status-card">
                 <div class="alr-home-status-label">Active cycle</div>
-                <div class="alr-home-status-val alr-home-status-val-dim">{activeCycle}</div>
+                <div class="alr-home-status-val alr-home-status-val-dim alr-count-up">{activeCycle}</div>
                 <div class="alr-home-status-sub">Archive Operations</div>
               </div>
             </div>
           </div>
         </div>
+
+        {/* ── ARCHIVE QUERY TERMINAL ── */}
+        <div class="alr-home-terminal">
+          <div class="alr-home-terminal-head">
+            <span class="alr-home-terminal-dot"></span>
+            <span class="alr-home-terminal-title">ARCHIVE QUERY TERMINAL</span>
+            <span class="alr-home-terminal-sub">read-only index — v4.7</span>
+          </div>
+          <div class="alr-home-terminal-body" id="alr-home-terminal-body" role="log" aria-live="polite">
+            <div class="alr-home-terminal-line alr-home-terminal-sys">
+              Index loaded — {echoRecords.length} echoes, {realityRecords.length} realities. Type an ID, a name, or "help".
+            </div>
+          </div>
+          <form class="alr-home-terminal-input-row" id="alr-home-terminal-form">
+            <span class="alr-home-terminal-prompt">&gt;</span>
+            <input
+              type="text"
+              class="alr-home-terminal-input"
+              id="alr-home-terminal-input"
+              autocomplete="off"
+              spellcheck={false}
+              placeholder="query the archive..."
+              aria-label="Archive query terminal"
+            />
+          </form>
+        </div>
+
+        <script dangerouslySetInnerHTML={{ __html: `
+(function() {
+  var records = ${JSON.stringify([
+    ...echoRecords.map((e) => ({ id: e.id, name: e.name, slug: e.slug, kind: "echo", a: e.ec, b: e.esc })),
+    ...realityRecords.map((r) => ({ id: r.id, name: r.rccLabel, slug: r.slug, kind: "reality", a: r.rts, b: "RDS " + r.rds, echo: r.associatedEcho })),
+  ])};
+
+  function wire() {
+    var body = document.getElementById('alr-home-terminal-body');
+    var form = document.getElementById('alr-home-terminal-form');
+    var input = document.getElementById('alr-home-terminal-input');
+    if (!body || !form || !input || form.dataset.wired) return;
+    form.dataset.wired = '1';
+
+    function scrollDown() { body.scrollTop = body.scrollHeight; }
+
+    function addLine(text, cls, href) {
+      var line = document.createElement('div');
+      line.className = 'alr-home-terminal-line' + (cls ? ' ' + cls : '');
+      if (href) {
+        var a = document.createElement('a');
+        a.href = href;
+        a.className = 'internal';
+        a.textContent = text;
+        line.appendChild(a);
+      } else {
+        line.textContent = text;
+      }
+      body.appendChild(line);
+      // Cap history so a long session doesn't grow the DOM forever.
+      while (body.children.length > 60) body.removeChild(body.firstChild);
+      scrollDown();
+      return line;
+    }
+
+    function addTyped(text, cls) {
+      var line = addLine('', cls);
+      var i = 0;
+      var step = Math.max(1, Math.floor(text.length / 60));
+      (function tick() {
+        i += step;
+        line.textContent = text.slice(0, i);
+        scrollDown();
+        if (i < text.length) setTimeout(tick, 10);
+      })();
+    }
+
+    function recordLine(r) {
+      var kindLabel = r.kind === 'echo' ? 'ECHO' : 'REALITY';
+      var tail = r.kind === 'echo' ? (r.a + ' · ' + r.b) : (r.a + ' · ' + r.b + (r.echo ? ' · linked ' + r.echo : ''));
+      addLine(r.id + ' — ' + r.name + '  [' + tail + ']', 'alr-home-terminal-result', '/' + r.slug);
+    }
+
+    function respond(raw) {
+      var q = raw.trim();
+      if (!q) return;
+      addLine('> ' + q, 'alr-home-terminal-echo');
+
+      var lower = q.toLowerCase();
+
+      if (lower === 'help') {
+        addTyped('Commands: an echo/reality ID (e.g. ECHO-003), a name fragment, "stats", or "clear".', 'alr-home-terminal-sys');
+        return;
+      }
+      if (lower === 'clear') {
+        body.innerHTML = '';
+        return;
+      }
+      if (lower === 'stats' || lower === 'status') {
+        var echoCount = records.filter(function(r){ return r.kind === 'echo'; }).length;
+        var realityCount = records.filter(function(r){ return r.kind === 'reality'; }).length;
+        addTyped('Archive index: ' + echoCount + ' echoes, ' + realityCount + ' realities on file.', 'alr-home-terminal-sys');
+        return;
+      }
+
+      var exact = records.filter(function(r) { return r.id.toLowerCase() === lower; });
+      if (exact.length === 1) {
+        addTyped('QUERY MATCHED — 1 record.', 'alr-home-terminal-sys');
+        recordLine(exact[0]);
+        return;
+      }
+
+      var matches = records.filter(function(r) {
+        return r.id.toLowerCase().indexOf(lower) !== -1 || r.name.toLowerCase().indexOf(lower) !== -1;
+      });
+      if (matches.length === 0) {
+        addTyped('NO MATCHING RECORDS. Query logged for review.', 'alr-home-terminal-sys alr-home-terminal-empty');
+        return;
+      }
+      addTyped('QUERY MATCHED — ' + matches.length + (matches.length === 1 ? ' record.' : ' records.'), 'alr-home-terminal-sys');
+      matches.slice(0, 6).forEach(recordLine);
+      if (matches.length > 6) addLine('(' + (matches.length - 6) + ' additional records omitted — refine query)', 'alr-home-terminal-sys');
+    }
+
+    form.addEventListener('submit', function(ev) {
+      ev.preventDefault();
+      var v = input.value;
+      input.value = '';
+      respond(v);
+    });
+  }
+
+  wire();
+  document.addEventListener('nav', wire);
+})();
+        ` }} />
+
+        {/* Status-card numbers count up from 0 on load instead of appearing static. Reads the
+            real value straight out of the element's own text (server-rendered, so it's correct
+            even if this script never runs), then animates toward it. */}
+        <script dangerouslySetInnerHTML={{ __html: `
+(function() {
+  function run() {
+    document.querySelectorAll('.alr-count-up').forEach(function(el) {
+      if (el.dataset.counted) return;
+      var target = parseInt(el.textContent, 10);
+      if (isNaN(target)) return;
+      el.dataset.counted = '1';
+      var start = performance.now();
+      var dur = 700;
+      function tick(now) {
+        var p = Math.min(1, (now - start) / dur);
+        var eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(target * eased).toString();
+        if (p < 1) requestAnimationFrame(tick);
+        else el.textContent = target.toString();
+      }
+      el.textContent = '0';
+      requestAnimationFrame(tick);
+    });
+  }
+  // Deferred a frame for the same reason as the Hallow reveal — lets the "0" starting state
+  // actually paint once before animating, instead of jumping straight to the final number.
+  requestAnimationFrame(function() { requestAnimationFrame(run); });
+  document.addEventListener('nav', run);
+})();
+        ` }} />
 
         {/* ── FEATURED ECHO ── */}
         <div class="alr-home-featured" id="alr-featured-echo">
@@ -351,34 +582,58 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
                 <span class="alr-card-head-title">Archive notices</span>
                 <span class="alr-card-head-action">Cycle {activeCycle}</span>
               </div>
-              <div class="alr-notice-row">
-                <div class="alr-notice-dot" style={{ background: "#993c1d" }}></div>
-                <div>
-                  <div class="alr-notice-label" style={{ color: "#c45a3a" }}>S4 — Terminal review</div>
-                  <div class="alr-notice-text">ECHO-003 stability review due. S4 classification confirmed.</div>
-                  <div class="alr-notice-time">Cycle 7 — Archive Operations</div>
-                </div>
-              </div>
-              <div class="alr-notice-row">
-                <div class="alr-notice-dot" style={{ background: "#854f0b" }}></div>
-                <div>
-                  <div class="alr-notice-label" style={{ color: "#c49030" }}>S3 — Reclassification pending</div>
-                  <div class="alr-notice-text">
-                    ECHO-031 reclassification under review. Manifestation pattern shows increased frequency.
+              <details class="alr-notice-row">
+                <summary class="alr-notice-summary">
+                  <div class="alr-notice-dot" style={{ background: "#993c1d" }}></div>
+                  <div class="alr-notice-main">
+                    <div class="alr-notice-label" style={{ color: "#c45a3a" }}>S4 — Terminal review</div>
+                    <div class="alr-notice-text">ECHO-003 stability review due. S4 classification confirmed.</div>
+                    <div class="alr-notice-time">Cycle 7 — Archive Operations</div>
                   </div>
-                  <div class="alr-notice-time">Cycle 7 — Echo Research Division</div>
+                  <span class="alr-notice-chevron" aria-hidden="true">⌄</span>
+                </summary>
+                <div class="alr-notice-expand">
+                  Scheduled S4 reviews reassess containment and documentation access for the highest severity
+                  class. The Directorate has not indicated a timeline for the decision.
+                  {echo003 ? <a href={`/${echo003.slug}`} class="internal alr-notice-expand-link">Open {echo003.id} entry →</a> : null}
                 </div>
-              </div>
-              <div class="alr-notice-row">
-                <div class="alr-notice-dot" style={{ background: "#3c3489" }}></div>
-                <div>
-                  <div class="alr-notice-label" style={{ color: "#6898c8" }}>Field — Transfer complete</div>
-                  <div class="alr-notice-text">
-                    R-019 field documentation complete. Entry transferred to Archive Operations.
+              </details>
+              <details class="alr-notice-row">
+                <summary class="alr-notice-summary">
+                  <div class="alr-notice-dot" style={{ background: "#854f0b" }}></div>
+                  <div class="alr-notice-main">
+                    <div class="alr-notice-label" style={{ color: "#c49030" }}>S3 — Reclassification pending</div>
+                    <div class="alr-notice-text">
+                      ECHO-031 reclassification under review. Manifestation pattern shows increased frequency.
+                    </div>
+                    <div class="alr-notice-time">Cycle 7 — Echo Research Division</div>
                   </div>
-                  <div class="alr-notice-time">Cycle 6 — Reality Investigation Division</div>
+                  <span class="alr-notice-chevron" aria-hidden="true">⌄</span>
+                </summary>
+                <div class="alr-notice-expand">
+                  Frequency increases of this kind typically precede a severity revision rather than a
+                  downgrade. Echo Research has not published a revised classification yet.
+                  {echo031 ? <a href={`/${echo031.slug}`} class="internal alr-notice-expand-link">Open {echo031.id} entry →</a> : null}
                 </div>
-              </div>
+              </details>
+              <details class="alr-notice-row">
+                <summary class="alr-notice-summary">
+                  <div class="alr-notice-dot" style={{ background: "#3c3489" }}></div>
+                  <div class="alr-notice-main">
+                    <div class="alr-notice-label" style={{ color: "#6898c8" }}>Field — Transfer complete</div>
+                    <div class="alr-notice-text">
+                      R-019 field documentation complete. Entry transferred to Archive Operations.
+                    </div>
+                    <div class="alr-notice-time">Cycle 6 — Reality Investigation Division</div>
+                  </div>
+                  <span class="alr-notice-chevron" aria-hidden="true">⌄</span>
+                </summary>
+                <div class="alr-notice-expand">
+                  Closed without incident — field documentation now sits with Archive Operations for ongoing
+                  monitoring, same as any other stable RCC-1 entry.
+                  {r019 ? <a href={`/${r019.slug}`} class="internal alr-notice-expand-link">Open {r019.id} entry →</a> : null}
+                </div>
+              </details>
             </div>
           </div>
         </div>
@@ -389,14 +644,27 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
             <span class="alr-card-head-title">Active personnel — Cycle {activeCycle}</span>
           </div>
           <div class="alr-personnel">
-            <div class="alr-person"><div class="alr-avatar alr-av-inv">EM</div><div><div class="alr-person-name">E. Maren</div><div class="alr-person-div">Reality Investigation</div></div></div>
-            <div class="alr-person"><div class="alr-avatar alr-av-res">VA</div><div><div class="alr-person-name">V. Arend</div><div class="alr-person-div">Echo Research</div></div></div>
-            <div class="alr-person"><div class="alr-avatar alr-av-ops">MV</div><div><div class="alr-person-name">M. Voss</div><div class="alr-person-div">Archive Operations</div></div></div>
-            <div class="alr-person"><div class="alr-avatar alr-av-dev">KA</div><div><div class="alr-person-name">K. Albrecht</div><div class="alr-person-div">Device Development</div></div></div>
-            <div class="alr-person"><div class="alr-avatar alr-av-inv">JC</div><div><div class="alr-person-name">J. Calloway</div><div class="alr-person-div">Reality Investigation</div></div></div>
-            <div class="alr-person"><div class="alr-avatar alr-av-res">NO</div><div><div class="alr-person-name">N. Ossic</div><div class="alr-person-div">Echo Research</div></div></div>
-            <div class="alr-person"><div class="alr-avatar alr-av-ops">LD</div><div><div class="alr-person-name">L. Dray</div><div class="alr-person-div">Archive Operations</div></div></div>
-            <div class="alr-person"><div class="alr-avatar alr-av-dev">DT</div><div><div class="alr-person-name">D. Tessir</div><div class="alr-person-div">Device Development</div></div></div>
+            {[
+              { initials: "EM", name: "E. Maren", div: "Reality Investigation", av: "inv" },
+              { initials: "VA", name: "V. Arend", div: "Echo Research", av: "res" },
+              { initials: "MV", name: "M. Voss", div: "Archive Operations", av: "ops" },
+              { initials: "KA", name: "K. Albrecht", div: "Device Development", av: "dev" },
+              { initials: "JC", name: "J. Calloway", div: "Reality Investigation", av: "inv" },
+              { initials: "NO", name: "N. Ossic", div: "Echo Research", av: "res" },
+              { initials: "LD", name: "L. Dray", div: "Archive Operations", av: "ops" },
+              { initials: "DT", name: "D. Tessir", div: "Device Development", av: "dev" },
+            ].map((p) => (
+              <details class="alr-person">
+                <summary class="alr-person-summary">
+                  <div class={`alr-avatar alr-av-${p.av}`}>{p.initials}</div>
+                  <div class="alr-person-meta">
+                    <div class="alr-person-name">{p.name}</div>
+                    <div class="alr-person-div">{p.div}</div>
+                  </div>
+                </summary>
+                <div class="alr-person-expand">{personnelNotes[p.initials] ?? "No field note on record."}</div>
+              </details>
+            ))}
           </div>
         </div>
 
