@@ -4,110 +4,6 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 // Hallow Cycle art (pumpkin, bat, witch+cat) so every banner/hero component across the site can
 // reference it via <use href="#alr-hallow-...">  without duplicating the path data per component,
 // plus the one date-check script that flips `alr-hallow-active` on <body> the week of Oct 25-31.
-// One-time intro swarm: a grid of bats (one per cell, positions in vw/vh over the fixed
-// full-screen overlay), each scattered somewhere around the outside of the screen along the
-// line from center through its own cell, converging inward to hold large at that cell's center
-// during a shared peak window, then continuing on outward — enough overlapping cells at peak
-// scale to black out the whole viewport for a beat before the theme reveal.
-const HALLOW_SWARM_COLS = 7
-const HALLOW_SWARM_ROWS = 5
-const HALLOW_SWARM_DUR = 1.3
-// Must match the keyframe stops in custom.scss (alrHallowSwarmFly) — the % of each bat's own
-// animation where it's sitting still at full peak scale, used below to work out the one window
-// where every bat (regardless of its stagger delay) is simultaneously at peak.
-const HALLOW_SWARM_PEAK_START_PCT = 0.30
-const HALLOW_SWARM_PEAK_END_PCT = 0.62
-const HALLOW_SWARM_BATS: {
-  x0: number; y0: number; xm: number; ym: number; sm: number
-  xp: number; yp: number; x1: number; y1: number
-  s0: number; sp: number; r: number; delay: number
-}[] = []
-for (let row = 0; row < HALLOW_SWARM_ROWS; row++) {
-  for (let col = 0; col < HALLOW_SWARM_COLS; col++) {
-    const idx = row * HALLOW_SWARM_COLS + col
-    // Deterministic pseudo-jitter from the cell index (no Math.random — keeps the static build
-    // reproducible) so neighboring cells don't move in obvious lockstep.
-    const jitter = (n: number, spread: number) => (((idx * 37 + n * 13) % 100) / 100) * spread - spread / 2
-    const xp = ((col + 0.5) / HALLOW_SWARM_COLS) * 100
-    const yp = ((row + 0.5) / HALLOW_SWARM_ROWS) * 100
-    // Entry point radiates outward from screen center through this cell's peak position, rather
-    // than every bat sliding in from the same fixed diagonal — that uniform direction was what
-    // made the whole swarm read as one blob converging on the middle instead of individual bats
-    // scattering in from all sides (edges and corners alike) to fill the grid.
-    let dx = xp - 50
-    let dy = yp - 50
-    const dist = Math.sqrt(dx * dx + dy * dy)
-    if (dist < 1) {
-      // The one cell whose peak lands exactly on screen center has no direction to radiate
-      // from — give it an arbitrary diagonal instead of dividing by ~0.
-      dx = 1
-      dy = -1
-    }
-    const norm = Math.sqrt(dx * dx + dy * dy)
-    const ux = dx / norm
-    const uy = dy / norm
-    // Perpendicular to the entry->peak line, so the midpoint below can bow sideways off a
-    // straight line — that's what turns each bat's own path into a curl/hook rather than a
-    // ruler-straight line, closer to how a real flock trails in.
-    const px = -uy
-    const py = ux
-    const entryDist = 58
-    const x0 = xp + ux * entryDist + jitter(1, 10)
-    const y0 = yp + uy * entryDist + jitter(2, 10)
-    // Stagger bucket (0-17, arrival order) doubles as a size rank: the first bats to appear are
-    // the smallest, later ones progressively bigger — the small-in-the-distance-to-large-and-close
-    // trail look of a real flock, instead of sizes handed out with no relation to when each bat
-    // shows up.
-    const delayBucket = idx % 18
-    const s0 = 0.22
-    const sp = 1.3 + (delayBucket / 17) * 1.5
-    // Bow direction alternates by cell so neighboring bats curl opposite ways rather than every
-    // path bending in visual lockstep.
-    const bowSign = idx % 2 === 0 ? 1 : -1
-    const bowAmount = entryDist * 0.4 * bowSign
-    HALLOW_SWARM_BATS.push({
-      x0,
-      y0,
-      // A midpoint, reached partway through the entry segment, that's still mostly out at the
-      // entry position and barely grown — this is what keeps each bat reading as a small,
-      // distinct speck for a while before it rapidly swoops in and swells to peak size, instead
-      // of growing at a steady rate the whole way (which read as already-big almost immediately).
-      // Bowed off the straight entry->peak line so the path curls in like a real flock's rather
-      // than flying a ruler-straight line.
-      xm: x0 + (xp - x0) * 0.3 + px * bowAmount + jitter(5, 6),
-      ym: y0 + (yp - y0) * 0.3 + py * bowAmount + jitter(6, 6),
-      sm: s0 + (sp - s0) * 0.15,
-      xp,
-      yp,
-      x1: xp + 42 + jitter(3, 12),
-      y1: yp - 42 + jitter(4, 12),
-      s0,
-      sp,
-      r: -14 + (idx % 7) * 4,
-      // Wider, denser stagger (18 buckets instead of 12, larger step) so the swarm visibly
-      // trickles in — a few scattered bats first, more arriving over time — rather than nearly
-      // all of them fading/growing in within the same ~100ms window.
-      delay: delayBucket * 15,
-    })
-  }
-}
-// Every bat shares one duration, so their individual peak-hold keyframe window lands within a
-// few dozen ms of every other bat's — that's what makes the overlap solid instead of a few
-// cells peaking while the rest are still mid-flight.
-const HALLOW_SWARM_DELAYS = HALLOW_SWARM_BATS.map((b) => b.delay)
-const HALLOW_SWARM_MAX_DELAY = Math.max(...HALLOW_SWARM_DELAYS)
-const HALLOW_SWARM_MIN_DELAY = Math.min(...HALLOW_SWARM_DELAYS)
-// The one window where every bat, regardless of its stagger delay, is simultaneously sitting at
-// peak scale (the latest-starting bat has just reached peak; the earliest-starting bat hasn't
-// left it yet) — the theme flips right in the middle of that, genuinely hidden behind the swarm
-// instead of waiting for it to clear.
-const HALLOW_SWARM_REVEAL_MS = Math.round(
-  (HALLOW_SWARM_MAX_DELAY + HALLOW_SWARM_PEAK_START_PCT * HALLOW_SWARM_DUR * 1000 +
-    (HALLOW_SWARM_MIN_DELAY + HALLOW_SWARM_PEAK_END_PCT * HALLOW_SWARM_DUR * 1000)) / 2
-)
-// Overlay teardown still waits for the slowest (highest-delay) bat to fully clear.
-const HALLOW_SWARM_END_MS = HALLOW_SWARM_MAX_DELAY + HALLOW_SWARM_DUR * 1000
-
 const ALRHallowDefs: QuartzComponent = (_props: QuartzComponentProps) => {
   return (
     <>
@@ -2227,23 +2123,6 @@ l-8 55 -13 -75z"/>
         <svg viewBox="0 0 1280 773" width="100%" height="100%"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" opacity="0.4" /></svg>
       </div>
 
-      {/* One-time intro: a dense swarm of bats converges to black out the whole screen for a
-          beat, then disperses — the seasonal theme switches on right after. Only ever plays on a
-          real page load/refresh — the script below runs once per hard load, never on SPA `nav`
-          (see the note there). */}
-      <div id="alr-hallow-intro" class="alr-hallow-intro" aria-hidden="true">
-        {HALLOW_SWARM_BATS.map((b, i) => (
-          <svg
-            key={i}
-            viewBox="0 0 1280 773"
-            class="alr-hallow-swarm-bat"
-            style={`--x0:${b.x0}vw;--y0:${b.y0}vh;--xm:${b.xm}vw;--ym:${b.ym}vh;--xp:${b.xp}vw;--yp:${b.yp}vh;--x1:${b.x1}vw;--y1:${b.y1}vh;--s0:${b.s0};--sm:${b.sm};--sp:${b.sp};--r:${b.r}deg;animation-delay:${b.delay}ms;animation-duration:${HALLOW_SWARM_DUR}s;`}
-          >
-            <use href="#alr-hallow-bat" fill="#0a0908" />
-          </svg>
-        ))}
-      </div>
-
       <script dangerouslySetInnerHTML={{ __html: `
 (function() {
   function isHallowWeek() {
@@ -2261,33 +2140,10 @@ l-8 55 -13 -75z"/>
   }
 
   // This whole IIFE only runs once per real page load/refresh (the script tag itself isn't
-  // re-executed by the SPA's DOM morph on internal navigation) — so the intro only plays once,
-  // and the 'nav' listener below is what keeps the theme class correct across SPA navigation
-  // afterward, without ever replaying the flyover.
-  var overlay = document.getElementById('alr-hallow-intro');
-  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // Quartz's SPA router fires a synthetic 'nav' event almost immediately on every real page
-  // load too (not just later client-side navigations) — so registering this listener up front
-  // made it fire setThemeClass right away, revealing the theme mid-swarm regardless of the
-  // setTimeout below. Only attaching it once the reveal has actually happened (or immediately,
-  // on the no-intro branch) keeps it genuinely gated behind the animation.
-  if (shouldBeHallow() && overlay && !reduceMotion) {
-    overlay.style.display = 'block';
-    // Flip the theme while every bat is still sitting at peak scale, so the reveal happens
-    // behind the blackout instead of after the swarm has already cleared away.
-    setTimeout(function () {
-      setThemeClass();
-      document.addEventListener('nav', setThemeClass);
-    }, ${HALLOW_SWARM_REVEAL_MS});
-    setTimeout(function () {
-      if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
-    }, ${HALLOW_SWARM_END_MS + 200});
-  } else {
-    if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
-    setThemeClass();
-    document.addEventListener('nav', setThemeClass);
-  }
+  // re-executed by the SPA's DOM morph on internal navigation); the 'nav' listener is what
+  // keeps the theme class correct across SPA navigation afterward.
+  setThemeClass();
+  document.addEventListener('nav', setThemeClass);
 })();
       ` }} />
     </>

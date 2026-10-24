@@ -2812,53 +2812,6 @@ body.alr-hallow-active .alr-hallow-page-bat { display: block; }
 @keyframes alrHallowGlowPulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 0.4; } }
 @keyframes alrHallowBatDrift { 0%, 100% { transform: translate(0,0); opacity: 0.4; } 50% { transform: translate(-6px,3px); opacity: 0.6; } }
 
-// One-time bat-swarm intro (see ALRHallowDefs.tsx) — hidden by default; the script flips
-// display:block only when it decides to play it, so this never renders outside that moment.
-// Each bat is one <svg> covering one cell of a grid laid over the viewport, individually
-// positioned/timed via inline custom properties (--x0/--y0 entry, --xp/--yp peak/hold position,
-// --x1/--y1 exit, --s0/--sp entry-exit vs. peak scale, --r tilt) set per-instance in the
-// component, sharing one keyframe here. Enough cells overlap at peak scale simultaneously to
-// black out the whole viewport for a beat before the theme reveal.
-.alr-hallow-intro {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  pointer-events: none;
-  overflow: hidden;
-}
-.alr-hallow-swarm-bat {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 26vmax;
-  min-width: 110px;
-  height: auto;
-  opacity: 0;
-  animation-name: alrHallowSwarmFly;
-  animation-fill-mode: forwards;
-}
-// translate()'s percentage component always resolves against the element's OWN static
-// width/height, independent of the scale() in the same transform — so "- 50%" here reliably
-// re-centers the bat on (--x0/--xp/--x1, --y0/--yp/--y1) at any scale. Without it, translate
-// alone places the bat's top-left corner at that point instead, which left every grid cell's
-// actual coverage offset down-and-right of its intended center — that's what was leaving the
-// top and left edges of the screen uncovered at peak.
-@keyframes alrHallowSwarmFly {
-  0%   { transform: translate(calc(var(--x0) - 50%), calc(var(--y0) - 50%)) scale(var(--s0)) rotate(var(--r)); opacity: 0; animation-timing-function: ease-out; }
-  8%   { opacity: 1; animation-timing-function: ease-in; }
-  // Barely moved and barely grown by here — this is the "small and scarce" beat where a bat
-  // reads as a distinct speck rather than something already swelling toward full size.
-  20%  { transform: translate(calc(var(--xm) - 50%), calc(var(--ym) - 50%)) scale(var(--sm)) rotate(var(--r)); opacity: 1; animation-timing-function: ease-out; }
-  30%  { transform: translate(calc(var(--xp) - 50%), calc(var(--yp) - 50%)) scale(var(--sp)) rotate(var(--r)); opacity: 1; animation-timing-function: linear; }
-  62%  { transform: translate(calc(var(--xp) - 50%), calc(var(--yp) - 50%)) scale(var(--sp)) rotate(var(--r)); opacity: 1; animation-timing-function: ease-in; }
-  88%  { opacity: 1; }
-  100% { transform: translate(calc(var(--x1) - 50%), calc(var(--y1) - 50%)) scale(var(--s0)) rotate(var(--r)); opacity: 0; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .alr-hallow-intro { display: none !important; }
-}
-
 :root[saved-theme="light"] .alr-hallow-stripe {
   background-image: repeating-linear-gradient(-45deg, #9c4a2e 0 14px, #b98a2e 14px 28px, #574f42 28px 42px);
 }
