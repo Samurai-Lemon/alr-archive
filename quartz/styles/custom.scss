@@ -4244,3 +4244,41 @@ body.alr-hallow-active .alr-home-hero-svg .alr-hallow-glow { animation-name: alr
   .alr-home-dispatch-quote { font-size: 17px !important; }
   .alr-home-hero-link-ghost::after { margin-left: 4px; }
 }
+
+// ═══════════════════════════════════════════════════════════
+// ─── SPONSOR SLOT — About + Shop (ALRSponsorSlot.tsx) ─────
+// ═══════════════════════════════════════════════════════════
+.alr-sponsor {
+  margin: 40px auto 8px;
+  max-width: 560px;
+  padding-top: 24px;
+  border-top: 1px solid var(--alr-border);
+}
+.alr-sponsor-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin-bottom: 8px;
+  font-size: 12px;
+  color: var(--alr-muted);
+}
+.alr-sponsor-label { font-family: $alr-osd-font, monospace; font-size: 15px; letter-spacing: 0.06em; }
+.alr-sponsor-box {
+  background: var(--alr-surface);
+  border: 1px dashed var(--alr-border-strong);
+  border-radius: var(--alr-r-lg);
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 282px;
+  box-sizing: border-box;
+}
+.alr-sponsor-box ins.adsbygoogle { width: 300px !important; height: 250px !important; max-width: 100%; }
+.alr-sponsor-foot { margin-top: 8px; font-size: 12px; color: var(--alr-muted); text-align: center; }
+@media (max-width: 800px) {
+  .alr-sponsor { margin-top: 28px; }
+  .alr-sponsor-box { padding: 12px 0; border-radius: 12px; }
+}

@@ -6,6 +6,7 @@ import ALRContentAdvisory from "./quartz/components/ALRContentAdvisory"
 import OrdoThreatStrip from "./quartz/components/OrdoThreatStrip"
 import ALRMobileBack from "./quartz/components/ALRMobileBack"
 import ALREchoPager from "./quartz/components/ALREchoPager"
+import ALRSponsorSlot from "./quartz/components/ALRSponsorSlot"
 
 const isHome = (page: any) => page.fileData.slug === "index" || page.fileData.slug === ""
 const isEchoRegistry = (page: any) => page.fileData.slug === "Index/ECHO-Registry"
@@ -42,6 +43,7 @@ export const sharedPageComponents: SharedLayout = {
       component: ALREchoPager(),
       condition: isEcho,
     }),
+    ALRSponsorSlot(),
     Component.ALRFollowBanner(),
   ],
   footer: Component.Footer({

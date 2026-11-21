@@ -776,7 +776,6 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
                 data-ad-client="ca-pub-1009528022941792"
                 data-ad-slot="6380168218"
               ></ins>
-              <script dangerouslySetInnerHTML={{ __html: `(adsbygoogle = window.adsbygoogle || []).push({});` }} />
             </div>
             <div class="alr-home-ad-foot">Archive Initiative — Index Stable</div>
           </div>
