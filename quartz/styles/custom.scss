@@ -1337,11 +1337,18 @@ a.alr-card-head-action:hover { color: var(--alr-accent-hover) !important; }
   margin: 0 !important;
 }
 
+// A single row of cards: as many as fit the width are shown, and any that would wrap onto a
+// second row land in zero-height rows that the container clips (the full list lives in the
+// registries via "View all").
 .alr-echo-rows,
 .alr-real-rows {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 16px;
+  grid-template-rows: auto;
+  grid-auto-rows: 0;
+  column-gap: 16px;
+  row-gap: 0;
+  overflow: hidden;
 }
 
 .alr-echo-row {
@@ -1651,7 +1658,7 @@ a.alr-card-head-action:hover { color: var(--alr-accent-hover) !important; }
   padding-top: 24px;
 }
 
-.alr-home-shop {
+.alr-home a.alr-home-shop {
   flex: 1 1 420px;
   align-self: flex-start;
   min-width: 0;
@@ -1670,7 +1677,7 @@ a.alr-card-head-action:hover { color: var(--alr-accent-hover) !important; }
   box-sizing: border-box;
 }
 
-.alr-home-shop:hover { border-color: var(--alr-border-strong) !important; }
+.alr-home a.alr-home-shop:hover { border-color: var(--alr-border-strong) !important; }
 .alr-home-shop-text { display: flex; flex-direction: column; gap: 2px; }
 .alr-home-shop-title { font-weight: 600; }
 .alr-home-shop-sub { font-size: 14px; color: var(--alr-muted); }
