@@ -77,21 +77,21 @@
 
 // ─── GRID LAYOUT ──────────────────────────────────────────
 .page > #quartz-body {
-  grid-template-columns: 232px minmax(0, 1fr) !important;
+  grid-template-columns: 320px minmax(0, 1fr) !important;
   column-gap: 0 !important;
   width: 100% !important;
 }
 
 #quartz-body.alr-sidebar-collapsed,
 .page > #quartz-body.alr-sidebar-collapsed {
-  grid-template-columns: 56px minmax(0, 1fr) !important;
+  grid-template-columns: 72px minmax(0, 1fr) !important;
 }
 
 #quartz-body.alr-sidebar-collapsed .sidebar.left {
-  width: 56px !important;
-  min-width: 56px !important;
-  max-width: 56px !important;
-  flex: 0 0 56px !important;
+  width: 72px !important;
+  min-width: 72px !important;
+  max-width: 72px !important;
+  flex: 0 0 72px !important;
   overflow: visible !important;
 }
 
@@ -435,21 +435,7 @@ body {
   max-width: 100% !important;
 }
 
-.alr-sb-bottom,
-.alr-sb-darkmode-row {
-  box-sizing: border-box !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  min-width: 0 !important;
-}
-
 .sidebar.left a {
-  color: var(--alr-text-2) !important;
-  border-bottom: none !important;
-}
-
-.sidebar.left a:hover {
-  color: var(--alr-text) !important;
   border-bottom: none !important;
 }
 
@@ -1722,189 +1708,279 @@ a.alr-card-head-action:hover { color: var(--alr-accent-hover) !important; }
 }
 
 // ═══════════════════════════════════════════════════════════
-// ─── ALR SIDEBAR NAV ──────────────────────────────────────
+// ─── ALR SIDEBAR — icon rail + filterable panel ───────────
+// Rail (72px) holds one button per section plus "More", sound and theme. The panel beside it
+// lists only the chosen section; its filter searches every section. Collapsed = rail only.
 // ═══════════════════════════════════════════════════════════
+#quartz-body .sidebar.left { overflow: hidden !important; }
+
 .alr-sidebar-wrapper {
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: column;
+  min-height: 0;
 }
 
-.alr-sidebar-nav {
+// The filter and section switcher hide things with the `hidden` attribute; make sure no
+// display rule below (flex links, block sections) can override it.
+.alr-sidebar-wrapper [hidden] { display: none !important; }
+
+.alr-rail {
+  flex: 0 0 72px;
+  box-sizing: border-box;
+  border-right: 1px solid var(--alr-border);
+  padding: 14px 8px 46px; // bottom clears the fixed follow banner
   display: flex;
   flex-direction: column;
-  gap: 0;
-  width: 100%;
-  padding: 0;
-  height: 100%;
+  align-items: center;
+  gap: 4px;
+  overflow-y: auto;
+  scrollbar-width: none;
 }
 
-.alr-sb-topbar {
+.alr-rail::-webkit-scrollbar { display: none; }
+
+.alr-rail-btn {
+  position: relative;
+  width: 56px;
+  min-height: 56px;
+  flex-shrink: 0;
+  border: 0;
+  border-radius: var(--alr-r-sm);
+  background: transparent;
+  color: var(--alr-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  font-family: var(--bodyFont);
+  font-size: 10.5px;
+  line-height: 1.1;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.alr-rail-btn:hover { background: var(--alr-hover); color: var(--alr-text); }
+.alr-rail-btn.is-current { background: var(--alr-hover); color: var(--alr-accent-text); }
+.alr-rail-btn.is-current .alr-rail-label { color: var(--alr-text); }
+.alr-rail-btn:focus-visible,
+.alr-rail-icon:focus-visible { outline: 2px solid var(--alr-accent); outline-offset: 2px; }
+
+// Collapsed: no section looks "open", since no panel is showing.
+.alr-collapsed .alr-rail-btn.is-current { background: transparent; color: var(--alr-muted); }
+.alr-collapsed .alr-rail-btn.is-current .alr-rail-label { color: inherit; }
+
+.alr-rail-bottom {
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid var(--alr-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.alr-rail-icon {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--alr-muted);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.alr-rail-icon:hover { background: var(--alr-hover); color: var(--alr-text); }
+
+// Sound: waves when on, an × when off.
+#alr-sound-btn .alr-sound-off { display: none; }
+#alr-sound-btn:not(.is-on) .alr-sound-wave { display: none; }
+#alr-sound-btn:not(.is-on) .alr-sound-off { display: inline; }
+
+// Theme: shows the mode you'd switch to (sun while dark, moon while light).
+#alr-theme-btn > svg { grid-area: 1 / 1; }
+#alr-theme-btn .alr-theme-moon { display: none; }
+#alr-theme-btn:not(.is-on) .alr-theme-sun { display: none; }
+#alr-theme-btn:not(.is-on) .alr-theme-moon { display: inline; }
+
+// ── Panel ──
+.alr-panel {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 18px 12px 0;
+  box-sizing: border-box;
+}
+
+.alr-collapsed .alr-panel { display: none; }
+
+.alr-panel-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 16px 12px 20px;
-  margin-bottom: 4px;
-  flex-shrink: 0;
+  gap: 8px;
+  padding: 0 2px 0 10px;
+  margin-bottom: 12px;
 }
 
-.alr-sb-site-label {
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  color: var(--alr-muted);
+h2.alr-panel-title {
+  margin: 0 !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em;
+  color: var(--alr-text) !important;
 }
 
 .alr-sb-collapse-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: var(--alr-r-xs);
+  background: transparent;
   color: var(--alr-muted);
-  width: 28px;
-  height: 28px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.alr-sb-collapse-btn:hover { background: var(--alr-hover); color: var(--alr-text); }
+
+.alr-panel-filter {
   display: flex;
   align-items: center;
-  justify-content: center;
-  border-radius: var(--alr-r-xs);
-  transition: color 0.15s ease, background 0.15s ease;
-}
-
-.alr-sb-collapse-btn:hover {
-  color: var(--alr-text);
-  background: var(--alr-hover);
-}
-
-.alr-sb-section {
-  margin-bottom: 20px;
-}
-
-.alr-sb-label {
-  font-size: 12px;
-  font-weight: 500;
+  gap: 8px;
+  height: 38px;
+  padding: 0 12px;
+  margin-bottom: 14px;
+  background: var(--alr-surface);
+  border: 1px solid var(--alr-border-strong);
+  border-radius: 10px;
   color: var(--alr-muted);
-  padding: 0 20px;
-  margin-bottom: 4px;
+  flex-shrink: 0;
+}
+
+.alr-panel-filter:focus-within { border-color: var(--alr-accent); }
+
+.alr-panel-filter input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--alr-text);
+  font-family: var(--bodyFont);
+  font-size: 14px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.alr-panel-filter input::placeholder { color: var(--alr-muted); }
+.alr-panel-filter input::-webkit-search-cancel-button { -webkit-appearance: none; }
+
+.alr-panel-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-bottom: 46px; // clears the fixed follow banner
+  scrollbar-width: thin;
+}
+
+// The section's own name is the panel title; inside the list it only shows while filtering,
+// where results from several sections are listed together.
+.alr-panel-section-title { display: none; }
+.alr-filtering .alr-panel-section-title {
+  display: block;
+  padding: 0 10px;
+  margin: 4px 0 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--alr-text);
+}
+
+.alr-panel-block { margin-bottom: 14px; }
+
+.alr-panel-block-title {
+  padding: 0 10px;
+  margin-bottom: 2px;
+  font-size: 12px;
+  color: var(--alr-muted);
 }
 
 .alr-sb-item {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin: 1px 10px;
-  padding: 7px 10px;
-  font-size: 14px;
-  color: var(--alr-text-2);
-  text-decoration: none;
+  min-height: 34px;
+  padding: 0 10px;
   border-radius: var(--alr-r-xs);
-  cursor: pointer;
+  font-size: 14px;
+  font-weight: 400 !important;
+  color: var(--alr-text-2) !important;
+  text-decoration: none !important;
   border-bottom: none !important;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  background: none;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
-.alr-sb-item:hover {
-  color: var(--alr-text) !important;
-  background: var(--alr-hover);
-  border-bottom: none !important;
-}
+.alr-sb-item:hover { background: var(--alr-hover); color: var(--alr-text) !important; }
 
 .alr-sb-item.active {
-  color: var(--alr-text) !important;
   background: var(--alr-hover);
-  font-weight: 500;
+  color: var(--alr-text) !important;
+  font-weight: 500 !important;
 }
 
 .alr-sb-dot {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   flex-shrink: 0;
 }
 
 .alr-sb-text {
   flex: 1;
+  min-width: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.alr-sb-badge {
-  margin-left: auto;
+.alr-sb-tag {
+  flex-shrink: 0;
+  font-family: var(--codeFont);
   font-size: 11px;
   color: var(--alr-muted);
-  background: var(--alr-surface);
-  border-radius: 999px;
-  padding: 1px 8px;
-  flex-shrink: 0;
 }
 
-.alr-sb-badge-s1 { color: var(--alr-s1) !important; }
-.alr-sb-badge-s2 { color: var(--alr-s2) !important; }
-.alr-sb-badge-s3 { color: var(--alr-s3) !important; }
-.alr-sb-badge-s4 { color: var(--alr-s4) !important; }
+.alr-sb-item.active .alr-sb-tag { color: var(--alr-accent-text); }
 
-// ─── SIDEBAR DROPDOWNS ────────────────────────────────────
-.alr-sb-group {
-  width: 100%;
+a.alr-panel-foot {
+  margin-top: 6px;
+  border-top: 1px solid var(--alr-border);
+  border-radius: 0;
+  padding-top: 10px;
+  min-height: 40px;
+  font-size: 13px;
+  color: var(--alr-muted) !important;
 }
 
-.alr-sb-group summary {
-  list-style: none !important;
-}
+a.alr-panel-foot:hover { background: none; color: var(--alr-text) !important; }
 
-.alr-sb-group summary::-webkit-details-marker {
-  display: none;
-}
-
-.alr-sb-group-title {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 1px 10px;
-  padding: 7px 10px;
-  font-size: 14px;
-  color: var(--alr-text-2);
-  cursor: pointer;
-  border-radius: var(--alr-r-xs);
-  user-select: none;
-  transition: background-color 0.15s ease, color 0.15s ease;
-}
-
-.alr-sb-group-title:hover {
-  color: var(--alr-text);
-  background: var(--alr-hover);
-}
-
-.alr-sb-group-title.active {
-  color: var(--alr-text) !important;
-  background: var(--alr-hover) !important;
-  font-weight: 500;
-}
-
-.alr-sb-chevron {
-  font-size: 12px;
+.alr-panel-empty {
+  margin: 8px 10px;
+  font-size: 13px;
   color: var(--alr-muted);
-  transition: transform 0.15s ease;
-  display: inline-block;
-  flex-shrink: 0;
-}
-
-details[open] .alr-sb-chevron {
-  transform: rotate(90deg);
-}
-
-.alr-sb-group-items {
-  display: flex;
-  flex-direction: column;
-}
-
-.alr-sb-item-child {
-  padding-left: 26px !important;
 }
 
 // ─── SHOP PRICE RANGE SLIDER ───────────────────────────────
 .alr-sb-price-slider {
-  padding: 6px 20px 2px;
+  padding: 6px 10px 2px;
 }
 
 .alr-sb-price-values {
@@ -1988,118 +2064,6 @@ details[open] .alr-sb-chevron {
   background: var(--alr-accent);
   border: 3px solid var(--alr-bg);
   cursor: pointer;
-}
-
-// ─── SIDEBAR BOTTOM ───────────────────────────────────────
-.alr-sb-bottom {
-  margin-top: auto;
-  padding: 12px 12px 46px; // clears the fixed follow banner (34px) along the bottom edge
-  flex-shrink: 0;
-  border-top: 1px solid var(--alr-border);
-}
-
-.alr-sb-darkmode-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
-  background: var(--alr-surface);
-  border: 1px solid var(--alr-border);
-  border-radius: var(--alr-r-sm);
-  cursor: pointer;
-  transition: background 0.15s ease;
-}
-
-.alr-sb-darkmode-row:hover {
-  background: var(--alr-hover);
-}
-
-.alr-sb-darkmode-label {
-  font-size: 13px;
-  color: var(--alr-text-2);
-  flex: 1;
-}
-
-.alr-sb-darkmode-toggle {
-  flex-shrink: 0;
-  margin-left: auto;
-}
-
-// ─── TOGGLE SWITCH ────────────────────────────────────────
-.alr-toggle-track {
-  width: 36px;
-  height: 20px;
-  border-radius: 10px;
-  background: var(--alr-border-strong);
-  border: none;
-  position: relative;
-  cursor: pointer;
-  transition: background 0.2s ease;
-  flex-shrink: 0;
-}
-
-.alr-toggle-track.alr-toggle-on {
-  background: var(--alr-accent);
-}
-
-.alr-toggle-thumb {
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--alr-surface);
-  transition: transform 0.2s ease, background 0.2s ease;
-}
-
-.alr-toggle-on .alr-toggle-thumb {
-  transform: translateX(16px);
-  background: #ffffff;
-}
-
-// ─── SIDEBAR COLLAPSED STATE ──────────────────────────────
-.alr-collapsed .alr-sb-text,
-.alr-collapsed .alr-sb-badge,
-.alr-collapsed .alr-sb-chevron,
-.alr-collapsed .alr-sb-label,
-.alr-collapsed .alr-sb-darkmode-label,
-.alr-collapsed .alr-sb-group-items,
-.alr-collapsed .alr-sb-site-label {
-  display: none !important;
-}
-
-.alr-collapsed .alr-sb-topbar {
-  justify-content: center;
-  padding: 16px 0 12px;
-}
-
-.alr-collapsed .alr-sb-collapse-btn svg {
-  transform: rotate(180deg);
-}
-
-.alr-collapsed .alr-sb-item,
-.alr-collapsed .alr-sb-group-title {
-  justify-content: center;
-  margin: 1px 8px;
-  padding: 8px 0 !important;
-}
-
-.alr-collapsed .alr-sb-item-child {
-  padding-left: 0 !important;
-}
-
-.alr-collapsed .alr-sb-dot {
-  margin: 0 auto;
-}
-
-.alr-collapsed .alr-sb-section {
-  margin-bottom: 8px;
-}
-
-// ─── COLLAPSED: HIDE AUDIO / DARK MODE TOGGLES ─────────────
-.alr-collapsed .alr-sb-bottom {
-  display: none;
 }
 
 // ═══════════════════════════════════════════════════════════
