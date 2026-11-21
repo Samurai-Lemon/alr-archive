@@ -3389,3 +3389,284 @@ $alr-osd-font: "VT323", var(--codeFont), monospace;
   .alr-glitch:hover,
   .alr-sig-s4, .alr-es-s4::before, .alr-reg-tag-esc-s4::before { animation: none !important; }
 }
+
+// ════════════════════════════════════════════════════════════
+// CHRISTMAS WEEK (Dec 19–25) — toggled by the date check in ALRHallowDefs.tsx
+// (body.alr-xmas-active; preview any time with ?xmas=1). Same pattern as the Hallow Cycle:
+// everything is in the page all year at opacity 0 / display none and only animates while active.
+// ════════════════════════════════════════════════════════════
+$alr-ordo: 'body[data-slug="Foundations/Opposition/Ordo-Damnatio-Memoriae"]';
+$alr-snowcap: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 16' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23ffffff'/%3E%3Cstop offset='.65' stop-color='%23f3f1ec'/%3E%3Cstop offset='1' stop-color='%23cfd8de'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath fill='url(%23g)' d='M0 11C3 7 9 5 16 5.5C26 3.5 36 3 48 4C60 2 74 2.5 88 3.2C100 1.6 116 2 130 3C144 2 158 2.6 170 4C182 4.4 192 6 197 8.5C199 9.5 200 10.5 200 11.5L200 12C192 12 186 11.6 180 12.2C176 12.6 175.5 15.6 172.8 15.2C170.6 14.8 170.8 12.6 166 12.4C140 12 118 12.8 92 12.2C84 12 82.5 14.4 80 14.2C78 14 78 12.4 72 12.2C50 11.8 28 12.6 8 12.2C4 12.1 1 12 0 12Z'/%3E%3C/svg%3E");
+$alr-cane: repeating-linear-gradient(-45deg, #c8473a 0 14px, #f4efe6 14px 28px, #4f8a64 28px 42px);
+
+.alr-xmas-only { display: none; }
+body.alr-xmas-active .alr-xmas-only { display: inline; }
+body.alr-xmas-active .alr-xmas-hide { display: none; }
+.alr-osd-holiday { margin-left: 14px; color: #f2c46b; }
+:root[saved-theme="light"] .alr-osd-holiday { color: #a8741c; }
+
+// ── Snow (sitewide, fixed to the viewport) ──
+.alr-xmas-snow {
+  position: fixed;
+  inset: 0;
+  z-index: 35;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+.alr-xmas-snow span {
+  position: absolute;
+  top: -12px;
+  border-radius: 50%;
+  background: #f4efe6;
+}
+body.alr-xmas-active .alr-xmas-snow { opacity: 1; }
+body.alr-xmas-active .alr-xmas-snow span { animation-name: alrXmasFall; animation-timing-function: linear; animation-iteration-count: infinite; }
+:root[saved-theme="light"] .alr-xmas-snow span { background: #b9c6cf; }
+@keyframes alrXmasFall {
+  0%   { transform: translate(0, 0); }
+  50%  { transform: translate(14px, 52vh); }
+  100% { transform: translate(-6px, 106vh); }
+}
+
+// ── Candy-cane stripe under the header ──
+#quartz-header { position: relative; }
+#quartz-header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 3px;
+  background-image: $alr-cane;
+  background-size: 42px 42px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.9s ease;
+}
+body.alr-xmas-active #quartz-header::after { opacity: 0.92; animation: alrXmasCane 1.6s linear infinite; }
+@keyframes alrXmasCane { to { background-position: 42px 0; } }
+:root[saved-theme="light"] #quartz-header::after {
+  background-image: repeating-linear-gradient(-45deg, #a8352a 0 14px, #ffffff 14px 28px, #2f6b45 28px 42px);
+}
+
+// ── Star on the header logo ──
+#quartz-header .page-title a { position: relative; }
+#quartz-header .page-title a::before {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: calc(50% - 21px);
+  width: 12px;
+  height: 12px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23f2c46b' d='M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 20.9l1.6-7L2 9.2l7.1-.6z'/%3E%3C/svg%3E") center / contain no-repeat;
+  filter: drop-shadow(0 0 4px rgba(242, 196, 107, 0.6));
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.9s ease;
+}
+body.alr-xmas-active #quartz-header .page-title a::before { opacity: 1; animation: alrXmasStar 3s ease-in-out infinite; }
+@keyframes alrXmasStar { 0%, 100% { opacity: 0.95; } 50% { opacity: 0.55; } }
+
+// ── Homepage watermark becomes a tree (garland + star over the ALR triangle) ──
+.alr-xmas-tree { opacity: 0; transition: opacity 0.9s ease; }
+.alr-xmas-star { fill: #f2c46b; filter: drop-shadow(0 0 18px rgba(242, 196, 107, 0.7)); }
+body.alr-xmas-active .alr-xmas-tree { opacity: 1; }
+body.alr-xmas-active .alr-xmas-star { animation: alrXmasTreeStar 3s ease-in-out infinite; }
+@keyframes alrXmasTreeStar { 0%, 100% { opacity: 0.6; } 50% { opacity: 0.35; } }
+
+// ── String of lights along the top cards (inserted by the date-check script) ──
+.alr-home-hero-wrap, .alr-echo-hero-card, .alr-reg-banner, .alr-shop-header, .alr-lc-banner, .alr-page-banner, .ordo-hero-card { position: relative; }
+.alr-xmas-lights {
+  position: absolute;
+  top: 0;
+  left: 12px;
+  right: 12px;
+  height: 26px;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+body.alr-xmas-active .alr-xmas-lights { opacity: 1; }
+.alr-xmas-bulb {
+  position: absolute;
+  width: 7px;
+  height: 10px;
+  margin-left: -3.5px;
+  border-radius: 50% 50% 45% 45%;
+  --bulb: #e8775f;
+  --bulb-glow: rgba(232, 119, 95, 0.7);
+  background: var(--bulb);
+  box-shadow: 0 0 9px 2px var(--bulb-glow);
+}
+.alr-xmas-bulb:nth-child(4n+2) { --bulb: #f2c46b; --bulb-glow: rgba(242, 196, 107, 0.7); }
+.alr-xmas-bulb:nth-child(4n+3) { --bulb: #6fae86; --bulb-glow: rgba(111, 174, 134, 0.7); }
+.alr-xmas-bulb:nth-child(4n+4) { --bulb: #f4efe6; --bulb-glow: rgba(244, 239, 230, 0.6); }
+body.alr-xmas-active .alr-xmas-bulb { animation: alrXmasTwinkle 2.4s ease-in-out infinite; }
+@keyframes alrXmasTwinkle {
+  0%, 100% { opacity: 1; filter: brightness(1.15); }
+  50%      { opacity: 0.35; filter: brightness(0.7); }
+}
+// Room for the strand: push the on-screen display down while the lights are up.
+body.alr-xmas-active .alr-home-hero-wrap .alr-osd-tl,
+body.alr-xmas-active .alr-home-hero-wrap .alr-osd-tr { top: 46px; }
+body.alr-xmas-active .alr-echo-hero-img .alr-osd-tl,
+body.alr-xmas-active .alr-echo-hero-img .alr-osd-tr { top: 38px; }
+body.alr-xmas-active .alr-page-banner { padding-top: 40px; }
+
+// Stat meters become blinking bulbs.
+body.alr-xmas-active .alr-meter span.on {
+  background: var(--bulb, #e8775f);
+  box-shadow: 0 0 8px var(--bulb-glow, rgba(232, 119, 95, 0.7));
+  animation: alrXmasTwinkle 2.4s ease-in-out infinite;
+}
+body.alr-xmas-active .alr-meter span.on:nth-child(3n+1) { --bulb: #e8775f; --bulb-glow: rgba(232, 119, 95, 0.7); }
+body.alr-xmas-active .alr-meter span.on:nth-child(3n+2) { --bulb: #f2c46b; --bulb-glow: rgba(242, 196, 107, 0.7); animation-delay: 0.5s; }
+body.alr-xmas-active .alr-meter span.on:nth-child(3n+3) { --bulb: #6fae86; --bulb-glow: rgba(111, 174, 134, 0.7); animation-delay: 1s; }
+
+// ── Snow piled on the small tiles ──
+.alr-home-status-card, .alr-reg-stat-cell, .alr-echo-tile, .alr-account-form { position: relative; }
+.alr-home-status-card::before, .alr-reg-stat-cell::before, .alr-echo-tile::before, .alr-account-form::before {
+  content: "";
+  position: absolute;
+  left: -3px;
+  right: -3px;
+  top: -8px;
+  height: 17px;
+  background: $alr-snowcap 0 0 / 100% 100% no-repeat;
+  filter: drop-shadow(0 1.5px 1.5px rgba(0, 0, 0, 0.45));
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+body.alr-xmas-active .alr-home-status-card::before,
+body.alr-xmas-active .alr-reg-stat-cell::before,
+body.alr-xmas-active .alr-echo-tile::before,
+body.alr-xmas-active .alr-account-form::before { opacity: 1; }
+:root[saved-theme="light"] .alr-home-status-card::before,
+:root[saved-theme="light"] .alr-reg-stat-cell::before,
+:root[saved-theme="light"] .alr-echo-tile::before,
+:root[saved-theme="light"] .alr-account-form::before { filter: drop-shadow(0 1px 2px rgba(60, 70, 80, 0.35)); }
+
+// ── Frost on images; ornaments hanging into the echo hero image ──
+.alr-home-featured-img::before, .alr-echo-hero-img::before, .alr-shop-card-img::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(150px 110px at 0 100%, rgba(232, 240, 246, 0.26), transparent 70%),
+    radial-gradient(150px 110px at 100% 0, rgba(232, 240, 246, 0.2), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+.alr-echo-hero-img::before {
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='96' viewBox='0 0 40 96'%3E%3Cline x1='20' y1='0' x2='20' y2='58' stroke='%239a9488' stroke-width='1'/%3E%3Crect x='15' y='56' width='10' height='6' rx='1' fill='%23b3ada2'/%3E%3Ccircle cx='20' cy='76' r='15' fill='%23c8473a'/%3E%3Cpath d='M8 72 Q20 80 32 72' stroke='%23f2c46b' stroke-width='2' fill='none'/%3E%3Ccircle cx='15' cy='71' r='3' fill='%23fff' opacity='.35'/%3E%3C/svg%3E") calc(100% - 150px) 0 / 40px 96px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='70' viewBox='0 0 34 70'%3E%3Cline x1='17' y1='0' x2='17' y2='36' stroke='%239a9488' stroke-width='1'/%3E%3Crect x='13' y='34' width='8' height='5' rx='1' fill='%23b3ada2'/%3E%3Ccircle cx='17' cy='51' r='12' fill='%234f8a64'/%3E%3Cpath d='M7 49 Q17 55 27 49' stroke='%23f4efe6' stroke-width='2' fill='none'/%3E%3C/svg%3E") calc(100% - 210px) 0 / 34px 70px no-repeat,
+    radial-gradient(150px 110px at 100% 100%, rgba(232, 240, 246, 0.26), transparent 70%),
+    radial-gradient(120px 90px at 0 0, rgba(232, 240, 246, 0.18), transparent 70%);
+}
+.alr-shop-card-img { position: relative; overflow: hidden; }
+body.alr-xmas-active .alr-home-featured-img::before,
+body.alr-xmas-active .alr-echo-hero-img::before,
+body.alr-xmas-active .alr-shop-card-img::before { opacity: 1; }
+
+// Shop: a red ribbon wrapped across the corner of each product image.
+.alr-shop-card-img::after {
+  content: "";
+  position: absolute;
+  top: 18px;
+  right: -30px;
+  width: 120px;
+  height: 16px;
+  background: #c8473a;
+  transform: rotate(45deg);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+body.alr-xmas-active .alr-shop-card-img::after { opacity: 1; }
+
+// Submit pages: a small bow on the submit button (decoration only).
+body[data-slug^="Submit-"] .alr-submit-btn[type="submit"] { position: relative; overflow: visible; }
+body.alr-xmas-active[data-slug^="Submit-"] .alr-submit-btn[type="submit"]::after {
+  content: "";
+  position: absolute;
+  top: -10px;
+  right: -9px;
+  width: 24px;
+  height: 18px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 16'%3E%3Cpath d='M11 8C6 1 1 3 3 8c2 4 6 1 8 0zM11 8c5-7 10-5 8 0-2 4-6 1-8 0z' fill='%23c8473a'/%3E%3Ccircle cx='11' cy='8' r='2.3' fill='%23e8775f'/%3E%3C/svg%3E") center / contain no-repeat;
+  pointer-events: none;
+}
+
+// 404: a snowdrift piled at the bottom of the message.
+body.alr-xmas-active[data-slug="404"] article::after {
+  content: "";
+  display: block;
+  height: 70px;
+  margin-top: 40px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 70' preserveAspectRatio='none'%3E%3Cpath d='M0 70V40C60 22 110 46 170 34S280 8 340 26 450 44 510 24 580 18 600 28V70Z' fill='%23e9e5dd' opacity='.9'/%3E%3Cpath d='M0 70V54C80 44 150 60 230 50S380 38 460 52 560 50 600 46V70Z' fill='%23fff' opacity='.6'/%3E%3C/svg%3E") bottom / 100% 100% no-repeat;
+}
+
+// Phone tab bar gets a snow cap too.
+.alr-mnav::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -7px;
+  height: 14px;
+  background: $alr-snowcap 0 0 / 100% 100% no-repeat;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35));
+  pointer-events: none;
+  opacity: 0;
+}
+body.alr-xmas-active .alr-mnav::before { opacity: 1; }
+
+// ── The Ordo refuses the season: dead lights (one sputtering), ash instead of snow,
+//    a plain dark bar instead of the candy cane, and no snow caps or frost. ──
+#{$alr-ordo}.alr-xmas-active .alr-xmas-bulb { --bulb: #3a2a22; --bulb-glow: transparent; box-shadow: none; animation: none; }
+#{$alr-ordo}.alr-xmas-active .alr-xmas-bulb:nth-child(10) { --bulb: #e65a3e; animation: alrXmasDead 4.5s infinite; }
+@keyframes alrXmasDead {
+  0%, 100% { opacity: 0.15; }
+  8% { opacity: 0.9; }
+  10% { opacity: 0.15; }
+  62% { opacity: 0.15; }
+  63% { opacity: 0.7; }
+  65% { opacity: 0.15; }
+}
+#{$alr-ordo}.alr-xmas-active .alr-xmas-snow span { background: #6b5a4c; border-radius: 1px; animation-name: alrXmasAsh; }
+@keyframes alrXmasAsh {
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  50%  { transform: translate(-14px, 52vh) rotate(90deg); }
+  100% { transform: translate(6px, 106vh) rotate(200deg); }
+}
+#{$alr-ordo}.alr-xmas-active #quartz-header::after { background: #0a0706; animation: none; opacity: 1; }
+#{$alr-ordo}.alr-xmas-active #quartz-header .page-title a::before,
+#{$alr-ordo}.alr-xmas-active .alr-echo-tile::before { opacity: 0; animation: none; }
+
+// Phones: no snow (same as Hallow's bats). Stripe, lights, caps and frost stay.
+@media (max-width: 800px) {
+  .alr-xmas-snow { display: none !important; }
+  .alr-osd-holiday { display: none !important; }
+  body.alr-xmas-active .alr-home-hero-wrap .alr-osd-tl,
+  body.alr-xmas-active .alr-home-hero-wrap .alr-osd-tr { top: 34px; }
+  body.alr-xmas-active .alr-home-hero-overlay { padding-top: 70px !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .alr-xmas-snow { display: none !important; }
+  body.alr-xmas-active #quartz-header::after,
+  body.alr-xmas-active #quartz-header .page-title a::before,
+  body.alr-xmas-active .alr-xmas-star,
+  body.alr-xmas-active .alr-xmas-bulb,
+  body.alr-xmas-active .alr-meter span.on { animation: none !important; }
+}

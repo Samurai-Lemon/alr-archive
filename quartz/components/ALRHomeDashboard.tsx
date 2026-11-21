@@ -152,9 +152,9 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
             <div class="alr-hallow-stripe"></div>
             {/* VHS on-screen display — decorative; the counter ticks via the script below. */}
             <div class="alr-osd" aria-hidden="true">
-              <span class="alr-osd-tl">PLAY ▶</span>
-              <span class="alr-osd-tr"><span class="alr-osd-rec"><span class="alr-osd-blink">●</span> REC</span><span>CH {activeCycle.padStart(2, "0")}</span></span>
-              <span class="alr-osd-br">SP <span id="alr-osd-counter">00:00:00</span> · CYCLE {activeCycle}</span>
+              <span class="alr-osd-tl">PLAY ▶<span class="alr-xmas-only alr-osd-holiday">HOLIDAY SPECIAL</span></span>
+              <span class="alr-osd-tr"><span class="alr-osd-rec"><span class="alr-osd-blink">●</span> REC</span><span class="alr-xmas-hide">CH {activeCycle.padStart(2, "0")}</span><span class="alr-xmas-only">CH 25</span></span>
+              <span class="alr-osd-br">SP <span id="alr-osd-counter">00:00:00</span><span id="alr-osd-date"></span> · CYCLE {activeCycle}</span>
             </div>
             {/* Decorative layer only: faint logo watermark plus the Hallow Cycle seasonal art
                 (hidden except Oct 25–31, toggled sitewide by ALRHallowDefs.tsx). */}
@@ -174,6 +174,10 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
               <g transform="translate(592,102)"><g class="alr-hallow-bat alr-hallow-bat-e"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" transform="scale(0.0068)" opacity="0.4" /></g></g>
               <g transform="translate(630,50)"><g class="alr-hallow-bat alr-hallow-bat-d"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" transform="scale(0.0105)" opacity="0.45" /></g></g>
 
+              <g class="alr-xmas-tree" transform="translate(470, 40) scale(0.36)">
+                <path d="M186 165 Q280 215 374 160 M114 285 Q280 355 446 278 M49 395 Q280 470 511 388" fill="none" stroke="#f2c46b" stroke-width="9" stroke-linecap="round" opacity="0.16" />
+                <path class="alr-xmas-star" opacity="0.6" transform="translate(249,-52) scale(2.6)" d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 20.9l1.6-7L2 9.2l7.1-.6z" />
+              </g>
               <g class="alr-home-hero-logo-wrap" transform="translate(470, 40) scale(0.36)" opacity="0.07">
                 <path
                   class="alr-home-hero-logo"
@@ -186,7 +190,7 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
 
             <div class="alr-home-hero-overlay">
               <div class="alr-home-hero-left">
-                <div class="alr-eyebrow"><span class="alr-eyebrow-dot" aria-hidden="true"></span>Cycle {activeCycle} · Archive of Lost Realities Initiative</div>
+                <div class="alr-eyebrow"><span class="alr-eyebrow-dot" aria-hidden="true"></span><span class="alr-xmas-hide">Cycle {activeCycle} · Archive of Lost Realities Initiative</span><span class="alr-xmas-only">Cycle {activeCycle} · The Archive stays open through the long night</span></div>
                 <h1 class="alr-home-hero-title alr-glitch">What's Unwritten<br />is not empty.</h1>
                 <div class="alr-home-hero-sub">
                   What remains when a reality collapses is not nothing.
@@ -404,7 +408,7 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
               <span class="alr-home-featured-badge" id="alr-fe-badge">—</span>
             </div>
             <div class="alr-home-featured-left">
-              <div class="alr-home-featured-label">Featured echo</div>
+              <div class="alr-home-featured-label">Featured echo<span class="alr-xmas-only"> · holiday broadcast</span></div>
               <div class="alr-home-featured-title" id="alr-fe-title">—</div>
               <div class="alr-home-featured-desc" id="alr-fe-desc">Loading archive entry...</div>
               <div class="alr-home-featured-tags" id="alr-fe-tags"></div>

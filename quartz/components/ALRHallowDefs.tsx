@@ -2123,6 +2123,100 @@ l-8 55 -13 -75z"/>
         <svg viewBox="0 0 1280 773" width="100%" height="100%"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" opacity="0.4" /></svg>
       </div>
 
+      {/* ── Christmas week (Dec 19–25): sitewide snow layer. Hidden (opacity 0, no animation) the
+          rest of the year; the date check below flips alr-xmas-active on <body>. Off on phones. ── */}
+      <div class="alr-xmas-snow" aria-hidden="true">
+        <span style="left:92.7%; width:3.2px; height:3.2px; opacity:0.72; animation-duration:17.4s; animation-delay:-26.2s;"></span>
+        <span style="left:4.2%; width:4.0px; height:4.0px; opacity:0.78; animation-duration:18.1s; animation-delay:-9.2s;"></span>
+        <span style="left:58.9%; width:3.4px; height:3.4px; opacity:0.36; animation-duration:25.0s; animation-delay:-25.0s;"></span>
+        <span style="left:79.4%; width:3.6px; height:3.6px; opacity:0.61; animation-duration:27.2s; animation-delay:-5.4s;"></span>
+        <span style="left:46.9%; width:3.1px; height:3.1px; opacity:0.35; animation-duration:29.6s; animation-delay:-19.1s;"></span>
+        <span style="left:58.3%; width:2.3px; height:2.3px; opacity:0.51; animation-duration:17.0s; animation-delay:-4.8s;"></span>
+        <span style="left:7.0%; width:3.5px; height:3.5px; opacity:0.58; animation-duration:22.2s; animation-delay:-3.8s;"></span>
+        <span style="left:4.1%; width:4.8px; height:4.8px; opacity:0.39; animation-duration:27.1s; animation-delay:-6.6s;"></span>
+        <span style="left:56.0%; width:3.4px; height:3.4px; opacity:0.52; animation-duration:21.9s; animation-delay:-15.1s;"></span>
+        <span style="left:5.8%; width:3.5px; height:3.5px; opacity:0.71; animation-duration:18.5s; animation-delay:-1.4s;"></span>
+        <span style="left:81.4%; width:3.3px; height:3.3px; opacity:0.61; animation-duration:21.3s; animation-delay:-14.3s;"></span>
+        <span style="left:61.8%; width:2.7px; height:2.7px; opacity:0.48; animation-duration:15.0s; animation-delay:-3.9s;"></span>
+        <span style="left:68.4%; width:2.3px; height:2.3px; opacity:0.74; animation-duration:26.1s; animation-delay:-6.6s;"></span>
+        <span style="left:95.1%; width:2.5px; height:2.5px; opacity:0.49; animation-duration:16.7s; animation-delay:-17.1s;"></span>
+        <span style="left:54.1%; width:4.0px; height:4.0px; opacity:0.53; animation-duration:18.9s; animation-delay:-14.8s;"></span>
+        <span style="left:68.1%; width:3.5px; height:3.5px; opacity:0.52; animation-duration:19.7s; animation-delay:-29.6s;"></span>
+        <span style="left:75.6%; width:2.4px; height:2.4px; opacity:0.51; animation-duration:26.9s; animation-delay:-21.2s;"></span>
+        <span style="left:61.0%; width:3.8px; height:3.8px; opacity:0.41; animation-duration:14.3s; animation-delay:-22.4s;"></span>
+        <span style="left:11.1%; width:2.8px; height:2.8px; opacity:0.71; animation-duration:23.5s; animation-delay:-1.0s;"></span>
+        <span style="left:16.4%; width:3.7px; height:3.7px; opacity:0.73; animation-duration:18.3s; animation-delay:-28.2s;"></span>
+        <span style="left:7.8%; width:4.0px; height:4.0px; opacity:0.50; animation-duration:29.5s; animation-delay:-21.0s;"></span>
+        <span style="left:36.8%; width:2.5px; height:2.5px; opacity:0.44; animation-duration:15.5s; animation-delay:-17.8s;"></span>
+        <span style="left:21.7%; width:4.2px; height:4.2px; opacity:0.58; animation-duration:27.8s; animation-delay:-26.8s;"></span>
+        <span style="left:7.5%; width:2.5px; height:2.5px; opacity:0.76; animation-duration:19.2s; animation-delay:-5.0s;"></span>
+        <span style="left:26.4%; width:4.6px; height:4.6px; opacity:0.66; animation-duration:25.1s; animation-delay:-8.8s;"></span>
+        <span style="left:28.9%; width:3.5px; height:3.5px; opacity:0.70; animation-duration:18.5s; animation-delay:-8.2s;"></span>
+        <span style="left:27.6%; width:4.7px; height:4.7px; opacity:0.52; animation-duration:22.3s; animation-delay:-0.1s;"></span>
+        <span style="left:74.4%; width:2.9px; height:2.9px; opacity:0.79; animation-duration:19.5s; animation-delay:-14.3s;"></span>
+        <span style="left:48.8%; width:2.2px; height:2.2px; opacity:0.48; animation-duration:22.0s; animation-delay:-9.0s;"></span>
+        <span style="left:91.3%; width:3.0px; height:3.0px; opacity:0.69; animation-duration:19.8s; animation-delay:-2.1s;"></span>
+        <span style="left:9.7%; width:2.2px; height:2.2px; opacity:0.37; animation-duration:23.3s; animation-delay:-15.6s;"></span>
+        <span style="left:87.8%; width:2.4px; height:2.4px; opacity:0.64; animation-duration:25.4s; animation-delay:-26.9s;"></span>
+        <span style="left:90.3%; width:3.0px; height:3.0px; opacity:0.79; animation-duration:28.5s; animation-delay:-1.4s;"></span>
+        <span style="left:98.4%; width:4.7px; height:4.7px; opacity:0.35; animation-duration:27.8s; animation-delay:-24.5s;"></span>
+        <span style="left:70.8%; width:2.1px; height:2.1px; opacity:0.68; animation-duration:26.0s; animation-delay:-1.7s;"></span>
+        <span style="left:7.4%; width:5.1px; height:5.1px; opacity:0.34; animation-duration:29.2s; animation-delay:-14.4s;"></span>
+        <span style="left:39.5%; width:2.6px; height:2.6px; opacity:0.61; animation-duration:18.3s; animation-delay:-27.4s;"></span>
+        <span style="left:38.6%; width:4.2px; height:4.2px; opacity:0.48; animation-duration:15.9s; animation-delay:-29.6s;"></span>
+        <span style="left:93.6%; width:3.0px; height:3.0px; opacity:0.57; animation-duration:22.6s; animation-delay:-5.3s;"></span>
+        <span style="left:9.9%; width:3.6px; height:3.6px; opacity:0.52; animation-duration:23.8s; animation-delay:-27.8s;"></span>
+        <span style="left:18.2%; width:2.7px; height:2.7px; opacity:0.69; animation-duration:16.1s; animation-delay:-5.8s;"></span>
+        <span style="left:42.8%; width:3.5px; height:3.5px; opacity:0.80; animation-duration:15.0s; animation-delay:-26.1s;"></span>
+      </div>
+
+      <script dangerouslySetInnerHTML={{ __html: `
+(function() {
+  // Christmas week, Dec 19–25. ?xmas=1 previews it outside those dates (like ?hallow=1).
+  var forcePreview = /[?&]xmas=1\\b/.test(location.search);
+  function isXmasWeek() {
+    var d = new Date();
+    return d.getMonth() === 11 && d.getDate() >= 19 && d.getDate() <= 25;
+  }
+
+  // Top cards that get a string of lights: home hero, echo hero, registry/account banners,
+  // shop and label creator headers, content-page breadcrumb banner, and the Ordo hero (dead bulbs).
+  var TARGETS = '.alr-home-hero-wrap, .alr-echo-hero-card, .alr-reg-banner, .alr-shop-header, .alr-lc-banner, .alr-page-banner, .ordo-hero-card';
+  var N = 22;
+  function hangLights() {
+    document.querySelectorAll(TARGETS).forEach(function(el) {
+      if (el.querySelector(':scope > .alr-xmas-lights')) return;
+      var strand = document.createElement('span');
+      strand.className = 'alr-xmas-lights';
+      strand.setAttribute('aria-hidden', 'true');
+      for (var i = 0; i < N; i++) {
+        var t = (i + 0.5) / N;
+        var phase = (t * (N / 2.2)) % 1;
+        var b = document.createElement('span');
+        b.className = 'alr-xmas-bulb';
+        b.style.left = (t * 100).toFixed(2) + '%';
+        b.style.top = (3 + 11 * Math.sin(Math.PI * phase)).toFixed(0) + 'px';
+        b.style.animationDelay = ((i % 4) * 0.6).toFixed(1) + 's';
+        strand.appendChild(b);
+      }
+      el.insertBefore(strand, el.firstChild);
+    });
+  }
+
+  function apply() {
+    var on = isXmasWeek() || forcePreview;
+    document.body.classList.toggle('alr-xmas-active', on);
+    if (on) hangLights();
+    var day = document.getElementById('alr-osd-date');
+    if (day) day.textContent = on ? ' · DEC ' + new Date().getDate() : '';
+  }
+
+  // Same two-frame deferral as the Hallow check, so the fade-in has a "before" frame.
+  requestAnimationFrame(function () { requestAnimationFrame(apply); });
+  document.addEventListener('nav', apply);
+})();
+      ` }} />
+
       <script dangerouslySetInnerHTML={{ __html: `
 (function() {
   function isHallowWeek() {
