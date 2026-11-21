@@ -3195,3 +3195,197 @@ body[data-slug="Index/ECHO-Registry"] #quartz-body .center,
 body[data-slug="Index/Reality-Registry"] #quartz-body .center { padding-top: 0 !important; }
 body[data-slug="Index/ECHO-Registry"] .page-header,
 body[data-slug="Index/Reality-Registry"] .page-header { display: block !important; height: auto !important; min-height: 0 !important; margin: 0 !important; padding: 0 !important; overflow: visible !important; }
+
+// ════════════════════════════════════════════════════════════
+// SIGNAL BROADCAST — VHS on-screen display, glitch, signal bars
+// ════════════════════════════════════════════════════════════
+$alr-osd-font: "VT323", var(--codeFont), monospace;
+
+// Tape-tracking band that rolls slowly down an image or hero card.
+.alr-tape { position: relative; overflow: hidden; }
+.alr-tape::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 26%;
+  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.05), transparent);
+  animation: alrTapeRoll 6s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+:root[saved-theme="light"] .alr-tape::after {
+  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.035), transparent);
+}
+@keyframes alrTapeRoll {
+  from { transform: translateY(-100%); }
+  to   { transform: translateY(420%); }
+}
+
+// On-screen display text in the corners.
+.alr-osd {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  font-family: $alr-osd-font;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  color: var(--alr-text);
+}
+.alr-osd > span { position: absolute; display: flex; gap: 18px; }
+.alr-osd > .alr-osd-br { display: block; }
+.alr-osd-tl { top: 22px; left: 26px; }
+.alr-osd-tr { top: 22px; right: 26px; }
+.alr-osd-br { bottom: 20px; right: 26px; font-size: 21px; color: var(--alr-muted); }
+.alr-osd-rec { color: var(--alr-s4); }
+.alr-osd-blink { animation: alrBlink 1s steps(1, end) infinite; }
+@keyframes alrBlink { 50% { opacity: 0; } }
+
+// Echo hero image: OSD sits over a photo, so give it a shadow for legibility.
+.alr-echo-hero-img .alr-osd { color: #ede8de; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8); font-size: 22px; }
+.alr-echo-hero-img .alr-osd-tl { top: 18px; left: 20px; }
+.alr-echo-hero-img .alr-osd-tr { top: 18px; right: 20px; }
+
+// Featured echo channel number.
+.alr-osd-ch {
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  z-index: 2;
+  font-family: $alr-osd-font;
+  font-size: 24px;
+  line-height: 1;
+  color: #ede8de;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+  pointer-events: none;
+}
+.alr-home-featured-badge { position: relative; z-index: 2; }
+
+.alr-home-featured-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.alr-ch-btn {
+  height: 38px;
+  padding: 0 14px;
+  border: 1px solid var(--alr-border-strong);
+  border-radius: var(--alr-r-sm);
+  background: var(--alr-hover);
+  color: var(--alr-text);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.alr-ch-btn:hover { background: var(--alr-border-strong); }
+// On phones the whole featured card is a tap target (the entry link is stretched over it); keep the channel buttons above it.
+.alr-ch-btn { position: relative; z-index: 3; }
+.alr-ch-btn:focus-visible { outline: 2px solid var(--alr-accent); outline-offset: 2px; }
+.alr-home-featured-actions .alr-home-featured-btn { margin-left: auto; align-self: center; }
+
+// Headlines split into red/blue for a moment on hover, like a bad tracking line.
+.alr-glitch { cursor: default; }
+.alr-glitch:hover { animation: alrGlitch 0.45s steps(2, end) 1; }
+@keyframes alrGlitch {
+  0%   { text-shadow: 2px 0 rgba(232, 119, 95, 0.8), -2px 0 rgba(111, 174, 200, 0.8); transform: translateX(0); }
+  20%  { text-shadow: -3px 0 rgba(232, 119, 95, 0.8), 3px 0 rgba(111, 174, 200, 0.8); transform: translateX(-2px); }
+  40%  { text-shadow: 1px 0 rgba(232, 119, 95, 0.8), -1px 0 rgba(111, 174, 200, 0.8); transform: translateX(1px) skewX(-4deg); }
+  60%, 100% { text-shadow: none; transform: none; }
+}
+
+// Stat tiles: pixel numerals and a level meter.
+.alr-home-status-val {
+  font-family: $alr-osd-font !important;
+  font-size: 64px !important;
+  font-weight: 400 !important;
+  letter-spacing: 0 !important;
+  line-height: 0.9 !important;
+}
+.alr-meter { display: flex; gap: 3px; align-items: flex-end; height: 20px; }
+.alr-meter span { flex: 1; background: var(--alr-border-strong); border-radius: 1px; }
+.alr-meter span:nth-child(1) { height: 30%; }
+.alr-meter span:nth-child(2) { height: 48%; }
+.alr-meter span:nth-child(3) { height: 66%; }
+.alr-meter span:nth-child(4) { height: 84%; }
+.alr-meter span:nth-child(5) { height: 100%; }
+.alr-meter span.on { background: var(--alr-accent); }
+.alr-meter-red span.on { background: var(--alr-s4); }
+
+// Stability as signal strength: S1 four bars … S4 one flickering bar.
+// Replaces the severity dot on echo tags, registry tags, sidebar echoes and the echo tile.
+.alr-sig,
+.alr-es-s1::before, .alr-es-s2::before, .alr-es-s3::before, .alr-es-s4::before,
+.alr-reg-tag-esc-s1::before, .alr-reg-tag-esc-s2::before, .alr-reg-tag-esc-s3::before, .alr-reg-tag-esc-s4::before {
+  content: "";
+  display: inline-block;
+  flex-shrink: 0;
+  width: 13px;
+  height: 11px;
+  border-radius: 0;
+  --sig-off: var(--alr-border-strong);
+  background:
+    linear-gradient(var(--sig1), var(--sig1)) 0 100% / 2.5px 40% no-repeat,
+    linear-gradient(var(--sig2), var(--sig2)) 3.5px 100% / 2.5px 60% no-repeat,
+    linear-gradient(var(--sig3), var(--sig3)) 7px 100% / 2.5px 80% no-repeat,
+    linear-gradient(var(--sig4), var(--sig4)) 10.5px 100% / 2.5px 100% no-repeat !important;
+}
+.alr-sig-s1, .alr-es-s1::before, .alr-reg-tag-esc-s1::before {
+  --sig1: var(--alr-s1); --sig2: var(--alr-s1); --sig3: var(--alr-s1); --sig4: var(--alr-s1);
+}
+.alr-sig-s2, .alr-es-s2::before, .alr-reg-tag-esc-s2::before {
+  --sig1: var(--alr-s2); --sig2: var(--alr-s2); --sig3: var(--alr-s2); --sig4: var(--sig-off);
+}
+.alr-sig-s3, .alr-es-s3::before, .alr-reg-tag-esc-s3::before {
+  --sig1: var(--alr-s3); --sig2: var(--alr-s3); --sig3: var(--sig-off); --sig4: var(--sig-off);
+}
+.alr-sig-s4, .alr-es-s4::before, .alr-reg-tag-esc-s4::before {
+  --sig1: var(--alr-s4); --sig2: var(--sig-off); --sig3: var(--sig-off); --sig4: var(--sig-off);
+  animation: alrSigWeak 1.8s infinite;
+}
+@keyframes alrSigWeak {
+  0%, 100% { opacity: 1; }
+  45% { opacity: 0.25; }
+  50% { opacity: 1; }
+  72% { opacity: 0.45; }
+}
+
+// Echo pages: sections read like tape chapters, with a waveform between them.
+#quartz-body .center:has(.alr-echo-hero) article { counter-reset: alr-tape; }
+#quartz-body .center:has(.alr-echo-hero) article > h2 { counter-increment: alr-tape; }
+#quartz-body .center:has(.alr-echo-hero) article > h2::before {
+  content: "▶ " counter(alr-tape, decimal-leading-zero);
+  font-family: $alr-osd-font;
+  font-weight: 400;
+  font-size: 1.05em;
+  letter-spacing: 0.02em;
+  color: var(--alr-accent-text);
+  margin-right: 14px;
+}
+.alr-echo-tile dt .alr-sig { margin-left: 8px; }
+#quartz-body .center:has(.alr-echo-hero) article hr {
+  height: 26px;
+  border: none !important;
+  margin: 40px 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 26' preserveAspectRatio='none'%3E%3Cpolyline fill='none' stroke='%239a9488' stroke-opacity='.45' stroke-width='1.5' vector-effect='non-scaling-stroke' points='0,13 80,13 90,6 98,20 106,13 300,13 310,3 316,23 322,9 330,16 338,13 640,13 648,8 654,19 660,13 1000,13'/%3E%3C/svg%3E") center / 100% 26px no-repeat;
+}
+
+@media (max-width: 800px) {
+  .alr-osd { font-size: 19px; }
+  .alr-osd-tl { top: 16px; left: 18px; }
+  .alr-osd-tr { top: 16px; right: 18px; }
+  .alr-osd-br { display: none !important; }
+  .alr-home-status-val { font-size: 52px !important; }
+  .alr-home-hero-overlay { padding-top: 58px !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .alr-tape::after,
+  .alr-osd-blink,
+  .alr-glitch:hover,
+  .alr-sig-s4, .alr-es-s4::before, .alr-reg-tag-esc-s4::before { animation: none !important; }
+}

@@ -112,10 +112,14 @@ const ALREchoHero: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
       <div class="alr-echo-hero-card">
         <div class="alr-echo-hero-main">
           <div class="alr-echo-hero-id">{echoId}</div>
-          <h1 class="alr-echo-hero-title">{name}</h1>
+          <h1 class="alr-echo-hero-title alr-glitch">{name}</h1>
           {description && <p class="alr-echo-hero-desc">{description}</p>}
         </div>
-        <div class="alr-echo-hero-img" style={`background-image: url('${imgSrc}');`}>
+        <div class="alr-echo-hero-img alr-tape" style={`background-image: url('${imgSrc}');`}>
+          <div class="alr-osd" aria-hidden="true">
+            <span class="alr-osd-tl">PLAY ▶</span>
+            <span class="alr-osd-tr">{echoId}</span>
+          </div>
           {/* Hallow Cycle seasonal layer — hidden except the week of Halloween (Oct 25–31); defs/script live sitewide in ALRHallowDefs.tsx */}
           <svg class="alr-echo-hero-texture" viewBox="0 0 900 340" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
             <g transform="translate(690,35)"><g class="alr-hallow-bat"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" transform="scale(0.02)" opacity="0.85" /></g></g>
@@ -136,9 +140,8 @@ const ALREchoHero: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
         )}
         {esc && (
           <div class="alr-echo-tile">
-            <dt>Stability</dt>
+            <dt>Stability{escKey && <span class={`alr-sig alr-sig-${escKey}`} aria-hidden="true"></span>}</dt>
             <dd>
-              {escKey && <span class={`alr-sev-dot alr-sev-${escKey}`} aria-hidden="true"></span>}
               {esc} · {escLabels[esc] ?? esc}
             </dd>
           </div>

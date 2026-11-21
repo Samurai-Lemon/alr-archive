@@ -313,7 +313,7 @@ const ALRSidebar: QuartzComponent = ({ allFiles, fileData }: QuartzComponentProp
       aria-current={item.active ? "page" : undefined}
       data-filter={`${item.name} ${item.tag}`.toLowerCase()}
     >
-      {item.sev ? <span class={`alr-sb-dot alr-sev-${item.sev}`} aria-hidden="true"></span> : null}
+      {item.sev ? <span class={`alr-sig alr-sig-${item.sev}`} aria-hidden="true"></span> : null}
       <span class="alr-sb-text">{item.name}</span>
       {item.tag ? <span class="alr-sb-tag">{item.tag}</span> : null}
     </a>

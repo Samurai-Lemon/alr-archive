@@ -148,8 +148,14 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
 
         {/* ── HERO — Night Index hero card + stat tiles ── */}
         <div class="alr-home-top">
-          <div class="alr-home-hero-wrap">
+          <div class="alr-home-hero-wrap alr-tape">
             <div class="alr-hallow-stripe"></div>
+            {/* VHS on-screen display — decorative; the counter ticks via the script below. */}
+            <div class="alr-osd" aria-hidden="true">
+              <span class="alr-osd-tl">PLAY ▶</span>
+              <span class="alr-osd-tr"><span class="alr-osd-rec"><span class="alr-osd-blink">●</span> REC</span><span>CH {activeCycle.padStart(2, "0")}</span></span>
+              <span class="alr-osd-br">SP <span id="alr-osd-counter">00:00:00</span> · CYCLE {activeCycle}</span>
+            </div>
             {/* Decorative layer only: faint logo watermark plus the Hallow Cycle seasonal art
                 (hidden except Oct 25–31, toggled sitewide by ALRHallowDefs.tsx). */}
             <svg
@@ -181,7 +187,7 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
             <div class="alr-home-hero-overlay">
               <div class="alr-home-hero-left">
                 <div class="alr-eyebrow"><span class="alr-eyebrow-dot" aria-hidden="true"></span>Cycle {activeCycle} · Archive of Lost Realities Initiative</div>
-                <h1 class="alr-home-hero-title">What's Unwritten<br />is not empty.</h1>
+                <h1 class="alr-home-hero-title alr-glitch">What's Unwritten<br />is not empty.</h1>
                 <div class="alr-home-hero-sub">
                   What remains when a reality collapses is not nothing.
                   Fragments persist. Echoes persist. We document what remains.
@@ -207,21 +213,25 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
               <div class="alr-home-status-label">Echoes documented</div>
               <div class="alr-home-status-val alr-count-up">{echoes.length}</div>
               <div class="alr-home-status-sub">{echoes.length - terminalEchoes.length} active · {terminalEchoes.length} terminal</div>
+              <div class="alr-meter" aria-hidden="true">{[1, 2, 3, 4, 5].map((i) => <span class={i <= Math.min(5, Math.ceil(echoes.length / 3)) ? "on" : ""}></span>)}</div>
             </div>
             <div class="alr-home-status-card">
               <div class="alr-home-status-label">Realities investigated</div>
               <div class="alr-home-status-val alr-count-up">{realities.length}</div>
               <div class="alr-home-status-sub">All RCC-1 Silent</div>
+              <div class="alr-meter" aria-hidden="true">{[1, 2, 3, 4, 5].map((i) => <span class={i <= Math.min(5, realities.length) ? "on" : ""}></span>)}</div>
             </div>
             <div class="alr-home-status-card">
               <div class="alr-home-status-label">Terminal echoes · S4</div>
               <div class="alr-home-status-val alr-red alr-count-up">{terminalEchoes.length}</div>
               <div class="alr-home-status-sub">Highest severity class</div>
+              <div class="alr-meter alr-meter-red" aria-hidden="true">{[1, 2, 3, 4, 5].map((i) => <span class={i <= Math.min(5, terminalEchoes.length) ? "on" : ""}></span>)}</div>
             </div>
             <div class="alr-home-status-card">
               <div class="alr-home-status-label">Active cycle</div>
               <div class="alr-home-status-val alr-count-up">{activeCycle}</div>
               <div class="alr-home-status-sub">Archive Operations</div>
+              <div class="alr-meter" aria-hidden="true">{[1, 2, 3, 4, 5].map((i) => <span class={i <= Math.min(5, Number(activeCycle)) ? "on" : ""}></span>)}</div>
             </div>
           </div>
         </div>
@@ -389,7 +399,8 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
         {/* ── FEATURED ECHO + NOTICES ── */}
         <div class="alr-home-row">
           <div class="alr-home-featured" id="alr-featured-echo">
-            <div class="alr-home-featured-img" id="alr-fe-img">
+            <div class="alr-home-featured-img alr-tape" id="alr-fe-img">
+              <span class="alr-osd-ch" id="alr-fe-ch" aria-hidden="true">CH 01</span>
               <span class="alr-home-featured-badge" id="alr-fe-badge">—</span>
             </div>
             <div class="alr-home-featured-left">
@@ -397,7 +408,11 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
               <div class="alr-home-featured-title" id="alr-fe-title">—</div>
               <div class="alr-home-featured-desc" id="alr-fe-desc">Loading archive entry...</div>
               <div class="alr-home-featured-tags" id="alr-fe-tags"></div>
-              <a href="#" id="alr-fe-link" class="alr-home-featured-btn">View full entry →</a>
+              <div class="alr-home-featured-actions">
+                <button type="button" class="alr-ch-btn" id="alr-fe-prev" aria-label="Previous echo">◀ CH−</button>
+                <button type="button" class="alr-ch-btn" id="alr-fe-next" aria-label="Next echo">CH+ ▶</button>
+                <a href="#" id="alr-fe-link" class="alr-home-featured-btn">View full entry →</a>
+              </div>
             </div>
           </div>
 
@@ -520,6 +535,8 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
       }
 
       badge.textContent = (e.id || 'ECHO') + ' — ' + (e.esc || 'Classified');
+      var ch = document.getElementById('alr-fe-ch');
+      if (ch) ch.textContent = 'CH ' + (idx + 1 < 10 ? '0' : '') + (idx + 1);
 
       if (e.image) {
         img.style.backgroundImage = 'url(' + e.image + ')';
@@ -548,11 +565,48 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
     showEcho(current);
   }
 
+  var timer = null;
+  function restartTimer() {
+    if (timer) clearInterval(timer);
+    timer = setInterval(next, 30000);
+  }
+
+  // Channel buttons: step through echoes and restart the 30s auto-advance.
+  function bindChannels() {
+    var prev = document.getElementById('alr-fe-prev');
+    var nxt = document.getElementById('alr-fe-next');
+    if (prev && !prev.dataset.bound) {
+      prev.dataset.bound = '1';
+      prev.addEventListener('click', function() {
+        if (echoes.length === 0) return;
+        current = (current - 1 + echoes.length) % echoes.length;
+        showEcho(current);
+        restartTimer();
+      });
+    }
+    if (nxt && !nxt.dataset.bound) {
+      nxt.dataset.bound = '1';
+      nxt.addEventListener('click', function() { next(); restartTimer(); });
+    }
+  }
+
+  // Tape counter in the hero OSD: shows the visitor's local time of day.
+  function tickCounter() {
+    var el = document.getElementById('alr-osd-counter');
+    if (!el) return;
+    var d = new Date();
+    function p(n) { return (n < 10 ? '0' : '') + n; }
+    el.textContent = p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds());
+  }
+  setInterval(tickCounter, 1000);
+
   function init() {
+    tickCounter();
+    bindChannels();
     if (echoes.length === 0) return;
     current = Math.floor(Math.random() * echoes.length);
     showEcho(current);
-    setInterval(next, 30000);
+    restartTimer();
   }
 
   if (document.readyState === 'loading') {
@@ -563,6 +617,8 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
 
   document.addEventListener('nav', function() {
     if (window.location.pathname === '/' || window.location.pathname === '') {
+      tickCounter();
+      bindChannels();
       current = Math.floor(Math.random() * echoes.length);
       showEcho(current);
     }
