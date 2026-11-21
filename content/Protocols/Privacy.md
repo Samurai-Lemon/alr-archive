@@ -73,7 +73,7 @@ The [[ALR Initiative]] does not endorse or assume responsibility for data practi
 
 **Your choices.** You can block or delete cookies in your browser settings, and you can ask for your account and submissions to be deleted at any time using the contact below.
 
-**Contact.** For any real-world privacy question or deletion request, message us on Instagram at [@alrinitiative](https://www.instagram.com/alrinitiative).
+**Contact.** For any real-world privacy question or deletion request, email [contact@alrinitiative.com](mailto:contact@alrinitiative.com).
 
 ---
 
