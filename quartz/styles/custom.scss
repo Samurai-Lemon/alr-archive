@@ -2991,6 +2991,75 @@ body.alr-hallow-active .alr-hallow-bat-e { animation-delay: 3.9s; }
   }
 }
 
+// ─── VHS / CRT SCANLINE OVERLAY ───────────────────────────
+// Fine horizontal scanlines over the whole viewport for the old-TV look, plus a faint tracking
+// band that rolls down the screen. Purely visual: fixed, above everything, never intercepts
+// clicks, and fully still for anyone with reduced motion turned on.
+//
+// The scanlines are one 4px tile repeated (background-size), so drifting the tile by exactly
+// 4px per cycle loops seamlessly. The flicker is a separate, irregular opacity dip.
+body::after {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  background-image: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.08) 50%);
+  background-size: 100% 4px;
+  animation:
+    alrScanlineDrift 0.8s linear infinite,
+    alrScanlineFlicker 7s steps(1, end) infinite;
+}
+
+:root[saved-theme="light"] body::after {
+  background-image: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.03) 50%);
+}
+
+// Tracking band: a soft lighter strip that slides from above the top edge to below the bottom.
+body::before {
+  content: "";
+  position: fixed;
+  left: 0;
+  top: -30vh;
+  width: 100%;
+  height: 30vh;
+  pointer-events: none;
+  z-index: 9999;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.025) 45%, rgba(255,255,255,0.04) 50%, rgba(255,255,255,0.025) 55%, transparent);
+  animation: alrTrackingRoll 11s linear infinite;
+}
+
+:root[saved-theme="light"] body::before {
+  background: linear-gradient(to bottom, transparent, rgba(60,40,20,0.025) 45%, rgba(60,40,20,0.04) 50%, rgba(60,40,20,0.025) 55%, transparent);
+}
+
+@keyframes alrScanlineDrift {
+  from { background-position: 0 0; }
+  to { background-position: 0 4px; }
+}
+
+// Mostly steady, with a few brief, uneven dips — reads as signal flicker rather than a pulse.
+@keyframes alrScanlineFlicker {
+  0%, 100% { opacity: 1; }
+  31% { opacity: 0.82; }
+  32% { opacity: 1; }
+  33.5% { opacity: 0.9; }
+  34.5% { opacity: 1; }
+  72% { opacity: 0.86; }
+  73% { opacity: 1; }
+}
+
+@keyframes alrTrackingRoll {
+  from { transform: translateY(0); }
+  to { transform: translateY(160vh); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::after { animation: none !important; }
+  body::before { display: none !important; }
+}
+
 // ─── TERMINAL INTRUSION (ambient lore popup) ──────────────
 #alr-terminal-mount { position: fixed; top: 0; left: 0; width: 0; height: 0; z-index: 101; pointer-events: none; }
 
