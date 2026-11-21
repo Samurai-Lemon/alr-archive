@@ -16,6 +16,9 @@ export default ((opts?: Options) => {
           STATUS: ARCHIVE LINK STABLE · NODE: ALR-01 · BUILD: QUARTZ v{version} · {year}
         </p>
         <ul>
+          <li>
+            <a href="/Protocols/Privacy" class="internal alr-footer-pill">Privacy Policy</a>
+          </li>
           {Object.entries(links).map(([text, link]) => (
             <li>
               <a href={link}>{text}</a>
