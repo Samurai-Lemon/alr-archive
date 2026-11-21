@@ -39,36 +39,31 @@ ALRContentAdvisory.css = `
   display: flex;
   gap: 12px;
   align-items: flex-start;
-  background: rgba(196,90,58,0.07);
-  border: 0.5px solid rgba(196,90,58,0.4);
-  border-left: 3px solid #c45a3a;
-  border-radius: 0 6px 6px 0;
+  background: var(--alr-surface);
+  border: 1px solid var(--alr-border);
+  border-radius: var(--alr-r-sm);
   padding: 14px 16px;
-  margin-bottom: 24px;
+  margin-bottom: 32px;
 }
 
 .alr-content-advisory-icon {
-  font-size: 15px;
-  color: #c45a3a;
-  line-height: 1;
+  font-size: 14px;
+  color: var(--alr-s4);
+  line-height: 1.4;
   flex-shrink: 0;
-  margin-top: 1px;
 }
 
 .alr-content-advisory-label {
-  font-size: 10px;
+  font-size: 14px;
   font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #c45a3a;
-  font-family: var(--codeFont);
-  margin-bottom: 4px;
+  color: var(--alr-text);
+  margin-bottom: 2px;
 }
 
 .alr-content-advisory-text {
-  font-size: 12.5px;
-  color: #9a9488;
-  line-height: 1.6;
+  font-size: 14px;
+  color: var(--alr-text-2);
+  line-height: 1.55;
 }
 `
 

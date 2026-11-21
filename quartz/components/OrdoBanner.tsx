@@ -1,111 +1,119 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 
+// Ordo Damnatio Memoriae — file header. Same structure as an echo entry's hero (breadcrumbs,
+// title card, image panel); the page's own oxblood palette comes from the --alr-* tokens it
+// redefines in custom.scss. The threat details sit just below in OrdoThreatStrip.
 const OrdoBanner: QuartzComponent = (_props: QuartzComponentProps) => {
   return (
-    <svg
-      class="ordo-banner-svg"
-      width="100%"
-      viewBox="0 0 680 180"
-      xmlns="http://www.w3.org/2000/svg"
-      style="display:block;margin-bottom:20px;"
-    >
-      <defs>
-        <clipPath id="ordo-bc">
-          <rect x="0" y="0" width="680" height="180" />
-        </clipPath>
-        <linearGradient id="ordo-fade-r" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#0a0806" stop-opacity="0" />
-          <stop offset="100%" stop-color="#0a0806" stop-opacity="1" />
-        </linearGradient>
-        <linearGradient id="ordo-fade-l" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#0a0806" stop-opacity="1" />
-          <stop offset="100%" stop-color="#0a0806" stop-opacity="0" />
-        </linearGradient>
-      </defs>
+    <div class="ordo-hero">
+      <nav class="alr-echo-crumbs" aria-label="Breadcrumb">
+        <a href="/" class="internal">Archive</a>
+        <span aria-hidden="true">/</span>
+        <a href="/Foundations/" class="internal">Foundations</a>
+        <span aria-hidden="true">/</span>
+        <a href="/Foundations/Opposition/" class="internal">Opposition</a>
+        <span aria-hidden="true">/</span>
+        <span class="alr-echo-crumbs-current">ODM-001</span>
+      </nav>
 
-      <g clip-path="url(#ordo-bc)">
-        <rect x="0" y="0" width="680" height="180" fill="#0a0806" />
-
-        {/* SCAN LINE */}
-        <rect x="40" y="0" width="599" height="1" fill="#2a1008" opacity="0.18"
-          style="animation:ordo-scan 8s linear infinite;" />
-
-        {/* STRUCTURAL LINES */}
-        <rect x="40" y="0" width="0.5" height="180" fill="#3a1a0e" opacity="0.8" />
-        <rect x="639" y="0" width="0.5" height="180" fill="#3a1a0e" opacity="0.5" />
-        <line x1="40" y1="90" x2="639" y2="90"
-          stroke="#2a1208" stroke-width="0.5"
-          stroke-dasharray="4 6"
-          style="animation:ordo-dash 6s linear infinite;" />
-        <rect x="0" y="0" width="680" height="1" fill="#3a1a0e" opacity="0.7" />
-        <rect x="0" y="179" width="680" height="1" fill="#2a1208" opacity="0.5" />
-
-        {/* REDACTED BLOCKS */}
-        <rect x="55" y="20" width="28" height="6" fill="#3a1a0e" style="animation:ordo-block 7s ease-in-out infinite;" />
-        <rect x="55" y="30" width="18" height="6" fill="#3a1a0e" style="animation:ordo-block 9s ease-in-out infinite;" />
-        <rect x="55" y="40" width="24" height="6" fill="#3a1a0e" style="animation:ordo-block 6s ease-in-out infinite;" />
-        <rect x="55" y="50" width="20" height="6" fill="#3a1a0e" style="animation:ordo-block 11s ease-in-out infinite;" />
-        <rect x="55" y="100" width="22" height="6" fill="#3a1a0e" style="animation:ordo-block 8s ease-in-out infinite;" />
-        <rect x="55" y="110" width="30" height="6" fill="#3a1a0e" style="animation:ordo-block 10s ease-in-out infinite;" />
-        <rect x="55" y="120" width="16" height="6" fill="#3a1a0e" style="animation:ordo-block 7.5s ease-in-out infinite;" />
-        <rect x="55" y="130" width="26" height="6" fill="#3a1a0e" style="animation:ordo-block 12s ease-in-out infinite;" />
-        <rect x="55" y="140" width="20" height="6" fill="#3a1a0e" style="animation:ordo-block 9.5s ease-in-out infinite;" />
-        <rect x="55" y="150" width="28" height="6" fill="#3a1a0e" style="animation:ordo-block 6.5s ease-in-out infinite;" />
-        <rect x="40" y="0" width="50" height="180" fill="url(#ordo-fade-l)" opacity="0.6" />
-
-        {/* LOGO */}
-        <g style="animation:ordo-logo-pulse 7s ease-in-out infinite;">
-          <g transform="translate(430, 0) scale(0.22)">
+      <div class="ordo-hero-card">
+        <div class="ordo-hero-main">
+          <div class="ordo-hero-file">FILE · ODM-001 · RESTRICTED</div>
+          <h1 class="ordo-hero-title">Ordo Damnatio Memoriae</h1>
+          <p class="ordo-hero-motto">Memoria damnata — existentia negata.</p>
+          <p class="ordo-hero-sub">The Order of the Condemnation of Memory</p>
+          <div class="ordo-hero-redacted" aria-hidden="true">██████ ██ ██ ██████ ██████</div>
+        </div>
+        <div class="ordo-hero-emblem" aria-hidden="true">
+          <svg viewBox="0 0 700 600" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M537.808105,745.849426 C549.564209,735.235657 561.270203,725.077332 571.801575,713.728333 C575.472717,709.772095 578.448853,708.846252 582.551392,712.603577 C586.473267,716.195496 590.590698,719.573120 594.542480,723.133240 C605.025330,732.577148 615.518188,742.011414 625.882446,751.584412 C628.271362,753.791077 630.764832,754.623535 633.963135,754.616638 C669.960144,754.539124 705.957642,754.625488 741.954468,754.510742 C749.277283,754.487366 756.582764,753.970520 763.925293,754.470764 C770.372742,754.909912 773.242920,750.559753 770.268616,744.752014 C762.388672,729.365723 753.659241,714.444153 744.967651,699.504822 C738.967163,689.190857 733.067383,678.818298 727.103210,668.483032 C712.068787,642.429871 697.005188,616.393372 681.988403,590.329956 C671.140198,571.501770 660.394348,552.614502 649.518921,533.802124 C637.631897,513.239868 625.612183,492.754364 613.719727,472.195251 C606.076660,458.982178 598.642883,445.647644 590.964355,432.455414 C580.514587,414.502197 569.956299,396.611877 559.378784,378.733490 C548.645081,360.591003 537.831665,342.495605 527.052185,324.380157 C525.505493,321.780792 525.606445,318.027740 521.282959,316.770813 C516.837585,321.680847 514.301208,328.059357 510.838776,333.785767 C500.445618,350.974518 490.241241,368.279510 480.138397,385.641113 C469.454742,404.000916 459.040771,422.517517 448.383392,440.892792 C437.304230,459.995239 425.997681,478.965851 414.935211,498.077850 C405.858765,513.758667 397.047516,529.592712 388.019714,545.301941 C380.502808,558.382080 372.800507,571.355469 365.253876,584.418640 C350.705566,609.601746 336.193024,634.805481 321.697052,660.018738 C312.014252,676.860291 302.379242,693.729370 292.735443,710.593262 C286.883942,720.825684 281.013885,731.047913 275.231659,741.319397 C270.635345,749.484314 273.606323,754.565002 282.935364,754.568420 C321.099091,754.582336 359.262817,754.577332 397.426544,754.565491 C403.918182,754.563538 410.386505,753.931519 416.906006,754.247620 C420.555481,754.424622 423.207733,751.393921 425.741089,749.186584 C439.270111,737.398499 452.553802,725.329468 466.019287,713.467590 C479.232544,701.828186 492.846619,690.628174 505.765198,678.673828 C520.407104,665.124817 534.421936,650.900085 548.803711,637.067200 C559.228638,627.040283 569.785156,617.188782 578.955505,605.909546 C586.074341,597.153687 590.035339,586.947876 590.136902,576.248352 C590.245789,564.772522 586.116638,554.023315 578.434937,544.668213 C565.689026,529.145813 553.787231,512.933289 541.226501,497.254578 C535.029358,489.519135 529.180054,481.418457 521.644592,474.278839 C515.986694,479.437195 511.758911,485.201233 507.361450,490.743073 C492.805939,509.086639 478.514465,527.639404 464.053864,546.058655 C450.483154,563.344421 450.373444,587.908875 464.745605,605.423950 C474.192200,616.936401 485.444214,626.533630 496.177643,636.695679 C500.884827,641.152344 505.682739,645.514954 510.502045,649.850708 C512.910461,652.017456 512.780212,653.873718 510.478119,656.092163 C497.921234,668.192810 485.041260,679.927002 471.541107,690.973267 C470.036255,692.204651 468.928833,692.131775 467.186829,690.981628 C458.643188,685.340820 451.903534,677.676697 444.514313,670.791748 C435.882324,662.748901 426.893036,654.903259 419.917725,645.292236 C409.169617,630.482971 401.635803,614.301514 399.510956,595.806641 C398.268066,584.988403 397.694000,574.144287 399.858734,563.548340 C402.378906,551.212708 406.541840,539.341431 412.701294,528.162292 C418.771454,517.145386 427.246979,507.985352 434.580750,497.951172 C446.722778,481.338074 460.230194,465.793030 472.582672,449.322113 C487.539917,429.377960 501.896454,409.045807 515.662109,388.277954 C521.327637,381.507660 523.733521,381.567993 526.435486,385.547241 C536.699036,400.662628 546.775635,415.906281 557.154480,430.941620 C566.016663,443.779785 575.828064,455.911469 585.495056,468.152588 C600.081360,486.622864 615.438354,504.531952 628.469360,524.164612 C635.190125,534.290161 639.365906,545.671814 642.289612,557.556152 C645.428406,570.315369 645.907959,583.317688 644.026428,595.995667 C640.908142,617.007446 632.590210,635.823608 617.122437,651.292236 C604.423828,663.991699 591.035034,675.937073 577.976562,688.221497 C562.982239,702.327087 547.906250,716.357666 532.925598,730.485840 C514.296143,748.055359 495.519287,765.469482 476.979462,783.132629 C470.479187,789.325623 464.137756,795.670837 457.208435,801.398560 C454.502563,803.635315 451.651855,804.352539 448.051941,804.309875 C423.724365,804.021790 399.393188,803.992615 375.063110,803.970032 C319.401184,803.918335 263.739136,803.950378 208.077393,803.825500 C204.373581,803.817200 200.554398,805.245972 196.875641,802.889832 C192.326813,799.976379 190.918732,796.229309 193.602692,791.548767 C202.201309,776.553894 211.032928,761.692261 219.588806,746.673462 C228.063324,731.797424 236.231827,716.747314 244.683395,701.857971 C252.711899,687.713928 260.962921,673.696472 269.063110,659.592834 C284.130371,633.358582 298.939362,606.973022 314.269440,580.893616 C327.915161,557.679688 341.491425,534.413147 354.820679,511.030914 C369.727264,484.881653 384.705414,458.764862 399.591797,432.601227 C412.732391,409.505951 426.914764,387.001373 439.955353,363.851929 C448.115540,349.366058 456.426208,334.965912 464.629608,320.505585 C472.981506,305.783295 481.652435,291.242401 490.097961,276.572754 C495.895813,266.502075 501.655151,256.406067 507.221222,246.206497 C510.270996,240.617966 514.221069,236.568802 520.857422,235.799057 C526.399902,235.156219 530.683899,237.202423 533.446411,241.948959 C546.554199,264.470947 559.525269,287.072571 572.633301,309.594421 C586.419922,333.282196 600.568604,356.763550 614.059448,380.617676 C623.367859,397.076569 633.234131,413.204468 642.321045,429.802063 C653.440247,450.111786 665.622986,469.837677 677.253052,489.869812 C684.574707,502.481079 691.708984,515.200989 698.958801,527.854126 C707.193176,542.225342 715.492188,556.559570 723.708801,570.940918 C732.658752,586.606018 741.477783,602.346252 750.480347,617.980957 C759.654175,633.913269 769.074890,649.703613 778.217041,665.653809 C788.365662,683.360291 798.254944,701.215210 808.382690,718.933777 C816.262207,732.719177 824.382629,746.366699 832.302063,760.129578 C836.929626,768.171631 841.449097,776.278748 845.857910,784.442566 C847.422485,787.339722 849.800659,789.662476 850.771545,793.029724 C852.462341,798.894714 848.887878,804.571167 842.843750,804.315979 C805.045410,802.720398 767.240356,804.287048 729.438538,803.992859 C687.611206,803.667297 645.771851,803.505310 603.954529,804.236267 C593.608521,804.417114 586.113037,801.163269 579.063721,794.535767 C565.263245,781.561279 551.276855,768.784729 537.458191,755.829346 C532.454651,751.138550 532.573242,751.012024 537.808105,745.849426 Z M510.081299,541.067749 C513.046753,537.913574 515.822571,535.070740 518.546265,532.178772 C520.944336,529.632568 523.458252,530.036621 525.429321,532.376831 C531.743835,539.873840 539.293762,546.162903 545.561646,553.757141 C550.485291,559.722595 556.896301,564.442810 562.484436,569.882751 C567.804260,575.061462 567.701538,576.022095 562.601807,581.090393 C550.803955,592.815430 539.032593,604.567017 527.233582,616.290771 C523.027771,620.469727 522.339111,620.142212 517.836609,616.388611 C504.816681,605.534241 494.115234,592.214722 480.661407,581.823059 C475.660187,577.960144 475.565399,574.855164 480.509064,570.444946 C490.810974,561.254883 499.824005,550.789917 510.081299,541.067749 Z"
-              fill="#8a3020"
               fill-rule="evenodd"
-              transform="translate(-190, -185)"
+              transform="translate(-160, -220)"
             />
-          </g>
-        </g>
-
-        {/* TEXT */}
-        <text x="100" y="38" font-family="Inter, sans-serif" font-size="8" font-weight="500"
-          fill="#8a4a28" letter-spacing="2.5"
-          style="animation:ordo-flicker 11s ease-in-out infinite;">FILE · ODM-001 · RESTRICTED</text>
-
-        <rect x="100" y="44" width="380" height="0.5" fill="#3a1a0e" opacity="0.9" />
-
-        <text x="100" y="80" font-family="Inter, sans-serif" font-size="26" font-weight="500"
-          fill="#e8d8b8"
-          style="animation:ordo-pulse 8s ease-in-out infinite;">Ordo Damnatio Memoriae</text>
-
-        <text x="101" y="100" font-family="Georgia, serif" font-size="13" font-style="italic"
-          fill="#8a5a38"
-          style="animation:ordo-pulse-dim 8s ease-in-out infinite;">Memoria Damnata — existentia negata.</text>
-
-        <rect x="100" y="108" width="380" height="0.5" fill="#3a1a0e" opacity="0.9" />
-
-        <text x="100" y="126" font-family="Inter, sans-serif" font-size="8" font-weight="500"
-          fill="#8a5a30" letter-spacing="2"
-          style="animation:ordo-pulse-dim 12s ease-in-out infinite;">THE ORDER OF THE CONDEMNATION OF MEMORY</text>
-
-        <text x="100" y="158" font-family="Inter, sans-serif" font-size="8"
-          fill="#3a1a0e" letter-spacing="3"
-          style="animation:ordo-flicker 15s ease-in-out infinite;">██████ ██ ██ ██████ ██████</text>
-
-        <text x="635" y="75" font-family="Inter, sans-serif" font-size="9"
-          fill="#5a2a18" letter-spacing="2" text-anchor="end"
-          style="animation:ordo-flicker 8s ease-in-out infinite;">THREAT LEVEL</text>
-        <text x="635" y="89" font-family="Inter, sans-serif" font-size="16" font-weight="500"
-          fill="#9a3020" letter-spacing="1" text-anchor="end"
-          style="animation:ordo-severe 5s ease-in-out infinite;">SEVERE</text>
-        <rect x="598" y="94" width="37" height="0.5" fill="#3a1a0e" opacity="0.6" />
-        <text x="635" y="106" font-family="Inter, sans-serif" font-size="8"
-          fill="#4a2a18" letter-spacing="2" text-anchor="end"
-          style="animation:ordo-flicker2 10s ease-in-out infinite;">CYCLE 7</text>
-
-        <rect x="580" y="0" width="100" height="180" fill="url(#ordo-fade-r)" opacity="0.8" />
-      </g>
-    </svg>
+          </svg>
+        </div>
+      </div>
+    </div>
   )
 }
+
+OrdoBanner.css = `
+.ordo-hero-card {
+  display: flex;
+  flex-wrap: wrap;
+  background: var(--alr-surface);
+  border: 1px solid var(--alr-border);
+  border-radius: var(--alr-r-lg);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.ordo-hero-main {
+  flex: 1 1 420px;
+  min-width: 0;
+  padding: clamp(28px, 4.5vw, 52px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 320px;
+  box-sizing: border-box;
+}
+.ordo-hero-file {
+  font-family: var(--codeFont), monospace;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: var(--alr-accent-text);
+  margin-bottom: 14px;
+}
+h1.ordo-hero-title {
+  font-size: clamp(36px, 5vw, 60px) !important;
+  line-height: 1.04 !important;
+  letter-spacing: -0.035em;
+  font-weight: 600 !important;
+  color: var(--alr-text) !important;
+  margin: 0 !important;
+}
+.ordo-hero-motto {
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-size: 19px;
+  color: var(--alr-text-2);
+  margin: 16px 0 4px;
+}
+.ordo-hero-sub {
+  font-size: 14px;
+  color: var(--alr-muted);
+  margin: 0;
+}
+.ordo-hero-redacted {
+  margin-top: 22px;
+  font-family: var(--codeFont), monospace;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: var(--alr-border-strong);
+}
+.ordo-hero-emblem {
+  flex: 1 1 300px;
+  min-height: 280px;
+  background: var(--alr-surface-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  box-sizing: border-box;
+}
+.ordo-hero-emblem svg {
+  width: min(240px, 70%);
+  height: auto;
+}
+.ordo-hero-emblem path { fill: var(--alr-accent); }
+
+@media (max-width: 800px) {
+  .ordo-hero-main { min-height: 0; padding: 24px 20px; }
+  .ordo-hero-emblem { order: -1; min-height: 180px; padding: 28px; }
+  .ordo-hero-emblem svg { width: 140px; }
+}
+`
 
 OrdoBanner.displayName = "OrdoBanner"
 export default (() => OrdoBanner) satisfies QuartzComponentConstructor

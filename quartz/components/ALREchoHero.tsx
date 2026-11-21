@@ -54,62 +54,15 @@ const EcIcon = ({ ec, color }: { ec: string; color: string }) => {
   }
 }
 
-// Faint background texture layered into the hero image, one motif per EC type — reusing the
-// same grid/scanline/dot vocabulary already established on the homepage hero, just relocated
-// here instead of invented fresh: a scattered field for Entities, an architectural grid for
-// Locations, concentric display-case rings for Objects, diagonal scanlines for Phenomena, and a
-// dashed timeline for Events.
-const EcTexture = ({ ec, color }: { ec: string; color: string }) => {
-  switch (ec) {
-    case "OBJ":
-      return (
-        <svg class="alr-echo-hero-texture" viewBox="0 0 900 340" preserveAspectRatio="xMidYMid slice">
-          <circle cx="660" cy="150" r="40" fill="none" stroke={color} stroke-width="0.6" opacity="0.2" />
-          <circle cx="660" cy="150" r="75" fill="none" stroke={color} stroke-width="0.5" opacity="0.14" />
-          <circle cx="660" cy="150" r="115" fill="none" stroke={color} stroke-width="0.5" opacity="0.08" />
-        </svg>
-      )
-    case "LOC":
-      return (
-        <svg class="alr-echo-hero-texture" viewBox="0 0 900 340" preserveAspectRatio="xMidYMid slice">
-          <line x1="0" y1="60" x2="900" y2="60" stroke={color} stroke-width="0.5" opacity="0.14" />
-          <line x1="0" y1="120" x2="900" y2="120" stroke={color} stroke-width="0.5" opacity="0.14" />
-          <line x1="0" y1="180" x2="900" y2="180" stroke={color} stroke-width="0.5" opacity="0.14" />
-          <line x1="0" y1="240" x2="900" y2="240" stroke={color} stroke-width="0.5" opacity="0.14" />
-          <line x1="500" y1="0" x2="500" y2="340" stroke={color} stroke-width="0.5" opacity="0.14" />
-          <line x1="650" y1="0" x2="650" y2="340" stroke={color} stroke-width="0.5" opacity="0.14" />
-          <line x1="800" y1="0" x2="800" y2="340" stroke={color} stroke-width="0.5" opacity="0.14" />
-        </svg>
-      )
-    case "PHN":
-      return (
-        <svg class="alr-echo-hero-texture" viewBox="0 0 900 340" preserveAspectRatio="xMidYMid slice">
-          <line x1="620" y1="0" x2="690" y2="340" stroke={color} stroke-width="1" opacity="0.28" stroke-dasharray="6 5" />
-          <line x1="550" y1="0" x2="620" y2="340" stroke={color} stroke-width="0.6" opacity="0.15" stroke-dasharray="4 6" />
-          <line x1="690" y1="0" x2="760" y2="340" stroke={color} stroke-width="0.6" opacity="0.15" stroke-dasharray="4 6" />
-        </svg>
-      )
-    case "EVT":
-      return (
-        <svg class="alr-echo-hero-texture" viewBox="0 0 900 340" preserveAspectRatio="xMidYMid slice">
-          <line x1="0" y1="170" x2="900" y2="170" stroke={color} stroke-width="0.6" opacity="0.16" stroke-dasharray="2 8" />
-          <line x1="640" y1="130" x2="640" y2="210" stroke={color} stroke-width="1" opacity="0.3" />
-        </svg>
-      )
-    default:
-      return (
-        <svg class="alr-echo-hero-texture" viewBox="0 0 900 340" preserveAspectRatio="xMidYMid slice">
-          <circle cx="620" cy="60" r="1.5" fill={color} opacity="0.3" />
-          <circle cx="680" cy="100" r="1" fill={color} opacity="0.2" />
-          <circle cx="740" cy="70" r="2" fill={color} opacity="0.15" />
-          <circle cx="800" cy="130" r="1" fill={color} opacity="0.25" />
-          <circle cx="660" cy="160" r="1.2" fill={color} opacity="0.2" />
-          <circle cx="720" cy="190" r="1" fill={color} opacity="0.18" />
-          <circle cx="590" cy="140" r="1" fill={color} opacity="0.22" />
-        </svg>
-      )
-  }
+const EC_PLURAL: Record<string, string> = {
+  ENT: "Entities",
+  OBJ: "Objects",
+  LOC: "Locations",
+  PHN: "Phenomena",
+  EVT: "Events",
 }
+
+type TocEntry = { depth: number; text: string; slug: string }
 
 const ALREchoHero: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
   const fm = (fileData.frontmatter ?? {}) as Record<string, unknown>
@@ -123,357 +76,279 @@ const ALREchoHero: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
   const title  = String(fm.title ?? fileData.slug ?? "")
   const status = String(fm.status ?? "documented")
   const submittedBy = String(fm.submitted_by ?? "").trim()
+  const description = String(fm.description ?? "").trim()
 
-  const ecLabel     = ec  ? `${ec} — ${ecTypeLabels[ec]   ?? ec}`  : ""
-  const escLabel    = esc ? `${esc} — ${escLabels[esc]    ?? esc}` : ""
-  const rtsLabel    = rts ? `${rts} — ${rtsLabels[rts]    ?? rts}` : ""
-  const rdsLabel    = rds ? `${rds} — ${rdsLabels[rds]    ?? rds}` : ""
-  const rccLabel    = rcc ? `${rcc} · ${rccLabels[rcc]    ?? rcc}` : ""
+  // Titles arrive as "ECHO-001 — The Watchers" (or the filename form "ECHO-001-The Watchers");
+  // the ID gets its own line above the name, so strip it from the display title.
+  const name = title.replace(/^ECHO-\d+\s*[—–-]?\s*/i, "").trim() || title
   const statusLabel = status.charAt(0).toUpperCase() + status.slice(1)
-
-  const escClass = esc ? `alr-echo-hero-tag-${esc.toLowerCase()}` : ""
-  const imgSrc   = `/Images/${echoId}.webp`
-
+  const imgSrc = `/Images/${echoId}.webp`
   const ecAccent = EC_ACCENT[ec] ?? EC_ACCENT.ENT
-  const ecClass  = `alr-echo-hero-tag-ec-${(ec in EC_ACCENT ? ec : "ent").toLowerCase()}`
+  const escKey = ["S1", "S2", "S3", "S4"].includes(esc) ? esc.toLowerCase() : ""
+
+  // "On this page" — built at render time from the headings the TableOfContents transformer
+  // already extracted. The entry's own H1 (hidden; the hero shows the title) is dropped, and
+  // only the top remaining heading level is listed so the card stays a short section index.
+  const toc = ((fileData as { toc?: TocEntry[] }).toc ?? []).filter(
+    (t) => !/^ECHO-\d+/i.test(t.text),
+  )
+  const topDepth = toc.length ? Math.min(...toc.map((t) => t.depth)) : 0
+  const sections = toc.filter((t) => t.depth === topDepth)
 
   return (
     <div class="alr-echo-hero">
-      <div
-        class="alr-echo-hero-img"
-        style={`background-image: url('${imgSrc}');`}
-      />
-      <EcTexture ec={ec} color={ecAccent.color} />
-      {/* Hallow Cycle seasonal layer — hidden except the week of Halloween (Oct 25–31); defs/script live sitewide in ALRHallowDefs.tsx */}
-      <svg class="alr-echo-hero-texture" viewBox="0 0 900 340" preserveAspectRatio="xMidYMid slice">
-        <g transform="translate(690,35)"><g class="alr-hallow-bat"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" transform="scale(0.02)" opacity="0.85" /></g></g>
-        <g transform="translate(800,80)"><g class="alr-hallow-bat alr-hallow-bat-c"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" transform="scale(0.014)" opacity="0.75" /></g></g>
-      </svg>
-      <div class="alr-echo-hero-gradient" />
+      <nav class="alr-echo-crumbs" aria-label="Breadcrumb">
+        <a href="/Index/ECHO-Registry" class="internal">Echo Registry</a>
+        {ec && (
+          <>
+            <span aria-hidden="true">/</span>
+            <span>{EC_PLURAL[ec] ?? ec}</span>
+          </>
+        )}
+        <span aria-hidden="true">/</span>
+        <span class="alr-echo-crumbs-current">{echoId}</span>
+      </nav>
 
-      <div class="alr-echo-hero-topbar">
-        <a href="/Index/ECHO-Registry" class="alr-echo-hero-back">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="15 18 9 12 15 6" />
+      <div class="alr-echo-hero-card">
+        <div class="alr-echo-hero-main">
+          <div class="alr-echo-hero-id">{echoId}</div>
+          <h1 class="alr-echo-hero-title">{name}</h1>
+          {description && <p class="alr-echo-hero-desc">{description}</p>}
+        </div>
+        <div class="alr-echo-hero-img" style={`background-image: url('${imgSrc}');`}>
+          {/* Hallow Cycle seasonal layer — hidden except the week of Halloween (Oct 25–31); defs/script live sitewide in ALRHallowDefs.tsx */}
+          <svg class="alr-echo-hero-texture" viewBox="0 0 900 340" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <g transform="translate(690,35)"><g class="alr-hallow-bat"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" transform="scale(0.02)" opacity="0.85" /></g></g>
+            <g transform="translate(800,80)"><g class="alr-hallow-bat alr-hallow-bat-c"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" transform="scale(0.014)" opacity="0.75" /></g></g>
           </svg>
-          Registry
-        </a>
-        <div class="alr-echo-hero-designation">E.C.H.O. — Archive of Lost Realities Initiative</div>
-        {rccLabel && <div class="alr-echo-hero-rcc">{rccLabel}</div>}
+        </div>
       </div>
 
-      <div class="alr-echo-hero-content">
-        <div class="alr-echo-hero-eyebrow">
-          <span class="alr-echo-hero-id">{echoId}</span>
-          {ecLabel && (
-            <>
-              <div class="alr-echo-hero-divider" />
-              <span class={`alr-echo-hero-tag ${ecClass}`}>
-                <EcIcon ec={ec} color={ecAccent.color} />
-                <span>{ecLabel}</span>
-              </span>
-            </>
-          )}
-          {escLabel && (
-            <>
-              <div class="alr-echo-hero-divider" />
-              <span class={`alr-echo-hero-tag ${escClass}`}>{escLabel}</span>
-            </>
-          )}
-        </div>
-
-        <div class="alr-echo-hero-title">{title}</div>
-
-        <div class="alr-echo-hero-meta">
-          {rtsLabel && (
-            <>
-              <div class="alr-echo-hero-meta-item">
-                <span class="alr-echo-hero-meta-label">RTS</span>
-                <span class="alr-echo-hero-meta-value">{rtsLabel}</span>
-              </div>
-              <div class="alr-echo-hero-meta-sep" />
-            </>
-          )}
-          {rdsLabel && (
-            <>
-              <div class="alr-echo-hero-meta-item">
-                <span class="alr-echo-hero-meta-label">RDS</span>
-                <span class="alr-echo-hero-meta-value">{rdsLabel}</span>
-              </div>
-              <div class="alr-echo-hero-meta-sep" />
-            </>
-          )}
-          <div class="alr-echo-hero-meta-item">
-            <span class="alr-echo-hero-meta-label">Status</span>
-            <span class="alr-echo-hero-meta-value">{statusLabel}</span>
+      <dl class="alr-echo-tiles" aria-label="Classification">
+        {ec && (
+          <div class="alr-echo-tile">
+            <dt>Class</dt>
+            <dd>
+              <span class="alr-echo-tile-icon"><EcIcon ec={ec} color={ecAccent.color} /></span>
+              {ec} · {ecTypeLabels[ec] ?? ec}
+            </dd>
           </div>
-          {submittedBy && (
-            <>
-              <div class="alr-echo-hero-meta-sep" />
-              <div class="alr-echo-hero-meta-item">
-                <span class="alr-echo-hero-meta-label">Contributed by</span>
-                <span class="alr-echo-hero-meta-value">{submittedBy}</span>
-              </div>
-            </>
-          )}
+        )}
+        {esc && (
+          <div class="alr-echo-tile">
+            <dt>Stability</dt>
+            <dd>
+              {escKey && <span class={`alr-sev-dot alr-sev-${escKey}`} aria-hidden="true"></span>}
+              {esc} · {escLabels[esc] ?? esc}
+            </dd>
+          </div>
+        )}
+        {rcc && (
+          <div class="alr-echo-tile">
+            <dt>Collapse</dt>
+            <dd>{rcc}{rccLabels[rcc] && <span class="alr-echo-tile-sub">{rccLabels[rcc]}</span>}</dd>
+          </div>
+        )}
+        {rts && (
+          <div class="alr-echo-tile">
+            <dt>RTS</dt>
+            <dd>{rts}{rtsLabels[rts] && <span class="alr-echo-tile-sub">{rtsLabels[rts]}</span>}</dd>
+          </div>
+        )}
+        {rds && (
+          <div class="alr-echo-tile">
+            <dt>RDS</dt>
+            <dd>{rds}{rdsLabels[rds] && <span class="alr-echo-tile-sub">{rdsLabels[rds]}</span>}</dd>
+          </div>
+        )}
+        <div class="alr-echo-tile">
+          <dt>Status</dt>
+          <dd>{statusLabel}</dd>
         </div>
-      </div>
+        {submittedBy && (
+          <div class="alr-echo-tile">
+            <dt>Contributed by</dt>
+            <dd>{submittedBy}</dd>
+          </div>
+        )}
+      </dl>
+
+      {sections.length > 1 && (
+        <details class="alr-echo-toc" open>
+          <summary class="alr-echo-toc-title">On this page</summary>
+          <ul>
+            {sections.map((t) => (
+              <li><a href={`#${t.slug}`}>{t.text}</a></li>
+            ))}
+          </ul>
+        </details>
+      )}
+      {/* Desktop shows the contents card open beside the text; narrower screens start it
+          collapsed so it doesn't push the entry down. */}
+      <script dangerouslySetInnerHTML={{ __html: `
+(function() {
+  function fold() {
+    if (!window.matchMedia('(max-width: 1199px)').matches) return;
+    document.querySelectorAll('details.alr-echo-toc').forEach(function(d) { d.open = false; });
+  }
+  fold();
+  document.addEventListener('nav', fold);
+})();
+      ` }} />
     </div>
   )
 }
 
 ALREchoHero.css = `
-.alr-echo-hero {
-  position: relative;
-  width: calc(100% + 64px);
-  height: 340px;
-  overflow: hidden;
-  margin-bottom: 28px;
-  margin-left: -32px;
-  margin-right: -32px;
+.alr-echo-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--alr-muted);
+  padding: 28px 0 16px;
 }
+.alr-echo-crumbs a { color: var(--alr-muted) !important; border-bottom: none !important; background: none !important; padding: 0 !important; font-weight: 400 !important; }
+.alr-echo-crumbs a:hover { color: var(--alr-text) !important; }
+.alr-echo-crumbs-current { color: var(--alr-text); }
 
+.alr-echo-hero-card {
+  display: flex;
+  flex-wrap: wrap;
+  background: var(--alr-surface);
+  border: 1px solid var(--alr-border);
+  border-radius: var(--alr-r-lg);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.alr-echo-hero-main {
+  flex: 1 1 420px;
+  min-width: 0;
+  padding: clamp(28px, 4.5vw, 52px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 320px;
+  box-sizing: border-box;
+}
+.alr-echo-hero-id {
+  font-family: var(--codeFont), monospace;
+  font-size: 14px;
+  color: var(--alr-accent-text);
+  margin-bottom: 12px;
+}
+h1.alr-echo-hero-title {
+  font-size: clamp(36px, 5vw, 60px) !important;
+  line-height: 1.04 !important;
+  letter-spacing: -0.035em;
+  font-weight: 600 !important;
+  color: var(--alr-text) !important;
+  margin: 0 !important;
+  border: none !important;
+  padding: 0 !important;
+}
+.alr-echo-hero-desc {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--alr-text-2);
+  margin: 16px 0 0;
+  max-width: 460px;
+}
 .alr-echo-hero-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  position: relative;
+  flex: 1 1 340px;
+  min-height: 300px;
+  background-color: var(--alr-surface-2);
   background-size: cover;
   background-position: center;
-  filter: grayscale(25%) brightness(0.55);
 }
-
-.alr-echo-hero-gradient {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(to top, #1a1915 0%, rgba(26,25,21,0.75) 45%, rgba(26,25,21,0.15) 100%),
-    linear-gradient(to right, rgba(26,25,21,0.65) 0%, transparent 65%);
-}
-
-.alr-echo-hero-topbar {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  padding: 14px 32px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.alr-echo-hero-designation {
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  color: rgba(204,120,92,0.45);
-  text-transform: uppercase;
-  font-family: var(--codeFont);
-}
-
-.alr-echo-hero-rcc {
-  font-size: 9px;
-  letter-spacing: 0.14em;
-  color: rgba(106,104,96,0.45);
-  font-family: var(--codeFont);
-}
-
-.alr-echo-hero-back {
-  display: none;
-  align-items: center;
-  gap: 4px;
-  font-size: 11px;
-  font-weight: 500;
-  color: #e8e4d8;
-  font-family: var(--codeFont);
-  background: rgba(20,19,16,0.55);
-  border: 0.5px solid rgba(204,120,92,0.3);
-  border-radius: 20px;
-  padding: 5px 12px 5px 8px;
-  -webkit-tap-highlight-color: transparent;
-}
-.alr-echo-hero-back svg { flex-shrink: 0; }
-.alr-echo-hero-back:active { background: rgba(20,19,16,0.8); }
-
-.alr-echo-hero-content {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  padding: 28px 32px;
-}
-
-.alr-echo-hero-eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
-  flex-wrap: wrap;
-}
-
-.alr-echo-hero-id {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  color: #cc785c;
-  font-family: var(--codeFont);
-}
-
-.alr-echo-hero-divider {
-  width: 1px;
-  height: 12px;
-  background: #3a3830;
-  flex-shrink: 0;
-}
-
-.alr-echo-hero-tag {
-  font-size: 9px;
-  letter-spacing: 0.12em;
-  padding: 2px 7px;
-  border-radius: 2px;
-  font-family: var(--codeFont);
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-}
-
 .alr-echo-hero-texture {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+  pointer-events: none;
 }
 
-/* Mirrors the registry's own EC-type tag colors (.alr-et-* in custom.scss) — each EC type gets
-   its own hero accent instead of the single fixed rust tone every type shared before. */
-.alr-echo-hero-tag-ec-ent {
-  background: rgba(204,120,92,0.1);
-  border: 0.5px solid #8a4a32;
-  color: #cc785c;
+.alr-echo-tiles {
+  margin: 0 0 32px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
 }
-
-.alr-echo-hero-tag-ec-obj {
-  background: rgba(93,202,165,0.1);
-  border: 0.5px solid #0e4030;
-  color: #5dcaa5;
+.alr-echo-tile {
+  padding: 18px 20px;
+  background: var(--alr-surface);
+  border: 1px solid var(--alr-border);
+  border-radius: var(--alr-r-md);
+  min-width: 0;
 }
-
-.alr-echo-hero-tag-ec-loc {
-  background: rgba(133,183,235,0.1);
-  border: 0.5px solid #0e2840;
-  color: #85b7eb;
+.alr-echo-tile dt {
+  font-size: 13px;
+  color: var(--alr-muted);
+  margin: 0;
 }
-
-.alr-echo-hero-tag-ec-phn {
-  background: rgba(212,168,64,0.1);
-  border: 0.5px solid #4a3810;
-  color: #d4a840;
-}
-
-.alr-echo-hero-tag-ec-evt {
-  background: rgba(212,136,120,0.1);
-  border: 0.5px solid #501818;
-  color: #d48878;
-}
-
-.alr-echo-hero-tag-s1 {
-  background: rgba(29,158,117,0.1);
-  border: 0.5px solid #0e4030;
-  color: #1d9e75;
-}
-
-.alr-echo-hero-tag-s2 {
-  background: rgba(196,144,48,0.1);
-  border: 0.5px solid #4a3010;
-  color: #c49030;
-}
-
-.alr-echo-hero-tag-s3 {
-  background: rgba(176,120,40,0.1);
-  border: 0.5px solid #3a2c0e;
-  color: #b07828;
-}
-
-.alr-echo-hero-tag-s4 {
-  background: rgba(196,90,58,0.1);
-  border: 0.5px solid #4a2010;
-  color: #c45a3a;
-}
-
-.alr-echo-hero-title {
-  font-size: 40px;
-  font-weight: 500;
-  color: #f0ece0;
-  line-height: 1.1;
-  letter-spacing: -0.01em;
-  margin-bottom: 12px;
-  text-shadow: 0 2px 24px rgba(0,0,0,0.6);
-}
-
-.alr-echo-hero-meta {
+.alr-echo-tile dd {
+  margin: 6px 0 0;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--alr-text);
   display: flex;
-  align-items: center;
-  gap: 14px;
   flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+}
+.alr-echo-tile-icon { display: inline-flex; }
+.alr-echo-tile-sub {
+  flex-basis: 100%;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--alr-muted);
 }
 
-.alr-echo-hero-meta-item {
+.alr-echo-toc {
+  background: var(--alr-surface);
+  border: 1px solid var(--alr-border);
+  border-radius: var(--alr-r-md);
+  padding: 14px 16px;
+  margin-bottom: 24px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+.alr-echo-toc-title {
+  font-size: 13px;
+  color: var(--alr-muted);
+  cursor: pointer;
+  list-style: none;
+  min-height: 24px;
   display: flex;
   align-items: center;
-  gap: 6px;
 }
-
-.alr-echo-hero-meta-label {
-  font-size: 9px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #4a4840;
-  font-family: var(--codeFont);
+.alr-echo-toc-title::-webkit-details-marker { display: none; }
+.alr-echo-toc-title::after { content: "⌄"; margin-left: auto; transition: transform 0.2s ease; }
+.alr-echo-toc[open] .alr-echo-toc-title::after { transform: rotate(180deg); }
+@media (min-width: 1200px) { .alr-echo-toc-title::after { display: none; } }
+.alr-echo-toc ul { list-style: none; margin: 8px 0 0; padding: 0; }
+.alr-echo-toc li { margin: 0; }
+.alr-echo-toc a {
+  display: block;
+  padding: 7px 10px;
+  border-radius: 8px;
+  color: var(--alr-text-2) !important;
+  border-bottom: none !important;
+  background: none !important;
+  font-weight: 400 !important;
+  text-decoration: none !important;
 }
-
-.alr-echo-hero-meta-value {
-  font-size: 11px;
-  color: #8a8678;
-  font-family: var(--codeFont);
-  letter-spacing: 0.04em;
-}
-
-.alr-echo-hero-meta-sep {
-  width: 1px;
-  height: 10px;
-  background: #2a2824;
-  flex-shrink: 0;
-}
+.alr-echo-toc a:hover { background: var(--alr-hover); color: var(--alr-text) !important; }
 
 @media (max-width: 800px) {
-  .alr-echo-hero {
-    height: 260px;
-    margin-left: -16px;
-    margin-right: -16px;
-    width: calc(100% + 32px);
-  }
-
-  .alr-echo-hero-title {
-    font-size: 26px !important;
-  }
-
-  .alr-echo-hero-topbar {
-    padding: calc(12px + env(safe-area-inset-top, 0px)) 16px 12px;
-  }
-  .alr-echo-hero-back { display: flex; }
-  .alr-echo-hero-designation, .alr-echo-hero-rcc { display: none; }
-
-  .alr-echo-hero-content { padding: 20px 16px; }
-
-  .alr-echo-hero-eyebrow, .alr-echo-hero-meta {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    margin: 0 -16px;
-    padding: 0 16px;
-  }
-  .alr-echo-hero-eyebrow::-webkit-scrollbar, .alr-echo-hero-meta::-webkit-scrollbar { display: none; }
-  .alr-echo-hero-eyebrow { padding-bottom: 2px; }
-  .alr-echo-hero-meta { padding-top: 2px; }
-  .alr-echo-hero-id, .alr-echo-hero-tag, .alr-echo-hero-meta-item, .alr-echo-hero-divider, .alr-echo-hero-meta-sep {
-    flex-shrink: 0;
-  }
+  .alr-echo-crumbs { padding-top: calc(20px + env(safe-area-inset-top, 0px)); font-size: 13px; }
+  .alr-echo-hero-main { min-height: 0; padding: 24px 20px; }
+  .alr-echo-hero-img { min-height: 220px; order: -1; }
+  .alr-echo-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .alr-echo-tile { padding: 14px; }
+  .alr-echo-tile dd { font-size: 15px; }
 }
 `
 
