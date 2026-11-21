@@ -152,8 +152,8 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
             <div class="alr-hallow-stripe"></div>
             {/* VHS on-screen display — decorative; the counter ticks via the script below. */}
             <div class="alr-osd" aria-hidden="true">
-              <span class="alr-osd-tl">PLAY ▶<span class="alr-xmas-only alr-osd-holiday">HOLIDAY SPECIAL</span></span>
-              <span class="alr-osd-tr"><span class="alr-osd-rec"><span class="alr-osd-blink">●</span> REC</span><span class="alr-xmas-hide">CH {activeCycle.padStart(2, "0")}</span><span class="alr-xmas-only">CH 25</span></span>
+              <span class="alr-osd-tl">PLAY ▶<span class="alr-xmas-only alr-osd-holiday">HOLIDAY SPECIAL</span><span class="alr-hallow-only alr-osd-holiday">MIDNIGHT MOVIE</span></span>
+              <span class="alr-osd-tr"><span class="alr-osd-rec"><span class="alr-osd-blink">●</span> REC</span><span class="alr-xmas-hide alr-hallow-hide">CH {activeCycle.padStart(2, "0")}</span><span class="alr-xmas-only">CH 25</span><span class="alr-hallow-only">CH 13</span></span>
               <span class="alr-osd-br">SP <span id="alr-osd-counter">00:00:00</span><span id="alr-osd-date"></span> · CYCLE {activeCycle}</span>
             </div>
             {/* Decorative layer only: faint logo watermark plus the Hallow Cycle seasonal art
@@ -190,7 +190,7 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
 
             <div class="alr-home-hero-overlay">
               <div class="alr-home-hero-left">
-                <div class="alr-eyebrow"><span class="alr-eyebrow-dot" aria-hidden="true"></span><span class="alr-xmas-hide">Cycle {activeCycle} · Archive of Lost Realities Initiative</span><span class="alr-xmas-only">Cycle {activeCycle} · The Archive stays open through the long night</span></div>
+                <div class="alr-eyebrow"><span class="alr-eyebrow-dot" aria-hidden="true"></span><span class="alr-xmas-hide alr-hallow-hide">Cycle {activeCycle} · Archive of Lost Realities Initiative</span><span class="alr-hallow-only">Cycle {activeCycle} · The Hallow Cycle · the thin week</span><span class="alr-xmas-only">Cycle {activeCycle} · The Archive stays open through the long night</span></div>
                 <h1 class="alr-home-hero-title alr-glitch">What's Unwritten<br />is not empty.</h1>
                 <div class="alr-home-hero-sub">
                   What remains when a reality collapses is not nothing.
@@ -408,7 +408,7 @@ const ALRHomeDashboard: QuartzComponent = (props: QuartzComponentProps) => {
               <span class="alr-home-featured-badge" id="alr-fe-badge">—</span>
             </div>
             <div class="alr-home-featured-left">
-              <div class="alr-home-featured-label">Featured echo<span class="alr-xmas-only"> · holiday broadcast</span></div>
+              <div class="alr-home-featured-label">Featured echo<span class="alr-xmas-only"> · holiday broadcast</span><span class="alr-hallow-only"> · after dark</span></div>
               <div class="alr-home-featured-title" id="alr-fe-title">—</div>
               <div class="alr-home-featured-desc" id="alr-fe-desc">Loading archive entry...</div>
               <div class="alr-home-featured-tags" id="alr-fe-tags"></div>

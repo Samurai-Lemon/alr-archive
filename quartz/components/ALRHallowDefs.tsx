@@ -2123,9 +2123,9 @@ l-8 55 -13 -75z"/>
         <svg viewBox="0 0 1280 773" width="100%" height="100%"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" opacity="0.4" /></svg>
       </div>
 
-      {/* ── Holiday season (Nov 21 – Dec 25): sitewide snow layer. Hidden (opacity 0, no animation) the
-          rest of the year; the date check below flips alr-xmas-active on <body>. Off on phones. ── */}
-      <div class="alr-xmas-snow" aria-hidden="true">
+      {/* ── Sitewide falling layer: snow in the holiday season (Nov 21 – Dec 25), leaves in the Hallow
+          Cycle (Oct 25–31). Hidden (opacity 0, no animation) the rest of the year. Off on phones. ── */}
+      <div class="alr-season-fall" aria-hidden="true">
         <span style="left:92.7%; width:3.2px; height:3.2px; opacity:0.72; animation-duration:17.4s; animation-delay:-26.2s;"></span>
         <span style="left:4.2%; width:4.0px; height:4.0px; opacity:0.78; animation-duration:18.1s; animation-delay:-9.2s;"></span>
         <span style="left:58.9%; width:3.4px; height:3.4px; opacity:0.36; animation-duration:25.0s; animation-delay:-25.0s;"></span>
@@ -2172,28 +2172,36 @@ l-8 55 -13 -75z"/>
 
       <script dangerouslySetInnerHTML={{ __html: `
 (function() {
-  // Holiday season, Nov 21 – Dec 25. ?xmas=1 previews it outside those dates (like ?hallow=1).
-  var forcePreview = /[?&]xmas=1\\b/.test(location.search);
+  // Seasonal dressing shared by both seasons (lights strung along the top cards, plus fog in
+  // the hero cards for Hallow). Hallow Cycle: Oct 25–31 (?hallow=1 previews; the class itself is
+  // set by the Hallow script below). Holiday season: Nov 21 – Dec 25 (?xmas=1 previews).
+  var forceXmas = /[?&]xmas=1\\b/.test(location.search);
+  var forceHallow = /[?&]hallow=1\\b/.test(location.search);
   function isXmasWeek() {
     var d = new Date();
     return (d.getMonth() === 10 && d.getDate() >= 21) || (d.getMonth() === 11 && d.getDate() <= 25);
   }
+  function isHallowWeek() {
+    var d = new Date();
+    return d.getMonth() === 9 && d.getDate() >= 25 && d.getDate() <= 31;
+  }
 
   // Top cards that get a string of lights: home hero, echo hero, registry/account banners,
   // shop and label creator headers, content-page breadcrumb banner, and the Ordo hero (dead bulbs).
+  // Bulb colours come from CSS per season.
   var TARGETS = '.alr-home-hero-wrap, .alr-echo-hero-card, .alr-reg-banner, .alr-shop-header, .alr-lc-banner, .alr-page-banner, .ordo-hero-card';
   var N = 22;
   function hangLights() {
     document.querySelectorAll(TARGETS).forEach(function(el) {
-      if (el.querySelector(':scope > .alr-xmas-lights')) return;
+      if (el.querySelector(':scope > .alr-season-lights')) return;
       var strand = document.createElement('span');
-      strand.className = 'alr-xmas-lights';
+      strand.className = 'alr-season-lights';
       strand.setAttribute('aria-hidden', 'true');
       for (var i = 0; i < N; i++) {
         var t = (i + 0.5) / N;
         var phase = (t * (N / 2.2)) % 1;
         var b = document.createElement('span');
-        b.className = 'alr-xmas-bulb';
+        b.className = 'alr-season-bulb';
         b.style.left = (t * 100).toFixed(2) + '%';
         b.style.top = (3 + 11 * Math.sin(Math.PI * phase)).toFixed(0) + 'px';
         b.style.animationDelay = ((i % 4) * 0.6).toFixed(1) + 's';
@@ -2201,15 +2209,26 @@ l-8 55 -13 -75z"/>
       }
       el.insertBefore(strand, el.firstChild);
     });
+    // Low fog along the bottom of the two hero cards (only shown during Hallow).
+    document.querySelectorAll('.alr-home-hero-wrap, .alr-echo-hero-card').forEach(function(el) {
+      if (el.querySelector(':scope > .alr-season-fog')) return;
+      var fog = document.createElement('span');
+      fog.className = 'alr-season-fog';
+      fog.setAttribute('aria-hidden', 'true');
+      el.appendChild(fog);
+    });
   }
 
   function apply() {
-    var on = isXmasWeek() || forcePreview;
-    document.body.classList.toggle('alr-xmas-active', on);
-    if (on) hangLights();
+    var hallow = isHallowWeek() || forceHallow;
+    var xmas = !hallow && (isXmasWeek() || forceXmas);
+    document.body.classList.toggle('alr-xmas-active', xmas);
+    if (hallow || xmas) hangLights();
     var day = document.getElementById('alr-osd-date');
     var now = new Date();
-    if (day) day.textContent = on ? ' · ' + (now.getMonth() === 10 ? 'NOV ' : 'DEC ') + now.getDate() : '';
+    var month = hallow ? 'OCT ' : now.getMonth() === 10 ? 'NOV ' : 'DEC ';
+    var date = hallow && !isHallowWeek() ? 31 : now.getDate();
+    if (day) day.textContent = (hallow || xmas) ? ' · ' + month + date : '';
   }
 
   // Same two-frame deferral as the Hallow check, so the fade-in has a "before" frame.
