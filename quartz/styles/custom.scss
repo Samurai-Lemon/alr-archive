@@ -3870,3 +3870,377 @@ body.alr-hallow-active .alr-home-hero-svg .alr-hallow-glow { animation-name: alr
 @media (prefers-reduced-motion: reduce) {
   body.alr-hallow-active .alr-home-hero-svg .alr-hallow-glow { opacity: 0.2; }
 }
+
+
+// ════════════════════════════════════════════════════════════
+// MOBILE REDESIGN (≤800px) — top bar, one fixed bar at the bottom, homepage sections back as
+// swipe rows, compact echo pages with a sticky section-chip row, one-line registry rows, and the
+// More menu as a bottom sheet. Overrides the older phone rules above.
+// ════════════════════════════════════════════════════════════
+.alr-mback, .alr-echo-pager { display: none; }
+.alr-content-advisory-chev { display: none; }
+
+@media (max-width: 800px) {
+  // ── Top bar: logo + search (entry pages: back to the registry + the entry's ID) ──
+  #quartz-root { padding-top: 0 !important; }
+  #quartz-header {
+    display: flex !important;
+    height: calc(52px + env(safe-area-inset-top, 0px));
+    min-height: 0 !important;
+    padding: env(safe-area-inset-top, 0px) 14px 0 !important;
+    gap: 10px !important;
+    z-index: 120 !important;
+  }
+  #quartz-header header { gap: 10px !important; height: 100%; }
+  #quartz-header .darkmode, #quartz-header .readermode { display: none !important; }
+  #quartz-header .page-title a svg { width: 20px !important; height: 20px !important; }
+  #quartz-header .search { margin-left: auto !important; flex: 0 0 auto !important; width: auto !important; }
+  #quartz-header .search > .search-button {
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 0 !important;
+    padding: 0 !important;
+    justify-content: center !important;
+    border: 0 !important;
+    border-radius: 10px !important;
+    background: var(--alr-surface) !important;
+  }
+  #quartz-header .search > .search-button p { display: none !important; }
+  #quartz-header:has(.alr-mback) .page-title { display: none !important; }
+  .alr-mback { display: flex; align-items: center; height: 100%; }
+  .alr-mback-link {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 2px;
+    margin-left: -6px;
+    color: var(--alr-accent-text) !important;
+    font-size: 15px;
+    font-weight: 500;
+    background: none !important;
+    border: 0 !important;
+    padding: 0 !important;
+    text-decoration: none !important;
+  }
+  .alr-mback-id {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    height: 52px;
+    line-height: 52px;
+    transform: translateX(-50%);
+    font-family: var(--codeFont);
+    font-size: 13px;
+    color: var(--alr-text);
+  }
+  .alr-reading-progress { top: calc(52px + env(safe-area-inset-top, 0px)) !important; z-index: 121 !important; }
+
+  // The top bar now carries the safe-area inset, so page tops no longer need it.
+  .alr-home { padding-top: 12px !important; }
+  .alr-echo-crumbs { display: none !important; }
+  .alr-reg-banner { padding-top: 16px !important; }
+  .alr-page-banner { padding-top: 16px; }
+
+  // ── Bottom: just the tab bar. The Instagram ticker moves into the page, above the footer. ──
+  .alr-follow-banner {
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    margin: 24px -16px 0 !important;
+  }
+  footer { padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px)) !important; }
+  .alr-mnav {
+    background: var(--alr-surface) !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    padding: 6px 4px calc(8px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+  .alr-mnav-item, .alr-mnav-more { background: none !important; gap: 2px !important; }
+  .alr-mnav-icon { width: 54px; height: 30px; border-radius: 999px; display: grid; place-items: center; transition: background 0.15s ease; }
+  .alr-mnav-active .alr-mnav-icon { background: var(--alr-accent-soft); }
+  .alr-mnav-label { font-size: 10.5px !important; }
+  .alr-mnav-active .alr-mnav-label { color: var(--alr-text) !important; }
+
+  // ── Homepage ──
+  .alr-home-hero-overlay { padding: 22px 18px 20px !important; min-height: 0 !important; }
+  .alr-home-hero-title { font-size: 33px !important; }
+  .alr-home-hero-links { display: grid !important; grid-template-columns: 1fr 1fr; gap: 8px !important; }
+  .alr-home-hero-link { justify-content: center; padding: 0 8px !important; }
+  .alr-home-hero-link-ghost { grid-column: 1 / -1; height: auto !important; padding: 6px 0 0 !important; color: var(--alr-accent-text) !important; }
+  .alr-home-hero-link-ghost::after { content: " →"; }
+  .alr-home-hero-mstats { display: none !important; }
+
+  .alr-home-hero-right {
+    display: grid !important;
+    flex-basis: 100% !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+  .alr-home-status-card { min-height: 0 !important; padding: 10px 10px 9px !important; border-radius: 14px !important; gap: 4px !important; }
+  .alr-home-status-label { font-size: 10.5px !important; line-height: 1.25; min-height: 26px; }
+  .alr-home-status-val { font-size: 34px !important; }
+  .alr-home-status-sub { display: none !important; }
+  .alr-meter { height: 10px; gap: 2px; }
+
+  .alr-grid { display: flex !important; flex-direction: column; gap: 18px !important; }
+  .alr-home-row.alr-home-mhide { display: flex !important; flex-direction: column; }
+  .alr-home-notices.alr-home-mhide, .alr-card-full.alr-home-mhide { display: block !important; }
+  .alr-home-ad-row { display: flex !important; flex-direction: column; }
+  .alr-home-ad-wrap { display: none !important; }
+  .alr-home-row > * { flex-basis: 100% !important; }
+
+  // Featured echo: badge, channel buttons and the entry link are all visible again.
+  .alr-home-featured-img { min-height: 170px !important; }
+  .alr-home-featured-badge { display: inline-block !important; }
+  .alr-home-featured-left { padding: 16px !important; }
+  .alr-home-featured-btn {
+    position: static !important;
+    inset: auto !important;
+    font-size: 14px !important;
+  }
+  .alr-ch-btn { height: 34px; padding: 0 11px; font-size: 12px; }
+
+  // Recent echoes / realities: one swipeable row each.
+  .alr-grid > .alr-card { padding: 0 !important; background: none !important; border: 0 !important; }
+  .alr-grid .alr-card-head { padding: 0 2px 10px !important; border: 0 !important; }
+  .alr-echo-rows, .alr-real-rows {
+    display: flex !important;
+    gap: 10px !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory;
+    margin: 0 -16px !important;
+    padding: 0 16px 4px !important;
+    scrollbar-width: none;
+  }
+  .alr-echo-rows::-webkit-scrollbar, .alr-real-rows::-webkit-scrollbar { display: none; }
+  .alr-echo-row, .alr-real-row { flex: 0 0 220px; scroll-snap-align: start; padding: 14px 16px !important; box-sizing: border-box; }
+  .alr-echo-name { margin-top: 10px !important; font-size: 16px !important; }
+  .alr-real-row { gap: 10px !important; }
+
+  .alr-personnel { display: flex !important; flex-wrap: nowrap !important; overflow-x: auto; gap: 8px !important; margin: 0 -16px; padding: 0 16px 4px; scrollbar-width: none; }
+  .alr-personnel::-webkit-scrollbar { display: none; }
+  .alr-person { flex: 0 0 auto; }
+
+  // ── Echo pages ──
+  // Header wrappers step out of the way (as on wide screens) so the section chips can stick
+  // under the top bar for the whole entry.
+  #quartz-body .center:has(.alr-echo-hero) > .page-header,
+  #quartz-body .center:has(.alr-echo-hero) > .page-header > .popover-hint,
+  #quartz-body .center:has(.alr-echo-hero) .alr-echo-hero { display: contents !important; }
+
+  .alr-echo-hero-card { margin: 0 -16px 12px !important; border: 0 !important; border-radius: 0 !important; background: none !important; }
+  .alr-echo-hero-img { min-height: 250px !important; flex-basis: 100% !important; box-shadow: inset 0 -80px 60px -30px var(--alr-bg); }
+  .alr-echo-hero-main { padding: 0 16px 2px !important; }
+  h1.alr-echo-hero-title { font-size: 32px !important; }
+  .alr-echo-hero-desc { font-size: 15px !important; margin-top: 10px !important; }
+
+  // Classification facts: one card, three columns.
+  .alr-echo-tiles {
+    position: relative;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 0 !important;
+    background: var(--alr-surface);
+    border: 1px solid var(--alr-border);
+    border-radius: 16px;
+    margin-bottom: 12px !important;
+  }
+  .alr-echo-tile {
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    padding: 10px 12px !important;
+    box-shadow: 1px 0 0 var(--alr-border), 0 1px 0 var(--alr-border);
+  }
+  .alr-echo-tile dt { font-size: 11px !important; }
+  .alr-echo-tile dd { font-size: 13.5px !important; margin-top: 2px !important; }
+  .alr-echo-tile-sub { display: none !important; }
+
+  // "On this page" becomes a swipeable row of section chips that sticks under the top bar.
+  details.alr-echo-toc {
+    position: sticky !important;
+    top: calc(52px + env(safe-area-inset-top, 0px)) !important;
+    z-index: 60;
+    margin: 0 -16px 12px !important;
+    padding: 8px 16px !important;
+    background: var(--alr-bg) !important;
+    border: 0 !important;
+    border-top: 1px solid var(--alr-border) !important;
+    border-bottom: 1px solid var(--alr-border) !important;
+    border-radius: 0 !important;
+  }
+  .alr-echo-toc-title { display: none !important; }
+  .alr-echo-toc ul {
+    display: flex !important;
+    gap: 6px;
+    overflow-x: auto;
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+    scrollbar-width: none;
+    counter-reset: alr-toc;
+  }
+  .alr-echo-toc ul::-webkit-scrollbar { display: none; }
+  .alr-echo-toc li { flex: 0 0 auto; margin: 0 !important; counter-increment: alr-toc; }
+  .alr-echo-toc a {
+    display: inline-flex !important;
+    align-items: center;
+    height: 30px;
+    padding: 0 12px !important;
+    border-radius: 999px !important;
+    background: var(--alr-surface) !important;
+    font-size: 12.5px !important;
+    white-space: nowrap;
+  }
+  .alr-echo-toc a::before {
+    content: counter(alr-toc, decimal-leading-zero);
+    font-family: "VT323", var(--codeFont), monospace;
+    font-size: 15px;
+    color: var(--alr-accent-text);
+    margin-right: 6px;
+  }
+
+  // Advisory: one line, tap to read.
+  .alr-content-advisory { margin-bottom: 14px !important; padding: 12px 14px !important; border-radius: 14px !important; }
+  .alr-content-advisory-chev { display: inline; }
+  .alr-content-advisory-label { font-size: 13.5px !important; margin: 0 !important; }
+  .alr-content-advisory-text { padding: 8px 0 0 !important; font-size: 13.5px !important; }
+
+  // Previous / next echo at the end of the entry.
+  .alr-echo-pager { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 28px 0 4px; }
+  a.alr-echo-pager-link.internal {
+    display: flex !important;
+    flex-direction: column;
+    gap: 2px;
+    padding: 12px 14px !important;
+    background: var(--alr-surface) !important;
+    border: 1px solid var(--alr-border) !important;
+    border-radius: 14px !important;
+    color: var(--alr-text) !important;
+    text-decoration: none !important;
+    font-weight: 400 !important;
+  }
+  a.alr-echo-pager-link.alr-echo-pager-next { align-items: flex-end; text-align: right; }
+  .alr-echo-pager-id { font-family: var(--codeFont); font-size: 11.5px; color: var(--alr-muted); }
+  .alr-echo-pager-name { font-weight: 600; font-size: 14px; }
+
+  // ── Registry: one-line rows in one card; tap a row to open its details inline ──
+  .alr-reg-type-toggle { padding: 3px !important; gap: 0 !important; background: var(--alr-surface); border: 1px solid var(--alr-border); border-radius: 12px; margin-top: 8px; }
+  .alr-reg-type-btn { border: 0 !important; border-radius: 9px !important; min-height: 36px !important; background: none !important; }
+  .alr-reg-type-btn.alr-reg-type-active { background: var(--alr-hover) !important; color: var(--alr-text) !important; font-weight: 600; }
+
+  .alr-reg-table-wrap { background: var(--alr-surface) !important; border: 1px solid var(--alr-border) !important; border-radius: 16px !important; overflow: hidden !important; }
+  .alr-reg-row.alr-reg-grid-echo, .alr-reg-row.alr-reg-grid-reality {
+    display: flex !important;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin: 0 !important;
+    border: 0 !important;
+    border-bottom: 1px solid var(--alr-border) !important;
+    border-radius: 0 !important;
+    padding: 12px 14px !important;
+    background: transparent !important;
+  }
+  .alr-reg-row.alr-reg-grid-echo:last-child, .alr-reg-row.alr-reg-grid-reality:last-child { border-bottom: 0 !important; }
+  .alr-reg-row.alr-reg-row-selected { background: var(--alr-hover) !important; }
+  .alr-reg-row-head { flex: 1; min-width: 0; align-items: center !important; }
+  .alr-reg-id { width: 64px; font-size: 11px !important; }
+  .alr-reg-name { font-size: 14.5px !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .alr-reg-name-sub { display: none !important; }
+  .alr-reg-row-tags { display: contents !important; }
+  .alr-reg-row-tags > div:nth-child(n+3) { display: none !important; }
+  .alr-reg-grid-reality .alr-reg-row-tags > div:nth-child(n+2) { display: none !important; }
+  // Echo rows: stability as bare signal bars at the start of the row, class tag at the end.
+  .alr-reg-grid-echo .alr-reg-row-tags > div:nth-child(2) { order: -1; }
+  .alr-reg-grid-echo .alr-reg-row-tags > div:nth-child(2) .alr-reg-tag { background: none !important; padding: 0 !important; font-size: 0 !important; gap: 0 !important; }
+  .alr-reg-grid-echo .alr-reg-row-tags > div:nth-child(1) { order: 1; }
+  .alr-reg-row.alr-reg-grid-echo::after, .alr-reg-row.alr-reg-grid-reality::after { content: "›"; order: 2; color: var(--alr-muted); font-size: 18px; line-height: 1; }
+  .alr-reg-row.alr-reg-row-selected::after { content: "⌄"; }
+  .alr-reg-card-expand:not(:empty) { order: 3; flex-basis: 100%; margin-top: 2px !important; }
+
+  // ── More: the sidebar opens as a sheet from the bottom ──
+  #quartz-body .sidebar.left, .sidebar.left {
+    top: auto !important;
+    bottom: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    height: auto !important;
+    max-height: 84vh !important;
+    transform: translateY(105%) !important;
+    border-radius: 22px 22px 0 0 !important;
+    background: var(--alr-surface) !important;
+    border-top: 1px solid var(--alr-border-strong) !important;
+    box-shadow: 0 -20px 50px rgba(0, 0, 0, 0.5);
+    padding: 8px 0 env(safe-area-inset-bottom, 0px) !important;
+    overflow: hidden !important;
+  }
+  #quartz-body .sidebar.left.alr-mobile-open, .sidebar.left.alr-mobile-open { transform: translateY(0) !important; }
+  .sidebar.left::before { content: ""; display: block; flex-shrink: 0; width: 40px; height: 5px; border-radius: 3px; background: var(--alr-border-strong); margin: 2px auto 12px; }
+  .alr-sidebar-wrapper { flex-direction: column !important; height: auto !important; flex: 1 1 auto; min-height: 0; }
+  .alr-rail {
+    flex: 0 0 auto !important;
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 6px !important;
+    padding: 0 12px 12px !important;
+    border-right: 0 !important;
+    border-bottom: 1px solid var(--alr-border);
+    overflow: visible !important;
+  }
+  .alr-rail-bottom { display: contents !important; }
+  .alr-rail-btn, .alr-rail-icon {
+    width: auto !important;
+    height: auto !important;
+    min-height: 58px !important;
+    border-radius: 14px !important;
+    background: var(--alr-hover) !important;
+  }
+  .alr-rail-btn.is-current { background: var(--alr-accent-soft) !important; }
+  .alr-panel { flex: 1 1 auto !important; min-height: 0 !important; padding: 12px 12px 0 !important; overflow: hidden; }
+  .alr-panel-body { padding-bottom: 16px !important; overflow-y: auto !important; }
+
+  // ── Seasonal themes on phones: a light fall of snow / leaves, one decoration per group ──
+  .alr-xmas-star { display: none; }
+  .alr-home-status-card:nth-child(even)::before { display: none !important; }
+  body.alr-xmas-active .alr-echo-tile::before, body.alr-hallow-active .alr-echo-tile::before { display: none !important; }
+  .alr-echo-tiles::before { content: ""; position: absolute; pointer-events: none; z-index: 2; opacity: 0; }
+  body.alr-xmas-active .alr-echo-tiles::before {
+    opacity: 1;
+    left: -3px;
+    right: -3px;
+    top: -8px;
+    height: 17px;
+    background: $alr-snowcap 0 0 / 100% 100% no-repeat;
+    filter: drop-shadow(0 1.5px 1.5px rgba(0, 0, 0, 0.45));
+  }
+  body.alr-hallow-active .alr-echo-tiles::before {
+    opacity: 0.55;
+    left: 0;
+    top: 0;
+    width: 46px;
+    height: 46px;
+    border-top-left-radius: 16px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M0 0L37.0 15.3M0 0L28.3 28.3M0 0L15.3 37.0M11.0 0.0Q9.1 1.8 10.2 4.2Q7.7 5.2 7.8 7.8Q5.2 7.7 4.2 10.2Q1.8 9.1 0.0 11.0M21.0 0.0Q17.4 3.5 19.4 8.0Q14.7 9.8 14.8 14.8Q9.8 14.7 8.0 19.4Q3.5 17.4 0.0 21.0M31.0 0.0Q25.6 5.1 28.6 11.9Q21.7 14.5 21.9 21.9Q14.5 21.7 11.9 28.6Q5.1 25.6 0.0 31.0' fill='none' stroke='%23d8d2c6' stroke-width='.7' stroke-linecap='round'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
+  }
+  #{$alr-ordo} .alr-echo-tiles::before { display: none; }
+}
+
+@media (max-width: 800px) and (prefers-reduced-motion: no-preference) {
+  .alr-season-fall { display: block !important; }
+  .alr-season-fall span:nth-child(n+15) { display: none; }
+}
+
+@media (max-width: 800px) {
+  // A backdrop-filter makes the bar the containing block for its fixed children, which would
+  // trap the menu's dimming overlay and the search popup inside the 52px bar. Solid bar instead.
+  #quartz-header {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    background: var(--alr-bg) !important;
+  }
+  // Director's log and field note: card-sized text, not article-sized.
+  .alr-directorlog-body p, .alr-directorlog-body p.alr-directorlog-lead { font-size: 14.5px !important; line-height: 1.6 !important; }
+  .alr-home-dispatch-quote { font-size: 17px !important; }
+  .alr-home-hero-link-ghost::after { margin-left: 4px; }
+}

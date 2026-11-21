@@ -191,7 +191,7 @@ const ALREchoHero: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
       <script dangerouslySetInnerHTML={{ __html: `
 (function() {
   function fold() {
-    if (!window.matchMedia('(max-width: 1199px)').matches) return;
+    if (!window.matchMedia('(min-width: 801px) and (max-width: 1199px)').matches) return;
     document.querySelectorAll('details.alr-echo-toc').forEach(function(d) { d.open = false; });
   }
   fold();

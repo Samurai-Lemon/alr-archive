@@ -24,27 +24,49 @@ const ALRContentAdvisory: QuartzComponent = ({ fileData }: QuartzComponentProps)
     : "This entry documents a reality classified Catastrophic Collapse under the Reality Collapse Classification system. Recovered material includes accounts of large-scale loss of life preceding the collapse event."
 
   return (
-    <div class="alr-content-advisory">
-      <div class="alr-content-advisory-icon">⚠</div>
-      <div class="alr-content-advisory-body">
-        <div class="alr-content-advisory-label">Advisory — {label}</div>
-        <div class="alr-content-advisory-text">{body}</div>
-      </div>
-    </div>
+    <details class="alr-content-advisory" open>
+      <summary class="alr-content-advisory-sum">
+        <span class="alr-content-advisory-icon">⚠</span>
+        <span class="alr-content-advisory-label">Advisory — {label}</span>
+        <span class="alr-content-advisory-chev" aria-hidden="true">⌄</span>
+      </summary>
+      <div class="alr-content-advisory-text">{body}</div>
+      {/* Phones start the advisory folded to one line; it opens on tap. */}
+      <script dangerouslySetInnerHTML={{ __html: `
+(function() {
+  function fold() {
+    if (!window.matchMedia('(max-width: 800px)').matches) return;
+    document.querySelectorAll('details.alr-content-advisory').forEach(function(d) { d.open = false; });
+  }
+  fold();
+  document.addEventListener('nav', fold);
+})();
+      ` }} />
+    </details>
   )
 }
 
 ALRContentAdvisory.css = `
 .alr-content-advisory {
-  display: flex;
-  gap: 12px;
-  align-items: flex-start;
+  display: block;
   background: var(--alr-surface);
   border: 1px solid var(--alr-border);
   border-radius: var(--alr-r-sm);
   padding: 14px 16px;
   margin-bottom: 32px;
 }
+
+.alr-content-advisory-sum {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  list-style: none;
+  cursor: pointer;
+}
+.alr-content-advisory-sum::-webkit-details-marker { display: none; }
+.alr-content-advisory-chev { display: none; margin-left: auto; color: var(--alr-muted); transition: transform 0.2s ease; }
+.alr-content-advisory[open] .alr-content-advisory-chev { transform: rotate(180deg); }
+.alr-content-advisory-text { margin-top: 2px; padding-left: 26px; }
 
 .alr-content-advisory-icon {
   font-size: 14px;

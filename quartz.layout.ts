@@ -4,6 +4,8 @@ import OrdoBanner from "./quartz/components/OrdoBanner"
 import ALREchoHero from "./quartz/components/ALREchoHero"
 import ALRContentAdvisory from "./quartz/components/ALRContentAdvisory"
 import OrdoThreatStrip from "./quartz/components/OrdoThreatStrip"
+import ALRMobileBack from "./quartz/components/ALRMobileBack"
+import ALREchoPager from "./quartz/components/ALREchoPager"
 
 const isHome = (page: any) => page.fileData.slug === "index" || page.fileData.slug === ""
 const isEchoRegistry = (page: any) => page.fileData.slug === "Index/ECHO-Registry"
@@ -20,6 +22,7 @@ export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [
     Component.PageTitle(),
+    ALRMobileBack(),
     Component.Search(),
     Component.ALRTopNav(),
     Component.Darkmode(),
@@ -35,6 +38,10 @@ export const sharedPageComponents: SharedLayout = {
     Component.AccountScript(),
     Component.ALRReadingProgress(),
     Component.ALRSubmitWizard(),
+    Component.ConditionalRender({
+      component: ALREchoPager(),
+      condition: isEcho,
+    }),
     Component.ALRFollowBanner(),
   ],
   footer: Component.Footer({
