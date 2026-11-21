@@ -2123,7 +2123,7 @@ l-8 55 -13 -75z"/>
         <svg viewBox="0 0 1280 773" width="100%" height="100%"><use href="#alr-hallow-bat" class="alr-hallow-bat-fill" opacity="0.4" /></svg>
       </div>
 
-      {/* ── Christmas week (Dec 19–25): sitewide snow layer. Hidden (opacity 0, no animation) the
+      {/* ── Holiday season (Nov 21 – Dec 25): sitewide snow layer. Hidden (opacity 0, no animation) the
           rest of the year; the date check below flips alr-xmas-active on <body>. Off on phones. ── */}
       <div class="alr-xmas-snow" aria-hidden="true">
         <span style="left:92.7%; width:3.2px; height:3.2px; opacity:0.72; animation-duration:17.4s; animation-delay:-26.2s;"></span>
@@ -2172,11 +2172,11 @@ l-8 55 -13 -75z"/>
 
       <script dangerouslySetInnerHTML={{ __html: `
 (function() {
-  // Christmas week, Dec 19–25. ?xmas=1 previews it outside those dates (like ?hallow=1).
+  // Holiday season, Nov 21 – Dec 25. ?xmas=1 previews it outside those dates (like ?hallow=1).
   var forcePreview = /[?&]xmas=1\\b/.test(location.search);
   function isXmasWeek() {
     var d = new Date();
-    return d.getMonth() === 11 && d.getDate() >= 19 && d.getDate() <= 25;
+    return (d.getMonth() === 10 && d.getDate() >= 21) || (d.getMonth() === 11 && d.getDate() <= 25);
   }
 
   // Top cards that get a string of lights: home hero, echo hero, registry/account banners,
@@ -2208,7 +2208,8 @@ l-8 55 -13 -75z"/>
     document.body.classList.toggle('alr-xmas-active', on);
     if (on) hangLights();
     var day = document.getElementById('alr-osd-date');
-    if (day) day.textContent = on ? ' · DEC ' + new Date().getDate() : '';
+    var now = new Date();
+    if (day) day.textContent = on ? ' · ' + (now.getMonth() === 10 ? 'NOV ' : 'DEC ') + now.getDate() : '';
   }
 
   // Same two-frame deferral as the Hallow check, so the fade-in has a "before" frame.
