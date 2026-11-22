@@ -140,8 +140,20 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
     lines.push(cur);
     return lines.slice(0, 2);
   }
+  // ── Label size. Sized for the 2.68 × 0.79 in label slot of the acrylic slabs in use, with
+  //    a little room to slide in. Change these two numbers to fit a different slab. ──
+  var LABEL_W_IN = 2.65, LABEL_H_IN = 0.78;
+  var VH = 200, VW = Math.round(VH * LABEL_W_IN / LABEL_H_IN * 100) / 100;   // drawing units
+  var UPI = VH / LABEL_H_IN;                                                  // units per inch
+  var GX = VW - 152, GC = VW - 76;                                            // grade panel x, centre
+  function inch(n) { return (Math.round(n * 1000) / 1000) + ' in'; }
+  var SIZE_TXT = LABEL_W_IN + ' × ' + LABEL_H_IN + ' IN';
+
   function clipOpen(id) {
-    return '<defs><clipPath id="' + id + '"><rect width="700" height="200" rx="11"/></clipPath></defs><g clip-path="url(#' + id + ')">';
+    return '<defs><clipPath id="' + id + '"><rect width="' + VW + '" height="200" rx="11"/></clipPath></defs><g clip-path="url(#' + id + ')">';
+  }
+  function frameRect(d) {
+    return '</g><rect x="1" y="1" width="' + (VW - 2) + '" height="198" rx="10" fill="none" stroke="' + d.border + '" stroke-width="2"/>';
   }
   function sidePanel(v, d) {
     return '<rect width="150" height="200" fill="' + d.side + '"/>'
@@ -153,82 +165,86 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
 
   function frontInner(v) {
     var d = derive(v), id = 'lf' + Math.random().toString(36).slice(2);
+    var room = GX - 172 - 20;   // width available for the card name
     var lines = nameLines(v.name), dy = lines.length > 1 ? 8 : 0, nameSvg;
     if (lines.length > 1) {
-      nameSvg = t(172, 32, 21, v.txt, lines[0], { weight: 600 }) + t(172, 56, 21, v.txt, lines[1], { weight: 600 });
+      nameSvg = t(172, 32, 20, v.txt, lines[0], { weight: 600 }) + t(172, 56, 20, v.txt, lines[1], { weight: 600 });
     } else {
-      var size = Math.max(22, Math.min(34, Math.floor(360 / Math.max(1, v.name.length * 0.58))));
+      var size = Math.max(21, Math.min(34, Math.floor(room / Math.max(1, v.name.length * 0.6))));
       nameSvg = t(172, 52, size, v.txt, v.name, { weight: 600, ls: -0.3 });
     }
     var g = String(v.grade), gl = String(v.gl);
     return clipOpen(id)
-      + '<rect width="700" height="200" fill="' + v.body + '"/>'
+      + '<rect width="' + VW + '" height="200" fill="' + v.body + '"/>'
       + sidePanel(v, d)
       + t(75, 178, 10.5, v.mut, 'CYCLE 7', { anchor: 'middle', mono: true, ls: 1 })
       + nameSvg
-      + t(172, 80 + dy, 13.5, v.mut, v.set, { mono: true, ls: 0.5 })
+      + t(172, 80 + dy, 13, v.mut, v.set, { mono: true, ls: 0.4 })
       + t(172, 103 + dy, 16, d.acct, v.variant, { weight: 500 })
-      + '<line x1="172" y1="116" x2="526" y2="116" stroke="' + d.line + '" stroke-width="1"/>'
+      + '<line x1="172" y1="116" x2="' + (GX - 22) + '" y2="116" stroke="' + d.line + '" stroke-width="1"/>'
       + t(172, 136, 11.5, v.mut, 'TRADING CARD · ENGLISH', { mono: true, ls: 1.2 })
       + t(172, 157, 14, v.txt, 'CERT ' + v.cert, { mono: true, ls: 0.6 })
       + barcode(v.cert, 172, 166, 200, 20, v.txt)
-      + '<rect x="548" y="0" width="152" height="200" fill="' + v.zone + '"/>'
-      + t(624, 24, 10.5, d.gtxt, 'ARCHIVE GRADE', { anchor: 'middle', mono: true, ls: 1.5, op: 0.85 })
-      + sigbars(610, 50, g, d.gtxt)
-      + t(624, 138, g.length < 3 ? 88 : 68, d.gtxt, g, { anchor: 'middle', weight: 700, ls: -3 })
-      + t(624, 174, gl.length < 10 ? 15 : 13, d.gtxt, gl, { anchor: 'middle', weight: 600, ls: 2 })
-      + '</g><rect x="1" y="1" width="698" height="198" rx="10" fill="none" stroke="' + d.border + '" stroke-width="2"/>';
+      + '<rect x="' + GX + '" y="0" width="152" height="200" fill="' + v.zone + '"/>'
+      + t(GC, 24, 10.5, d.gtxt, 'ARCHIVE GRADE', { anchor: 'middle', mono: true, ls: 1.5, op: 0.85 })
+      + sigbars(GC - 14, 50, g, d.gtxt)
+      + t(GC, 138, g.length < 3 ? 88 : 68, d.gtxt, g, { anchor: 'middle', weight: 700, ls: -3 })
+      + t(GC, 174, gl.length < 10 ? 15 : 13, d.gtxt, gl, { anchor: 'middle', weight: 600, ls: 2 })
+      + frameRect(d);
   }
 
   // The back: the grading scale with this card's grade lit, and the cert number and barcode again.
   function backInner(v) {
     var d = derive(v), f = getF(), id = 'lb' + Math.random().toString(36).slice(2);
     var gn = Math.floor(parseFloat(f.grade)), lit = isNaN(gn) ? 10 : Math.max(1, Math.min(10, gn));
-    var gtxt = onColour(v.acc), boxes = '', litX = 172;
+    var gtxt = onColour(v.acc), boxes = '', litX = 170, step = Math.min(35, (GX - 170 - 12) / 10), bw = step - 4;
     SCALE.forEach(function(s, k) {
-      var x = 172 + k * 35, on = Number(s[0]) === lit;
+      var x = 170 + k * step, on = Number(s[0]) === lit;
       if (on) litX = x;
-      boxes += '<rect x="' + x + '" y="70" width="31" height="38" rx="6" fill="' + (on ? v.acc : 'none') + '" stroke="' + (on ? v.acc : d.line) + '" stroke-width="1.5"/>'
-        + t(x + 15.5, 95, 16, on ? gtxt : v.mut, s[0], { anchor: 'middle', weight: 600 });
+      boxes += '<rect x="' + x + '" y="70" width="' + bw + '" height="38" rx="6" fill="' + (on ? v.acc : 'none') + '" stroke="' + (on ? v.acc : d.line) + '" stroke-width="1.5"/>'
+        + t(x + bw / 2, 95, 15, on ? gtxt : v.mut, s[0], { anchor: 'middle', weight: 600 });
     });
     return clipOpen(id)
-      + '<rect width="700" height="200" fill="' + v.body + '"/>'
+      + '<rect width="' + VW + '" height="200" fill="' + v.body + '"/>'
       + sidePanel(v, d)
-      + t(172, 46, 12, v.mut, 'ARCHIVED · GRADED · CERTIFIED', { mono: true, ls: 2 })
+      + t(170, 46, 11.5, v.mut, 'ARCHIVED · GRADED · CERTIFIED', { mono: true, ls: 1.8 })
       + boxes
       + t(litX, 132, 12.5, d.acct, '▲ ' + f.gl, { weight: 600, ls: 1.2 })
-      + t(172, 178, 10.5, v.mut, 'GRADED BY THE ARCHIVE OF LOST REALITIES INITIATIVE', { mono: true, ls: 0.8 })
-      + '<line x1="548" y1="0" x2="548" y2="200" stroke="' + d.line + '" stroke-width="1.5"/>'
-      + t(624, 40, 10.5, v.mut, 'CERT NO.', { anchor: 'middle', mono: true, ls: 1.5 })
-      + t(624, 62, 14, v.txt, f.cert, { anchor: 'middle', mono: true })
-      + barcode(f.cert, 568, 78, 112, 70, v.txt)
-      + t(624, 176, 10, v.mut, '70 × 20 MM', { anchor: 'middle', mono: true, ls: 1.2 })
-      + '</g><rect x="1" y="1" width="698" height="198" rx="10" fill="none" stroke="' + d.border + '" stroke-width="2"/>';
+      + t(170, 178, 10, v.mut, 'GRADED BY THE ALR INITIATIVE', { mono: true, ls: 1 })
+      + '<line x1="' + GX + '" y1="0" x2="' + GX + '" y2="200" stroke="' + d.line + '" stroke-width="1.5"/>'
+      + t(GC, 40, 10.5, v.mut, 'CERT NO.', { anchor: 'middle', mono: true, ls: 1.5 })
+      + t(GC, 62, 14, v.txt, f.cert, { anchor: 'middle', mono: true })
+      + barcode(f.cert, GX + 20, 78, 112, 70, v.txt)
+      + t(GC, 176, 10, v.mut, SIZE_TXT, { anchor: 'middle', mono: true, ls: 1.2 })
+      + frameRect(d);
   }
 
+  // Width and height are written in inches, so the file opens at the label's real size.
+  function svgOpen(win, hin, vb) {
+    return '<svg width="' + win + 'in" height="' + hin + 'in" viewBox="' + vb + '" xmlns="http://www.w3.org/2000/svg" style="color:unset">';
+  }
   function buildFront(v, fonts) {
-    return '<svg width="70mm" height="20mm" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" style="color:unset">'
-      + (fonts || '') + frontInner(v) + '</svg>';
+    return svgOpen(LABEL_W_IN, LABEL_H_IN, '0 0 ' + VW + ' 200') + (fonts || '') + frontInner(v) + '</svg>';
   }
-
   function buildBack(v, fonts) {
-    return '<svg width="70mm" height="20mm" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" style="color:unset">'
-      + (fonts || '') + backInner(v) + '</svg>';
+    return svgOpen(LABEL_W_IN, LABEL_H_IN, '0 0 ' + VW + ' 200') + (fonts || '') + backInner(v) + '</svg>';
   }
 
   // Front, fold line, then the back upside down, with crop marks around the strip.
+  var FOLD_M = 80, FOLD_H = 406;
+  var FOLD_W_IN = Math.round((VW + 2 * FOLD_M) / UPI * 1000) / 1000, FOLD_H_IN = Math.round((FOLD_H + 2 * FOLD_M) / UPI * 1000) / 1000;
   function buildFold(vf, vb, fonts) {
-    return '<svg width="86mm" height="56.6mm" viewBox="-80 -80 860 566" xmlns="http://www.w3.org/2000/svg">'
+    var W = VW, H = FOLD_H, m = FOLD_M;
+    function ln(x1, y1, x2, y2) { return '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '"/>'; }
+    return svgOpen(FOLD_W_IN, FOLD_H_IN, (-m) + ' ' + (-m) + ' ' + (W + 2 * m) + ' ' + (H + 2 * m))
       + (fonts || '')
-      + '<rect x="-80" y="-80" width="860" height="566" fill="#fff"/>'
-      + '<g><svg width="700" height="200" viewBox="0 0 700 200" style="color:unset">' + frontInner(vf) + '</svg></g>'
-      + '<g transform="translate(700,406) rotate(180)"><svg width="700" height="200" viewBox="0 0 700 200" style="color:unset">' + backInner(vb) + '</svg></g>'
-      + '<line x1="-30" y1="203" x2="730" y2="203" stroke="#888" stroke-width="0.7" stroke-dasharray="8,6"/>'
+      + '<rect x="' + (-m) + '" y="' + (-m) + '" width="' + (W + 2 * m) + '" height="' + (H + 2 * m) + '" fill="#fff"/>'
+      + '<g><svg width="' + W + '" height="200" viewBox="0 0 ' + W + ' 200" style="color:unset">' + frontInner(vf) + '</svg></g>'
+      + '<g transform="translate(' + W + ',' + H + ') rotate(180)"><svg width="' + W + '" height="200" viewBox="0 0 ' + W + ' 200" style="color:unset">' + backInner(vb) + '</svg></g>'
+      + '<line x1="-30" y1="203" x2="' + (W + 30) + '" y2="203" stroke="#888" stroke-width="0.7" stroke-dasharray="8,6"/>'
       + '<g stroke="#000" stroke-width="0.7" fill="none" stroke-linecap="square">'
-      + '<line x1="-70" y1="0" x2="-20" y2="0"/><line x1="0" y1="-70" x2="0" y2="-20"/>'
-      + '<line x1="720" y1="0" x2="770" y2="0"/><line x1="700" y1="-70" x2="700" y2="-20"/>'
-      + '<line x1="-70" y1="406" x2="-20" y2="406"/><line x1="0" y1="426" x2="0" y2="476"/>'
-      + '<line x1="720" y1="406" x2="770" y2="406"/><line x1="700" y1="426" x2="700" y2="476"/>'
+      + ln(-70, 0, -20, 0) + ln(0, -70, 0, -20) + ln(W + 20, 0, W + 70, 0) + ln(W, -70, W, -20)
+      + ln(-70, H, -20, H) + ln(0, H + 20, 0, H + 70) + ln(W + 20, H, W + 70, H) + ln(W, H + 20, W, H + 70)
       + '</g></svg>';
   }
 
@@ -305,9 +321,9 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
     setTimeout(function() { URL.revokeObjectURL(url); }, 2000);
   }
-  function rasterize(svg, wmm, hmm) {
+  function rasterize(svg, win, hin) {
     return new Promise(function(resolve, reject) {
-      var w = Math.round(wmm / 25.4 * DPI), h = Math.round(hmm / 25.4 * DPI);
+      var w = Math.round(win * DPI), h = Math.round(hin * DPI);
       var img = new Image();
       var url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
       img.onload = function() {
@@ -346,18 +362,18 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
     var s = g('alr-lc-status'), want = fmt;
     if (s) s.textContent = 'Preparing…';
     loadFonts().then(function(fonts) {
-      var vf = getF(), vb = getB(), svg, base, wmm = 70, hmm = 20;
+      var vf = getF(), vb = getB(), svg, base, win = LABEL_W_IN, hin = LABEL_H_IN;
       if (which === 'front') { svg = buildFront(vf, fonts); base = 'alr_label_front'; }
       else if (which === 'back') { svg = buildBack(vb, fonts); base = 'alr_label_back'; }
-      else { svg = buildFold(vf, vb, fonts); base = 'alr_label_foldcut'; wmm = 86; hmm = 56.6; }
+      else { svg = buildFold(vf, vb, fonts); base = 'alr_label_foldcut'; win = FOLD_W_IN; hin = FOLD_H_IN; }
       if (want === 'svg') {
         saveBlob(new Blob([svg], { type: 'image/svg+xml' }), base + '.svg');
-        if (s) s.textContent = fonts ? 'Downloaded SVG · ' + wmm + ' × ' + hmm + ' mm' : 'Downloaded SVG (fonts could not be embedded)';
+        if (s) s.textContent = fonts ? 'Downloaded SVG · ' + inch(win) + ' × ' + inch(hin) : 'Downloaded SVG (fonts could not be embedded)';
         return;
       }
-      return rasterize(svg, wmm, hmm).then(function(png) {
+      return rasterize(svg, win, hin).then(function(png) {
         saveBlob(png, base + '.png');
-        if (s) s.textContent = 'Downloaded PNG · ' + wmm + ' × ' + hmm + ' mm at ' + DPI + ' DPI';
+        if (s) s.textContent = 'Downloaded PNG · ' + inch(win) + ' × ' + inch(hin) + ' at ' + DPI + ' DPI';
       });
     }).catch(function() { if (s) s.textContent = 'Could not make the file. Try again.'; });
   }

@@ -11,15 +11,15 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
         ch="CH 05"
         eyebrow="ALR Initiative — Label Forge"
         title={["Label Creator"]}
-        sub="Print-ready grading labels for any card, at exact size (70 × 20 mm)."
-        status={["Format · PNG or SVG", "Size · 70 × 20 mm", "Standard · PSA"]}
+        sub="Print-ready grading labels for any card, at exact size (2.65 × 0.78 in)."
+        status={["Format · PNG or SVG", "Size · 2.65 × 0.78 in", "Fits a 2.68 × 0.79 in slot"]}
       />
 
       <div id="alr-lc-tool">
         <div class="alr-lc-wrap">
           <div class="alr-lc-topbar">
             <span class="alr-lc-topbar-title">ALR INITIATIVE GRADING</span>
-            <span class="alr-lc-topbar-sub">70mm x 20mm - PSA STANDARD</span>
+            <span class="alr-lc-topbar-sub">2.65 × 0.78 in · fits a 2.68 × 0.79 in slab slot</span>
           </div>
           <div class="alr-lc-body">
             <div class="alr-lc-left">
