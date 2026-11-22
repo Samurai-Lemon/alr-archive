@@ -11,7 +11,7 @@ const script = `
   if (window.__alrModsWired) return;
   window.__alrModsWired = true;
 
-  var TTL = 10 * 60 * 1000;
+  var TTL = 5 * 60 * 1000;
   var pending = {};
 
   function esc(s) {
@@ -68,7 +68,7 @@ const script = `
     var key = 'alr-mod-releases:' + repo;
     try {
       var hit = JSON.parse(sessionStorage.getItem(key) || 'null');
-      if (hit && Date.now() - hit.t < TTL) return (pending[repo] = Promise.resolve(hit.d));
+      if (hit && Date.now() - hit.t < TTL && hit.d && hit.d.length) return (pending[repo] = Promise.resolve(hit.d));
     } catch (e) {}
     pending[repo] = fetch('https://api.github.com/repos/' + repo + '/releases?per_page=30', {
       headers: { Accept: 'application/vnd.github+json' }
@@ -83,7 +83,13 @@ const script = `
           })
         };
       });
-      try { sessionStorage.setItem(key, JSON.stringify({ t: Date.now(), d: d })); } catch (e) {}
+      // Only remember a list that has files: a mod with none yet is checked again on every visit,
+      // so a brand-new release shows up right away.
+      var hasFiles = d.some(function (r) { return r.assets.length > 0; });
+      try {
+        if (hasFiles) sessionStorage.setItem(key, JSON.stringify({ t: Date.now(), d: d }));
+        else sessionStorage.removeItem(key);
+      } catch (e) {}
       return d;
     }).catch(function () { delete pending[repo]; return null; });
     return pending[repo];
