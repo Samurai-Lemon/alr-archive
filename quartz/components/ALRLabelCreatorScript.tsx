@@ -87,6 +87,7 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
       side: dark ? mix(v.body, '#000000', 0.32) : mix(v.body, '#000000', 0.06),
       line: mix(v.body, v.txt, 0.13),
       border: mix(v.body, v.txt, 0.2),
+      mut: mix(v.mut, v.txt, 0.35),
       acct: dark ? mix(v.acc, '#ffffff', 0.25) : mix(v.acc, '#000000', 0.1),
       gtxt: onColour(v.zone || v.acc)
     };
@@ -116,7 +117,7 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
     if (!d.length) d = [1, 2, 7];
     var out = '', cx = x, k = 0;
     while (cx < x + w) {
-      var bw = 1 + (d[k % d.length] + k) % 3, gap = 1 + (d[(k + 2) % d.length] * 3 + k) % 3;
+      var bw = 2 + (d[k % d.length] + k) % 3, gap = 2 + (d[(k + 2) % d.length] * 3 + k) % 2;
       if (cx + bw > x + w) break;
       out += '<rect x="' + cx + '" y="' + y + '" width="' + bw + '" height="' + h + '" fill="' + fill + '"/>';
       cx += bw + gap; k++;
@@ -124,11 +125,11 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
     return out;
   }
   // The site's signal bars on the grade panel: four for 9 and up, down to one.
-  function sigbars(x, y, grade, on) {
+  function sigbars(x, y, grade, on, bg) {
     var gn = parseFloat(grade), n = isNaN(gn) ? 2 : gn >= 9 ? 4 : gn >= 7 ? 3 : gn >= 5 ? 2 : 1, out = '';
     for (var k = 0; k < 4; k++) {
       var h = 5 + k * 4;
-      out += '<rect x="' + (x + k * 8) + '" y="' + (y - h) + '" width="5" height="' + h + '" rx="1" fill="' + on + '"' + (k < n ? '' : ' opacity="0.3"') + '/>';
+      out += '<rect x="' + (x + k * 8) + '" y="' + (y - h) + '" width="5" height="' + h + '" rx="1" fill="' + (k < n ? on : mix(on, bg, 0.7)) + '"/>';
     }
     return out;
   }
@@ -158,38 +159,38 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
   function sidePanel(v, d) {
     return '<rect width="150" height="200" fill="' + d.side + '"/>'
       + logo(46, 30, 0.105, v.acc)
-      + t(75, 118, 12.5, v.txt, 'ALR INITIATIVE', { anchor: 'middle', weight: 600, ls: 1.4 })
-      + t(75, 136, 12.5, d.acct, 'GRADING', { anchor: 'middle', weight: 500, ls: 3 })
-      + '<line x1="150" y1="0" x2="150" y2="200" stroke="' + d.line + '" stroke-width="1.5"/>';
+      + t(75, 120, 14, v.txt, 'ALR INITIATIVE', { anchor: 'middle', weight: 700, ls: 0.4 })
+      + t(75, 140, 15, d.acct, 'GRADING', { anchor: 'middle', weight: 600, ls: 2 })
+      + '<line x1="150" y1="0" x2="150" y2="200" stroke="' + d.line + '" stroke-width="2"/>';
   }
 
   function frontInner(v) {
     var d = derive(v), id = 'lf' + Math.random().toString(36).slice(2);
     var room = GX - 172 - 20;   // width available for the card name
-    var lines = nameLines(v.name), dy = lines.length > 1 ? 8 : 0, nameSvg;
+    var lines = nameLines(v.name), dy = lines.length > 1 ? 6 : 0, nameSvg;
     if (lines.length > 1) {
-      nameSvg = t(172, 32, 20, v.txt, lines[0], { weight: 600 }) + t(172, 56, 20, v.txt, lines[1], { weight: 600 });
+      nameSvg = t(172, 30, 22, v.txt, lines[0], { weight: 700 }) + t(172, 54, 22, v.txt, lines[1], { weight: 700 });
     } else {
-      var size = Math.max(21, Math.min(34, Math.floor(room / Math.max(1, v.name.length * 0.6))));
-      nameSvg = t(172, 52, size, v.txt, v.name, { weight: 600, ls: -0.3 });
+      var size = Math.max(22, Math.min(36, Math.floor(room / Math.max(1, v.name.length * 0.62))));
+      nameSvg = t(172, 48, size, v.txt, v.name, { weight: 700, ls: -0.3 });
     }
     var g = String(v.grade), gl = String(v.gl);
     return clipOpen(id)
       + '<rect width="' + VW + '" height="200" fill="' + v.body + '"/>'
       + sidePanel(v, d)
-      + t(75, 178, 10.5, v.mut, 'CYCLE 7', { anchor: 'middle', mono: true, ls: 1 })
+      + t(75, 180, 14, d.mut, 'CYCLE 7', { anchor: 'middle', weight: 600, ls: 1 })
       + nameSvg
-      + t(172, 80 + dy, 13, v.mut, v.set, { mono: true, ls: 0.4 })
-      + t(172, 103 + dy, 16, d.acct, v.variant, { weight: 500 })
-      + '<line x1="172" y1="116" x2="' + (GX - 22) + '" y2="116" stroke="' + d.line + '" stroke-width="1"/>'
-      + t(172, 136, 11.5, v.mut, 'TRADING CARD · ENGLISH', { mono: true, ls: 1.2 })
-      + t(172, 157, 14, v.txt, 'CERT ' + v.cert, { mono: true, ls: 0.6 })
-      + barcode(v.cert, 172, 166, 200, 20, v.txt)
+      + t(172, 78 + dy, 17, d.mut, v.set, { weight: 500 })
+      + t(172, 102 + dy, 19, d.acct, v.variant, { weight: 600 })
+      + '<line x1="172" y1="122" x2="' + (GX - 22) + '" y2="122" stroke="' + d.line + '" stroke-width="2"/>'
+      + t(172, 150, 15, d.mut, 'TRADING CARD · ENGLISH', { weight: 600, ls: 0.4 })
+      + t(172, 178, 18, v.txt, 'CERT ' + v.cert, { mono: true })
+      + barcode(v.cert, GX - 22 - 104, 138, 104, 44, v.txt)
       + '<rect x="' + GX + '" y="0" width="152" height="200" fill="' + v.zone + '"/>'
-      + t(GC, 24, 10.5, d.gtxt, 'ARCHIVE GRADE', { anchor: 'middle', mono: true, ls: 1.5, op: 0.85 })
-      + sigbars(GC - 14, 50, g, d.gtxt)
-      + t(GC, 138, g.length < 3 ? 88 : 68, d.gtxt, g, { anchor: 'middle', weight: 700, ls: -3 })
-      + t(GC, 174, gl.length < 10 ? 15 : 13, d.gtxt, gl, { anchor: 'middle', weight: 600, ls: 2 })
+      + t(GC, 27, 14, d.gtxt, 'ARCHIVE GRADE', { anchor: 'middle', weight: 700, ls: 0.4 })
+      + sigbars(GC - 14, 52, g, d.gtxt, v.zone)
+      + t(GC, 138, g.length < 3 ? 86 : 66, d.gtxt, g, { anchor: 'middle', weight: 700, ls: -3 })
+      + t(GC, 178, Math.max(14, Math.min(19, Math.floor(136 / Math.max(1, gl.length * 0.68)))), d.gtxt, gl, { anchor: 'middle', weight: 700, ls: 0.8 })
       + frameRect(d);
   }
 
@@ -201,21 +202,19 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
     SCALE.forEach(function(s, k) {
       var x = 170 + k * step, on = Number(s[0]) === lit;
       if (on) litX = x;
-      boxes += '<rect x="' + x + '" y="70" width="' + bw + '" height="38" rx="6" fill="' + (on ? v.acc : 'none') + '" stroke="' + (on ? v.acc : d.line) + '" stroke-width="1.5"/>'
-        + t(x + bw / 2, 95, 15, on ? gtxt : v.mut, s[0], { anchor: 'middle', weight: 600 });
+      boxes += '<rect x="' + x + '" y="70" width="' + bw + '" height="38" rx="6" fill="' + (on ? v.acc : 'none') + '" stroke="' + (on ? v.acc : d.border) + '" stroke-width="2"/>'
+        + t(x + bw / 2, 96, 18, on ? gtxt : d.mut, s[0], { anchor: 'middle', weight: 700 });
     });
     return clipOpen(id)
       + '<rect width="' + VW + '" height="200" fill="' + v.body + '"/>'
       + sidePanel(v, d)
-      + t(170, 46, 11.5, v.mut, 'ARCHIVED · GRADED · CERTIFIED', { mono: true, ls: 1.8 })
+      + t(170, 46, 15, d.mut, 'ARCHIVED · GRADED · CERTIFIED', { weight: 600, ls: 0.6 })
       + boxes
-      + t(litX, 132, 12.5, d.acct, '▲ ' + f.gl, { weight: 600, ls: 1.2 })
-      + t(170, 178, 10, v.mut, 'GRADED BY THE ALR INITIATIVE', { mono: true, ls: 1 })
-      + '<line x1="' + GX + '" y1="0" x2="' + GX + '" y2="200" stroke="' + d.line + '" stroke-width="1.5"/>'
-      + t(GC, 40, 10.5, v.mut, 'CERT NO.', { anchor: 'middle', mono: true, ls: 1.5 })
-      + t(GC, 62, 14, v.txt, f.cert, { anchor: 'middle', mono: true })
-      + barcode(f.cert, GX + 20, 78, 112, 70, v.txt)
-      + t(GC, 176, 10, v.mut, SIZE_TXT, { anchor: 'middle', mono: true, ls: 1.2 })
+      + t(litX, 138, 17, d.acct, '▲ ' + f.gl, { weight: 700, ls: 0.6 })
+      + '<line x1="' + GX + '" y1="0" x2="' + GX + '" y2="200" stroke="' + d.line + '" stroke-width="2"/>'
+      + t(GC, 36, 14, d.mut, 'CERT NO.', { anchor: 'middle', weight: 700, ls: 1 })
+      + t(GC, 60, Math.max(13, Math.min(18, Math.floor(130 / Math.max(1, f.cert.length * 0.6)))), v.txt, f.cert, { anchor: 'middle', mono: true })
+      + barcode(f.cert, GX + 20, 76, 112, 100, v.txt)
       + frameRect(d);
   }
 
@@ -294,6 +293,123 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
     return otReady;
   }
   var SVGNS = 'http://www.w3.org/2000/svg';
+  function r3(n) { return Math.round(n * 1000) / 1000; }
+  // 2D matrices as [a, b, c, d, e, f]
+  function mmul(m, n) {
+    return [m[0] * n[0] + m[2] * n[1], m[1] * n[0] + m[3] * n[1], m[0] * n[2] + m[2] * n[3], m[1] * n[2] + m[3] * n[3],
+      m[0] * n[4] + m[2] * n[5] + m[4], m[1] * n[4] + m[3] * n[5] + m[5]];
+  }
+  function parseTf(str) {
+    var m = [1, 0, 0, 1, 0, 0], re = /(\\w+)\\s*\\(([^)]*)\\)/g, x;
+    while ((x = re.exec(str || ''))) {
+      var a = x[2].split(/[\\s,]+/).filter(Boolean).map(Number), n;
+      if (x[1] === 'translate') n = [1, 0, 0, 1, a[0], a[1] || 0];
+      else if (x[1] === 'scale') n = [a[0], 0, 0, a.length > 1 ? a[1] : a[0], 0, 0];
+      else if (x[1] === 'rotate') {
+        var r = a[0] * Math.PI / 180, co = Math.cos(r), si = Math.sin(r);
+        n = [co, si, -si, co, 0, 0];
+        if (a.length > 2) n = mmul(mmul([1, 0, 0, 1, a[1], a[2]], n), [1, 0, 0, 1, -a[1], -a[2]]);
+      } else if (x[1] === 'matrix') n = a;
+      else continue;
+      m = mmul(m, n);
+    }
+    return m;
+  }
+  function pt(m, x, y) { return [m[0] * x + m[2] * y + m[4], m[1] * x + m[3] * y + m[5]]; }
+  // Rewrites path data through matrix m (absolute output).
+  function tfPath(d, m) {
+    var tk = d.match(/[MLHVCSQTAZmlhvcsqtaz]|-?(?:\\d*\\.\\d+|\\d+\\.?)(?:[eE][-+]?\\d+)?/g) || [];
+    var i = 0, cmd = '', cx = 0, cy = 0, sx = 0, sy = 0, out = [];
+    var det = m[0] * m[3] - m[1] * m[2], sc = Math.sqrt(Math.abs(det)), rot = Math.atan2(m[1], m[0]) * 180 / Math.PI;
+    function num() { return Number(tk[i++]); }
+    function P(x, y) { var q = pt(m, x, y); return r3(q[0]) + ' ' + r3(q[1]); }
+    while (i < tk.length) {
+      if (/[A-Za-z]/.test(tk[i])) cmd = tk[i++];
+      var rel = cmd === cmd.toLowerCase(), C = cmd.toUpperCase(), ox = rel ? cx : 0, oy = rel ? cy : 0;
+      if (C === 'Z') { out.push('Z'); cx = sx; cy = sy; continue; }
+      if (C === 'M' || C === 'L' || C === 'T') {
+        var x = num() + ox, y = num() + oy;
+        out.push((C === 'T' ? 'T' : C === 'M' && out.length && out[out.length - 1][0] === 'M' ? 'L' : C) + P(x, y));
+        if (C === 'M') { sx = x; sy = y; cmd = rel ? 'l' : 'L'; }
+        cx = x; cy = y;
+      } else if (C === 'H') { cx = num() + (rel ? cx : 0); out.push('L' + P(cx, cy)); }
+      else if (C === 'V') { cy = num() + (rel ? cy : 0); out.push('L' + P(cx, cy)); }
+      else if (C === 'C') {
+        var c = [num() + ox, num() + oy, num() + ox, num() + oy, num() + ox, num() + oy];
+        out.push('C' + P(c[0], c[1]) + ' ' + P(c[2], c[3]) + ' ' + P(c[4], c[5])); cx = c[4]; cy = c[5];
+      } else if (C === 'S' || C === 'Q') {
+        var q = [num() + ox, num() + oy, num() + ox, num() + oy];
+        out.push(C + P(q[0], q[1]) + ' ' + P(q[2], q[3])); cx = q[2]; cy = q[3];
+      } else if (C === 'A') {
+        var rx = num(), ry = num(), xr = num(), la = num(), sw = num(), ax = num() + ox, ay = num() + oy;
+        out.push('A' + r3(rx * sc) + ' ' + r3(ry * sc) + ' ' + r3(xr + rot) + ' ' + la + ' ' + (det < 0 ? 1 - sw : sw) + ' ' + P(ax, ay));
+        cx = ax; cy = ay;
+      } else i++;
+    }
+    return out.join('');
+  }
+  function rectD(x, y, w, h, rx) {
+    rx = Math.min(rx || 0, w / 2, h / 2);
+    if (!rx) return 'M' + x + ' ' + y + 'L' + (x + w) + ' ' + y + 'L' + (x + w) + ' ' + (y + h) + 'L' + x + ' ' + (y + h) + 'Z';
+    var a = 'A' + rx + ' ' + rx + ' 0 0 1 ';
+    return 'M' + (x + rx) + ' ' + y + 'L' + (x + w - rx) + ' ' + y + a + (x + w) + ' ' + (y + rx)
+      + 'L' + (x + w) + ' ' + (y + h - rx) + a + (x + w - rx) + ' ' + (y + h)
+      + 'L' + (x + rx) + ' ' + (y + h) + a + x + ' ' + (y + h - rx)
+      + 'L' + x + ' ' + (y + rx) + a + (x + rx) + ' ' + y + 'Z';
+  }
+  // A stroked line as filled quads (dashes and square caps included).
+  function lineD(x1, y1, x2, y2, w, cap, dash) {
+    var len = Math.hypot(x2 - x1, y2 - y1); if (!len) return '';
+    var ux = (x2 - x1) / len, uy = (y2 - y1) / len, nx = -uy * w / 2, ny = ux * w / 2, ext = cap === 'square' ? w / 2 : 0;
+    var segs = [], da = (dash || '').split(/[\\s,]+/).filter(Boolean).map(Number);
+    if (da.length) { var s0 = 0, on = true, j = 0; while (s0 < len) { var e = Math.min(len, s0 + da[j % da.length]); if (on) segs.push([s0, e]); s0 = e; on = !on; j++; } }
+    else segs.push([0, len]);
+    return segs.map(function(sg) {
+      var a = sg[0] - ext, b = sg[1] + ext, ax = x1 + ux * a, ay = y1 + uy * a, bx = x1 + ux * b, by = y1 + uy * b;
+      return 'M' + (ax + nx) + ' ' + (ay + ny) + 'L' + (bx + nx) + ' ' + (by + ny) + 'L' + (bx - nx) + ' ' + (by - ny) + 'L' + (ax - nx) + ' ' + (ay - ny) + 'Z';
+    }).join('');
+  }
+  function flatShapes(root, k) {
+    var list = [];
+    function inh(el, name) {
+      for (var e = el; e && e !== root.parentNode; e = e.parentNode) {
+        if (e.getAttribute) { var v = e.getAttribute(name); if (v !== null) return v; }
+      }
+      return null;
+    }
+    Array.prototype.slice.call(root.querySelectorAll('path,rect,line')).forEach(function(el) {
+      if (el.closest('defs,clipPath')) return;
+      var m = [k, 0, 0, k, 0, 0], chain = [];
+      for (var e = el; e && e !== root; e = e.parentNode) chain.unshift(e);
+      chain.forEach(function(e) { if (e.getAttribute('transform')) m = mmul(m, parseTf(e.getAttribute('transform'))); });
+      var fill = inh(el, 'fill'), stroke = inh(el, 'stroke'), sw = Number(inh(el, 'stroke-width') || 1);
+      function A(n) { return Number(el.getAttribute(n) || 0); }
+      var tag = el.tagName.toLowerCase();
+      if (tag === 'line') {
+        if (stroke && stroke !== 'none') list.push({ fill: stroke, d: tfPath(lineD(A('x1'), A('y1'), A('x2'), A('y2'), sw, inh(el, 'stroke-linecap'), inh(el, 'stroke-dasharray')), m) });
+        return;
+      }
+      if (tag === 'rect') {
+        var x = A('x'), y = A('y'), w = A('width'), h = A('height');
+        if (fill !== 'none') list.push({ fill: fill || '#000', d: tfPath(rectD(x, y, w, h, A('rx')), m) });
+        if (stroke && stroke !== 'none') {
+          var o = sw / 2, rx = A('rx');
+          if (rx) list.push({ fill: stroke, rule: 'evenodd', d: tfPath(rectD(x - o, y - o, w + sw, h + sw, rx + o) + rectD(x + o, y + o, w - sw, h - sw, Math.max(0, rx - o)), m) });
+          else list.push({ fill: stroke, d: tfPath(rectD(x - o, y - o, w + sw, sw) + rectD(x - o, y + h - o, w + sw, sw) + rectD(x - o, y + o, sw, h - sw) + rectD(x + w - o, y + o, sw, h - sw), m) });
+        }
+        return;
+      }
+      if (fill !== 'none') list.push({ fill: fill || '#000', rule: el.getAttribute('fill-rule') === 'evenodd' ? 'evenodd' : '', d: tfPath(el.getAttribute('d') || '', m) });
+    });
+    var out = [];
+    list.forEach(function(sh) {
+      var last = out[out.length - 1];
+      if (last && !last.rule && !sh.rule && last.fill.toLowerCase() === sh.fill.toLowerCase()) last.d += sh.d;
+      else out.push({ fill: sh.fill, rule: sh.rule, d: sh.d });
+    });
+    return out.filter(function(sh) { return sh.d; });
+  }
+
   function cricutSvg(svg, win, hin, fonts) {
     var doc = new DOMParser().parseFromString(svg, 'image/svg+xml'), root = doc.documentElement;
     // no embedded fonts or styles: Design Space doesn't read them
@@ -319,20 +435,26 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
       var p = doc.createElementNS(SVGNS, 'path');
       p.setAttribute('d', font.getPath(str, x, y, size, opts).toPathData(2));
       p.setAttribute('fill', (tx.getAttribute('style') || '').replace('fill:', '').trim() || '#000');
-      if (tx.getAttribute('opacity')) p.setAttribute('opacity', tx.getAttribute('opacity'));
       tx.parentNode.replaceChild(p, tx);
     });
     // Design Space sizes an SVG from its drawing units at 72 per inch (it ignores width/height),
-    // so the artwork is scaled into units where 72 = one inch.
+    // and it keeps every <g> as a subgroup it won't flatten. So the drawing is pre-flattened:
+    // every shape becomes a filled path with its transforms baked in, at 72 units per inch,
+    // side by side in one layer list. Neighbouring shapes of the same colour are merged.
     var vb = (root.getAttribute('viewBox') || '0 0 1 1').split(/[ ,]+/).map(Number);
-    var k = (win * 72) / vb[2], r2 = function(n) { return Math.round(n * 1000) / 1000; };
-    var wrap = doc.createElementNS(SVGNS, 'g');
-    wrap.setAttribute('transform', 'scale(' + k.toFixed(6) + ')');
-    Array.prototype.slice.call(root.childNodes).forEach(function(n) { wrap.appendChild(n); });
-    root.appendChild(wrap);
-    root.setAttribute('viewBox', [vb[0] * k, vb[1] * k, vb[2] * k, vb[3] * k].map(r2).join(' '));
-    root.setAttribute('width', String(r2(vb[2] * k)));
-    root.setAttribute('height', String(r2(vb[3] * k)));
+    var k = (win * 72) / vb[2];
+    var shapes = flatShapes(root, k);
+    while (root.firstChild) root.removeChild(root.firstChild);
+    shapes.forEach(function(sh) {
+      var p = doc.createElementNS(SVGNS, 'path');
+      p.setAttribute('d', sh.d);
+      p.setAttribute('fill', sh.fill);
+      if (sh.rule) p.setAttribute('fill-rule', sh.rule);
+      root.appendChild(p);
+    });
+    root.setAttribute('viewBox', [vb[0] * k, vb[1] * k, vb[2] * k, vb[3] * k].map(r3).join(' '));
+    root.setAttribute('width', String(r3(vb[2] * k)));
+    root.setAttribute('height', String(r3(vb[3] * k)));
     root.removeAttribute('style');
     return '<?xml version="1.0" encoding="UTF-8"?>' + new XMLSerializer().serializeToString(root);
   }
