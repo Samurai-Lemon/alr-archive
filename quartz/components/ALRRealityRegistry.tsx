@@ -1,4 +1,5 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
+import { BroadcastBanner } from "./broadcast/Banner"
 import { rtsLabels, rdsLabels, rccLabels } from "../util/alrClassifications"
 
 type RealityRegistryItem = {
@@ -135,21 +136,14 @@ const ALRRealityRegistry: QuartzComponent = ({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(payload) }}
       />
 
-      <div class="alr-reg-banner">
-        <div class="alr-reg-banner-meta">
-          <div class="alr-reg-banner-meta-item">REGISTRY · ACTIVE</div>
-          <div class="alr-reg-banner-meta-item">CYCLE {activeCycle} · ARCHIVE OPS</div>
-        </div>
-        <div class="alr-reg-banner-eyebrow">ALR Initiative — Archive</div>
-        <div class="alr-reg-banner-titlerow">
-          <div class="alr-reg-banner-title">Reality Registry</div>
-          <div class="alr-reg-banner-count">{realities.length} documented</div>
-        </div>
-        <div class="alr-reg-banner-sub">
-          Formal index of investigated realities. Entries update automatically as new investigation
-          reports are added to the Archive.
-        </div>
-      </div>
+      <BroadcastBanner
+        key_="reality-registry"
+        ch="CH 02"
+        eyebrow="ALR Initiative — Archive"
+        title={["Reality Registry"]}
+        sub="Survey records of the realities the Initiative has investigated."
+        status={[`${realities.length} documented`, "Registry · Active", `Cycle ${activeCycle} · Archive Ops`]}
+      />
 
       <div class="alr-reg-type-toggle">
         <a href="/Index/ECHO-Registry" class="alr-reg-type-btn internal">Echoes</a>

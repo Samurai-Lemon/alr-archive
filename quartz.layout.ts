@@ -11,6 +11,8 @@ import ALRModList from "./quartz/components/mods/ALRModList"
 import ALRModHeader from "./quartz/components/mods/ALRModHeader"
 import ALRModFiles from "./quartz/components/mods/ALRModFiles"
 import ALRModsScript from "./quartz/components/mods/ALRModsScript"
+import ALRPageBanner, { hasPageBanner } from "./quartz/components/broadcast/ALRPageBanner"
+import ALRBroadcastScript from "./quartz/components/broadcast/ALRBroadcastScript"
 
 const isHome = (page: any) => page.fileData.slug === "index" || page.fileData.slug === ""
 const isEchoRegistry = (page: any) => page.fileData.slug === "Index/ECHO-Registry"
@@ -24,6 +26,7 @@ const isAccount = (page: any) => page.fileData.slug === "Account"
 const isAdmin = (page: any) => page.fileData.slug === "Admin"
 const isMod = (page: any) => page.fileData.frontmatter?.type === "mod"
 const isModsIndex = (page: any) => page.fileData.slug === "Mods/index"
+const isBannerPage = (page: any) => hasPageBanner(String(page.fileData.slug ?? ""))
 
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
@@ -54,6 +57,7 @@ export const sharedPageComponents: SharedLayout = {
       condition: isMod,
     }),
     ALRModsScript(),
+    ALRBroadcastScript(),
     ALRSponsorSlot(),
     Component.ALRFollowBanner(),
   ],
@@ -66,7 +70,11 @@ export const defaultContentPageLayout: PageLayout = {
   beforeBody: [
     Component.ConditionalRender({
       component: Component.ALRBanner(),
-      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isOrdo(page) && !isEcho(page) && !isShop(page) && !isLabelCreator(page) && !isAccount(page) && !isAdmin(page) && !isMod(page) && !isModsIndex(page),
+      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isOrdo(page) && !isEcho(page) && !isShop(page) && !isLabelCreator(page) && !isAccount(page) && !isAdmin(page) && !isMod(page) && !isModsIndex(page) && !isBannerPage(page),
+    }),
+    Component.ConditionalRender({
+      component: ALRPageBanner(),
+      condition: isBannerPage,
     }),
     Component.ConditionalRender({
       component: OrdoBanner(),
@@ -128,7 +136,11 @@ export const defaultListPageLayout: PageLayout = {
   beforeBody: [
     Component.ConditionalRender({
       component: Component.ALRBanner(),
-      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isOrdo(page) && !isEcho(page) && !isShop(page) && !isLabelCreator(page) && !isAccount(page) && !isAdmin(page) && !isMod(page) && !isModsIndex(page),
+      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isOrdo(page) && !isEcho(page) && !isShop(page) && !isLabelCreator(page) && !isAccount(page) && !isAdmin(page) && !isMod(page) && !isModsIndex(page) && !isBannerPage(page),
+    }),
+    Component.ConditionalRender({
+      component: ALRPageBanner(),
+      condition: isBannerPage,
     }),
     Component.ConditionalRender({
       component: OrdoBanner(),

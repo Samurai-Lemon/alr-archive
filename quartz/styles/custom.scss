@@ -2513,8 +2513,11 @@ footer { padding-bottom: 34px !important; }
 .alr-echo-hero ~ article h1,
 div.page-header .popover-hint h1:not(.alr-echo-hero-title):not(.alr-home-hero-title):not(.ordo-hero-title),
 .popover-hint:has(.alr-echo-hero) ~ article h1 { display: none !important; }
-article:has(h1[id*="echo-"]) > h1, article:has(h1[id*="echo-"]) > blockquote.callout:first-of-type,
-article:has(h1[id*="echo-"]) > blockquote.callout:first-of-type + hr { display: none !important; }
+// Only Echo entries (headings like "echo-001--the-watchers"), not pages such as
+// "Echo Stability Classification System" whose heading id also starts with "echo-".
+$alr-echo-entry-h1: 'h1:is([id^="echo-0"],[id^="echo-1"],[id^="echo-2"],[id^="echo-3"],[id^="echo-4"],[id^="echo-5"],[id^="echo-6"],[id^="echo-7"],[id^="echo-8"],[id^="echo-9"])';
+article:has(> #{$alr-echo-entry-h1}) > h1, article:has(> #{$alr-echo-entry-h1}) > blockquote.callout:first-of-type,
+article:has(> #{$alr-echo-entry-h1}) > blockquote.callout:first-of-type + hr { display: none !important; }
 
 // Wide screens: entry text on the left, "On this page" card pinned on the right. The page
 // header wrappers become transparent to layout (display: contents) so the hero, contents card
@@ -4478,3 +4481,144 @@ a.alr-rail-link:hover { background: var(--alr-hover); }
 // Screenshots keep their own shape (mods' screenshots aren't all 16:9).
 .alr-mod-shot { aspect-ratio: auto; }
 .alr-mod-shot img { height: auto; }
+
+// ═══════════════════════════════════════════════════════════
+// ─── BROADCAST BANNER (quartz/components/broadcast/) ──────
+// The old ALR SVG banner (decaying grid, drifting blocks, scanline, logo) behind the tape
+// overlay. Full banner on section/tool pages, slim strip on reading pages.
+// ═══════════════════════════════════════════════════════════
+:root {
+  --bb-bg: #151412;
+  --bb-acc: #cc785c;
+  --bb-eyebrow: #e0895c;
+  --bb-title: #f0ece0;
+  --bb-sub: #b3ada2;
+  --bb-stat2: #8a8478;
+  --bb-osd: #f4efe6;
+}
+:root[saved-theme="light"] {
+  --bb-bg: #efe6d2;
+  --bb-acc: #a85c42;
+  --bb-eyebrow: #9c4a2e;
+  --bb-title: #2a2420;
+  --bb-sub: #574f42;
+  --bb-stat2: #7a7062;
+  --bb-osd: #2a2420;
+}
+
+.alr-bb {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  container-type: inline-size;
+  background: var(--bb-bg);
+  border: 1px solid var(--alr-border);
+  border-radius: var(--alr-r-lg);
+  color: var(--bb-title);
+  box-sizing: border-box;
+}
+.alr-bb-art { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+.alr-bb-art .bb-grid { stroke: var(--bb-acc); stroke-width: .4; opacity: .13; }
+.alr-bb-art .bb-fill { fill: var(--bb-acc); }
+.alr-bb-art .bb-scan { stroke: var(--bb-acc); stroke-width: .9; opacity: .45; stroke-dasharray: 6 4; }
+.alr-bb-logo { position: absolute; z-index: -1; fill: var(--bb-acc); opacity: .13; height: 84%; width: auto; right: 9%; top: 8%; pointer-events: none; }
+
+.alr-bb-osd { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-family: $alr-osd-font; font-size: 24px; line-height: 1; color: var(--bb-osd); }
+.alr-bb-rec { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #e8775f; margin-right: 8px; vertical-align: 1px; animation: alrBbRec 1.4s steps(1) infinite; }
+@keyframes alrBbRec { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+.alr-bb-osd-bottom { font-size: 22px; opacity: .8; }
+
+// Full banner
+.alr-bb-full > .alr-bb-in {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: "top top" "body status" "bot bot";
+  row-gap: 16px;
+  column-gap: 24px;
+  min-height: 270px;
+  padding: 22px 34px 20px;
+}
+.alr-bb-full .alr-bb-osd-top { grid-area: top; }
+.alr-bb-full .alr-bb-osd-bottom { grid-area: bot; }
+.alr-bb-body { grid-area: body; align-self: center; min-width: 0; padding-left: 14px; }
+.alr-bb-eyebrow { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--bb-eyebrow); margin-bottom: 10px; }
+h1.alr-bb-title {
+  margin: 0 !important;
+  font-family: var(--codeFont), monospace !important;
+  font-size: 38px !important;
+  font-weight: 600 !important;
+  line-height: 1.18 !important;
+  letter-spacing: -.01em;
+  color: var(--bb-title) !important;
+}
+h1.alr-bb-title.alr-bb-title-2 { font-size: 31px !important; }
+.alr-bb-sub { margin: 12px 0 0 !important; font-size: 14.5px; line-height: 1.5; color: var(--bb-sub); }
+.alr-bb-status {
+  grid-area: status; align-self: end;
+  display: flex; flex-direction: column; align-items: flex-end; gap: 5px;
+  font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--bb-stat2);
+}
+.alr-bb-status span:first-child { color: var(--bb-acc); }
+.alr-bb-status span:nth-child(3) { opacity: .7; }
+
+// The page-header rule that hides stray h1s (see the echo hero) must not hide the banner title.
+div.page-header .popover-hint h1.alr-bb-title.alr-bb-title.alr-bb-title { display: block !important; }
+
+// Slim strip
+.alr-bb-strip > .alr-bb-in { display: flex; flex-direction: column; justify-content: space-between; gap: 20px; min-height: 112px; padding: 18px 34px 16px; box-sizing: border-box; }
+.alr-bb-strip .alr-bb-osd { font-size: 22px; }
+.alr-bb-strip .alr-bb-logo { height: 76%; top: 12%; right: 15%; }
+.alr-bb-stripfoot { display: flex; justify-content: space-between; align-items: baseline; gap: 8px 16px; flex-wrap: wrap; }
+.alr-bb-crumbs { display: flex; flex-wrap: wrap; gap: 4px 10px; font-size: 11.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--bb-eyebrow); }
+.alr-bb-crumbs a { color: var(--bb-eyebrow) !important; background: none !important; border: 0 !important; font-weight: 500 !important; text-decoration: none !important; }
+.alr-bb-crumbs a:hover { color: var(--bb-title) !important; }
+.alr-bb-osd-inline { font-family: $alr-osd-font; font-size: 20px; line-height: 1; color: var(--bb-osd); opacity: .75; white-space: nowrap; }
+
+// Narrow banners (phones, or a narrow content column): stack everything.
+@container (max-width: 640px) {
+  .alr-bb-full > .alr-bb-in {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "top" "body" "status" "bot";
+    row-gap: 14px;
+    min-height: 0;
+    padding: 16px 18px 14px;
+  }
+  .alr-bb-body { padding-left: 0; padding-top: 70px; }
+  .alr-bb-logo { height: 96px; top: 44px; right: 18px; }
+  .alr-bb-osd { font-size: 18px; }
+  .alr-bb-osd-bottom { font-size: 16px; }
+  .alr-bb-eyebrow { font-size: 9.5px; letter-spacing: .16em; margin-bottom: 8px; }
+  h1.alr-bb-title { font-size: 25px !important; }
+  h1.alr-bb-title.alr-bb-title-2 { font-size: 22px !important; }
+  .alr-bb-sub { font-size: 13.5px; margin-top: 8px !important; }
+  .alr-bb-status { align-items: flex-start; font-size: 9px; gap: 4px; }
+  .alr-bb-strip > .alr-bb-in { padding: 14px 18px 12px; gap: 16px; min-height: 0; }
+  .alr-bb-strip .alr-bb-osd { font-size: 17px; }
+  .alr-bb-strip .alr-bb-logo { height: 56px; top: 30px; right: 16px; }
+  .alr-bb-crumbs { font-size: 10px; letter-spacing: .14em; }
+  .alr-bb-osd-inline { font-size: 15px; }
+}
+
+// Room for the seasonal string of lights along the top.
+body.alr-xmas-active .alr-bb, body.alr-hallow-active .alr-bb { padding-top: 40px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .alr-bb-art .bb-drift { animation: alrBbDrift 9s ease-in-out infinite; transform-box: fill-box; }
+  .alr-bb-art .bb-scan { animation: alrBbScan 7s ease-in-out infinite alternate; }
+}
+@media (prefers-reduced-motion: reduce) { .alr-bb-rec { animation: none; } }
+@keyframes alrBbDrift { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(6px, -10px); } }
+@keyframes alrBbScan { from { transform: translateX(-30px); } to { transform: translateX(30px); } }
+
+// Pages whose old title now lives in the banner
+body[data-slug="About"] article h1#about { display: none !important; }
+body[data-slug^="Submit-"] .alr-submit-header > .alr-eyebrow,
+body[data-slug^="Submit-"] .alr-submit-header > h1 { display: none !important; }
+// The site-wide phone rule (svg { height: auto !important }) must not resize the banner's art or logo.
+.alr-bb svg.alr-bb-art { width: 100% !important; height: 100% !important; max-width: none !important; }
+.alr-bb svg.alr-bb-logo { height: 84% !important; width: auto !important; max-width: none !important; }
+.alr-bb-strip svg.alr-bb-logo { height: 76% !important; }
+@container (max-width: 640px) {
+  .alr-bb svg.alr-bb-logo { width: 112px !important; height: auto !important; }
+  .alr-bb-strip svg.alr-bb-logo { width: 64px !important; height: auto !important; }
+}

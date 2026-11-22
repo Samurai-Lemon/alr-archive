@@ -1,4 +1,5 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../types"
+import { BroadcastBanner } from "../broadcast/Banner"
 import { modInfo, isModPage, mcRange, modPayload, DISCLAIMER } from "./modData"
 
 // The /Mods page: one card per mod. Versions and download links are filled in by ALRModsScript
@@ -9,17 +10,22 @@ const ALRModList: QuartzComponent = ({ allFiles }: QuartzComponentProps) => {
     .map(modInfo)
     .sort((a, b) => a.title.localeCompare(b.title))
   const loaders = Array.from(new Set(mods.flatMap((m) => m.loaders)))
+  const mcAll = Array.from(new Set(mods.flatMap((m) => m.minecraft)))
 
   return (
     <div class="alr-mods">
-      <div class="alr-mods-banner">
-        <div class="alr-eyebrow">ALR Initiative — Field Software</div>
-        <h1 class="alr-hero-title">Mods</h1>
-        <p class="alr-mods-sub">
-          Minecraft mods made by the archive team. Free to download, built for Minecraft: Java Edition.
-        </p>
-        <div class="alr-mods-osd" aria-hidden="true">● {mods.length} {mods.length === 1 ? "FILE" : "FILES"}</div>
-      </div>
+      <BroadcastBanner
+        key_="mods"
+        ch="CH 07"
+        eyebrow="Archive of Lost Realities Initiative — Field Software"
+        title={["Field tools for", "worlds still standing."]}
+        sub="Minecraft mods made by the archive team. Free to download."
+        status={[
+          `${mods.length} ${mods.length === 1 ? "file" : "files"} in circulation`,
+          `Minecraft: Java Edition — ${mcAll.join(", ")}`,
+          `Loader — ${loaders.join(", ")}`,
+        ]}
+      />
 
       {loaders.length > 1 && (
         <div class="alr-mods-seg" role="group" aria-label="Filter by loader">

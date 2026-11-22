@@ -1,22 +1,19 @@
 // @ts-nocheck
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
+import { BroadcastBanner } from "./broadcast/Banner"
 
 const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
   return (
     <div class="alr-lc">
 
-      <div class="alr-lc-banner">
-        <div class="alr-lc-banner-inner">
-          <div class="alr-eyebrow">ALR Initiative — Label Forge</div>
-          <div class="alr-lc-banner-title">Label Creator</div>
-          <div class="alr-lc-banner-sub">Generate a print-ready grading label for any card. Download your SVG at exact print size (70 × 20 mm).</div>
-        </div>
-        <div class="alr-lc-banner-meta">
-          <div class="alr-lc-banner-meta-item">FORMAT · SVG</div>
-          <div class="alr-lc-banner-meta-item">SIZE · 70 × 20 MM</div>
-          <div class="alr-lc-banner-meta-item">STANDARD · PSA</div>
-        </div>
-      </div>
+      <BroadcastBanner
+        key_="label-creator"
+        ch="CH 05"
+        eyebrow="ALR Initiative — Label Forge"
+        title={["Label Creator"]}
+        sub="Print-ready grading labels for any card, at exact size (70 × 20 mm)."
+        status={["Format · SVG", "Size · 70 × 20 mm", "Standard · PSA"]}
+      />
 
       <div id="alr-lc-tool">
         <div class="alr-lc-wrap">

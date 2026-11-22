@@ -1,4 +1,5 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
+import { BroadcastBanner } from "./broadcast/Banner"
 import { ecTypeLabels, escLabels, rtsLabels, rdsLabels, rccLabels } from "../util/alrClassifications"
 
 type EchoRegistryItem = {
@@ -132,21 +133,14 @@ const ALREchoRegistry: QuartzComponent = ({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(payload) }}
       />
 
-      <div class="alr-reg-banner">
-        <div class="alr-reg-banner-meta">
-          <div class="alr-reg-banner-meta-item">REGISTRY · ACTIVE</div>
-          <div class="alr-reg-banner-meta-item">CYCLE {activeCycle} · ARCHIVE OPS</div>
-        </div>
-        <div class="alr-reg-banner-eyebrow">ALR Initiative — Archive</div>
-        <div class="alr-reg-banner-titlerow">
-          <div class="alr-reg-banner-title">Echo Registry</div>
-          <div class="alr-reg-banner-count">{echoes.length} documented</div>
-        </div>
-        <div class="alr-reg-banner-sub">
-          Formal index of documented Echoes. Entries update automatically as new records are added to
-          the Archive.
-        </div>
-      </div>
+      <BroadcastBanner
+        key_="echo-registry"
+        ch="CH 01"
+        eyebrow="ALR Initiative — Archive"
+        title={["Echo Registry"]}
+        sub="Every Echo on record, with its class and stability."
+        status={[`${echoes.length} documented`, "Registry · Active", `Cycle ${activeCycle} · Archive Ops`]}
+      />
 
       <div class="alr-reg-type-toggle">
         <a href="/Index/ECHO-Registry" class="alr-reg-type-btn alr-reg-type-active internal">Echoes</a>

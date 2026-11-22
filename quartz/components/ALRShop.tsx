@@ -1,14 +1,18 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
+import { BroadcastBanner } from "./broadcast/Banner"
 
 const ALRShop: QuartzComponent = (_props: QuartzComponentProps) => {
   return (
     <div class="alr-shop">
 
-      <div class="alr-shop-header">
-        <div class="alr-eyebrow">ALR Initiative — Procurement Terminal</div>
-        <div class="alr-hero-title">ALR Procurement</div>
-        <div class="alr-shop-sub">Official materials from the Archive of Lost Realities Initiative. All proceeds support ongoing reality investigation and archive maintenance.</div>
-      </div>
+      <BroadcastBanner
+        key_="shop"
+        ch="CH 04"
+        eyebrow="ALR Initiative — Procurement Terminal"
+        title={["ALR Procurement"]}
+        sub="Official materials. All proceeds support archive operations."
+        status={["Procurement notice — Cycle 7", "3D prints · 7–14 cycles", "All other items · Standard"]}
+      />
 
       <div class="alr-shop-notice">
         <div class="alr-submit-notice-dot"></div>
