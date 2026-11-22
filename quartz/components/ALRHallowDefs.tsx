@@ -2189,7 +2189,7 @@ l-8 55 -13 -75z"/>
   // Top cards that get a string of lights: home hero, echo hero, registry/account banners,
   // shop and label creator headers, content-page breadcrumb banner, and the Ordo hero (dead bulbs).
   // Bulb colours come from CSS per season.
-  var TARGETS = '.alr-home-hero-wrap, .alr-echo-hero-card, .alr-reg-banner, .alr-shop-header, .alr-lc-banner, .alr-page-banner, .ordo-hero-card';
+  var TARGETS = '.alr-home-hero-wrap, .alr-echo-hero-card, .alr-reg-banner, .alr-shop-header, .alr-mods-banner, .alr-mod-head, .alr-lc-banner, .alr-page-banner, .ordo-hero-card';
   var N = 22;
   function hangLights() {
     document.querySelectorAll(TARGETS).forEach(function(el) {

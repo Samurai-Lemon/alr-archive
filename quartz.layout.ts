@@ -7,6 +7,10 @@ import OrdoThreatStrip from "./quartz/components/OrdoThreatStrip"
 import ALRMobileBack from "./quartz/components/ALRMobileBack"
 import ALREchoPager from "./quartz/components/ALREchoPager"
 import ALRSponsorSlot from "./quartz/components/ALRSponsorSlot"
+import ALRModList from "./quartz/components/mods/ALRModList"
+import ALRModHeader from "./quartz/components/mods/ALRModHeader"
+import ALRModFiles from "./quartz/components/mods/ALRModFiles"
+import ALRModsScript from "./quartz/components/mods/ALRModsScript"
 
 const isHome = (page: any) => page.fileData.slug === "index" || page.fileData.slug === ""
 const isEchoRegistry = (page: any) => page.fileData.slug === "Index/ECHO-Registry"
@@ -18,6 +22,8 @@ const isShop = (page: any) => page.fileData.slug === "Shop"
 const isLabelCreator = (page: any) => page.fileData.slug === "label-creator"
 const isAccount = (page: any) => page.fileData.slug === "Account"
 const isAdmin = (page: any) => page.fileData.slug === "Admin"
+const isMod = (page: any) => page.fileData.frontmatter?.type === "mod"
+const isModsIndex = (page: any) => page.fileData.slug === "Mods/index"
 
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
@@ -43,6 +49,11 @@ export const sharedPageComponents: SharedLayout = {
       component: ALREchoPager(),
       condition: isEcho,
     }),
+    Component.ConditionalRender({
+      component: ALRModFiles(),
+      condition: isMod,
+    }),
+    ALRModsScript(),
     ALRSponsorSlot(),
     Component.ALRFollowBanner(),
   ],
@@ -55,7 +66,7 @@ export const defaultContentPageLayout: PageLayout = {
   beforeBody: [
     Component.ConditionalRender({
       component: Component.ALRBanner(),
-      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isOrdo(page) && !isEcho(page) && !isShop(page) && !isLabelCreator(page) && !isAccount(page) && !isAdmin(page),
+      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isOrdo(page) && !isEcho(page) && !isShop(page) && !isLabelCreator(page) && !isAccount(page) && !isAdmin(page) && !isMod(page) && !isModsIndex(page),
     }),
     Component.ConditionalRender({
       component: OrdoBanner(),
@@ -94,6 +105,10 @@ export const defaultContentPageLayout: PageLayout = {
       condition: isLabelCreator,
     }),
     Component.ConditionalRender({
+      component: ALRModHeader(),
+      condition: isMod,
+    }),
+    Component.ConditionalRender({
       component: Component.ALRAccount(),
       condition: isAccount,
     }),
@@ -113,7 +128,7 @@ export const defaultListPageLayout: PageLayout = {
   beforeBody: [
     Component.ConditionalRender({
       component: Component.ALRBanner(),
-      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isOrdo(page) && !isEcho(page) && !isShop(page) && !isLabelCreator(page) && !isAccount(page) && !isAdmin(page),
+      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isOrdo(page) && !isEcho(page) && !isShop(page) && !isLabelCreator(page) && !isAccount(page) && !isAdmin(page) && !isMod(page) && !isModsIndex(page),
     }),
     Component.ConditionalRender({
       component: OrdoBanner(),
@@ -148,12 +163,16 @@ export const defaultListPageLayout: PageLayout = {
       condition: isShop,
     }),
     Component.ConditionalRender({
+      component: ALRModList(),
+      condition: isModsIndex,
+    }),
+    Component.ConditionalRender({
       component: Component.ArticleTitle(),
-      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isEcho(page) && !isShop(page) && !isLabelCreator(page) && !isAccount(page) && !isAdmin(page),
+      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isEcho(page) && !isShop(page) && !isLabelCreator(page) && !isAccount(page) && !isAdmin(page) && !isMod(page) && !isModsIndex(page),
     }),
     Component.ConditionalRender({
       component: Component.ContentMeta(),
-      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isEcho(page) && !isShop(page) && !isLabelCreator(page) && !isAccount(page) && !isAdmin(page),
+      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isEcho(page) && !isShop(page) && !isLabelCreator(page) && !isAccount(page) && !isAdmin(page) && !isMod(page) && !isModsIndex(page),
     }),
   ],
   left: [

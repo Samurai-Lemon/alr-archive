@@ -278,7 +278,7 @@ const ALRSidebar: QuartzComponent = ({ allFiles, fileData }: QuartzComponentProp
       blocks: [
         {
           heading: "Archive",
-          items: [link("Home", "/"), link("Shop", "/Shop"), link("Grading Terminal", "/label-creator"), link("About", "/About")],
+          items: [link("Home", "/"), link("Mods", "/Mods/"), link("Shop", "/Shop"), link("Grading Terminal", "/label-creator"), link("About", "/About")],
         },
         { heading: "Protocols", items: protocols },
       ],
