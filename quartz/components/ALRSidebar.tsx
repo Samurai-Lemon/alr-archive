@@ -81,6 +81,10 @@ const Icon = ({ name }: { name: string }) => {
       return <svg {...p}><line x1="4" y1="7" x2="20" y2="7" /><line x1="4" y1="17" x2="20" y2="17" /><circle cx="9" cy="7" r="2.2" /><circle cx="15" cy="17" r="2.2" /></svg>
     case "equipment":
       return <svg {...p}><rect x="5" y="3" width="14" height="18" rx="2" /><circle cx="12" cy="10" r="3" /><line x1="9" y1="17" x2="15" y2="17" /></svg>
+    case "mods":
+      return <svg {...p}><path d="M12 3 20 7.5v9L12 21l-8-4.5v-9z" /><path d="M4 7.5 12 12l8-4.5" /><line x1="12" y1="12" x2="12" y2="21" /></svg>
+    case "terminal":
+      return <svg {...p}><rect x="3" y="4" width="18" height="16" rx="2" /><polyline points="7 10 10 12.5 7 15" /><line x1="12.5" y1="15" x2="17" y2="15" /></svg>
     case "shop":
       return <svg {...p}><path d="M5 8h14l-1 12H6z" /><path d="M9 8V6a3 3 0 0 1 6 0v2" /></svg>
     default:
@@ -198,6 +202,13 @@ const ALRSidebar: QuartzComponent = ({ allFiles, fileData }: QuartzComponentProp
     .sort(alphaTitle)
     .map(simple)
 
+  const mods = files
+    .filter((f) => f.frontmatter?.type === "mod")
+    .sort(alphaTitle)
+    .map(simple)
+  const isMods = currentSlug.startsWith("Mods/")
+  const isTerminal = currentSlug === "label-creator"
+
   const echoCount = entities.length + objects.length + locations.length + phenomena.length
   const link = (name: string, href: string, tag = ""): NavItem => ({
     name,
@@ -270,6 +281,13 @@ const ALRSidebar: QuartzComponent = ({ allFiles, fileData }: QuartzComponentProp
       foot: { label: "Device entry format", href: "/Archive-Documentation-Format/Device-Entry-Format" },
     },
     {
+      key: "mods",
+      title: "Mods",
+      short: "Mods",
+      blocks: [{ heading: "Minecraft mods", items: mods }],
+      foot: { label: "All mods", href: "/Mods/" },
+    },
+    {
       // Site-wide links. On desktop these also live in the top bar; on phones the top bar is
       // hidden, so this is how the drawer reaches them.
       key: "more",
@@ -278,7 +296,7 @@ const ALRSidebar: QuartzComponent = ({ allFiles, fileData }: QuartzComponentProp
       blocks: [
         {
           heading: "Archive",
-          items: [link("Home", "/"), link("Mods", "/Mods/"), link("Shop", "/Shop"), link("Grading Terminal", "/label-creator"), link("About", "/About")],
+          items: [link("Home", "/"), link("Shop", "/Shop"), link("About", "/About")],
         },
         { heading: "Protocols", items: protocols },
       ],
@@ -288,7 +306,7 @@ const ALRSidebar: QuartzComponent = ({ allFiles, fileData }: QuartzComponentProp
   const hasActive = (s: Section) => s.blocks.some((b) => b.items.some((i) => i.active))
   // Open on the section that holds this page; pages only reachable via "More" (home, about,
   // protocols) open on Echoes, since on desktop the top bar already covers those links.
-  const current = isShop ? "shop" : sections.find((s) => s.key !== "more" && hasActive(s))?.key ?? "echoes"
+  const current = isShop ? "shop" : isMods ? "mods" : sections.find((s) => s.key !== "more" && hasActive(s))?.key ?? "echoes"
 
   const railSections = sections.filter((s) => s.key !== "more")
   const more = sections.find((s) => s.key === "more")!
@@ -350,6 +368,16 @@ const ALRSidebar: QuartzComponent = ({ allFiles, fileData }: QuartzComponentProp
         {railSections.map((s) => (
           <RailBtn s={s} />
         ))}
+        {/* A page, not a panel: this one goes straight to the Grading Terminal. */}
+        <a
+          href="/label-creator"
+          class={`alr-rail-btn alr-rail-link${isTerminal ? " is-current" : ""}`}
+          aria-current={isTerminal ? "page" : undefined}
+          title="Grading Terminal"
+        >
+          <Icon name="terminal" />
+          <span class="alr-rail-label">Grading</span>
+        </a>
 
         <div class="alr-rail-bottom">
           <RailBtn s={more} />
@@ -482,7 +510,7 @@ const ALRSidebar: QuartzComponent = ({ allFiles, fileData }: QuartzComponentProp
     var e = els();
     if (!e.wrapper) return;
     e.wrapper.dataset.current = key;
-    e.wrapper.querySelectorAll('.alr-rail-btn').forEach(function(btn) {
+    e.wrapper.querySelectorAll('.alr-rail-btn[data-section]').forEach(function(btn) {
       var on = btn.dataset.section === key;
       btn.classList.toggle('is-current', on);
       btn.setAttribute('aria-pressed', on ? 'true' : 'false');
@@ -568,7 +596,7 @@ const ALRSidebar: QuartzComponent = ({ allFiles, fileData }: QuartzComponentProp
     try { stored = localStorage.getItem(COLLAPSE_KEY) || '0'; } catch (err) {}
     setCollapsed(stored === '1');
 
-    e.wrapper.querySelectorAll('.alr-rail-btn').forEach(function(btn) {
+    e.wrapper.querySelectorAll('.alr-rail-btn[data-section]').forEach(function(btn) {
       if (btn._alrBound) return;
       btn._alrBound = true;
       btn.addEventListener('click', function() {

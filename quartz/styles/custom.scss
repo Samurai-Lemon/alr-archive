@@ -4442,3 +4442,14 @@ div.page-header .popover-hint .alr-mod-head h1.alr-mod-title.alr-mod-title.alr-m
 div.page-header .popover-hint .alr-mods-banner h1.alr-hero-title.alr-hero-title.alr-hero-title { display: block !important; }
 .alr-mod-icon { align-self: flex-start; aspect-ratio: 1; object-fit: cover; }
 a.alr-mod-btn, .alr-mod-btn { box-sizing: border-box; max-width: 100%; }
+// The Grading Terminal rail button is a link, not a panel toggle.
+a.alr-rail-link { text-decoration: none !important; background-color: transparent; }
+a.alr-rail-link:hover { background: var(--alr-hover); }
+// Its page has no panel section of its own, so it stays lit even when the panel is tucked away.
+.alr-collapsed a.alr-rail-link.is-current { background: var(--alr-hover); color: var(--alr-accent-text); }
+// Phone sheet: eight section buttons plus sound and theme fit in two rows of six.
+@media (max-width: 800px) {
+  .alr-rail { grid-template-columns: repeat(6, minmax(0, 1fr)) !important; gap: 5px !important; padding: 0 10px 12px !important; }
+  .alr-rail-btn, .alr-rail-icon { min-height: 54px !important; border-radius: 12px !important; }
+  .alr-rail-label { font-size: 10px; letter-spacing: -0.01em; white-space: nowrap; }
+}
