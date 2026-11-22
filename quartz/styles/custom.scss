@@ -4653,3 +4653,30 @@ body.alr-xmas-active .alr-bb, body.alr-hallow-active .alr-bb { padding-top: 30px
 }
 .alr-bb-full > .alr-bb-in { row-gap: 12px; padding-top: 16px; padding-bottom: 14px; }
 .alr-bb-strip { margin-bottom: 12px; }
+
+// Compact banner: date and counter join the PLAY/REC row, the title is one line, status lines
+// sit beside it. Close to the slim strip's height.
+.alr-bb-full > .alr-bb-in {
+  grid-template-areas: "top top" "body status";
+  padding: 12px 28px 14px; row-gap: 8px;
+}
+.alr-bb-full .alr-bb-osd-bottom { display: none; }
+.alr-bb-osd { font-size: 19px; }
+.alr-bb-body { padding-left: 12px; }
+.alr-bb-eyebrow { font-size: 10.5px; margin-bottom: 4px; }
+h1.alr-bb-title { font-size: 26px !important; line-height: 1.15 !important; }
+.alr-bb-sub { margin-top: 3px !important; font-size: 13.5px; }
+.alr-bb-status { font-size: 9.5px; gap: 2px; }
+.alr-bb svg.alr-bb-logo { height: 120% !important; }
+.alr-bb .alr-bb-logo { top: -10%; right: 22%; }
+// The strip uses the same row of OSD; its own date/counter in the footer stays.
+.alr-bb-strip .alr-bb-osd-when { display: none; }
+@container (max-width: 640px) {
+  .alr-bb-full > .alr-bb-in { grid-template-areas: "top" "body" "status" "bot"; padding: 10px 16px 10px; row-gap: 8px; }
+  .alr-bb-full .alr-bb-osd-bottom { display: flex; }
+  .alr-bb-full .alr-bb-osd-when { display: none; }
+  .alr-bb-body { padding-top: 0; padding-right: 64px; }
+  .alr-bb svg.alr-bb-logo { width: 54px !important; height: auto !important; }
+  .alr-bb .alr-bb-logo { top: 38px; right: 16px; }
+  h1.alr-bb-title { font-size: 21px !important; }
+}

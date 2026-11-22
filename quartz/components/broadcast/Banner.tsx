@@ -29,7 +29,12 @@ const Osd = ({ ch, bottom }: { ch?: string; bottom?: boolean }) =>
   ) : (
     <div class="alr-bb-osd alr-bb-osd-top" aria-hidden="true">
       <span>▶ PLAY</span>
-      <span><i class="alr-bb-rec"></i>REC&nbsp; {ch}</span>
+      <span>
+        <i class="alr-bb-rec"></i>REC&nbsp; {ch}
+        <span class="alr-bb-osd-when">
+          &nbsp;·&nbsp; <span data-bb-date>&nbsp;</span>&nbsp; SP <span data-bb-counter>00:00:00</span>
+        </span>
+      </span>
     </div>
   )
 
@@ -43,14 +48,7 @@ export function BroadcastBanner(p: BannerProps) {
       <Osd ch={p.ch} />
       <div class="alr-bb-body">
         <div class="alr-bb-eyebrow">{p.eyebrow}</div>
-        <h1 class={`alr-bb-title${p.title.length > 1 ? " alr-bb-title-2" : ""}`}>
-          {p.title.map((line, i) => (
-            <>
-              {i > 0 && <br />}
-              {line}
-            </>
-          ))}
-        </h1>
+        <h1 class="alr-bb-title">{p.title.join(" ")}</h1>
         {p.sub && <p class="alr-bb-sub">{p.sub}</p>}
       </div>
       {p.status.length > 0 && (
