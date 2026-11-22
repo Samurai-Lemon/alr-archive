@@ -269,21 +269,97 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
     }).catch(function() { return ''; });
   }
 
+  // ── PNG export: the label is drawn at 600 DPI onto a white background (one flat image, no
+  //    transparency), and the DPI is written into the file so it prints at its true size. ──
+  var DPI = 600;
+  var CRC = null;
+  function crc32(bytes) {
+    if (!CRC) {
+      CRC = [];
+      for (var n = 0; n < 256; n++) {
+        var c = n;
+        for (var k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1;
+        CRC[n] = c >>> 0;
+      }
+    }
+    var crc = 0xFFFFFFFF;
+    for (var i = 0; i < bytes.length; i++) crc = CRC[(crc ^ bytes[i]) & 255] ^ (crc >>> 8);
+    return (crc ^ 0xFFFFFFFF) >>> 0;
+  }
+  // Adds a pHYs chunk (pixels per metre) right after IHDR.
+  function withDpi(buf, dpi) {
+    var src = new Uint8Array(buf), ppm = Math.round(dpi / 0.0254);
+    var chunk = new Uint8Array(21), dv = new DataView(chunk.buffer);
+    dv.setUint32(0, 9);
+    chunk.set([0x70, 0x48, 0x59, 0x73], 4);
+    dv.setUint32(8, ppm); dv.setUint32(12, ppm); chunk[16] = 1;
+    dv.setUint32(17, crc32(chunk.subarray(4, 17)));
+    var at = 33, out = new Uint8Array(src.length + 21);
+    out.set(src.subarray(0, at), 0); out.set(chunk, at); out.set(src.subarray(at), at + 21);
+    return out;
+  }
+  function saveBlob(blob, fn) {
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = fn;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function() { URL.revokeObjectURL(url); }, 2000);
+  }
+  function rasterize(svg, wmm, hmm) {
+    return new Promise(function(resolve, reject) {
+      var w = Math.round(wmm / 25.4 * DPI), h = Math.round(hmm / 25.4 * DPI);
+      var img = new Image();
+      var url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
+      img.onload = function() {
+        // a short wait lets the embedded fonts settle before drawing
+        setTimeout(function() {
+          var c = document.createElement('canvas');
+          c.width = w; c.height = h;
+          var ctx = c.getContext('2d');
+          ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, w, h);
+          ctx.drawImage(img, 0, 0, w, h);
+          URL.revokeObjectURL(url);
+          c.toBlob(function(b) {
+            if (!b) { reject(new Error('png')); return; }
+            b.arrayBuffer().then(function(ab) { resolve(new Blob([withDpi(ab, DPI)], { type: 'image/png' })); });
+          }, 'image/png');
+        }, 120);
+      };
+      img.onerror = function() { URL.revokeObjectURL(url); reject(new Error('svg')); };
+      img.src = url;
+    });
+  }
+
+  // PNG (flat, 600 DPI) or SVG (editable vector, fonts embedded), picked with the format switch.
+  var fmt = 'png';
+  function setFormat(f) {
+    fmt = f;
+    ['png', 'svg'].forEach(function(n) {
+      var b = g('alr-lc-fmt-' + n);
+      if (!b) return;
+      b.className = 'alr-lc-fmt-btn' + (n === f ? ' alr-lc-fmt-on' : '');
+      b.setAttribute('aria-pressed', n === f ? 'true' : 'false');
+    });
+  }
+
   function download(which) {
-    var s = g('alr-lc-status');
+    var s = g('alr-lc-status'), want = fmt;
     if (s) s.textContent = 'Preparing…';
     loadFonts().then(function(fonts) {
-      var vf = getF(), vb = getB(), svg, fn;
-      if (which === 'front') { svg = buildFront(vf, fonts); fn = 'alr_label_front.svg'; }
-      else if (which === 'back') { svg = buildBack(vb, fonts); fn = 'alr_label_back.svg'; }
-      else { svg = buildFold(vf, vb, fonts); fn = 'alr_label_foldcut.svg'; }
-      var url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
-      var a = document.createElement('a');
-      a.href = url; a.download = fn;
-      document.body.appendChild(a); a.click(); document.body.removeChild(a);
-      setTimeout(function() { URL.revokeObjectURL(url); }, 2000);
-      if (s) s.textContent = fonts ? 'Downloaded' : 'Downloaded (fonts could not be embedded)';
-    });
+      var vf = getF(), vb = getB(), svg, base, wmm = 70, hmm = 20;
+      if (which === 'front') { svg = buildFront(vf, fonts); base = 'alr_label_front'; }
+      else if (which === 'back') { svg = buildBack(vb, fonts); base = 'alr_label_back'; }
+      else { svg = buildFold(vf, vb, fonts); base = 'alr_label_foldcut'; wmm = 86; hmm = 56.6; }
+      if (want === 'svg') {
+        saveBlob(new Blob([svg], { type: 'image/svg+xml' }), base + '.svg');
+        if (s) s.textContent = fonts ? 'Downloaded SVG · ' + wmm + ' × ' + hmm + ' mm' : 'Downloaded SVG (fonts could not be embedded)';
+        return;
+      }
+      return rasterize(svg, wmm, hmm).then(function(png) {
+        saveBlob(png, base + '.png');
+        if (s) s.textContent = 'Downloaded PNG · ' + wmm + ' × ' + hmm + ' mm at ' + DPI + ' DPI';
+      });
+    }).catch(function() { if (s) s.textContent = 'Could not make the file. Try again.'; });
   }
 
   function setPreset(name) {
@@ -355,6 +431,11 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
     if (tf) tf.addEventListener('click', function() { switchTab('front'); });
     if (tb) tb.addEventListener('click', function() { switchTab('back'); });
     if (tfo) tfo.addEventListener('click', function() { switchTab('fold'); });
+
+    var fp = freshBtn('alr-lc-fmt-png'), fs = freshBtn('alr-lc-fmt-svg');
+    if (fp) fp.addEventListener('click', function() { setFormat('png'); });
+    if (fs) fs.addEventListener('click', function() { setFormat('svg'); });
+    setFormat(fmt);
 
     var df = freshBtn('alr-lc-dl-front'), db = freshBtn('alr-lc-dl-back'), dfo = freshBtn('alr-lc-dl-fold');
     if (df) df.addEventListener('click', function() { download('front'); });

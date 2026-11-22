@@ -12,7 +12,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
         eyebrow="ALR Initiative — Label Forge"
         title={["Label Creator"]}
         sub="Print-ready grading labels for any card, at exact size (70 × 20 mm)."
-        status={["Format · SVG", "Size · 70 × 20 mm", "Standard · PSA"]}
+        status={["Format · PNG or SVG", "Size · 70 × 20 mm", "Standard · PSA"]}
       />
 
       <div id="alr-lc-tool">
@@ -132,6 +132,10 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
               </div>
               <div class="alr-lc-preview" id="alr-lc-preview"></div>
               <div class="alr-lc-actions">
+                <div class="alr-lc-fmt" role="group" aria-label="Download format">
+                  <button type="button" class="alr-lc-fmt-btn alr-lc-fmt-on" id="alr-lc-fmt-png" aria-pressed="true">PNG</button>
+                  <button type="button" class="alr-lc-fmt-btn" id="alr-lc-fmt-svg" aria-pressed="false">SVG</button>
+                </div>
                 <button class="alr-lc-btn-primary" id="alr-lc-dl-front">Download Front</button>
                 <button class="alr-lc-btn-ghost" id="alr-lc-dl-back">Download Back</button>
                 <button class="alr-lc-btn-ghost" id="alr-lc-dl-fold">Download Fold</button>
@@ -190,6 +194,9 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
         .alr-lc-btn-ghost{font-family:var(--bodyFont);font-size:14px;font-weight:500;min-height:40px;padding:0 16px;border-radius:var(--alr-r-sm);cursor:pointer;background:var(--alr-hover);border:none;color:var(--alr-text);transition:all .15s}
         .alr-lc-btn-ghost:hover{background:var(--alr-border-strong)}
         .alr-lc-status{font-size:12px;color:var(--alr-accent-text);margin-left:auto}
+        .alr-lc-fmt{display:inline-flex;border:1px solid var(--alr-border);border-radius:var(--alr-r-sm);padding:3px;gap:2px;margin-right:4px}
+        .alr-lc-fmt-btn{font-family:var(--codeFont),monospace;font-size:13px;min-height:32px;padding:0 12px;border:0;border-radius:8px;background:transparent;color:var(--alr-muted);cursor:pointer}
+        .alr-lc-fmt-btn.alr-lc-fmt-on{background:var(--alr-hover);color:var(--alr-text)}
         #alr-lc-colours-front,#alr-lc-colours-back{display:flex;flex-direction:column;gap:8px}
         .alr-lc-cert-row{display:flex;gap:6px;align-items:center}
         .alr-lc-cert-row .alr-lc-input{flex:1}
