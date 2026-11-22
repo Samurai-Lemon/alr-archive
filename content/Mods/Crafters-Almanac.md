@@ -11,6 +11,22 @@ environment: Client only
 license: MIT
 requires: Fabric API
 requires_url: https://modrinth.com/mod/fabric-api
+# modrinth: crafters-almanac   # add the Modrinth slug once it's approved, for a Modrinth link
+gallery:
+  - src: /Images/mods/crafters-almanac/1.jpg
+    caption: Browse every item beside your inventory. Hold Shift over one for a quick look at its recipe.
+  - src: /Images/mods/crafters-almanac/2.jpg
+    caption: Recipes from other mods drawn on their own station, like Farmer's Delight's Cooking Pot.
+  - src: /Images/mods/crafters-almanac/3.jpg
+    caption: The Materials Calculator breaks a recipe down to raw materials.
+  - src: /Images/mods/crafters-almanac/4.jpg
+    caption: Star the recipes you use most. Each world and server keeps its own favorites.
+  - src: /Images/mods/crafters-almanac/5.jpg
+    caption: Sort any chest with one click.
+  - src: /Images/mods/crafters-almanac/6.jpg
+    caption: Quick Stack moves what a chest already holds out of your inventory and into it.
+  - src: /Images/mods/crafters-almanac/7.jpg
+    caption: Crafter's Almanac settings.
 # Manual files (backup): add a jar here if it isn't on a GitHub Release.
 # Put the jar in content/Mods/files/ and point url at /Mods/files/<name>.jar,
 # or use any direct link to a .jar.

@@ -11,6 +11,18 @@ environment: Client only
 license: MIT
 requires: Fabric API
 requires_url: https://modrinth.com/mod/fabric-api
+# modrinth: cartographers-atlas   # add the Modrinth slug once it's approved, for a Modrinth link
+gallery:
+  - src: /Images/mods/cartographers-atlas/1.jpg
+    caption: The world map, drawn as a 3D model of everything you've explored.
+  - src: /Images/mods/cartographers-atlas/2.jpg
+    caption: Your position, a waypoint and where you last died, marked on the map.
+  - src: /Images/mods/cartographers-atlas/3.jpg
+    caption: Waypoints float in the world, with the compass across the top of the screen.
+  - src: /Images/mods/cartographers-atlas/4.jpg
+    caption: "The waypoint list: show, hide, edit, delete or teleport."
+  - src: /Images/mods/cartographers-atlas/5.jpg
+    caption: World Map settings.
 # Manual files (backup): see the note in Crafters-Almanac.md.
 files: []
 ---

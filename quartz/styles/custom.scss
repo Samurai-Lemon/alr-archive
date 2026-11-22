@@ -4453,3 +4453,28 @@ a.alr-rail-link:hover { background: var(--alr-hover); }
   .alr-rail-btn, .alr-rail-icon { min-height: 54px !important; border-radius: 12px !important; }
   .alr-rail-label { font-size: 10px; letter-spacing: -0.01em; white-space: nowrap; }
 }
+
+// Mod screenshot gallery (frontmatter `gallery:`)
+.alr-mod-gallery { margin: 8px 0 0; }
+.alr-mod-shot {
+  border-radius: var(--alr-r-lg); overflow: hidden; border: 1px solid var(--alr-border);
+  background: var(--alr-surface-2); aspect-ratio: 16 / 9;
+}
+.alr-mod-shot img { display: block; width: 100%; height: 100%; object-fit: cover; margin: 0 !important; border-radius: 0 !important; }
+.alr-mod-gallery figcaption { margin-top: 8px; font-size: 13.5px; color: var(--alr-muted); text-align: left; }
+.alr-mod-thumbs { display: flex; gap: 8px; margin-top: 10px; overflow-x: auto; padding-bottom: 4px; }
+.alr-mod-thumb {
+  flex: 0 0 auto; width: 120px; aspect-ratio: 16 / 9; padding: 0; cursor: pointer;
+  border: 2px solid transparent; border-radius: 10px; overflow: hidden; background: var(--alr-surface-2);
+  opacity: .7; transition: opacity .15s ease, border-color .15s ease;
+}
+.alr-mod-thumb img { display: block; width: 100%; height: 100%; object-fit: cover; margin: 0 !important; border-radius: 0 !important; }
+.alr-mod-thumb:hover { opacity: 1; }
+.alr-mod-thumb.is-on { opacity: 1; border-color: var(--alr-accent); }
+@media (max-width: 800px) {
+  .alr-mod-shot { border-radius: 12px; }
+  .alr-mod-thumb { width: 92px; }
+}
+// Screenshots keep their own shape (mods' screenshots aren't all 16:9).
+.alr-mod-shot { aspect-ratio: auto; }
+.alr-mod-shot img { height: auto; }

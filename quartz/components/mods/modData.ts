@@ -9,6 +9,11 @@ export interface ManualFile {
   notes?: string
 }
 
+export interface GalleryImage {
+  src: string
+  caption: string
+}
+
 export interface ModInfo {
   slug: string
   title: string
@@ -23,6 +28,8 @@ export interface ModInfo {
   requires: string
   requiresUrl: string
   files: ManualFile[]
+  gallery: GalleryImage[]
+  modrinth: string
 }
 
 const list = (v: unknown): string[] =>
@@ -44,6 +51,10 @@ export function modInfo(fileData: any): ModInfo {
     license: String(fm.license ?? ""),
     requires: String(fm.requires ?? ""),
     requiresUrl: String(fm.requires_url ?? ""),
+    modrinth: String(fm.modrinth ?? ""),
+    gallery: (Array.isArray(fm.gallery) ? fm.gallery : [])
+      .map((g: any) => (typeof g === "string" ? { src: g, caption: "" } : { src: String(g?.src ?? ""), caption: String(g?.caption ?? "") }))
+      .filter((g: GalleryImage) => g.src),
     files: files
       .filter((f: any) => f && f.url)
       .map((f: any) => ({

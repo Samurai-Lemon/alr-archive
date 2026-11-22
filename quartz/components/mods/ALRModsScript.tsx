@@ -259,6 +259,24 @@ const script = `
       wireLoaderSwitch();
     }
   }
+  // Screenshot gallery: a thumbnail swaps the big image and its caption.
+  document.addEventListener('click', function (e) {
+    var t = e.target && e.target.closest ? e.target.closest('.alr-mod-thumb') : null;
+    if (!t) return;
+    var fig = t.closest('.alr-mod-gallery');
+    var img = fig && fig.querySelector('[data-mod-shot]');
+    var cap = fig && fig.querySelector('[data-mod-caption]');
+    if (!img) return;
+    img.src = t.getAttribute('data-src');
+    img.alt = t.getAttribute('data-caption') || '';
+    if (cap) cap.textContent = t.getAttribute('data-caption') || '';
+    fig.querySelectorAll('.alr-mod-thumb').forEach(function (b) {
+      var on = b === t;
+      b.classList.toggle('is-on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  });
+
   document.addEventListener('nav', run);
   if (document.readyState !== 'loading') run(); else document.addEventListener('DOMContentLoaded', run);
 })();

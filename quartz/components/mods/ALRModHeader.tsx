@@ -36,8 +36,33 @@ const ALRModHeader: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
         {m.environment && (<div><dt>Install on</dt><dd>{m.environment}</dd></div>)}
         {m.requires && (<div><dt>Needs</dt><dd>{m.requiresUrl ? <a href={m.requiresUrl} rel="noopener" target="_blank">{m.requires}</a> : m.requires}</dd></div>)}
         {m.license && (<div><dt>License</dt><dd>{m.license}</dd></div>)}
-        {m.repo && (<div><dt>Links</dt><dd><a href={`https://github.com/${m.repo}`} rel="noopener" target="_blank">Source</a> · <a href={`https://github.com/${m.repo}/issues`} rel="noopener" target="_blank">Report a bug</a></dd></div>)}
+        {m.repo && (<div><dt>Links</dt><dd>{m.modrinth && (<><a href={`https://modrinth.com/mod/${m.modrinth}`} rel="noopener" target="_blank">Modrinth</a> · </>)}<a href={`https://github.com/${m.repo}`} rel="noopener" target="_blank">Source</a> · <a href={`https://github.com/${m.repo}/issues`} rel="noopener" target="_blank">Report a bug</a></dd></div>)}
       </dl>
+      {m.gallery.length > 0 && (
+        <figure class="alr-mod-gallery">
+          <div class="alr-mod-shot">
+            <img data-mod-shot src={m.gallery[0].src} alt={m.gallery[0].caption || `${m.title} screenshot`} />
+          </div>
+          <figcaption data-mod-caption>{m.gallery[0].caption}</figcaption>
+          {m.gallery.length > 1 && (
+            <div class="alr-mod-thumbs" role="list">
+              {m.gallery.map((g, i) => (
+                <button
+                  type="button"
+                  role="listitem"
+                  class={`alr-mod-thumb${i === 0 ? " is-on" : ""}`}
+                  data-src={g.src}
+                  data-caption={g.caption}
+                  aria-label={g.caption || `Screenshot ${i + 1}`}
+                  aria-pressed={i === 0 ? "true" : "false"}
+                >
+                  <img src={g.src} alt="" loading="lazy" width={160} height={90} />
+                </button>
+              ))}
+            </div>
+          )}
+        </figure>
+      )}
     </div>
   )
 }
