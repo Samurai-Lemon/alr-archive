@@ -150,10 +150,10 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
   var SIZE_TXT = LABEL_W_IN + ' × ' + LABEL_H_IN + ' IN';
 
   function clipOpen(id) {
-    return '<defs><clipPath id="' + id + '"><rect width="' + VW + '" height="200" rx="11"/></clipPath></defs><g clip-path="url(#' + id + ')">';
+    return '<defs><clipPath id="' + id + '"><rect width="' + VW + '" height="200"/></clipPath></defs><g clip-path="url(#' + id + ')">';
   }
   function frameRect(d) {
-    return '</g><rect x="1" y="1" width="' + (VW - 2) + '" height="198" rx="10" fill="none" stroke="' + d.border + '" stroke-width="2"/>';
+    return '</g><rect x="1" y="1" width="' + (VW - 2) + '" height="198" fill="none" stroke="' + d.border + '" stroke-width="2"/>';
   }
   function sidePanel(v, d) {
     return '<rect width="150" height="200" fill="' + d.side + '"/>'
@@ -238,7 +238,6 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
     function ln(x1, y1, x2, y2) { return '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '"/>'; }
     return svgOpen(FOLD_W_IN, FOLD_H_IN, (-m) + ' ' + (-m) + ' ' + (W + 2 * m) + ' ' + (H + 2 * m))
       + (fonts || '')
-      + '<rect x="' + (-m) + '" y="' + (-m) + '" width="' + (W + 2 * m) + '" height="' + (H + 2 * m) + '" fill="#fff"/>'
       + '<g><svg width="' + W + '" height="200" viewBox="0 0 ' + W + ' 200" style="color:unset">' + frontInner(vf) + '</svg></g>'
       + '<g transform="translate(' + W + ',' + H + ') rotate(180)"><svg width="' + W + '" height="200" viewBox="0 0 ' + W + ' 200" style="color:unset">' + backInner(vb) + '</svg></g>'
       + '<line x1="-30" y1="203" x2="' + (W + 30) + '" y2="203" stroke="#888" stroke-width="0.7" stroke-dasharray="8,6"/>'
@@ -264,56 +263,6 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
     }
   }
 
-  // Downloads carry Inter and JetBrains Mono inside the SVG, so the label prints in the same
-  // fonts as the preview. The two font files are fetched once and kept.
-  var fontDefs = null;
-  function loadFonts() {
-    if (fontDefs !== null) return Promise.resolve(fontDefs);
-    function b64(url) {
-      return fetch(url).then(function(r) { if (!r.ok) throw new Error('font'); return r.arrayBuffer(); }).then(function(buf) {
-        var u = new Uint8Array(buf), out = '';
-        for (var i = 0; i < u.length; i += 32768) out += String.fromCharCode.apply(null, u.subarray(i, i + 32768));
-        return btoa(out);
-      });
-    }
-    return Promise.all([b64('/static/fonts/inter-latin.woff2'), b64('/static/fonts/jetbrains-mono-latin.woff2')]).then(function(f) {
-      fontDefs = '<defs><style>'
-        + '@font-face{font-family:Inter;src:url(data:font/woff2;base64,' + f[0] + ') format("woff2");font-weight:100 900}'
-        + '@font-face{font-family:"JetBrains Mono";src:url(data:font/woff2;base64,' + f[1] + ') format("woff2");font-weight:400}'
-        + '</style></defs>';
-      return fontDefs;
-    }).catch(function() { return ''; });
-  }
-
-  // ── PNG export: the label is drawn at 600 DPI onto a white background (one flat image, no
-  //    transparency), and the DPI is written into the file so it prints at its true size. ──
-  var DPI = 600;
-  var CRC = null;
-  function crc32(bytes) {
-    if (!CRC) {
-      CRC = [];
-      for (var n = 0; n < 256; n++) {
-        var c = n;
-        for (var k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1;
-        CRC[n] = c >>> 0;
-      }
-    }
-    var crc = 0xFFFFFFFF;
-    for (var i = 0; i < bytes.length; i++) crc = CRC[(crc ^ bytes[i]) & 255] ^ (crc >>> 8);
-    return (crc ^ 0xFFFFFFFF) >>> 0;
-  }
-  // Adds a pHYs chunk (pixels per metre) right after IHDR.
-  function withDpi(buf, dpi) {
-    var src = new Uint8Array(buf), ppm = Math.round(dpi / 0.0254);
-    var chunk = new Uint8Array(21), dv = new DataView(chunk.buffer);
-    dv.setUint32(0, 9);
-    chunk.set([0x70, 0x48, 0x59, 0x73], 4);
-    dv.setUint32(8, ppm); dv.setUint32(12, ppm); chunk[16] = 1;
-    dv.setUint32(17, crc32(chunk.subarray(4, 17)));
-    var at = 33, out = new Uint8Array(src.length + 21);
-    out.set(src.subarray(0, at), 0); out.set(chunk, at); out.set(src.subarray(at), at + 21);
-    return out;
-  }
   function saveBlob(blob, fn) {
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
@@ -321,60 +270,85 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
     setTimeout(function() { URL.revokeObjectURL(url); }, 2000);
   }
-  function rasterize(svg, win, hin) {
-    return new Promise(function(resolve, reject) {
-      var w = Math.round(win * DPI), h = Math.round(hin * DPI);
-      var img = new Image();
-      var url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
-      img.onload = function() {
-        // a short wait lets the embedded fonts settle before drawing
-        setTimeout(function() {
-          var c = document.createElement('canvas');
-          c.width = w; c.height = h;
-          var ctx = c.getContext('2d');
-          ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, w, h);
-          ctx.drawImage(img, 0, 0, w, h);
-          URL.revokeObjectURL(url);
-          c.toBlob(function(b) {
-            if (!b) { reject(new Error('png')); return; }
-            b.arrayBuffer().then(function(ab) { resolve(new Blob([withDpi(ab, DPI)], { type: 'image/png' })); });
-          }, 'image/png');
-        }, 120);
-      };
-      img.onerror = function() { URL.revokeObjectURL(url); reject(new Error('svg')); };
-      img.src = url;
-    });
-  }
 
-  // PNG (flat, 600 DPI) or SVG (editable vector, fonts embedded), picked with the format switch.
-  var fmt = 'png';
-  function setFormat(f) {
-    fmt = f;
-    ['png', 'svg'].forEach(function(n) {
-      var b = g('alr-lc-fmt-' + n);
-      if (!b) return;
-      b.className = 'alr-lc-fmt-btn' + (n === f ? ' alr-lc-fmt-on' : '');
-      b.setAttribute('aria-pressed', n === f ? 'true' : 'false');
-    });
-  }
 
-  function download(which) {
-    var s = g('alr-lc-status'), want = fmt;
-    if (s) s.textContent = 'Preparing…';
-    loadFonts().then(function(fonts) {
-      var vf = getF(), vb = getB(), svg, base, win = LABEL_W_IN, hin = LABEL_H_IN;
-      if (which === 'front') { svg = buildFront(vf, fonts); base = 'alr_label_front'; }
-      else if (which === 'back') { svg = buildBack(vb, fonts); base = 'alr_label_back'; }
-      else { svg = buildFold(vf, vb, fonts); base = 'alr_label_foldcut'; win = FOLD_W_IN; hin = FOLD_H_IN; }
-      if (want === 'svg') {
-        saveBlob(new Blob([svg], { type: 'image/svg+xml' }), base + '.svg');
-        if (s) s.textContent = fonts ? 'Downloaded SVG · ' + inch(win) + ' × ' + inch(hin) : 'Downloaded SVG (fonts could not be embedded)';
-        return;
+  // ── Cricut export. Design Space ignores a PNG's DPI (it counts 72 pixels per inch) and can't
+  //    use text inside an SVG, so this makes a vector SVG with every letter turned into a shape,
+  //    sized in px at 72 per inch: it lands at true size and stays sharp. ──
+  var OT_URL = 'https://cdnjs.cloudflare.com/ajax/libs/opentype.js/1.3.4/opentype.min.js';
+  var otReady = null;
+  function loadOutliner() {
+    if (otReady) return otReady;
+    otReady = new Promise(function(resolve, reject) {
+      if (window.opentype) { resolve(); return; }
+      var sc = document.createElement('script');
+      sc.src = OT_URL; sc.async = true;
+      sc.onload = function() { resolve(); };
+      sc.onerror = function() { otReady = null; reject(new Error('opentype')); };
+      document.head.appendChild(sc);
+    }).then(function() {
+      function load(u) { return fetch(u).then(function(r) { if (!r.ok) throw new Error('font'); return r.arrayBuffer(); }).then(function(b) { return window.opentype.parse(b); }); }
+      return Promise.all([load('/static/fonts/inter-500.ttf'), load('/static/fonts/inter-600.ttf'), load('/static/fonts/inter-700.ttf'), load('/static/fonts/jetbrains-mono-400.ttf')]);
+    }).then(function(f) { return { 500: f[0], 600: f[1], 700: f[2], mono: f[3] }; });
+    otReady.catch(function() { otReady = null; });
+    return otReady;
+  }
+  var SVGNS = 'http://www.w3.org/2000/svg';
+  function cricutSvg(svg, win, hin, fonts) {
+    var doc = new DOMParser().parseFromString(svg, 'image/svg+xml'), root = doc.documentElement;
+    // no embedded fonts or styles: Design Space doesn't read them
+    Array.prototype.slice.call(root.querySelectorAll('style')).forEach(function(st) { st.parentNode.removeChild(st); });
+    // nested <svg> blocks (fold sheet) become plain groups
+    Array.prototype.slice.call(root.querySelectorAll('svg')).forEach(function(inner) {
+      var grp = doc.createElementNS(SVGNS, 'g');
+      while (inner.firstChild) grp.appendChild(inner.firstChild);
+      inner.parentNode.replaceChild(grp, inner);
+    });
+    // every letter becomes a filled path
+    Array.prototype.slice.call(root.querySelectorAll('text')).forEach(function(tx) {
+      var fam = tx.getAttribute('font-family') || '', w = Number(tx.getAttribute('font-weight') || 500);
+      var font = fam.indexOf('Mono') > -1 ? fonts.mono : (fonts[w] || fonts[w >= 650 ? 700 : w >= 550 ? 600 : 500]);
+      var size = Number(tx.getAttribute('font-size')), ls = Number(tx.getAttribute('letter-spacing') || 0);
+      var str = tx.textContent, x = Number(tx.getAttribute('x')), y = Number(tx.getAttribute('y'));
+      var opts = { kerning: true, letterSpacing: ls / size };
+      var anchor = tx.getAttribute('text-anchor');
+      if (anchor === 'middle' || anchor === 'end') {
+        var adv = font.getAdvanceWidth(str, size, opts);
+        x -= anchor === 'middle' ? adv / 2 : adv;
       }
-      return rasterize(svg, win, hin).then(function(png) {
-        saveBlob(png, base + '.png');
-        if (s) s.textContent = 'Downloaded PNG · ' + inch(win) + ' × ' + inch(hin) + ' at ' + DPI + ' DPI';
-      });
+      var p = doc.createElementNS(SVGNS, 'path');
+      p.setAttribute('d', font.getPath(str, x, y, size, opts).toPathData(2));
+      p.setAttribute('fill', (tx.getAttribute('style') || '').replace('fill:', '').trim() || '#000');
+      if (tx.getAttribute('opacity')) p.setAttribute('opacity', tx.getAttribute('opacity'));
+      tx.parentNode.replaceChild(p, tx);
+    });
+    // Design Space sizes an SVG from its drawing units at 72 per inch (it ignores width/height),
+    // so the artwork is scaled into units where 72 = one inch.
+    var vb = (root.getAttribute('viewBox') || '0 0 1 1').split(/[ ,]+/).map(Number);
+    var k = (win * 72) / vb[2], r2 = function(n) { return Math.round(n * 1000) / 1000; };
+    var wrap = doc.createElementNS(SVGNS, 'g');
+    wrap.setAttribute('transform', 'scale(' + k.toFixed(6) + ')');
+    Array.prototype.slice.call(root.childNodes).forEach(function(n) { wrap.appendChild(n); });
+    root.appendChild(wrap);
+    root.setAttribute('viewBox', [vb[0] * k, vb[1] * k, vb[2] * k, vb[3] * k].map(r2).join(' '));
+    root.setAttribute('width', String(r2(vb[2] * k)));
+    root.setAttribute('height', String(r2(vb[3] * k)));
+    root.removeAttribute('style');
+    return '<?xml version="1.0" encoding="UTF-8"?>' + new XMLSerializer().serializeToString(root);
+  }
+
+  // One download: a vector SVG with text as shapes, transparent background, and drawing units
+  // at 72 per inch so Cricut Design Space opens it at the label's real size.
+  function download(which) {
+    var s = g('alr-lc-status');
+    if (s) s.textContent = 'Preparing…';
+    loadOutliner().then(function(otf) {
+      var vf = getF(), vb = getB(), svg, base, win = LABEL_W_IN, hin = LABEL_H_IN;
+      if (which === 'front') { svg = buildFront(vf); base = 'alr_label_front'; }
+      else if (which === 'back') { svg = buildBack(vb); base = 'alr_label_back'; }
+      else { svg = buildFold(vf, vb); base = 'alr_label_foldcut'; win = FOLD_W_IN; hin = FOLD_H_IN; }
+      saveBlob(new Blob([cricutSvg(svg, win, hin, otf)], { type: 'image/svg+xml' }), base + '.svg');
+      if (s) s.textContent = 'Downloaded SVG · ' + inch(win) + ' × ' + inch(hin);
     }).catch(function() { if (s) s.textContent = 'Could not make the file. Try again.'; });
   }
 
@@ -448,10 +422,6 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
     if (tb) tb.addEventListener('click', function() { switchTab('back'); });
     if (tfo) tfo.addEventListener('click', function() { switchTab('fold'); });
 
-    var fp = freshBtn('alr-lc-fmt-png'), fs = freshBtn('alr-lc-fmt-svg');
-    if (fp) fp.addEventListener('click', function() { setFormat('png'); });
-    if (fs) fs.addEventListener('click', function() { setFormat('svg'); });
-    setFormat(fmt);
 
     var df = freshBtn('alr-lc-dl-front'), db = freshBtn('alr-lc-dl-back'), dfo = freshBtn('alr-lc-dl-fold');
     if (df) df.addEventListener('click', function() { download('front'); });
