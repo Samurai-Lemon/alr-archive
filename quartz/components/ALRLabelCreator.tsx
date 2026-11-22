@@ -61,7 +61,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
                 </div>
                 <div class="alr-lc-field">
                   <div class="alr-lc-label">Grade Label</div>
-                  <input class="alr-lc-input" id="alr-lc-gl" value="PRISTINE" />
+                  <input class="alr-lc-input" id="alr-lc-gl" value="GEM MINT" />
                 </div>
               </div>
               <div class="alr-lc-rule"></div>
@@ -71,11 +71,11 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
                 <div class="alr-lc-color-row">
                   <div class="alr-lc-field">
                     <div class="alr-lc-label">Info Panel</div>
-                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-cbody" value="#1a1814" /><input class="alr-lc-hex" id="alr-lc-hbody" value="#1a1814" /></div>
+                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-cbody" value="#1a1917" /><input class="alr-lc-hex" id="alr-lc-hbody" value="#1a1917" /></div>
                   </div>
                   <div class="alr-lc-field">
                     <div class="alr-lc-label">Grade Panel</div>
-                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-czone" value="#141410" /><input class="alr-lc-hex" id="alr-lc-hzone" value="#141410" /></div>
+                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-czone" value="#cc785c" /><input class="alr-lc-hex" id="alr-lc-hzone" value="#cc785c" /></div>
                   </div>
                 </div>
                 <div class="alr-lc-color-row">
@@ -85,13 +85,13 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
                   </div>
                   <div class="alr-lc-field">
                     <div class="alr-lc-label">Primary Text</div>
-                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-ctxt" value="#f0ece0" /><input class="alr-lc-hex" id="alr-lc-htxt" value="#f0ece0" /></div>
+                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-ctxt" value="#ede8de" /><input class="alr-lc-hex" id="alr-lc-htxt" value="#ede8de" /></div>
                   </div>
                 </div>
                 <div class="alr-lc-color-row">
                   <div class="alr-lc-field">
                     <div class="alr-lc-label">Secondary Text</div>
-                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-cmut" value="#b0ac9f" /><input class="alr-lc-hex" id="alr-lc-hmut" value="#b0ac9f" /></div>
+                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-cmut" value="#9a9488" /><input class="alr-lc-hex" id="alr-lc-hmut" value="#9a9488" /></div>
                   </div>
                 </div>
               </div>
@@ -101,7 +101,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
                 <div class="alr-lc-color-row">
                   <div class="alr-lc-field">
                     <div class="alr-lc-label">Body BG</div>
-                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-bcbody" value="#1a1814" /><input class="alr-lc-hex" id="alr-lc-bhbody" value="#1a1814" /></div>
+                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-bcbody" value="#1a1917" /><input class="alr-lc-hex" id="alr-lc-bhbody" value="#1a1917" /></div>
                   </div>
                 </div>
                 <div class="alr-lc-color-row">
@@ -111,13 +111,13 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
                   </div>
                   <div class="alr-lc-field">
                     <div class="alr-lc-label">Primary Text</div>
-                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-bctxt" value="#f0ece0" /><input class="alr-lc-hex" id="alr-lc-bhtxt" value="#f0ece0" /></div>
+                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-bctxt" value="#ede8de" /><input class="alr-lc-hex" id="alr-lc-bhtxt" value="#ede8de" /></div>
                   </div>
                 </div>
                 <div class="alr-lc-color-row">
                   <div class="alr-lc-field">
                     <div class="alr-lc-label">Secondary Text</div>
-                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-bcmut" value="#b0ac9f" /><input class="alr-lc-hex" id="alr-lc-bhmut" value="#b0ac9f" /></div>
+                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-bcmut" value="#9a9488" /><input class="alr-lc-hex" id="alr-lc-bhmut" value="#9a9488" /></div>
                   </div>
                 </div>
               </div>

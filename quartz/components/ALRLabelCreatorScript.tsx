@@ -19,9 +19,10 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
         __html: `
 (function() {
   var tab = 'front';
+  // The site's own colours (custom.scss --alr-* tokens): zone is the grade panel.
   var PRESETS = {
-    dark:  { body:'#1a1814', zone:'#141410', acc:'#cc785c', txt:'#f0ece0', mut:'#b0ac9f' },
-    light: { body:'#f5f0e8', zone:'#ede8dc', acc:'#cc785c', txt:'#1a1814', mut:'#6b6050' }
+    dark:  { body:'#1a1917', zone:'#cc785c', acc:'#cc785c', txt:'#ede8de', mut:'#9a9488' },
+    light: { body:'#fffdf8', zone:'#a85c42', acc:'#a85c42', txt:'#1f1b17', mut:'#6b6258' }
   };
 
   function g(id) { return document.getElementById(id); }
@@ -34,7 +35,7 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
       variant: val('alr-lc-variant') || 'VARIANT / EDITION',
       cert: val('alr-lc-cert') || '0000-ALR',
       grade: val('alr-lc-grade') || '10',
-      gl: val('alr-lc-gl') || 'PRISTINE',
+      gl: val('alr-lc-gl') || 'GEM MINT',
       body: val('alr-lc-cbody'),
       zone: val('alr-lc-czone'),
       acc: val('alr-lc-cacc'),
@@ -56,95 +57,173 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
     return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
-  function dk(hex, a) {
-    var n = parseInt(hex.slice(1), 16);
-    var r = Math.max(0, ((n >> 16) & 255) - a);
-    var gr = Math.max(0, ((n >> 8) & 255) - a);
-    var b = Math.max(0, (n & 255) - a);
-    return '#' + [r, gr, b].map(function(x) { return x.toString(16).padStart(2, '0'); }).join('');
+  // ── Colour helpers: the label works out its side panel, rules and grade-panel text from the
+  //    five picked colours, so any custom colours still give a readable label. ──
+  function rgb(hex) {
+    var n = parseInt(String(hex || '#000000').slice(1), 16);
+    return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+  }
+  function hex(c) {
+    return '#' + c.map(function(x) { return Math.max(0, Math.min(255, Math.round(x))).toString(16).padStart(2, '0'); }).join('');
+  }
+  function mix(a, b, t) {
+    var x = rgb(a), y = rgb(b);
+    return hex([x[0] + (y[0] - x[0]) * t, x[1] + (y[1] - x[1]) * t, x[2] + (y[2] - x[2]) * t]);
+  }
+  function lum(h) {
+    var c = rgb(h).map(function(v) { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); });
+    return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+  }
+  function contrast(a, b) {
+    var la = lum(a), lb = lum(b);
+    return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
+  }
+  function onColour(bg) {
+    return contrast(bg, '#1a120d') >= contrast(bg, '#ffffff') ? '#1a120d' : '#ffffff';
+  }
+  function derive(v) {
+    var dark = lum(v.body) < 0.4;
+    return {
+      side: dark ? mix(v.body, '#000000', 0.32) : mix(v.body, '#000000', 0.06),
+      line: mix(v.body, v.txt, 0.13),
+      border: mix(v.body, v.txt, 0.2),
+      acct: dark ? mix(v.acc, '#ffffff', 0.25) : mix(v.acc, '#000000', 0.1),
+      gtxt: onColour(v.zone || v.acc)
+    };
+  }
+
+  var SANS = "Inter, 'Helvetica Neue', Arial, sans-serif";
+  var MONO = "'JetBrains Mono', 'Courier New', monospace";
+  var LOGO = 'M 531.0 468.5 L 384.0 467.5 L 283.0 400.5 L 271.0 403.5 L 184.0 463.5 L 172.0 468.5 L 26.0 468.5 L 14.5 461.0 L 11.5 454.0 L 14.5 439.0 L 250.5 39.0 L 269.0 13.5 L 285.0 11.5 L 298.5 24.0 L 542.5 438.0 L 545.5 446.0 L 544.5 458.0 L 531.0 468.5 Z M 448.5 429.0 L 480.0 428.5 L 484.5 425.0 L 484.5 419.0 L 287.5 85.0 L 282.0 78.5 L 276.0 78.5 L 77.5 411.0 L 73.5 425.0 L 78.0 428.5 L 96.0 429.5 L 159.0 428.5 L 237.5 376.0 L 237.5 371.0 L 232.0 365.5 L 175.0 328.5 L 170.5 324.0 L 169.5 317.0 L 262.5 155.0 L 271.0 145.5 L 283.0 143.5 L 293.5 151.0 L 389.5 316.0 L 388.5 323.0 L 382.0 329.5 L 325.0 366.5 L 321.5 370.0 L 322.5 377.0 L 395.0 426.5 L 409.0 429.5 L 448.5 429.0 Z M 283.5 345.0 L 332.0 311.5 L 335.5 303.0 L 284.5 217.0 L 276.0 215.5 L 222.5 308.0 L 274.0 344.5 L 283.5 345.0 Z';
+  var SCALE = [['10','GEM MINT'],['9','MINT'],['8','NM-MT'],['7','NEAR MINT'],['6','EX-MT'],['5','EXCELLENT'],['4','VG-EX'],['3','VERY GOOD'],['2','GOOD'],['1','POOR']];
+
+  // Inline style, not a fill attribute: the site's base styles set a fill on every <text>.
+  function t(x, y, size, fill, text, o) {
+    o = o || {};
+    return '<text x="' + x + '" y="' + y + '" font-family="' + (o.mono ? MONO : SANS) + '" font-size="' + size + '"'
+      + (o.weight ? ' font-weight="' + o.weight + '"' : '')
+      + (o.ls ? ' letter-spacing="' + o.ls + '"' : '')
+      + (o.anchor ? ' text-anchor="' + o.anchor + '"' : '')
+      + (o.op ? ' opacity="' + o.op + '"' : '')
+      + ' style="fill:' + fill + '">' + esc(text) + '</text>';
+  }
+  function logo(x, y, s, fill) {
+    return '<g transform="translate(' + x + ',' + y + ') scale(' + s + ')"><path d="' + LOGO + '" fill="' + fill + '" fill-rule="evenodd"/></g>';
+  }
+  // A barcode drawn from the cert number's digits, so each cert gets its own.
+  function barcode(seed, x, y, w, h, fill) {
+    var d = String(seed).split('').filter(function(c) { return c >= '0' && c <= '9'; }).map(Number);
+    if (!d.length) d = [1, 2, 7];
+    var out = '', cx = x, k = 0;
+    while (cx < x + w) {
+      var bw = 1 + (d[k % d.length] + k) % 3, gap = 1 + (d[(k + 2) % d.length] * 3 + k) % 3;
+      if (cx + bw > x + w) break;
+      out += '<rect x="' + cx + '" y="' + y + '" width="' + bw + '" height="' + h + '" fill="' + fill + '"/>';
+      cx += bw + gap; k++;
+    }
+    return out;
+  }
+  // The site's signal bars on the grade panel: four for 9 and up, down to one.
+  function sigbars(x, y, grade, on) {
+    var gn = parseFloat(grade), n = isNaN(gn) ? 2 : gn >= 9 ? 4 : gn >= 7 ? 3 : gn >= 5 ? 2 : 1, out = '';
+    for (var k = 0; k < 4; k++) {
+      var h = 5 + k * 4;
+      out += '<rect x="' + (x + k * 8) + '" y="' + (y - h) + '" width="5" height="' + h + '" rx="1" fill="' + on + '"' + (k < n ? '' : ' opacity="0.3"') + '/>';
+    }
+    return out;
+  }
+  function nameLines(name) {
+    var words = String(name).split(' '), lines = [], cur = '';
+    words.forEach(function(w) {
+      if (cur && (cur.length + w.length + 1) > 24) { lines.push(cur); cur = w; } else { cur = cur ? cur + ' ' + w : w; }
+    });
+    lines.push(cur);
+    return lines.slice(0, 2);
+  }
+  function clipOpen(id) {
+    return '<defs><clipPath id="' + id + '"><rect width="700" height="200" rx="11"/></clipPath></defs><g clip-path="url(#' + id + ')">';
+  }
+  function sidePanel(v, d) {
+    return '<rect width="150" height="200" fill="' + d.side + '"/>'
+      + logo(46, 30, 0.105, v.acc)
+      + t(75, 118, 12.5, v.txt, 'ALR INITIATIVE', { anchor: 'middle', weight: 600, ls: 1.4 })
+      + t(75, 136, 12.5, d.acct, 'GRADING', { anchor: 'middle', weight: 500, ls: 3 })
+      + '<line x1="150" y1="0" x2="150" y2="200" stroke="' + d.line + '" stroke-width="1.5"/>';
   }
 
   function frontInner(v) {
-    var id = 'lg' + Math.random().toString(36).slice(2);
-    return '<defs>'
-      + '<radialGradient id="' + id + '" cx="50%" cy="50%" r="50%">'
-      + '<stop offset="0%" stop-color="' + v.acc + '" stop-opacity="0.04"/>'
-      + '<stop offset="100%" stop-color="' + v.acc + '" stop-opacity="0"/>'
-      + '</radialGradient>'
-      + '</defs>'
-      + '<rect x="0" y="0" width="700" height="200" fill="' + v.body + '"/>'
-      + '<rect x="522" y="0" width="178" height="200" fill="' + v.zone + '"/>'
-      + '<line x1="522" y1="0" x2="522" y2="200" stroke="' + v.acc + '" stroke-width="3"/>'
-      + '<text x="261" y="30" text-anchor="middle" font-size="21" font-weight="700" style="fill:' + v.acc + '" letter-spacing="2" font-family="Courier New,monospace">ALR INITIATIVE GRADING</text>'
-      + '<line x1="0" y1="35" x2="519" y2="35" stroke="' + v.acc + '" stroke-width="0.7" opacity="0.35"/>'
-      + '<text x="20" y="61" font-size="28" font-weight="700" style="fill:' + v.txt + '" font-family="Courier New,monospace">' + esc(v.name) + '</text>'
-      + '<line x1="20" y1="67" x2="510" y2="67" stroke="' + v.mut + '" stroke-width="1" opacity="0.3"/>'
-      + '<text x="20" y="88" font-size="19" font-weight="700" style="fill:' + v.mut + '" font-family="Courier New,monospace">' + esc(v.set) + '</text>'
-      + '<line x1="20" y1="94" x2="510" y2="94" stroke="' + v.mut + '" stroke-width="1" opacity="0.3"/>'
-      + '<text x="20" y="115" font-size="21" font-weight="700" style="fill:' + v.acc + '" font-family="Courier New,monospace">' + esc(v.variant) + '</text>'
-      + '<line x1="20" y1="121" x2="510" y2="121" stroke="' + v.mut + '" stroke-width="1" opacity="0.3"/>'
-      + '<text x="20" y="133" font-size="16" font-weight="700" style="fill:' + v.mut + '" letter-spacing="1.2" font-family="Courier New,monospace">CATEGORY</text>'
-      + '<text x="20" y="150" font-size="19" font-weight="700" style="fill:' + v.txt + '" font-family="Courier New,monospace">TRADING CARD</text>'
-      + '<line x1="272" y1="123" x2="272" y2="154" stroke="' + v.mut + '" stroke-width="1" opacity="0.3"/>'
-      + '<text x="277" y="133" font-size="16" font-weight="700" style="fill:' + v.mut + '" letter-spacing="1.2" font-family="Courier New,monospace">LANGUAGE</text>'
-      + '<text x="277" y="150" font-size="19" font-weight="700" style="fill:' + v.txt + '" font-family="Courier New,monospace">ENGLISH</text>'
-      + '<line x1="20" y1="155" x2="510" y2="155" stroke="' + v.mut + '" stroke-width="1" opacity="0.3"/>'
-      + '<text x="20" y="169" font-size="16" font-weight="700" style="fill:' + v.mut + '" letter-spacing="1.2" font-family="Courier New,monospace">CERT NUMBER</text>'
-      + '<text x="20" y="187" font-size="19" font-weight="700" style="fill:' + v.txt + '" font-family="Courier New,monospace">' + esc(v.cert) + '</text>'
-      + '<text x="611" y="29" text-anchor="middle" font-size="15" font-weight="700" style="fill:' + v.mut + '" letter-spacing="1.8" font-family="Courier New,monospace">ARCHIVE GRADE</text>'
-      + '<line x1="528" y1="35" x2="688" y2="35" stroke="' + v.acc + '" stroke-width="0.7" opacity="0.35"/>'
-      + '<text x="611" y="128" text-anchor="middle" font-size="110" font-weight="700" style="fill:' + v.txt + '" font-family="Courier New,monospace">' + esc(v.grade) + '</text>'
-      + '<line x1="528" y1="168" x2="688" y2="168" stroke="' + v.mut + '" stroke-width="1" opacity="0.3"/>'
-      + '<text x="611" y="184" text-anchor="middle" font-size="17" font-weight="700" style="fill:' + v.mut + '" letter-spacing="3.5" font-family="Courier New,monospace">' + esc(v.gl) + '</text>'
-      + '<line x1="528" y1="190" x2="688" y2="190" stroke="' + v.acc + '" stroke-width="0.7" opacity="0.35"/>'
-      + '<rect x="1.5" y="1.5" width="697" height="197" rx="3.5" fill="none" stroke="' + v.acc + '" stroke-width="5"/>';
+    var d = derive(v), id = 'lf' + Math.random().toString(36).slice(2);
+    var lines = nameLines(v.name), dy = lines.length > 1 ? 8 : 0, nameSvg;
+    if (lines.length > 1) {
+      nameSvg = t(172, 32, 21, v.txt, lines[0], { weight: 600 }) + t(172, 56, 21, v.txt, lines[1], { weight: 600 });
+    } else {
+      var size = Math.max(22, Math.min(34, Math.floor(360 / Math.max(1, v.name.length * 0.58))));
+      nameSvg = t(172, 52, size, v.txt, v.name, { weight: 600, ls: -0.3 });
+    }
+    var g = String(v.grade), gl = String(v.gl);
+    return clipOpen(id)
+      + '<rect width="700" height="200" fill="' + v.body + '"/>'
+      + sidePanel(v, d)
+      + t(75, 178, 10.5, v.mut, 'CYCLE 7', { anchor: 'middle', mono: true, ls: 1 })
+      + nameSvg
+      + t(172, 80 + dy, 13.5, v.mut, v.set, { mono: true, ls: 0.5 })
+      + t(172, 103 + dy, 16, d.acct, v.variant, { weight: 500 })
+      + '<line x1="172" y1="116" x2="526" y2="116" stroke="' + d.line + '" stroke-width="1"/>'
+      + t(172, 136, 11.5, v.mut, 'TRADING CARD · ENGLISH', { mono: true, ls: 1.2 })
+      + t(172, 157, 14, v.txt, 'CERT ' + v.cert, { mono: true, ls: 0.6 })
+      + barcode(v.cert, 172, 166, 200, 20, v.txt)
+      + '<rect x="548" y="0" width="152" height="200" fill="' + v.zone + '"/>'
+      + t(624, 24, 10.5, d.gtxt, 'ARCHIVE GRADE', { anchor: 'middle', mono: true, ls: 1.5, op: 0.85 })
+      + sigbars(610, 50, g, d.gtxt)
+      + t(624, 138, g.length < 3 ? 88 : 68, d.gtxt, g, { anchor: 'middle', weight: 700, ls: -3 })
+      + t(624, 174, gl.length < 10 ? 15 : 13, d.gtxt, gl, { anchor: 'middle', weight: 600, ls: 2 })
+      + '</g><rect x="1" y="1" width="698" height="198" rx="10" fill="none" stroke="' + d.border + '" stroke-width="2"/>';
   }
 
+  // The back: the grading scale with this card's grade lit, and the cert number and barcode again.
   function backInner(v) {
-    var id2 = 'gl' + Math.random().toString(36).slice(2);
-    return '<defs>'
-      + '<radialGradient id="' + id2 + '" cx="50%" cy="50%" r="40%">'
-      + '<stop offset="0%" stop-color="' + v.acc + '" stop-opacity="0.08"/>'
-      + '<stop offset="100%" stop-color="' + v.acc + '" stop-opacity="0"/>'
-      + '</radialGradient>'
-      + '</defs>'
-      + '<rect x="0" y="0" width="700" height="200" fill="' + v.body + '"/>'
-      + '<ellipse cx="350" cy="100" rx="220" ry="88" fill="url(#' + id2 + ')"/>'
-      + '<line x1="30" y1="100" x2="218" y2="100" stroke="' + v.acc + '" stroke-width="0.8" opacity="0.4"/>'
-      + '<line x1="482" y1="100" x2="670" y2="100" stroke="' + v.acc + '" stroke-width="0.8" opacity="0.4"/>'
-      + '<polygon points="224,100 234,91 244,100 234,109" fill="none" stroke="' + v.acc + '" stroke-width="1" opacity="0.5"/>'
-      + '<polygon points="456,100 466,91 476,100 466,109" fill="none" stroke="' + v.acc + '" stroke-width="1" opacity="0.5"/>'
-      + '<text x="350" y="92" text-anchor="middle" font-size="68" font-weight="700" style="fill:' + v.txt + '" letter-spacing="6" font-family="Courier New,monospace">ALR</text>'
-      + '<text x="350" y="116" text-anchor="middle" font-size="19" font-weight="700" style="fill:' + v.mut + '" letter-spacing="5" font-family="Courier New,monospace">INITIATIVE</text>'
-      + '<line x1="274" y1="123" x2="426" y2="123" stroke="' + v.acc + '" stroke-width="0.6" opacity="0.4"/>'
-      + '<text x="350" y="140" text-anchor="middle" font-size="14" font-weight="700" style="fill:' + dk(v.mut,20) + '" letter-spacing="2" font-family="Courier New,monospace">ARCHIVE - GRADE - CERTIFIED</text>'
-      + '<line x1="18" y1="22" x2="38" y2="22" stroke="' + v.acc + '" stroke-width="0.9" opacity="0.5"/>'
-      + '<line x1="18" y1="22" x2="18" y2="42" stroke="' + v.acc + '" stroke-width="0.9" opacity="0.5"/>'
-      + '<line x1="682" y1="22" x2="662" y2="22" stroke="' + v.acc + '" stroke-width="0.9" opacity="0.5"/>'
-      + '<line x1="682" y1="22" x2="682" y2="42" stroke="' + v.acc + '" stroke-width="0.9" opacity="0.5"/>'
-      + '<line x1="18" y1="178" x2="38" y2="178" stroke="' + v.acc + '" stroke-width="0.9" opacity="0.5"/>'
-      + '<line x1="18" y1="178" x2="18" y2="158" stroke="' + v.acc + '" stroke-width="0.9" opacity="0.5"/>'
-      + '<line x1="682" y1="178" x2="662" y2="178" stroke="' + v.acc + '" stroke-width="0.9" opacity="0.5"/>'
-      + '<line x1="682" y1="178" x2="682" y2="158" stroke="' + v.acc + '" stroke-width="0.9" opacity="0.5"/>'
-      + '<rect x="1.5" y="1.5" width="697" height="197" rx="3.5" fill="none" stroke="' + v.acc + '" stroke-width="5"/>';
+    var d = derive(v), f = getF(), id = 'lb' + Math.random().toString(36).slice(2);
+    var gn = Math.floor(parseFloat(f.grade)), lit = isNaN(gn) ? 10 : Math.max(1, Math.min(10, gn));
+    var gtxt = onColour(v.acc), boxes = '', litX = 172;
+    SCALE.forEach(function(s, k) {
+      var x = 172 + k * 35, on = Number(s[0]) === lit;
+      if (on) litX = x;
+      boxes += '<rect x="' + x + '" y="70" width="31" height="38" rx="6" fill="' + (on ? v.acc : 'none') + '" stroke="' + (on ? v.acc : d.line) + '" stroke-width="1.5"/>'
+        + t(x + 15.5, 95, 16, on ? gtxt : v.mut, s[0], { anchor: 'middle', weight: 600 });
+    });
+    return clipOpen(id)
+      + '<rect width="700" height="200" fill="' + v.body + '"/>'
+      + sidePanel(v, d)
+      + t(172, 46, 12, v.mut, 'ARCHIVED · GRADED · CERTIFIED', { mono: true, ls: 2 })
+      + boxes
+      + t(litX, 132, 12.5, d.acct, '▲ ' + f.gl, { weight: 600, ls: 1.2 })
+      + t(172, 178, 10.5, v.mut, 'GRADED BY THE ARCHIVE OF LOST REALITIES INITIATIVE', { mono: true, ls: 0.8 })
+      + '<line x1="548" y1="0" x2="548" y2="200" stroke="' + d.line + '" stroke-width="1.5"/>'
+      + t(624, 40, 10.5, v.mut, 'CERT NO.', { anchor: 'middle', mono: true, ls: 1.5 })
+      + t(624, 62, 14, v.txt, f.cert, { anchor: 'middle', mono: true })
+      + barcode(f.cert, 568, 78, 112, 70, v.txt)
+      + t(624, 176, 10, v.mut, '70 × 20 MM', { anchor: 'middle', mono: true, ls: 1.2 })
+      + '</g><rect x="1" y="1" width="698" height="198" rx="10" fill="none" stroke="' + d.border + '" stroke-width="2"/>';
   }
 
-  function buildFront(v) {
+  function buildFront(v, fonts) {
     return '<svg width="70mm" height="20mm" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" style="color:unset">'
-      + frontInner(v) + '</svg>';
+      + (fonts || '') + frontInner(v) + '</svg>';
   }
 
-  function buildBack(v) {
+  function buildBack(v, fonts) {
     return '<svg width="70mm" height="20mm" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" style="color:unset">'
-      + backInner(v) + '</svg>';
+      + (fonts || '') + backInner(v) + '</svg>';
   }
 
-  function buildFold(vf, vb) {
-    return '<svg width="70mm" height="40.6mm" viewBox="0 0 700 406" xmlns="http://www.w3.org/2000/svg">'
-      + '<rect x="0" y="0" width="700" height="406" fill="#fff"/>'
-      + '<g transform="translate(0,0)"><svg width="700" height="200" viewBox="0 0 700 200" style="color:unset">' + frontInner(vf) + '</svg></g>'
+  // Front, fold line, then the back upside down, with crop marks around the strip.
+  function buildFold(vf, vb, fonts) {
+    return '<svg width="86mm" height="56.6mm" viewBox="-80 -80 860 566" xmlns="http://www.w3.org/2000/svg">'
+      + (fonts || '')
+      + '<rect x="-80" y="-80" width="860" height="566" fill="#fff"/>'
+      + '<g><svg width="700" height="200" viewBox="0 0 700 200" style="color:unset">' + frontInner(vf) + '</svg></g>'
       + '<g transform="translate(700,406) rotate(180)"><svg width="700" height="200" viewBox="0 0 700 200" style="color:unset">' + backInner(vb) + '</svg></g>'
-      + '<line x1="0" y1="203" x2="700" y2="203" stroke="#888" stroke-width="0.7" stroke-dasharray="8,6"/>'
+      + '<line x1="-30" y1="203" x2="730" y2="203" stroke="#888" stroke-width="0.7" stroke-dasharray="8,6"/>'
       + '<g stroke="#000" stroke-width="0.7" fill="none" stroke-linecap="square">'
       + '<line x1="-70" y1="0" x2="-20" y2="0"/><line x1="0" y1="-70" x2="0" y2="-20"/>'
       + '<line x1="720" y1="0" x2="770" y2="0"/><line x1="700" y1="-70" x2="700" y2="-20"/>'
@@ -169,16 +248,42 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
     }
   }
 
+  // Downloads carry Inter and JetBrains Mono inside the SVG, so the label prints in the same
+  // fonts as the preview. The two font files are fetched once and kept.
+  var fontDefs = null;
+  function loadFonts() {
+    if (fontDefs !== null) return Promise.resolve(fontDefs);
+    function b64(url) {
+      return fetch(url).then(function(r) { if (!r.ok) throw new Error('font'); return r.arrayBuffer(); }).then(function(buf) {
+        var u = new Uint8Array(buf), out = '';
+        for (var i = 0; i < u.length; i += 32768) out += String.fromCharCode.apply(null, u.subarray(i, i + 32768));
+        return btoa(out);
+      });
+    }
+    return Promise.all([b64('/static/fonts/inter-latin.woff2'), b64('/static/fonts/jetbrains-mono-latin.woff2')]).then(function(f) {
+      fontDefs = '<defs><style>'
+        + '@font-face{font-family:Inter;src:url(data:font/woff2;base64,' + f[0] + ') format("woff2");font-weight:100 900}'
+        + '@font-face{font-family:"JetBrains Mono";src:url(data:font/woff2;base64,' + f[1] + ') format("woff2");font-weight:400}'
+        + '</style></defs>';
+      return fontDefs;
+    }).catch(function() { return ''; });
+  }
+
   function download(which) {
-    var vf = getF(), vb = getB(), svg, fn;
-    if (which === 'front') { svg = buildFront(vf); fn = 'alr_label_front.svg'; }
-    else if (which === 'back') { svg = buildBack(vb); fn = 'alr_label_back.svg'; }
-    else { svg = buildFold(vf, vb); fn = 'alr_label_foldcut.svg'; }
-    var encoded = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
-    var a = document.createElement('a');
-    a.href = encoded; a.download = fn;
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
-    var s = g('alr-lc-status'); if (s) s.textContent = 'Downloaded';
+    var s = g('alr-lc-status');
+    if (s) s.textContent = 'Preparing…';
+    loadFonts().then(function(fonts) {
+      var vf = getF(), vb = getB(), svg, fn;
+      if (which === 'front') { svg = buildFront(vf, fonts); fn = 'alr_label_front.svg'; }
+      else if (which === 'back') { svg = buildBack(vb, fonts); fn = 'alr_label_back.svg'; }
+      else { svg = buildFold(vf, vb, fonts); fn = 'alr_label_foldcut.svg'; }
+      var url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
+      var a = document.createElement('a');
+      a.href = url; a.download = fn;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function() { URL.revokeObjectURL(url); }, 2000);
+      if (s) s.textContent = fonts ? 'Downloaded' : 'Downloaded (fonts could not be embedded)';
+    });
   }
 
   function setPreset(name) {
