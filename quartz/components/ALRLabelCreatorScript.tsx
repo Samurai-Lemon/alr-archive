@@ -888,24 +888,29 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
     var os = visitorOS(), main = g('alr-lc-desk-main'), sub = g('alr-lc-desk-sub'), oth = g('alr-lc-desk-oth'), eb = g('alr-lc-desk-eb');
     box.classList.toggle('is-mobile', os === 'mobile');
     if (os === 'mobile') { if (main) main.textContent = 'Desktop app for Mac & Windows ↗'; return; }
+    // The buttons always point at fixed-name files on the latest release, so they download
+    // straight away even when GitHub's API can't be reached (it limits requests per hour).
+    // The API is only used to show the version number and file size.
+    var DL = 'https://github.com/' + APP_REPO + '/releases/latest/download/';
+    var ARM = DL + 'ALR-Grading-mac-apple-silicon.dmg', INTEL = DL + 'ALR-Grading-mac-intel.dmg', EXE = DL + 'ALR-Grading-windows-setup.exe';
+    var all = '<a href="https://github.com/' + APP_REPO + '/releases/latest" target="_blank" rel="noopener">All versions ↗</a>';
+    var win = os === 'win';
+    main.removeAttribute('target');
+    if (win) {
+      main.href = EXE; main.innerHTML = WIN_SVG + ' Download for Windows';
+      sub.textContent = 'Windows 10 and 11 · installer';
+      oth.innerHTML = '<a href="' + ARM + '">' + APPLE_SVG + ' Mac (Apple Silicon)</a><a href="' + INTEL + '">Intel Mac</a>' + all;
+    } else {
+      // Browsers can't tell Apple Silicon from Intel, so Macs (and anyone else) get Apple Silicon first.
+      main.href = ARM; main.innerHTML = APPLE_SVG + ' Download for Mac';
+      sub.textContent = 'Apple Silicon (M1 and later)';
+      oth.innerHTML = '<a href="' + INTEL + '">Intel Mac</a><a href="' + EXE + '">' + WIN_SVG + ' Windows</a>' + all;
+    }
     latestRelease().then(function(r) {
-      function find(re) { for (var i = 0; i < r.assets.length; i++) if (re.test(r.assets[i].n)) return r.assets[i]; return null; }
-      function mb(a) { return a ? (Math.round(a.s / 104857.6) / 10) + ' MB' : ''; }
-      function link(a, html) { return a ? '<a href="' + a.u + '" rel="noopener">' + html + '</a>' : ''; }
-      var arm = find(/_aarch64\.dmg$/), intel = find(/_x64\.dmg$/), exe = find(/-setup\.exe$/) || find(/\.msi$/);
-      var all = '<a href="' + r.page + '" target="_blank" rel="noopener">All versions ↗</a>';
+      function size(re) { for (var i = 0; i < r.assets.length; i++) if (re.test(r.assets[i].n)) return ' · ' + (Math.round(r.assets[i].s / 104857.6) / 10) + ' MB'; return ''; }
       if (eb) eb.textContent = 'DESKTOP APP · ' + r.tag;
-      if (os === 'win' && exe) {
-        main.href = exe.u; main.removeAttribute('target'); main.innerHTML = WIN_SVG + ' Download for Windows';
-        sub.textContent = 'Windows 10 and 11 · ' + mb(exe) + ' installer';
-        oth.innerHTML = link(arm, APPLE_SVG + ' Mac (Apple Silicon)') + link(intel, 'Intel Mac') + all;
-      } else if (arm) {
-        // Browsers can't tell Apple Silicon from Intel, so Macs (and anyone else) get Apple Silicon first.
-        main.href = arm.u; main.removeAttribute('target'); main.innerHTML = APPLE_SVG + ' Download for Mac';
-        sub.textContent = 'Apple Silicon (M1 and later) · ' + mb(arm);
-        oth.innerHTML = link(intel, 'Intel Mac') + link(exe, WIN_SVG + ' Windows') + all;
-      }
-    }).catch(function() { /* keep the plain link to the release page */ });
+      sub.textContent = win ? 'Windows 10 and 11 · installer' + size(/ALR-Grading-windows-setup\.exe$/) : 'Apple Silicon (M1 and later)' + size(/ALR-Grading-mac-apple-silicon\.dmg$/);
+    }).catch(function() { /* links already work; just no version number */ });
   }
 
   function init() {
