@@ -174,7 +174,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
         <div class="alr-lc-desk-txt">
           <div class="alr-lc-desk-eb" id="alr-lc-desk-eb">DESKTOP APP</div>
           <div class="alr-lc-desk-title">ALR Grading for Mac &amp; Windows</div>
-          <div class="alr-lc-desk-desc">The same Grading Terminal in its own window. Works offline and saves labels straight into a folder you choose.</div>
+          <div class="alr-lc-desk-desc">The same Grading Terminal as its own app. Works offline and saves labels straight into a folder you choose.</div>
         </div>
         <div class="alr-lc-desk-act">
           <a class="alr-lc-desk-btn" id="alr-lc-desk-main" href="https://github.com/Samurai-Lemon/alr-grading-app/releases/latest" target="_blank" rel="noopener">Download the desktop app</a>
@@ -233,8 +233,9 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
         .alr-lc-desk-title{font-size:17px;font-weight:700;color:var(--alr-text);margin:3px 0}
         .alr-lc-desk-desc{font-size:13px;color:var(--alr-text-2);line-height:1.45;max-width:420px}
         .alr-lc-desk-act{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
-        .alr-lc-desk-btn{display:inline-flex;align-items:center;gap:8px;background:var(--alr-accent);color:var(--alr-on-accent)!important;font-weight:700;font-size:14px;padding:10px 16px;border-radius:var(--alr-r-sm);white-space:nowrap;text-decoration:none!important}
-        .alr-lc-desk-btn:hover{filter:brightness(1.07)}
+        .alr-lc-desk-btn{display:inline-flex;align-items:center;gap:8px;background:var(--alr-accent);color:var(--alr-on-accent)!important;font-weight:700;font-size:14px;padding:10px 16px;border-radius:var(--alr-r-sm);white-space:nowrap;text-decoration:none!important;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease,filter .15s ease}
+        .alr-lc-desk-btn:hover,.alr-lc-desk-btn:focus-visible{filter:brightness(1.15);transform:translateY(-2px);box-shadow:0 0 0 3px color-mix(in srgb,var(--alr-accent) 35%,transparent),0 8px 20px -6px color-mix(in srgb,var(--alr-accent) 70%,transparent);outline:none}
+        .alr-lc-desk-btn:active{transform:translateY(0);filter:brightness(.97)}
         .alr-lc-desk-btn svg{width:15px;height:15px;flex:none}
         .alr-lc-desk-sub{font-size:11.5px;color:var(--alr-muted)}
         .alr-lc-desk-oth{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end;font-size:12px}
