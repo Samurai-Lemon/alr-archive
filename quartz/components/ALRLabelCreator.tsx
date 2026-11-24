@@ -212,6 +212,13 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
         .alr-lc-foldline{width:100%;max-width:520px;display:flex;align-items:center;gap:8px;font-size:9px;color:var(--gray);letter-spacing:1.5px}
         .alr-lc-foldline-dash{flex:1;border-top:1px dashed var(--gray)}
         .alr-lc-right{container-type:inline-size}
+        /* Opened as the installed web app: just the tool, no site menus. */
+        html.alr-app #quartz-header,html.alr-app .left.sidebar,html.alr-app .right.sidebar,html.alr-app .page-footer,html.alr-app footer,html.alr-app #alr-terminal-mount,html.alr-app .alr-lc .alr-bb{display:none!important}
+        html.alr-app .page-header > :not(.alr-lc):not(:has(.alr-lc)),html.alr-app .center > :not(.page-header){display:none!important}
+        html.alr-app #quartz-body{display:block!important;padding:0!important;margin:0!important}
+        html.alr-app .center{max-width:1100px!important;width:auto!important;margin:0 auto!important;padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))!important}
+        html.alr-app .center > hr{display:none}
+        html.alr-app .alr-lc-wrap{margin-top:0}
         .alr-lc-actions{border-top:1px solid var(--alr-border);padding:12px 20px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;align-items:center;background:transparent}
         .alr-lc-actions button{width:100%;white-space:nowrap}
         @container (max-width:470px){.alr-lc-actions{grid-template-columns:1fr}}

@@ -1,0 +1,18 @@
+{
+  "id": "/label-creator",
+  "name": "ALR Grading Terminal",
+  "short_name": "ALR Grading",
+  "description": "Make print-ready ALR grading labels for Cricut, at exact slab size.",
+  "start_url": "/label-creator?source=app",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#111110",
+  "theme_color": "#111110",
+  "categories": ["utilities", "productivity"],
+  "icons": [
+    { "src": "/static/app/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/static/app/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/static/app/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

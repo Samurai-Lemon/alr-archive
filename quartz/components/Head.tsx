@@ -61,6 +61,17 @@ export default (() => {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Courier+Prime:wght@400;700&family=UnifrakturMaguntia&family=VT323&display=swap" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+        {fileData.slug === "label-creator" && (
+          <>
+            {/* Grading Terminal web app (install / Add to Home Screen) */}
+            <link rel="manifest" href="/static/app/grading.webmanifest" />
+            <link rel="apple-touch-icon" href="/static/app/apple-touch-icon.png" />
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+            <meta name="mobile-web-app-capable" content="yes" />
+            <meta name="apple-mobile-web-app-title" content="ALR Grading" />
+            <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+          </>
+        )}
         <meta name="theme-color" content="#111110" media="(prefers-color-scheme: dark)" />
         <meta name="theme-color" content="#ede8de" media="(prefers-color-scheme: light)" />
 

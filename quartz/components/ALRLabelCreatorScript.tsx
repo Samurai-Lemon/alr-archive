@@ -534,8 +534,32 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
     if (h) { h.addEventListener('input', function() { if (/^#[0-9a-fA-F]{6}$/.test(h.value)) c.value = h.value; render(); }); }
   }
 
+  // ── Web app. The manifest and icon are added here too (not only in <head>) so the page
+  //    can be installed even when it was reached by an in-site link. Opened as the app
+  //    (standalone, or from the app's start link) the site's menus are hidden. ──
+  function setupApp() {
+    var head = document.head;
+    function ensure(sel, tag, attrs) {
+      if (head.querySelector(sel)) return;
+      var el = document.createElement(tag);
+      Object.keys(attrs).forEach(function(k) { el.setAttribute(k, attrs[k]); });
+      head.appendChild(el);
+    }
+    ensure('link[rel="manifest"]', 'link', { rel: 'manifest', href: '/static/app/grading.webmanifest' });
+    ensure('link[rel="apple-touch-icon"]', 'link', { rel: 'apple-touch-icon', href: '/static/app/apple-touch-icon.png' });
+    ensure('meta[name="apple-mobile-web-app-title"]', 'meta', { name: 'apple-mobile-web-app-title', content: 'ALR Grading' });
+    var standalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
+    var fromApp = location.search.indexOf('source=app') > -1;
+    try { if (fromApp) sessionStorage.setItem('alr-app', '1'); if (sessionStorage.getItem('alr-app') === '1') fromApp = true; } catch (e) {}
+    document.documentElement.classList.toggle('alr-app', !!(standalone || fromApp));
+    if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+      navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(function() {});
+    }
+  }
+
   function init() {
-    if (!g('alr-lc-tool')) return;
+    if (!g('alr-lc-tool')) { document.documentElement.classList.remove('alr-app'); return; }
+    setupApp();
     loadOutliner().catch(function() {});   // get the download fonts ready now
 
     function freshBtn(id) {
