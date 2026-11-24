@@ -295,8 +295,9 @@
         name: row.card_name, set: row.set_name, variant: row.printing, cardNumber: row.card_number, game: gameName(row.game),
         grade: row.grade, gradeLabel: row.grade_label, date: row.graded_on, condition: row.condition || {}, notes: row.notes,
         labelPng: labelPng,
-        photo: photoUrl(row.front_photo_path) || row.official_image_url || null,
-        photoIsOfficial: !row.front_photo_path && !!row.official_image_url,
+        // the clean database image wherever there is one; your photo only as a fallback
+        photo: row.official_image_url || photoUrl(row.front_photo_path) || null,
+        photoIsOfficial: !!row.official_image_url,
         photoSource: GAMES[row.game] ? GAMES[row.game].source : null
       };
     });
@@ -390,8 +391,11 @@
     if (words.length > 1 && /^[0-9a-z]+(\/[0-9]+)?$/i.test(words[words.length - 1]) && /[0-9]/.test(words[words.length - 1])) num = words.pop().split('/')[0];
     var name = words.join(' ').replace(/["\\]/g, '');
     if (!name) return Promise.resolve([]);
-    var query = 'name:"' + name + '*"' + (num ? ' number:' + num : '');
-    return getJSON('https://api.pokemontcg.io/v2/cards?q=' + encodeURIComponent(query) + '&pageSize=60&orderBy=-set.releaseDate&select=id,name,number,rarity,set,images').then(function (j) {
+    return pokemonQuery('name:"' + name + '*"' + (num ? ' number:' + num : ''));
+  }
+  // Any pokemontcg.io query, as picker items.
+  function pokemonQuery(query) {
+    return getJSON('https://api.pokemontcg.io/v2/cards?q=' + encodeURIComponent(query) + '&pageSize=60&orderBy=-set.releaseDate&select=id,name,number,rarity,set,images', 5).then(function (j) {
       return ((j && j.data) || []).map(function (c) {
         var set = c.set || {}, total = set.printedTotal ? '/' + set.printedTotal : '', year = String(set.releaseDate || '').slice(0, 4);
         // the label's set line has room for about 32 characters, so long set names use the set code
@@ -643,12 +647,21 @@
   }
   // Picture for the report: your photo, else an official image the PDF is allowed to use.
   function reportPhoto() {
+    if (meta.official) return { photo: meta.official, official: true };
     if (meta.photoData) return { photo: meta.photoData, official: false };
     if (meta.photoPath && !meta.photoRemoved) return { photo: photoUrl(meta.photoPath), official: false };
-    if (meta.official && meta.officialCors) return { photo: meta.official, official: true };
     return { photo: null, official: false };
   }
   function cardMeta() { return meta; }
+  // Fill in a picked card (game, number, set, printing, official image) without a search.
+  function setCard(c) {
+    var gm = GAMES[c.game];
+    meta.game = gm ? c.game : null; meta.number = c.number || null; meta.setName = c.setName || null; meta.printing = c.printing || null;
+    meta.official = c.official || null; meta.officialCors = !!(gm && gm.cors); meta.keepOfficial = !!(gm && gm.keep && c.official);
+    lookup.items = []; lookup.picked = -1;
+    if (gm) { lookup.game = c.game; Array.prototype.forEach.call(document.querySelectorAll('#alr-lc-games [data-game]'), function (o) { o.classList.toggle('on', o.getAttribute('data-game') === c.game); }); }
+    renderResults(); renderPicked(); renderPhoto(); touched();
+  }
   // "New card" after a saved one: keep the picked card and any photo not uploaded yet, but not
   // the old card's uploaded photo (that file belongs to the old card).
   function detachMeta() { meta.photoPath = null; meta.photoRemoved = false; renderPhoto(); }
@@ -674,7 +687,7 @@
     return '<div class="alr-cert-card alr-cert-empty"><div class="alr-cert-eb">ALR INITIATIVE GRADING</div><h2>' + esc(title) + '</h2><p>' + text + '</p></div>';
   }
   function renderCert(box, row) {
-    var img = photoUrl(row.front_photo_path) || (showOfficial(row.game) ? shown(row.game, row.official_image_url) : null);
+    var img = (row.official_image_url ? shown(row.game, row.official_image_url) : null) || photoUrl(row.front_photo_path);
     var cond = row.condition || {}, ck = [['centering', 'Centering'], ['corners', 'Corners'], ['edges', 'Edges'], ['surface', 'Surface']]
       .filter(function (k) { return cond[k[0]]; });
     var isPre = row.kind === 'pregrade', pg = row.pregrade || {};
@@ -711,7 +724,7 @@
           '<div class="alr-cert-no"><div class="alr-cert-eb">CERT NO.</div><div class="alr-cert-mono alr-cert-big">' + esc(row.cert) + '</div></div></div>' +
         (isPre ? '<div class="alr-cert-ok alr-cert-pre">PRE-GRADE · ESTIMATE</div>' : '<div class="alr-cert-ok">✓ Recorded in the ALR archive</div>') +
         '<div class="alr-cert-main">' +
-          (img ? '<figure class="alr-cert-photo"><img src="' + esc(img) + '" alt="' + esc(row.card_name) + '"><figcaption>' + (row.front_photo_path ? 'Front photo' : 'Official card image') + '</figcaption></figure>' : '') +
+          (img ? '<figure class="alr-cert-photo"><img src="' + esc(img) + '" alt="' + esc(row.card_name) + '"><figcaption>' + (row.official_image_url ? 'Official card image' : 'Front photo') + '</figcaption></figure>' : '') +
           '<div class="alr-cert-info">' +
             '<div class="alr-cert-grade"><span class="alr-cert-num">' + esc(row.grade) + '</span><div><div class="alr-cert-name">' + esc(row.card_name) + '</div><span class="alr-cert-stamp">' + esc(row.grade_label) + '</span>' +
               (isPre && estLine(pg) ? '<div class="alr-cert-estline">Est. ' + esc(estLine(pg)) + '</div>' : '') + '</div></div>' +
@@ -774,7 +787,7 @@
     box.innerHTML = filters + '<div class="alr-gc-grid">' + accountRows.map(function (r, i) {
       if (gcFilter !== 'all' && (r.kind || 'grade') !== gcFilter) return '';
       var pre = r.kind === 'pregrade';
-      var img = photoUrl(r.front_photo_path) || (showOfficial(r.game) ? shown(r.game, r.official_image_url, 360) : null);
+      var img = (r.official_image_url ? shown(r.game, r.official_image_url, 360) : null) || photoUrl(r.front_photo_path);
       return '<div class="alr-gc">' +
         '<div class="alr-gc-img">' + (img ? '<img src="' + esc(img) + '" alt="" loading="lazy">' : '<span class="alr-gc-ph">' + esc(r.grade) + '</span>') +
           '<span class="alr-gc-tag ' + (pre ? 'pre' : 'fin') + '">' + (pre ? 'PRE-GRADE' : 'GRADED') + '</span></div>' +
@@ -846,9 +859,9 @@
     loadQR: loadQR, qrMatrix: qrMatrix, certUrl: certUrl, photoUrl: photoUrl,
     reportPdf: reportPdf, rowToReport: rowToReport, fileStem: fileStem, saveFile: saveFile,
     gameName: gameName, loadAccount: loadAccount,
-    cardMeta: cardMeta, clearMeta: clearMeta, detachMeta: detachMeta, resetLookup: resetLookup, setMetaFromRow: setMetaFromRow, savePayload: savePayload,
+    cardMeta: cardMeta, setCard: setCard, readableUrl: readableUrl, clearMeta: clearMeta, detachMeta: detachMeta, resetLookup: resetLookup, setMetaFromRow: setMetaFromRow, savePayload: savePayload,
     syncPhoto: syncPhoto, reportPhoto: reportPhoto, games: GAMES,
-    search: function (game, q) { return SEARCH[game](q); }, shrinkPhoto: shrinkPhoto, shown: shown,
+    search: function (game, q) { return SEARCH[game](q); }, getJSON: getJSON, opItem: opItem, pokemonQuery: pokemonQuery, shrinkPhoto: shrinkPhoto, shown: shown,
     estLine: estLine, certPath: certPath, imageData: imageData
   };
   // The Account page may have asked for the list before this file finished loading.

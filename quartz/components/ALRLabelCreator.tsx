@@ -113,16 +113,6 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
               </div>
               <div class="alr-lc-rule"></div>
 
-              <div class="alr-lc-section-label">Card Photo <span class="alr-lc-opt">optional · report and cert page</span></div>
-              <div id="alr-lc-photo-show"></div>
-              <label class="alr-lc-photo-drop" id="alr-lc-photo-drop">
-                <input type="file" id="alr-lc-photo" accept="image/*" hidden />
-                <span class="alr-lc-photo-plus">+</span>
-                <span>Add your photo</span>
-                <span class="alr-lc-photo-sm">Drag it in or choose a file. On a phone this can use the camera.</span>
-              </label>
-              <div class="alr-lc-photo-msg" id="alr-lc-photo-msg"></div>
-              <div class="alr-lc-rule"></div>
 
               <div id="alr-lc-colours-front">
                 <div class="alr-lc-section-label">Front Colours</div>
