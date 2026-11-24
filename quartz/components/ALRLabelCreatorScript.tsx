@@ -570,9 +570,59 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
     }
   }
 
+  // ── Desktop app download strip: the big button matches the visitor's computer; links,
+  //    version and sizes come from the latest GitHub release (cached for 5 minutes). ──
+  var APP_REPO = 'Samurai-Lemon/alr-grading-app';
+  var APPLE_SVG = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9s-2-.9-3.4-.9c-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.8 1.2 1.8 2.6 3.1 2.5 1.3-.1 1.7-.8 3.2-.8s1.9.8 3.2.8c1.3 0 2.2-1.2 3-2.5.9-1.4 1.3-2.7 1.3-2.8-.1 0-2.6-1-2.6-3.9zM13.9 4.9c.7-.8 1.2-2 1-3.1-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.9-1 3 1.1.1 2.2-.6 2.9-1.4z"/></svg>';
+  var WIN_SVG = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M2 4.5 10 3.4v7.8H2zm9-1.2L22 2v9.2H11zM2 12.2h8V20l-8-1.1zm9 0h11V22l-11-1.5z"/></svg>';
+  function visitorOS() {
+    var ua = navigator.userAgent || '', pf = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || '';
+    if (/iPhone|iPad|iPod|Android/i.test(ua) || (/Mac/i.test(pf) && navigator.maxTouchPoints > 1)) return 'mobile';
+    if (/Win/i.test(pf) || /Windows/i.test(ua)) return 'win';
+    if (/Mac/i.test(pf) || /Mac OS X/i.test(ua)) return 'mac';
+    return 'other';
+  }
+  function latestRelease() {
+    var KEY = 'alr-app-release';
+    try { var c = JSON.parse(localStorage.getItem(KEY) || 'null'); if (c && Date.now() - c.t < 300000) return Promise.resolve(c.r); } catch (e) {}
+    return fetch('https://api.github.com/repos/' + APP_REPO + '/releases/latest', { headers: { Accept: 'application/vnd.github+json' } })
+      .then(function(r) { if (!r.ok) throw new Error('release'); return r.json(); })
+      .then(function(j) {
+        var r = { tag: j.tag_name, page: j.html_url, assets: (j.assets || []).map(function(a) { return { n: a.name, u: a.browser_download_url, s: a.size }; }) };
+        try { localStorage.setItem(KEY, JSON.stringify({ t: Date.now(), r: r })); } catch (e) {}
+        return r;
+      });
+  }
+  function setupDesk() {
+    var box = g('alr-lc-desk');
+    if (!box) return;
+    var os = visitorOS(), main = g('alr-lc-desk-main'), sub = g('alr-lc-desk-sub'), oth = g('alr-lc-desk-oth'), eb = g('alr-lc-desk-eb');
+    box.classList.toggle('is-mobile', os === 'mobile');
+    if (os === 'mobile') { if (main) main.textContent = 'Desktop app for Mac & Windows ↗'; return; }
+    latestRelease().then(function(r) {
+      function find(re) { for (var i = 0; i < r.assets.length; i++) if (re.test(r.assets[i].n)) return r.assets[i]; return null; }
+      function mb(a) { return a ? (Math.round(a.s / 104857.6) / 10) + ' MB' : ''; }
+      function link(a, html) { return a ? '<a href="' + a.u + '" rel="noopener">' + html + '</a>' : ''; }
+      var arm = find(/_aarch64\.dmg$/), intel = find(/_x64\.dmg$/), exe = find(/-setup\.exe$/) || find(/\.msi$/);
+      var all = '<a href="' + r.page + '" target="_blank" rel="noopener">All versions ↗</a>';
+      if (eb) eb.textContent = 'DESKTOP APP · ' + r.tag;
+      if (os === 'win' && exe) {
+        main.href = exe.u; main.removeAttribute('target'); main.innerHTML = WIN_SVG + ' Download for Windows';
+        sub.textContent = 'Windows 10 and 11 · ' + mb(exe) + ' installer';
+        oth.innerHTML = link(arm, APPLE_SVG + ' Mac (Apple Silicon)') + link(intel, 'Intel Mac') + all;
+      } else if (arm) {
+        // Browsers can't tell Apple Silicon from Intel, so Macs (and anyone else) get Apple Silicon first.
+        main.href = arm.u; main.removeAttribute('target'); main.innerHTML = APPLE_SVG + ' Download for Mac';
+        sub.textContent = 'Apple Silicon (M1 and later) · ' + mb(arm);
+        oth.innerHTML = link(intel, 'Intel Mac') + link(exe, WIN_SVG + ' Windows') + all;
+      }
+    }).catch(function() { /* keep the plain link to the release page */ });
+  }
+
   function init() {
     if (!g('alr-lc-tool')) { document.documentElement.classList.remove('alr-app'); return; }
     setupApp();
+    setupDesk();
     loadOutliner().catch(function() {});   // get the download fonts ready now
 
     function freshBtn(id) {

@@ -168,6 +168,22 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
         </div>
       </div>
 
+      {/* Desktop app download (links filled from the latest GitHub release by the label script) */}
+      <div class="alr-lc-desk" id="alr-lc-desk">
+        <img class="alr-lc-desk-icon" src="/static/app/icon-192.png" alt="" width="56" height="56" />
+        <div class="alr-lc-desk-txt">
+          <div class="alr-lc-desk-eb" id="alr-lc-desk-eb">DESKTOP APP</div>
+          <div class="alr-lc-desk-title">ALR Grading for Mac &amp; Windows</div>
+          <div class="alr-lc-desk-desc">The same Grading Terminal in its own window. Works offline and saves labels straight into a folder you choose.</div>
+        </div>
+        <div class="alr-lc-desk-act">
+          <a class="alr-lc-desk-btn" id="alr-lc-desk-main" href="https://github.com/Samurai-Lemon/alr-grading-app/releases/latest" target="_blank" rel="noopener">Download the desktop app</a>
+          <div class="alr-lc-desk-sub" id="alr-lc-desk-sub">Mac and Windows</div>
+          <div class="alr-lc-desk-oth" id="alr-lc-desk-oth"><a href="https://github.com/Samurai-Lemon/alr-grading-app/releases/latest" target="_blank" rel="noopener">All versions ↗</a></div>
+        </div>
+        <div class="alr-lc-desk-note">Not code-signed yet · Mac: right-click › Open the first time · Windows: More info › Run anyway</div>
+      </div>
+
       <style dangerouslySetInnerHTML={{ __html: `
         .alr-lc{max-width:100%}
         .alr-lc-banner{background:var(--alr-surface);border:1px solid var(--alr-border);border-radius:var(--alr-r-lg);padding:clamp(24px,4vw,40px);margin:0;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;position:relative;overflow:hidden;flex-wrap:wrap}
@@ -211,6 +227,24 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
         .alr-lc-svgwrap svg{width:100%;height:auto;display:block}
         .alr-lc-foldline{width:100%;max-width:520px;display:flex;align-items:center;gap:8px;font-size:9px;color:var(--gray);letter-spacing:1.5px}
         .alr-lc-foldline-dash{flex:1;border-top:1px dashed var(--gray)}
+        .alr-lc-desk{margin-top:16px;display:grid;grid-template-columns:auto 1fr auto;gap:8px 18px;align-items:center;border:1px solid var(--alr-border-strong);border-radius:var(--alr-r-lg);padding:16px 20px;background:var(--alr-surface)}
+        .alr-lc-desk-icon{width:56px;height:56px;border-radius:13px;display:block}
+        .alr-lc-desk-eb{font:600 11px var(--codeFont),monospace;letter-spacing:1.2px;color:var(--alr-accent-text)}
+        .alr-lc-desk-title{font-size:17px;font-weight:700;color:var(--alr-text);margin:3px 0}
+        .alr-lc-desk-desc{font-size:13px;color:var(--alr-text-2);line-height:1.45;max-width:420px}
+        .alr-lc-desk-act{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+        .alr-lc-desk-btn{display:inline-flex;align-items:center;gap:8px;background:var(--alr-accent);color:var(--alr-on-accent)!important;font-weight:700;font-size:14px;padding:10px 16px;border-radius:var(--alr-r-sm);white-space:nowrap;text-decoration:none!important}
+        .alr-lc-desk-btn:hover{filter:brightness(1.07)}
+        .alr-lc-desk-btn svg{width:15px;height:15px;flex:none}
+        .alr-lc-desk-sub{font-size:11.5px;color:var(--alr-muted)}
+        .alr-lc-desk-oth{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end;font-size:12px}
+        .alr-lc-desk-oth a{color:var(--alr-accent-text)!important;display:inline-flex;gap:4px;align-items:center;text-decoration:none!important}
+        .alr-lc-desk-oth a:hover{text-decoration:underline!important}
+        .alr-lc-desk-oth svg{width:12px;height:12px}
+        .alr-lc-desk-note{grid-column:1/-1;font-size:11px;color:var(--alr-muted);text-align:right}
+        .alr-lc-desk.is-mobile .alr-lc-desk-note,.alr-lc-desk.is-mobile .alr-lc-desk-sub{display:none}
+        @media(max-width:700px){.alr-lc-desk{grid-template-columns:auto 1fr}.alr-lc-desk-act{grid-column:1/-1;align-items:stretch}.alr-lc-desk-btn{justify-content:center}.alr-lc-desk-oth{justify-content:center}.alr-lc-desk-note{text-align:center}}
+        html.alr-app .alr-lc-desk{display:none!important}
         .alr-lc-right{container-type:inline-size}
         /* Opened as the installed web app: just the tool, no site menus. */
         html.alr-app #quartz-header,html.alr-app .left.sidebar,html.alr-app .right.sidebar,html.alr-app .page-footer,html.alr-app footer,html.alr-app #alr-terminal-mount,html.alr-app .alr-lc .alr-bb{display:none!important}
