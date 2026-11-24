@@ -19,11 +19,16 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
         __html: `
 (function() {
   var tab = 'front';
-  // The site's own colours (custom.scss --alr-* tokens): zone is the grade panel.
+  // The site's own colours (custom.scss --alr-* tokens). Panels 1-3 run left to right:
+  // front = logo, card info, grade; back = logo, grade scale, cert.
   var PRESETS = {
-    dark:  { body:'#1a1917', zone:'#cc785c', acc:'#cc785c', txt:'#ede8de', mut:'#9a9488' },
-    light: { body:'#fffdf8', zone:'#a85c42', acc:'#a85c42', txt:'#1f1b17', mut:'#6b6258' }
+    dark:  { front: { txt:'#ede8de', mut:'#b7b1a6', acc:'#cc785c', p1:'#121110', p2:'#1a1917', p3:'#121110' },
+             back:  { txt:'#ede8de', mut:'#b7b1a6', acc:'#cc785c', scale:'#cc785c', sbox:'#44423f', p1:'#121110', p2:'#1a1917', p3:'#1a1917' } },
+    light: { front: { txt:'#1f1b17', mut:'#504941', acc:'#a85c42', p1:'#f0eee9', p2:'#fffdf8', p3:'#f0eee9' },
+             back:  { txt:'#1f1b17', mut:'#504941', acc:'#a85c42', scale:'#a85c42', sbox:'#d2d0cb', p1:'#f0eee9', p2:'#fffdf8', p3:'#fffdf8' } }
   };
+  var FRONT_KEYS = ['txt', 'mut', 'acc', 'p1', 'p2', 'p3'];
+  var BACK_KEYS = ['txt', 'mut', 'acc', 'scale', 'sbox', 'p1', 'p2', 'p3'];
 
   function g(id) { return document.getElementById(id); }
   function val(id) { var el = g(id); return el ? el.value : ''; }
@@ -36,20 +41,16 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
       cert: val('alr-lc-cert') || '0000-ALR',
       grade: val('alr-lc-grade') || '10',
       gl: val('alr-lc-gl') || 'GEM MINT',
-      body: val('alr-lc-cbody'),
-      zone: val('alr-lc-czone'),
-      acc: val('alr-lc-cacc'),
-      txt: val('alr-lc-ctxt'),
-      mut: val('alr-lc-cmut')
+      txt: val('alr-lc-ctxt'), mut: val('alr-lc-cmut'), acc: val('alr-lc-cacc'),
+      p1: val('alr-lc-cp1'), p2: val('alr-lc-cp2'), p3: val('alr-lc-cp3')
     };
   }
 
   function getB() {
     return {
-      body: val('alr-lc-bcbody'),
-      acc: val('alr-lc-bcacc'),
-      txt: val('alr-lc-bctxt'),
-      mut: val('alr-lc-bcmut')
+      txt: val('alr-lc-bctxt'), mut: val('alr-lc-bcmut'), acc: val('alr-lc-bcacc'),
+      scale: val('alr-lc-bcscale'), sbox: val('alr-lc-bcsbox'),
+      p1: val('alr-lc-bcp1'), p2: val('alr-lc-bcp2'), p3: val('alr-lc-bcp3')
     };
   }
 
@@ -81,17 +82,11 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
   function onColour(bg) {
     return contrast(bg, '#1a120d') >= contrast(bg, '#ffffff') ? '#1a120d' : '#ffffff';
   }
+  // Divider and frame lines, a little lighter (or darker) than the middle panel.
   function derive(v) {
-    var dark = lum(v.body) < 0.4;
-    return {
-      side: dark ? mix(v.body, '#000000', 0.32) : mix(v.body, '#000000', 0.06),
-      line: mix(v.body, v.txt, 0.13),
-      border: mix(v.body, v.txt, 0.2),
-      mut: mix(v.mut, v.txt, 0.35),
-      acct: dark ? mix(v.acc, '#ffffff', 0.25) : mix(v.acc, '#000000', 0.1),
-      gtxt: onColour(v.zone || v.acc)
-    };
+    return { line: mix(v.p2, v.txt, 0.13), border: mix(v.p2, v.txt, 0.2) };
   }
+
 
   var SANS = "Inter, 'Helvetica Neue', Arial, sans-serif";
   var MONO = "'JetBrains Mono', 'Courier New', monospace";
@@ -156,11 +151,24 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
   function frameRect(d) {
     return '</g><rect x="1" y="1" width="' + (VW - 2) + '" height="198" fill="none" stroke="' + d.border + '" stroke-width="2"/>';
   }
+  // Faint diagonal lines over one panel (x0 to x1), a shade off that panel's own colour.
+  // Each line is cut to the panel (Cricut exports don't use clip paths).
+  function texture(bg, ink, x0, x1) {
+    var col = mix(bg, ink, 0.06), out = '', y0 = 3, y1 = 197;
+    for (var c = x0 - 200; c < x1; c += 9) {
+      // the line x = c + (y1 - y), clipped to x0..x1 and y0..y1
+      var ya = Math.min(y1, y1 - (x0 - c)), yb = Math.max(y0, y1 - (x1 - c));
+      if (ya <= yb) continue;
+      out += '<line x1="' + (c + y1 - ya) + '" y1="' + ya + '" x2="' + (c + y1 - yb) + '" y2="' + yb + '" stroke="' + col + '" stroke-width="1.5"/>';
+    }
+    return out;
+  }
   function sidePanel(v, d) {
-    return '<rect width="150" height="200" fill="' + d.side + '"/>'
-      + logo(46, 30, 0.105, v.acc)
-      + t(75, 120, 14, v.txt, 'ALR INITIATIVE', { anchor: 'middle', weight: 700, ls: 0.4 })
-      + t(75, 140, 15, d.acct, 'GRADING', { anchor: 'middle', weight: 600, ls: 2 })
+    return '<rect width="150" height="200" fill="' + v.p1 + '"/>'
+      + texture(v.p1, v.txt, 0, 150)
+      + logo(36, 38, 0.14, v.acc)
+      + t(75, 136, 14, v.txt, 'ALR INITIATIVE', { anchor: 'middle', weight: 700, ls: 0.4 })
+      + t(75, 157, 15, v.acc, 'GRADING', { anchor: 'middle', weight: 600, ls: 2 })
       + '<line x1="150" y1="0" x2="150" y2="200" stroke="' + d.line + '" stroke-width="2"/>';
   }
 
@@ -176,21 +184,22 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
     }
     var g = String(v.grade), gl = String(v.gl);
     return clipOpen(id)
-      + '<rect width="' + VW + '" height="200" fill="' + v.body + '"/>'
+      + '<rect width="' + VW + '" height="200" fill="' + v.p2 + '"/>'
+      + texture(v.p2, v.txt, 150, GX)
       + sidePanel(v, d)
-      + t(75, 180, 14, d.mut, 'CYCLE 7', { anchor: 'middle', weight: 600, ls: 1 })
       + nameSvg
-      + t(172, 78 + dy, 17, d.mut, v.set, { weight: 500 })
-      + t(172, 102 + dy, 19, d.acct, v.variant, { weight: 600 })
+      + t(172, 78 + dy, 17, v.mut, v.set, { weight: 500 })
+      + t(172, 102 + dy, 19, v.acc, v.variant, { weight: 600 })
       + '<line x1="172" y1="122" x2="' + (GX - 22) + '" y2="122" stroke="' + d.line + '" stroke-width="2"/>'
-      + t(172, 150, 15, d.mut, 'TRADING CARD · ENGLISH', { weight: 600, ls: 0.4 })
+      + t(172, 150, 15, v.mut, 'TRADING CARD · ENGLISH', { weight: 600, ls: 0.4 })
       + t(172, 178, 18, v.txt, 'CERT ' + v.cert, { mono: true })
       + barcode(v.cert, GX - 22 - 104, 138, 104, 44, v.txt)
-      + '<rect x="' + GX + '" y="0" width="152" height="200" fill="' + v.zone + '"/>'
-      + t(GC, 27, 14, d.gtxt, 'ARCHIVE GRADE', { anchor: 'middle', weight: 700, ls: 0.4 })
-      + sigbars(GC - 14, 52, g, d.gtxt, v.zone)
-      + t(GC, 138, g.length < 3 ? 86 : 66, d.gtxt, g, { anchor: 'middle', weight: 700, ls: -3 })
-      + t(GC, 178, Math.max(14, Math.min(19, Math.floor(136 / Math.max(1, gl.length * 0.68)))), d.gtxt, gl, { anchor: 'middle', weight: 700, ls: 0.8 })
+      + '<rect x="' + GX + '" y="0" width="152" height="200" fill="' + v.p3 + '"/>'
+      + texture(v.p3, v.txt, GX, VW)
+      + '<line x1="' + GX + '" y1="0" x2="' + GX + '" y2="200" stroke="' + d.line + '" stroke-width="2"/>'
+      + t(GC, 118, g.length < 3 ? 100 : 74, v.acc, g, { anchor: 'middle', weight: 700, ls: -3 })
+      + '<rect x="' + (GC - 60) + '" y="142" width="120" height="34" rx="3" fill="none" stroke="' + v.acc + '" stroke-width="2.5"/>'
+      + t(GC, 165, Math.max(12, Math.min(17, Math.floor(104 / Math.max(1, gl.length * 0.7)))), v.acc, gl, { anchor: 'middle', weight: 700, ls: 1 })
       + frameRect(d);
   }
 
@@ -198,21 +207,24 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
   function backInner(v) {
     var d = derive(v), f = getF(), id = 'lb' + Math.random().toString(36).slice(2);
     var gn = Math.floor(parseFloat(f.grade)), lit = isNaN(gn) ? 10 : Math.max(1, Math.min(10, gn));
-    var gtxt = onColour(v.acc), boxes = '', litX = 170, step = Math.min(35, (GX - 170 - 12) / 10), bw = step - 4;
+    var gtxt = onColour(v.scale), boxes = '', litX = 170, step = Math.min(35, (GX - 170 - 12) / 10), bw = step - 4;
     SCALE.forEach(function(s, k) {
       var x = 170 + k * step, on = Number(s[0]) === lit;
       if (on) litX = x;
-      boxes += '<rect x="' + x + '" y="70" width="' + bw + '" height="38" rx="6" fill="' + (on ? v.acc : 'none') + '" stroke="' + (on ? v.acc : d.border) + '" stroke-width="2"/>'
-        + t(x + bw / 2, 96, 18, on ? gtxt : d.mut, s[0], { anchor: 'middle', weight: 700 });
+      boxes += '<rect x="' + x + '" y="70" width="' + bw + '" height="38" rx="6" fill="' + (on ? v.scale : 'none') + '" stroke="' + (on ? v.scale : v.sbox) + '" stroke-width="2"/>'
+        + t(x + bw / 2, 96, 18, on ? gtxt : v.mut, s[0], { anchor: 'middle', weight: 700 });
     });
     return clipOpen(id)
-      + '<rect width="' + VW + '" height="200" fill="' + v.body + '"/>'
+      + '<rect width="' + VW + '" height="200" fill="' + v.p2 + '"/>'
+      + texture(v.p2, v.txt, 150, GX)
+      + '<rect x="' + GX + '" y="0" width="152" height="200" fill="' + v.p3 + '"/>'
+      + texture(v.p3, v.txt, GX, VW)
       + sidePanel(v, d)
-      + t(170, 46, 15, d.mut, 'ARCHIVED · GRADED · CERTIFIED', { weight: 600, ls: 0.6 })
+      + t(170, 46, 15, v.mut, 'ARCHIVED · GRADED · CERTIFIED', { weight: 600, ls: 0.6 })
       + boxes
-      + t(litX, 138, 17, d.acct, '▲ ' + f.gl, { weight: 700, ls: 0.6 })
+      + t(litX, 138, 17, v.scale, '▲ ' + f.gl, { weight: 700, ls: 0.6 })
       + '<line x1="' + GX + '" y1="0" x2="' + GX + '" y2="200" stroke="' + d.line + '" stroke-width="2"/>'
-      + t(GC, 36, 14, d.mut, 'CERT NO.', { anchor: 'middle', weight: 700, ls: 1 })
+      + t(GC, 36, 14, v.mut, 'CERT NO.', { anchor: 'middle', weight: 700, ls: 1 })
       + t(GC, 60, Math.max(13, Math.min(18, Math.floor(130 / Math.max(1, f.cert.length * 0.6)))), v.txt, f.cert, { anchor: 'middle', mono: true })
       + barcode(f.cert, GX + 20, 76, 112, 100, v.txt)
       + frameRect(d);
@@ -481,10 +493,8 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
       if (b) b.className = 'alr-lc-preset-btn' + (n === name ? ' alr-lc-preset-active' : '');
     });
     function sc(cid, hid, v) { var c = g(cid), h = g(hid); if (c) c.value = v; if (h) h.value = v; }
-    sc('alr-lc-cbody','alr-lc-hbody',p.body); sc('alr-lc-czone','alr-lc-hzone',p.zone);
-    sc('alr-lc-cacc','alr-lc-hacc',p.acc); sc('alr-lc-ctxt','alr-lc-htxt',p.txt); sc('alr-lc-cmut','alr-lc-hmut',p.mut);
-    sc('alr-lc-bcbody','alr-lc-bhbody',p.body);
-    sc('alr-lc-bcacc','alr-lc-bhacc',p.acc); sc('alr-lc-bctxt','alr-lc-bhtxt',p.txt); sc('alr-lc-bcmut','alr-lc-bhmut',p.mut);
+    FRONT_KEYS.forEach(function(k) { sc('alr-lc-c' + k, 'alr-lc-h' + k, p.front[k]); });
+    BACK_KEYS.forEach(function(k) { sc('alr-lc-bc' + k, 'alr-lc-bh' + k, p.back[k]); });
     render();
   }
 
@@ -530,10 +540,8 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
       if (el) { el.value = num + '-ALR'; render(); }
     });
 
-    bindColor('alr-lc-cbody','alr-lc-hbody'); bindColor('alr-lc-czone','alr-lc-hzone');
-    bindColor('alr-lc-cacc','alr-lc-hacc'); bindColor('alr-lc-ctxt','alr-lc-htxt'); bindColor('alr-lc-cmut','alr-lc-hmut');
-    bindColor('alr-lc-bcbody','alr-lc-bhbody');
-    bindColor('alr-lc-bcacc','alr-lc-bhacc'); bindColor('alr-lc-bctxt','alr-lc-bhtxt'); bindColor('alr-lc-bcmut','alr-lc-bhmut');
+    FRONT_KEYS.forEach(function(k) { bindColor('alr-lc-c' + k, 'alr-lc-h' + k); });
+    BACK_KEYS.forEach(function(k) { bindColor('alr-lc-bc' + k, 'alr-lc-bh' + k); });
 
     var pd = freshBtn('alr-lc-preset-dark'), pl = freshBtn('alr-lc-preset-light');
     if (pd) pd.addEventListener('click', function() { setPreset('dark'); });

@@ -68,56 +68,103 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
 
               <div id="alr-lc-colours-front">
                 <div class="alr-lc-section-label">Front Colours</div>
+                <div class="alr-lc-sub">Text</div>
                 <div class="alr-lc-color-row">
                   <div class="alr-lc-field">
-                    <div class="alr-lc-label">Info Panel</div>
-                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-cbody" value="#1a1917" /><input class="alr-lc-hex" id="alr-lc-hbody" value="#1a1917" /></div>
+                    <div class="alr-lc-label">Primary Text</div>
+                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-ctxt" value="#ede8de" /><input class="alr-lc-hex" id="alr-lc-htxt" value="#ede8de" /></div>
+                    <div class="alr-lc-cap">Card name, cert number, ALR INITIATIVE, barcode</div>
                   </div>
                   <div class="alr-lc-field">
-                    <div class="alr-lc-label">Grade Panel</div>
-                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-czone" value="#cc785c" /><input class="alr-lc-hex" id="alr-lc-hzone" value="#cc785c" /></div>
+                    <div class="alr-lc-label">Secondary Text</div>
+                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-cmut" value="#b7b1a6" /><input class="alr-lc-hex" id="alr-lc-hmut" value="#b7b1a6" /></div>
+                    <div class="alr-lc-cap">Set / series, TRADING CARD line</div>
                   </div>
                 </div>
+                <div class="alr-lc-sub">Accent</div>
                 <div class="alr-lc-color-row">
                   <div class="alr-lc-field">
                     <div class="alr-lc-label">Accent</div>
                     <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-cacc" value="#cc785c" /><input class="alr-lc-hex" id="alr-lc-hacc" value="#cc785c" /></div>
+                    <div class="alr-lc-cap">Logo, GRADING, variant, the grade and stamp</div>
+                  </div>
+                </div>
+                <div class="alr-lc-sub">Panels</div>
+                <div class="alr-lc-color-row">
+                  <div class="alr-lc-field">
+                    <div class="alr-lc-label">Panel 1 · Logo</div>
+                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-cp1" value="#121110" /><input class="alr-lc-hex" id="alr-lc-hp1" value="#121110" /></div>
+                    <div class="alr-lc-cap">Left panel</div>
                   </div>
                   <div class="alr-lc-field">
-                    <div class="alr-lc-label">Primary Text</div>
-                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-ctxt" value="#ede8de" /><input class="alr-lc-hex" id="alr-lc-htxt" value="#ede8de" /></div>
+                    <div class="alr-lc-label">Panel 2 · Card Info</div>
+                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-cp2" value="#1a1917" /><input class="alr-lc-hex" id="alr-lc-hp2" value="#1a1917" /></div>
+                    <div class="alr-lc-cap">Middle panel</div>
                   </div>
                 </div>
                 <div class="alr-lc-color-row">
                   <div class="alr-lc-field">
-                    <div class="alr-lc-label">Secondary Text</div>
-                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-cmut" value="#9a9488" /><input class="alr-lc-hex" id="alr-lc-hmut" value="#9a9488" /></div>
+                    <div class="alr-lc-label">Panel 3 · Grade</div>
+                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-cp3" value="#121110" /><input class="alr-lc-hex" id="alr-lc-hp3" value="#121110" /></div>
+                    <div class="alr-lc-cap">Right panel</div>
                   </div>
                 </div>
               </div>
 
               <div id="alr-lc-colours-back" style="display:none">
                 <div class="alr-lc-section-label">Back Colours</div>
+                <div class="alr-lc-sub">Text</div>
                 <div class="alr-lc-color-row">
                   <div class="alr-lc-field">
-                    <div class="alr-lc-label">Body BG</div>
-                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-bcbody" value="#1a1917" /><input class="alr-lc-hex" id="alr-lc-bhbody" value="#1a1917" /></div>
+                    <div class="alr-lc-label">Primary Text</div>
+                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-bctxt" value="#ede8de" /><input class="alr-lc-hex" id="alr-lc-bhtxt" value="#ede8de" /></div>
+                    <div class="alr-lc-cap">Cert number, barcode, ALR INITIATIVE</div>
+                  </div>
+                  <div class="alr-lc-field">
+                    <div class="alr-lc-label">Secondary Text</div>
+                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-bcmut" value="#b7b1a6" /><input class="alr-lc-hex" id="alr-lc-bhmut" value="#b7b1a6" /></div>
+                    <div class="alr-lc-cap">ARCHIVED · GRADED line, CERT NO., unlit scale numbers</div>
                   </div>
                 </div>
+                <div class="alr-lc-sub">Accent</div>
                 <div class="alr-lc-color-row">
                   <div class="alr-lc-field">
                     <div class="alr-lc-label">Accent</div>
                     <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-bcacc" value="#cc785c" /><input class="alr-lc-hex" id="alr-lc-bhacc" value="#cc785c" /></div>
+                    <div class="alr-lc-cap">Logo, GRADING</div>
+                  </div>
+                </div>
+                <div class="alr-lc-sub">Grade Scale</div>
+                <div class="alr-lc-color-row">
+                  <div class="alr-lc-field">
+                    <div class="alr-lc-label">Grade Scale</div>
+                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-bcscale" value="#cc785c" /><input class="alr-lc-hex" id="alr-lc-bhscale" value="#cc785c" /></div>
+                    <div class="alr-lc-cap">Lit grade box and the ▲ grade marker</div>
                   </div>
                   <div class="alr-lc-field">
-                    <div class="alr-lc-label">Primary Text</div>
-                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-bctxt" value="#ede8de" /><input class="alr-lc-hex" id="alr-lc-bhtxt" value="#ede8de" /></div>
+                    <div class="alr-lc-label">Scale Boxes</div>
+                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-bcsbox" value="#44423f" /><input class="alr-lc-hex" id="alr-lc-bhsbox" value="#44423f" /></div>
+                    <div class="alr-lc-cap">Outline of the unlit boxes</div>
+                  </div>
+                </div>
+                <div class="alr-lc-sub">Panels</div>
+                <div class="alr-lc-color-row">
+                  <div class="alr-lc-field">
+                    <div class="alr-lc-label">Panel 1 · Logo</div>
+                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-bcp1" value="#121110" /><input class="alr-lc-hex" id="alr-lc-bhp1" value="#121110" /></div>
+                    <div class="alr-lc-cap">Left panel</div>
+                  </div>
+                  <div class="alr-lc-field">
+                    <div class="alr-lc-label">Panel 2 · Grade Scale</div>
+                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-bcp2" value="#1a1917" /><input class="alr-lc-hex" id="alr-lc-bhp2" value="#1a1917" /></div>
+                    <div class="alr-lc-cap">Middle panel</div>
                   </div>
                 </div>
                 <div class="alr-lc-color-row">
                   <div class="alr-lc-field">
-                    <div class="alr-lc-label">Secondary Text</div>
-                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-bcmut" value="#9a9488" /><input class="alr-lc-hex" id="alr-lc-bhmut" value="#9a9488" /></div>
+                    <div class="alr-lc-label">Panel 3 · Cert</div>
+                    <div class="alr-lc-color-wrap"><input type="color" id="alr-lc-bcp3" value="#1a1917" /><input class="alr-lc-hex" id="alr-lc-bhp3" value="#1a1917" /></div>
+                    <div class="alr-lc-cap">Right panel</div>
                   </div>
                 </div>
               </div>
@@ -159,6 +206,8 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
         .alr-lc-left{border-right:1px solid var(--alr-border);padding:20px;display:flex;flex-direction:column;gap:10px;overflow-y:auto;max-height:640px}
         .alr-lc-right{display:flex;flex-direction:column}
         .alr-lc-section-label{font-size:13px;font-weight:600;color:var(--alr-text)}
+        .alr-lc-sub{font-size:12px;font-weight:600;color:var(--alr-text);margin-top:6px}
+        .alr-lc-cap{font-size:11px;line-height:1.35;color:var(--alr-muted);margin-top:4px}
         .alr-lc-rule{height:1px;background:var(--alr-border);margin:4px 0}
         .alr-lc-field{display:flex;flex-direction:column;gap:3px}
         .alr-lc-label{font-size:12px;color:var(--alr-text-2);font-weight:500}
@@ -166,7 +215,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
         .alr-lc-input{background:var(--alr-bg);border:1px solid var(--alr-border-strong);color:var(--alr-text);font-family:var(--codeFont),'Courier New',monospace;font-size:13px;padding:8px 10px;border-radius:var(--alr-r-xs);width:100%;outline:none;box-sizing:border-box}
         .alr-lc-input:focus{border-color:var(--alr-accent)}
         .alr-lc-two{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-        .alr-lc-color-row{display:flex;flex-direction:column;gap:8px}
+        .alr-lc-color-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
         .alr-lc-color-wrap{display:flex;align-items:center;gap:6px;background:var(--alr-bg);border:1px solid var(--alr-border-strong);border-radius:var(--alr-r-xs);padding:4px 8px}
         .alr-lc-color-wrap input[type="color"]{width:20px;height:20px;border:none;background:none;cursor:pointer;padding:0}
         .alr-lc-hex{font-size:10px;color:var(--dark);font-family:var(--codeFont),monospace;background:none;border:none;outline:none;width:58px}
