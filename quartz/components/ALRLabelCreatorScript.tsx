@@ -277,9 +277,9 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
   function saveBlob(blob, fn) {
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
-    a.href = url; a.download = fn;
+    a.href = url; a.download = fn; a.rel = 'noopener'; a.style.display = 'none';
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
-    setTimeout(function() { URL.revokeObjectURL(url); }, 2000);
+    setTimeout(function() { URL.revokeObjectURL(url); }, 60000);
   }
 
 
@@ -481,7 +481,9 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
       if (which === 'front') { svg = buildFront(vf); base = 'alr_label_front'; }
       else if (which === 'back') { svg = buildBack(vb); base = 'alr_label_back'; }
       else { svg = buildFold(vf, vb); base = 'alr_label_foldcut'; win = FOLD_W_IN; hin = FOLD_H_IN; }
-      saveBlob(new Blob([cricutSvg(svg, win, hin, otf)], { type: 'image/svg+xml' }), base + '.svg');
+      // Sent as a generic file type, not image/svg+xml, so browsers (Safari especially) save it
+      // straight to Downloads like the mod jars instead of opening it as a picture in a tab.
+      saveBlob(new Blob([cricutSvg(svg, win, hin, otf)], { type: 'application/octet-stream' }), base + '.svg');
       if (s) s.textContent = 'Downloaded SVG · ' + inch(win) + ' × ' + inch(hin);
     }).catch(function() { if (s) s.textContent = 'Could not make the file. Try again.'; });
   }
