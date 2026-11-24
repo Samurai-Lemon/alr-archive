@@ -5,8 +5,11 @@
 (function () {
   if (window.ALRGraded) return;
 
-  var JSPDF_SRC = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
-  var QR_SRC = 'https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js';
+  // The desktop app bundles these and points ALR_ASSETS at its own copies.
+  var ASSETS = window.ALR_ASSETS || {};
+  var JSPDF_SRC = ASSETS.jspdf || 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+  var QR_SRC = ASSETS.qrcode || 'https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js';
+  var ICON_SRC = ASSETS.icon || '/static/app/icon-192.png';
   var SITE = 'https://alrinitiative.com';
   var PHOTO_BASE = 'https://jkxduwtsssxayscbaxet.supabase.co/storage/v1/object/public/card-photos/';
   var FONT_DIR = (window.ALR_ASSETS && window.ALR_ASSETS.fonts) || '/static/fonts';
@@ -56,7 +59,7 @@
   // the PDF) are fetched through images.weserv.nl, a free image service that adds the header.
   // It only ever sees the image address.
   function readableUrl(url) {
-    if (!url || /^data:/.test(url) || url.indexOf(PHOTO_BASE) === 0 || /^https:\/\/images\.pokemontcg\.io\//.test(url) || url.charAt(0) === '/') return url;
+    if (!url || /^(data|blob):/.test(url) || !/^https?:/.test(url) || url.indexOf(PHOTO_BASE) === 0 || /^https:\/\/images\.pokemontcg\.io\//.test(url)) return url;
     return 'https://images.weserv.nl/?url=' + encodeURIComponent(url.replace(/^https?:\/\//, '')) + '&w=1000&output=jpg';
   }
   // An image URL as a data: URL, re-encoded through a canvas (so any format becomes JPEG/PNG).
@@ -103,7 +106,7 @@
   var iconData = null;
   function loadIcon() {
     if (iconData) return Promise.resolve(iconData);
-    return imageData('/static/app/icon-192.png', 192, 'image/png').then(function (i) { iconData = i.data; return iconData; }).catch(function () { return null; });
+    return imageData(ICON_SRC, 192, 'image/png').then(function (i) { iconData = i.data; return iconData; }).catch(function () { return null; });
   }
 
   function reportPdf(d) {
@@ -701,7 +704,9 @@
     var count = document.getElementById('alr-account-graded-count');
     if (count) count.textContent = accountRows.length ? accountRows.length + (accountRows.length === 1 ? ' card' : ' cards') : '';
     if (!accountRows.length) {
-      box.innerHTML = '<div class="alr-reg-empty">No graded cards yet. Make a label in the <a href="/label-creator" class="internal">Grading Terminal</a> and choose Save card.</div>';
+      box.innerHTML = window.ALR_DESKTOP
+        ? '<div class="alr-reg-empty">No graded cards yet. Make a label in the Editor and choose Save card.</div>'
+        : '<div class="alr-reg-empty">No graded cards yet. Make a label in the <a href="/label-creator" class="internal">Grading Terminal</a> and choose Save card.</div>';
       return;
     }
     box.innerHTML = '<div class="alr-gc-grid">' + accountRows.map(function (r, i) {
@@ -712,8 +717,11 @@
           '<div class="alr-gc-sub"><span class="alr-gc-mono">' + esc(r.cert) + '</span>' + (r.set_name ? ' · ' + esc(r.set_name) : '') + '</div>' +
           '<div class="alr-gc-grade"><b>' + esc(r.grade) + '</b><span>' + esc(r.grade_label) + '</span></div>' +
           '<div class="alr-gc-actions">' +
-            '<a href="/cert?c=' + Number(r.cert_no) + '" target="_blank" rel="noopener">Report page ↗</a>' +
-            '<a href="/label-creator?edit=' + encodeURIComponent(r.id) + '" class="internal">Edit</a>' +
+            '<a href="' + (window.ALR_DESKTOP ? certUrl(r.cert_no) : '/cert?c=' + Number(r.cert_no)) + '" target="_blank" rel="noopener">Report page ↗</a>' +
+            (typeof window.ALR_openEdit === 'function'
+              ? '<button type="button" data-gc-edit="' + i + '">Edit</button>'
+              : '<a href="/label-creator?edit=' + encodeURIComponent(r.id) + '" class="internal">Edit</a>') +
+            (window.ALR_DESKTOP && window.ALRLabel && window.ALRLabel.saveLabels ? '<button type="button" data-gc-labels="' + i + '">Labels</button>' : '') +
             '<button type="button" data-gc-pdf="' + i + '">PDF</button>' +
             '<button type="button" data-gc-del="' + i + '" class="alr-gc-del">Delete</button>' +
           '</div><div class="alr-gc-status" id="alr-gc-st-' + i + '"></div>' +
@@ -735,7 +743,9 @@
     Array.prototype.forEach.call(box.querySelectorAll('[data-gc-del]'), function (b) {
       b.addEventListener('click', function () {
         var i = Number(b.getAttribute('data-gc-del')), r = accountRows[i], st = document.getElementById('alr-gc-st-' + i);
-        if (!window.confirm('Delete ' + r.card_name + ' (' + r.cert + ')? Its QR code will stop working. This can’t be undone.')) return;
+        var ask = typeof window.ALR_confirm === 'function' ? window.ALR_confirm : function (m) { return window.confirm(m); };
+        Promise.resolve(ask('Delete ' + r.card_name + ' (' + r.cert + ')? Its QR code will stop working. This can’t be undone.')).then(function (ok) {
+        if (!ok) return;
         if (st) st.textContent = 'Deleting…';
         var paths = [r.front_photo_path].filter(Boolean);
         (paths.length ? sb.storage.from('card-photos').remove(paths) : Promise.resolve()).then(function () {
@@ -745,6 +755,21 @@
           accountRows.splice(i, 1);
           renderAccount(box, sb);
         }).catch(function () { if (st) st.textContent = 'Could not delete. Try again.'; });
+        });
+      });
+    });
+    Array.prototype.forEach.call(box.querySelectorAll('[data-gc-edit]'), function (b) {
+      b.addEventListener('click', function () { window.ALR_openEdit(accountRows[Number(b.getAttribute('data-gc-edit'))].id); });
+    });
+    Array.prototype.forEach.call(box.querySelectorAll('[data-gc-labels]'), function (b) {
+      b.addEventListener('click', function () {
+        var i = Number(b.getAttribute('data-gc-labels')), st = document.getElementById('alr-gc-st-' + i);
+        if (st) st.textContent = 'Saving labels…';
+        sb.from('graded_cards').select('*').eq('id', accountRows[i].id).single().then(function (res) {
+          if (res.error) throw res.error;
+          return loadQR().then(function () { return window.ALRLabel.saveLabels(res.data); });
+        }).then(function (msg) { if (st) st.textContent = msg || 'Labels saved'; })
+          .catch(function () { if (st) st.textContent = 'Could not save the labels.'; });
       });
     });
   }

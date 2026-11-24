@@ -589,8 +589,25 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
     return o;
   }
   function meta() { return window.ALRGraded ? window.ALRGraded.cardMeta() : {}; }
+  // A saved card's label files (front, back with its QR, fold sheet), e.g. from the app's My Cards.
+  function saveLabels(row) {
+    var lab = row.label || {}, f = {}, b = {}, d = PRESETS.dark.back;
+    Object.keys(lab.front || {}).forEach(function(k) { f[k] = lab.front[k]; });
+    f.name = row.card_name; f.set = lab.set != null ? lab.set : (row.set_name || ''); f.variant = lab.variant != null ? lab.variant : (row.printing || '');
+    f.cert = row.cert; f.grade = String(row.grade); f.gl = row.grade_label;
+    var vf = fullFront(f);
+    vf.qr = window.ALRGraded && window.qrcode ? window.ALRGraded.certUrl(row.cert_no) : null;
+    Object.keys(d).forEach(function(k) { b[k] = (lab.back && lab.back[k]) || d[k]; });
+    var snap = { vf: vf, vb: b };
+    return loadOutliner().then(function() {
+      download('front', snap); download('back', snap); download('fold', snap);
+      return 'Saved front, back and fold for ' + row.cert;
+    });
+  }
   window.ALRLabel = {
     markDirty: function() { markDirty(); },
+    saveLabels: saveLabels,
+    editCard: function(id) { if (acct.sb && acct.session) loadForEdit(id); },
     frontPng: function(v) { return labelPng(fullFront(v)); },
     frontSvg: function(v) {
       return loadOutliner().then(function(fonts) {
@@ -614,15 +631,19 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
   function markDirty() {
     if (acct.saved && !acct.dirty) { acct.dirty = true; renderAcct(); }
   }
+  // The desktop app isn't on alrinitiative.com, so its links need the full address.
+  function certLink(n) { return (window.ALR_DESKTOP ? 'https://alrinitiative.com' : '') + '/cert?c=' + Number(n); }
   function renderAcct() {
     var box = g('alr-lc-account');
     if (!box) return;
-    if (window.ALR_DESKTOP || !window.ALR_supabase) { box.hidden = true; return; }
+    if (!window.ALR_supabase) { box.hidden = true; return; }
     box.hidden = false;
     var dis = acct.busy ? ' disabled' : '', html;
     if (!acct.session) {
       html = '<div class="alr-lc-acct-txt"><b>Save this card to your account</b><span>Keep the report, get an official cert number and a QR code on the label that opens this card’s report.</span></div>'
-        + '<a class="alr-lc-acct-btn alr-lc-acct-ghost" href="/Account" target="_blank" rel="noopener">Sign in ↗</a>';
+        + (typeof window.ALR_signIn === 'function'
+          ? '<button type="button" class="alr-lc-acct-btn alr-lc-acct-ghost" id="alr-lc-acct-signin">Sign in</button>'
+          : '<a class="alr-lc-acct-btn alr-lc-acct-ghost" href="/Account" target="_blank" rel="noopener">Sign in ↗</a>');
     } else if (!acct.saved) {
       html = '<div class="alr-lc-acct-txt"><b>Save to my account</b><span>Signed in as ' + esc(displayName(acct.session)) + '. Saving gives this card an official cert number and puts its QR code on the back.</span></div>'
         + '<button type="button" class="alr-lc-acct-btn" id="alr-lc-acct-save"' + dis + '>Save card</button>';
@@ -632,7 +653,7 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
         + '<button type="button" class="alr-lc-acct-btn alr-lc-acct-ghost" id="alr-lc-acct-new"' + dis + '>New card</button>';
     } else {
       html = '<div class="alr-lc-acct-txt alr-lc-acct-ok"><b>✓ Saved as ' + esc(acct.saved.cert) + '</b><span>The QR code on the back opens this card’s report.</span></div>'
-        + '<a class="alr-lc-acct-btn alr-lc-acct-ghost" href="/cert?c=' + Number(acct.saved.cert_no) + '" target="_blank" rel="noopener">Report page ↗</a>'
+        + '<a class="alr-lc-acct-btn alr-lc-acct-ghost" href="' + certLink(acct.saved.cert_no) + '" target="_blank" rel="noopener">Report page ↗</a>'
         + '<button type="button" class="alr-lc-acct-btn alr-lc-acct-ghost" id="alr-lc-acct-new"' + dis + '>New card</button>';
     }
     var last = '';
@@ -644,7 +665,7 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
         + '<div class="alr-lc-last-btns"><span>Download its files:</span>'
         + '<button type="button" data-last="front">Front</button><button type="button" data-last="back">Back</button>'
         + '<button type="button" data-last="fold">Fold</button><button type="button" data-last="report">Report</button>'
-        + '<a href="/cert?c=' + Number(L.cert_no) + '" target="_blank" rel="noopener">Report page ↗</a></div></div>';
+        + '<a href="' + certLink(L.cert_no) + '" target="_blank" rel="noopener">Report page ↗</a></div></div>';
     }
     box.innerHTML = last + '<div class="alr-lc-acct">' + html + '</div>' + (acct.msg ? '<div class="alr-lc-acct-msg">' + esc(acct.msg) + '</div>' : '');
     var lx = g('alr-lc-last-x');
@@ -655,6 +676,8 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
         if (w === 'report') downloadReport(acct.last); else download(w, acct.last);
       });
     });
+    var si = g('alr-lc-acct-signin');
+    if (si) si.addEventListener('click', function() { window.ALR_signIn(); });
     var sv = g('alr-lc-acct-save'), nw = g('alr-lc-acct-new');
     if (sv) sv.addEventListener('click', saveCard);
     if (nw) nw.addEventListener('click', newCard);
@@ -755,7 +778,7 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
         markDirty();
       });
     }
-    if (window.ALR_DESKTOP || !window.ALR_supabase) { renderAcct(); return; }
+    if (!window.ALR_supabase) { renderAcct(); return; }
     renderAcct();
     window.ALR_supabase().then(function(sb) {
       acct.sb = sb;
