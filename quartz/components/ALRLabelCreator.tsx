@@ -362,6 +362,14 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
         .alr-lc-acct-btn.alr-lc-acct-ghost{background:transparent;border:1px solid var(--alr-accent);color:var(--alr-accent-text)!important}
         .alr-lc-acct-btn[disabled]{opacity:.6;cursor:default}
         .alr-lc-acct-msg{font-size:12px;color:var(--alr-muted);margin-top:6px}
+        .alr-lc-last{border:1px solid #2f4a2f;background:color-mix(in srgb,#5d9a55 10%,var(--alr-bg));border-radius:var(--alr-r-sm);padding:10px 12px;margin-bottom:10px}
+        .alr-lc-last-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;padding-right:22px;position:relative}
+        .alr-lc-last-head b{font-size:13.5px;color:#5d9a55}
+        .alr-lc-last-head span{font-size:12px;color:var(--alr-text-2)}
+        .alr-lc-last-x{position:absolute;right:-4px;top:-4px;border:0;background:none;color:var(--alr-muted);font-size:18px;line-height:1;cursor:pointer;padding:2px 6px}
+        .alr-lc-last-btns{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:8px}
+        .alr-lc-last-btns span{font-size:12px;color:var(--alr-muted);margin-right:2px}
+        .alr-lc-last-btns button,.alr-lc-last-btns a{font-family:var(--bodyFont);font-size:12.5px;font-weight:600;border:0;border-radius:8px;padding:6px 11px;background:var(--alr-hover);color:var(--alr-text)!important;cursor:pointer;text-decoration:none!important}
         .alr-lc-btn-primary{font-family:var(--bodyFont);font-size:14px;font-weight:600;min-height:40px;padding:0 16px;border-radius:var(--alr-r-sm);cursor:pointer;background:var(--alr-accent);border:none;color:var(--alr-on-accent);transition:all .15s}
         .alr-lc-btn-primary:hover{background:var(--alr-accent-text)}
         .alr-lc-btn-ghost{font-family:var(--bodyFont);font-size:14px;font-weight:500;min-height:40px;padding:0 16px;border-radius:var(--alr-r-sm);cursor:pointer;background:var(--alr-hover);border:none;color:var(--alr-text);transition:all .15s}

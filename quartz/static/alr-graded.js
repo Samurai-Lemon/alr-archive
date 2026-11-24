@@ -383,7 +383,15 @@
   // What the picked card and photo add to a saved card / report. Read by the Grading Terminal.
   var meta = { game: null, number: null, setName: null, printing: null, official: null, officialCors: false, keepOfficial: false,
     photoData: null, photoPath: null, photoRemoved: false };
+  // Fresh card: no picked card, no photo, empty search.
+  function resetLookup() {
+    photoBlob = null;
+    lookup.items = []; lookup.picked = -1;
+    var qi = $('alr-lc-q'); if (qi) qi.value = '';
+    clearMeta(); renderResults();
+  }
   function clearMeta() {
+    photoBlob = null;
     meta = { game: null, number: null, setName: null, printing: null, official: null, officialCors: false, keepOfficial: false, photoData: null, photoPath: null, photoRemoved: false };
     renderPicked(); renderPhoto();
   }
@@ -745,7 +753,7 @@
     loadQR: loadQR, qrMatrix: qrMatrix, certUrl: certUrl, photoUrl: photoUrl,
     reportPdf: reportPdf, rowToReport: rowToReport, fileStem: fileStem, saveFile: saveFile,
     gameName: gameName, loadAccount: loadAccount,
-    cardMeta: cardMeta, clearMeta: clearMeta, detachMeta: detachMeta, setMetaFromRow: setMetaFromRow, savePayload: savePayload,
+    cardMeta: cardMeta, clearMeta: clearMeta, detachMeta: detachMeta, resetLookup: resetLookup, setMetaFromRow: setMetaFromRow, savePayload: savePayload,
     syncPhoto: syncPhoto, reportPhoto: reportPhoto, games: GAMES
   };
   // The Account page may have asked for the list before this file finished loading.

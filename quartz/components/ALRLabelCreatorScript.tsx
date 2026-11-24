@@ -511,7 +511,7 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
   // The file is built and saved inside the click itself. Safari only honours the file name
   // (and saves instead of opening a tab) while it still counts as the user's click, so the
   // fonts are loaded ahead of time when the page opens.
-  function download(which) {
+  function download(which, snap) {
     var s = g('alr-lc-status');
     if (!otFonts) {
       if (s) s.textContent = 'Loading fonts… click again in a moment.';
@@ -520,10 +520,11 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
       return;
     }
     try {
-      var vf = getF(), vb = getB(), svg, base, win = LABEL_W_IN, hin = LABEL_H_IN;
-      if (which === 'front') { svg = buildFront(vf); base = 'alr_label_front'; }
-      else if (which === 'back') { svg = buildBack(vb); base = 'alr_label_back'; }
-      else { svg = buildFold(vf, vb); base = 'alr_label_foldcut'; win = FOLD_W_IN; hin = FOLD_H_IN; }
+      var vf = snap ? snap.vf : getF(), vb = snap ? snap.vb : getB(), svg, base, win = LABEL_W_IN, hin = LABEL_H_IN;
+      var stem = snap && window.ALRGraded ? window.ALRGraded.fileStem(vf.name, vf.grade) + '_' : 'alr_label_';
+      if (which === 'front') { svg = buildFront(vf); base = stem + 'front'; }
+      else if (which === 'back') { svg = buildBack(vb, null, vf); base = stem + 'back'; }
+      else { svg = buildFold(vf, vb); base = stem + 'foldcut'; win = FOLD_W_IN; hin = FOLD_H_IN; }
       var out = cricutSvg(svg, win, hin, otFonts), size = inch(win) + ' × ' + inch(hin);
       if (typeof window.ALR_SAVE === 'function') {
         if (s) s.textContent = 'Saving…';
@@ -538,19 +539,20 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
   }
 
   // ── Grading report (PDF). Built by alr-graded.js; the label goes on it at actual size. ──
-  function downloadReport() {
+  function downloadReport(snap) {
     var s = g('alr-lc-status');
     if (!window.ALRGraded) { if (s) s.textContent = 'Report tools are still loading. Try again in a moment.'; return; }
-    var vf = getF(), r = getReport(), rp = window.ALRGraded.reportPhoto();
+    var vf = snap ? snap.vf : getF(), r = snap ? snap.report : getReport(), rp = snap ? snap.photo : window.ALRGraded.reportPhoto();
+    var cm = snap ? snap.meta : meta(), saved = snap ? snap.saved : acct.saved;
     if (s) s.textContent = 'Making the report…';
     labelPng(vf).then(function(png) {
       return window.ALRGraded.reportPdf({
-        cert: vf.cert, certNo: acct.saved ? acct.saved.cert_no : null,
+        cert: vf.cert, certNo: saved ? saved.cert_no : null,
         name: vf.name, set: vf.set, variant: vf.variant, grade: vf.grade, gradeLabel: vf.gl,
         date: r.date, condition: r.condition, notes: r.notes, labelPng: png,
-        cardNumber: meta().number, printing: meta().printing, game: meta().game ? window.ALRGraded.gameName(meta().game) : '',
+        cardNumber: cm.number, printing: cm.printing, game: cm.game ? window.ALRGraded.gameName(cm.game) : '',
         photo: rp.photo, photoIsOfficial: rp.official,
-        photoSource: rp.official && meta().game ? window.ALRGraded.games[meta().game].source : null
+        photoSource: rp.official && cm.game ? window.ALRGraded.games[cm.game].source : null
       });
     }).then(function(blob) {
       return window.ALRGraded.saveFile(blob, window.ALRGraded.fileStem(vf.name, vf.grade) + '_report.pdf');
@@ -598,7 +600,7 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
   };
 
   // ── Saving cards to an account (Supabase, shared with the Account page). ──
-  var acct = { sb: null, session: null, saved: null, dirty: false, busy: false, msg: '', bound: false };
+  var acct = { sb: null, session: null, saved: null, dirty: false, busy: false, msg: '', bound: false, last: null };
   function pick(v, keys) { var o = {}; keys.forEach(function(k) { o[k] = v[k]; }); return o; }
   function displayName(sess) {
     var u = sess && sess.user;
@@ -633,7 +635,26 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
         + '<a class="alr-lc-acct-btn alr-lc-acct-ghost" href="/cert?c=' + Number(acct.saved.cert_no) + '" target="_blank" rel="noopener">Report page ↗</a>'
         + '<button type="button" class="alr-lc-acct-btn alr-lc-acct-ghost" id="alr-lc-acct-new"' + dis + '>New card</button>';
     }
-    box.innerHTML = '<div class="alr-lc-acct">' + html + '</div>' + (acct.msg ? '<div class="alr-lc-acct-msg">' + esc(acct.msg) + '</div>' : '');
+    var last = '';
+    if (acct.last) {
+      var L = acct.last.saved;
+      last = '<div class="alr-lc-last"><div class="alr-lc-last-head"><b>✓ ' + (acct.last.updated ? 'Updated ' : 'Saved as ') + esc(L.cert) + '</b>'
+        + '<span>' + esc(acct.last.vf.name) + ' · ' + esc(acct.last.vf.grade) + ' ' + esc(acct.last.vf.gl) + '. The editor is ready for your next card.</span>'
+        + '<button type="button" class="alr-lc-last-x" id="alr-lc-last-x" title="Close" aria-label="Close">×</button></div>'
+        + '<div class="alr-lc-last-btns"><span>Download its files:</span>'
+        + '<button type="button" data-last="front">Front</button><button type="button" data-last="back">Back</button>'
+        + '<button type="button" data-last="fold">Fold</button><button type="button" data-last="report">Report</button>'
+        + '<a href="/cert?c=' + Number(L.cert_no) + '" target="_blank" rel="noopener">Report page ↗</a></div></div>';
+    }
+    box.innerHTML = last + '<div class="alr-lc-acct">' + html + '</div>' + (acct.msg ? '<div class="alr-lc-acct-msg">' + esc(acct.msg) + '</div>' : '');
+    var lx = g('alr-lc-last-x');
+    if (lx) lx.addEventListener('click', function() { acct.last = null; renderAcct(); });
+    Array.prototype.forEach.call(box.querySelectorAll('[data-last]'), function(b) {
+      b.addEventListener('click', function() {
+        var w = b.getAttribute('data-last');
+        if (w === 'report') downloadReport(acct.last); else download(w, acct.last);
+      });
+    });
     var sv = g('alr-lc-acct-save'), nw = g('alr-lc-acct-new');
     if (sv) sv.addEventListener('click', saveCard);
     if (nw) nw.addEventListener('click', newCard);
@@ -657,21 +678,45 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
     var q = acct.saved
       ? acct.sb.from('graded_cards').update(payload).eq('id', acct.saved.id).select('id, cert, cert_no').single()
       : acct.sb.from('graded_cards').insert(payload).select('id, cert, cert_no').single();
+    var photoFailed = false, first = !acct.saved;
     q.then(function(res) {
       if (res.error) throw res.error;
-      var first = !acct.saved;
       acct.saved = res.data; acct.dirty = false;
-      acct.msg = first ? 'Saved. Your label files now carry cert ' + res.data.cert + ' and its QR code.' : 'Updated.';
       setCertLock();
-      return window.ALRGraded ? window.ALRGraded.syncPhoto(acct.sb, res.data.id).catch(function() {
-        acct.msg += ' The photo didn’t upload. Try Update card again.';
-      }).then(function() { return window.ALRGraded.loadQR(); }) : null;
-    }).then(function() { acct.busy = false; render(); renderAcct(); })
+      return window.ALRGraded ? window.ALRGraded.syncPhoto(acct.sb, res.data.id).catch(function() { photoFailed = true; })
+        .then(function() { return window.ALRGraded.loadQR(); }) : null;
+    }).then(function() {
+      acct.busy = false;
+      if (photoFailed) {
+        // keep the card open so the photo can be retried
+        acct.msg = (first ? 'Saved as ' : 'Updated ') + acct.saved.cert + ', but the photo didn’t upload. Click Update card to try again.';
+        acct.dirty = true; render(); renderAcct(); return;
+      }
+      // Keep what's needed to download this card's finished files, then start a fresh card.
+      var cm = meta(), keep = {};
+      ['game', 'number', 'setName', 'printing'].forEach(function(k) { keep[k] = cm[k]; });
+      acct.last = { saved: acct.saved, vf: getF(), vb: getB(), report: getReport(), meta: keep,
+        photo: window.ALRGraded ? window.ALRGraded.reportPhoto() : { photo: null }, updated: !first };
+      resetEditor();
+    })
       .catch(function(e) {
         acct.busy = false;
         acct.msg = 'Couldn’t save: ' + ((e && e.message) || 'check your connection and try again.');
         renderAcct();
       });
+  }
+  // A blank card for the next label. Colours stay as they are.
+  function resetEditor() {
+    acct.saved = null; acct.dirty = false; acct.msg = '';
+    setVal('alr-lc-name', 'CARD NAME'); setVal('alr-lc-set', 'SET - SERIES - EN - YEAR'); setVal('alr-lc-variant', 'VARIANT / EDITION');
+    setVal('alr-lc-cert', '0000-ALR'); setVal('alr-lc-grade', '10'); setVal('alr-lc-gl', 'GEM MINT');
+    ['alr-lc-rcen', 'alr-lc-rcor', 'alr-lc-redg', 'alr-lc-rsur', 'alr-lc-rnotes'].forEach(function(id) { setVal(id, ''); });
+    var now = new Date();
+    setVal('alr-lc-rdate', now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0'));
+    if (window.ALRGraded) window.ALRGraded.resetLookup();
+    if (/[?&]edit=/.test(location.search)) history.replaceState(history.state, '', location.pathname);
+    setCertLock(); render(); renderAcct();
+    var left = document.querySelector('.alr-lc-left'); if (left) left.scrollTop = 0;
   }
   function newCard() {
     acct.saved = null; acct.dirty = false; acct.msg = '';
@@ -897,7 +942,7 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
     if (db) db.addEventListener('click', function() { download('back'); });
     if (dfo) dfo.addEventListener('click', function() { download('fold'); });
     var drp = freshBtn('alr-lc-dl-report');
-    if (drp) drp.addEventListener('click', downloadReport);
+    if (drp) drp.addEventListener('click', function() { downloadReport(); });
 
     var rd = g('alr-lc-rdate');
     if (rd && !rd.value) {
