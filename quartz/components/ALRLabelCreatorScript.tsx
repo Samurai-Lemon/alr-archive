@@ -675,7 +675,7 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
   }
   function newCard() {
     acct.saved = null; acct.dirty = false; acct.msg = '';
-    if (window.ALRGraded) window.ALRGraded.clearMeta();
+    if (window.ALRGraded) window.ALRGraded.detachMeta();
     var el = g('alr-lc-cert'); if (el) el.value = '0000-ALR';
     if (/[?&]edit=/.test(location.search)) history.replaceState(history.state, '', location.pathname);
     setCertLock(); render(); renderAcct();

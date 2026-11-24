@@ -280,14 +280,20 @@
   // Free public card databases. `cors` says whether the image host lets us draw the picture into
   // the PDF; `keep` whether we store its URL with a saved card (YGOPRODeck asks sites not to
   // hotlink, so Yu-Gi-Oh! images are only shown as thumbnails while picking).
-  // `show`: whether pages (cert page, Account list) may display the official image; YGOPRODeck
-  // asks sites not to hotlink, so Yu-Gi-Oh! images only appear in the picker and in the PDF.
+  // `proxy`: show this host's images through images.weserv.nl (a caching image service) instead
+  // of loading them straight from the database; YGOPRODeck asks sites not to hotlink.
   var GAMES = {
     'one-piece': { label: 'One Piece', source: 'optcgapi.com', cors: true, keep: true, show: true, hint: 'Name or number, e.g. luffy or OP05-119' },
     pokemon: { label: 'Pokémon', source: 'pokemontcg.io', cors: true, keep: true, show: true, hint: 'Name, or name and number, e.g. charizard 4' },
-    yugioh: { label: 'Yu-Gi-Oh!', source: 'YGOPRODeck', cors: true, keep: true, show: false, hint: 'Name, e.g. dark magician' }
+    yugioh: { label: 'Yu-Gi-Oh!', source: 'YGOPRODeck', cors: true, keep: true, show: true, proxy: true, hint: 'Name, e.g. dark magician' }
   };
   function showOfficial(game) { return !!(GAMES[game] && GAMES[game].show); }
+  // The address to display an official image from on a page.
+  function shown(game, url, w) {
+    if (!url) return url;
+    if (!(GAMES[game] && GAMES[game].proxy)) return url;
+    return 'https://images.weserv.nl/?url=' + encodeURIComponent(url.replace(/^https?:\/\//, '')) + '&w=' + (w || 600);
+  }
   // These free databases sometimes answer with a server error and then work a moment later
   // (pokemontcg.io does this often), so server errors and dropped connections are retried twice.
   function getJSON(url, tries) {
@@ -447,7 +453,7 @@
     box.innerHTML = '<div class="alr-lc-find-count">' + lookup.items.length + (lookup.items.length === 60 ? '+' : '') + ' results · pick the exact card</div><div class="alr-lc-tiles">' +
       lookup.items.map(function (it, i) {
         return '<button type="button" class="alr-lc-tile' + (i === lookup.picked ? ' on' : '') + '" data-pick="' + i + '" title="' + esc(it.title + ' · ' + it.sub) + '">' +
-          (it.img ? '<img src="' + esc(it.img) + '" alt="" loading="lazy" referrerpolicy="no-referrer">' : '<span class="alr-lc-tile-ph"></span>') +
+          (it.img ? '<img src="' + esc(shown(it.game, it.img, 200)) + '" alt="" loading="lazy" referrerpolicy="no-referrer">' : '<span class="alr-lc-tile-ph"></span>') +
           '<span class="alr-lc-tile-t">' + esc(it.title) + '</span><span class="alr-lc-tile-s">' + esc(it.sub) + '</span></button>';
       }).join('') + '</div>' +
       '<div class="alr-lc-find-src">Card data: ' + esc(GAMES[lookup.game].source) + '</div>';
@@ -480,7 +486,7 @@
     if (!box) return;
     if (!meta.game) { box.innerHTML = ''; return; }
     var it = lookup.items[lookup.picked], gm = GAMES[meta.game];
-    var img = (it && it.img) || (meta.keepOfficial ? meta.official : null);
+    var img = (it && it.img ? shown(it.game, it.img, 200) : null) || (meta.keepOfficial ? shown(meta.game, meta.official, 200) : null);
     var printings = it && it.printings && it.printings.length > 1
       ? '<label class="alr-lc-label" for="alr-lc-printing">Printing</label><select class="alr-lc-input" id="alr-lc-printing">' +
         it.printings.map(function (p, k) { return '<option value="' + k + '"' + (p.code === meta.number && p.rarity === meta.printing ? ' selected' : '') + '>' + esc(p.code + ' · ' + p.rarity + ' · ' + p.set) + '</option>'; }).join('') + '</select>'
@@ -541,7 +547,7 @@
     var box = $('alr-lc-photo-show');
     if (!box) return;
     var src = meta.photoData || (!meta.photoRemoved && meta.photoPath ? photoUrl(meta.photoPath) : null);
-    var off = !src && meta.official && showOfficial(meta.game) ? meta.official : null;
+    var off = !src && meta.official && showOfficial(meta.game) ? shown(meta.game, meta.official, 300) : null;
     box.innerHTML = src
       ? '<div class="alr-lc-photo-has"><img src="' + esc(src) + '" alt="Your card photo"><div><b>Your photo</b><span>Used on the report and cert page.</span><button type="button" class="alr-lc-linkbtn" id="alr-lc-photo-rm">Remove photo</button></div></div>'
       : (off ? '<div class="alr-lc-photo-has"><img src="' + esc(off) + '" alt="" referrerpolicy="no-referrer"><div><b>Official image</b><span>Used until you add your own photo.</span></div></div>'
@@ -592,6 +598,9 @@
     return { photo: null, official: false };
   }
   function cardMeta() { return meta; }
+  // "New card" after a saved one: keep the picked card and any photo not uploaded yet, but not
+  // the old card's uploaded photo (that file belongs to the old card).
+  function detachMeta() { meta.photoPath = null; meta.photoRemoved = false; renderPhoto(); }
 
   // ── public cert page (/cert?c=124) ──────────────────────────────────────────
   function onCertPage() { return /^\/cert(\.html)?\/?$/.test(location.pathname); }
@@ -614,19 +623,20 @@
     return '<div class="alr-cert-card alr-cert-empty"><div class="alr-cert-eb">ALR INITIATIVE GRADING</div><h2>' + esc(title) + '</h2><p>' + text + '</p></div>';
   }
   function renderCert(box, row) {
-    var img = photoUrl(row.front_photo_path) || (showOfficial(row.game) ? row.official_image_url : null);
+    var img = photoUrl(row.front_photo_path) || (showOfficial(row.game) ? shown(row.game, row.official_image_url) : null);
     var cond = row.condition || {}, ck = [['centering', 'Centering'], ['corners', 'Corners'], ['edges', 'Edges'], ['surface', 'Surface']]
       .filter(function (k) { return cond[k[0]]; });
     var rows = [['Cert', '<span class="alr-cert-mono">' + esc(row.cert) + '</span>'], ['Card', esc(row.card_name)], ['Set / Series', esc(row.set_name)],
       ['Variant / Edition', esc(row.printing)], ['Card number', esc(row.card_number)], ['Game', esc(gameName(row.game))], ['Graded', esc(fmtDate(row.graded_on))]]
       .filter(function (r) { return r[1]; });
-    var labelSvg = '';
+    // The label is drawn after the page shows (it needs the label fonts), into #alr-cert-label.
+    var labelV = null;
     if (window.ALRLabel && window.ALRLabel.frontSvg) {
-      var lab = row.label || {}, v = {};
-      Object.keys(lab.front || {}).forEach(function (k) { v[k] = lab.front[k]; });
-      v.name = row.card_name; v.set = lab.set || row.set_name || ''; v.variant = lab.variant || row.printing || '';
-      v.cert = row.cert; v.grade = String(row.grade); v.gl = row.grade_label;
-      try { labelSvg = window.ALRLabel.frontSvg(v); } catch (e) { labelSvg = ''; }
+      var lab = row.label || {};
+      labelV = {};
+      Object.keys(lab.front || {}).forEach(function (k) { labelV[k] = lab.front[k]; });
+      labelV.name = row.card_name; labelV.set = lab.set || row.set_name || ''; labelV.variant = lab.variant || row.printing || '';
+      labelV.cert = row.cert; labelV.grade = String(row.grade); labelV.gl = row.grade_label;
     }
     box.innerHTML =
       '<div class="alr-cert-card">' +
@@ -642,10 +652,20 @@
         '</div>' +
         (ck.length ? '<div class="alr-cert-sub">CONDITION</div><div class="alr-cert-cond">' + ck.map(function (k) { return '<div><span>' + k[1] + '</span><b>' + esc(cond[k[0]]) + '</b></div>'; }).join('') + '</div>' : '') +
         (row.notes ? '<div class="alr-cert-sub">GRADER NOTES</div><div class="alr-cert-notes">' + esc(row.notes) + '</div>' : '') +
-        (labelSvg ? '<div class="alr-cert-sub">LABEL</div><div class="alr-cert-label">' + labelSvg + '</div>' : '') +
+        (labelV ? '<div class="alr-cert-sub">LABEL</div><div class="alr-cert-label" id="alr-cert-label"></div>' : '') +
         '<div class="alr-cert-actions"><button type="button" class="alr-cert-btn" id="alr-cert-pdf">Download report (PDF)</button><span id="alr-cert-status"></span></div>' +
         '<div class="alr-cert-foot">This page shows the grading report only. alrinitiative.com</div>' +
       '</div>';
+    if (labelV) {
+      window.ALRLabel.frontSvg(labelV).then(function (svg) {
+        var el = document.getElementById('alr-cert-label');
+        if (el) el.innerHTML = svg;
+      }).catch(function () {
+        var el = document.getElementById('alr-cert-label');
+        if (el && el.previousSibling) el.previousSibling.remove();
+        if (el) el.remove();
+      });
+    }
     var btn = document.getElementById('alr-cert-pdf');
     if (btn) btn.addEventListener('click', function () {
       var st = document.getElementById('alr-cert-status');
@@ -677,7 +697,7 @@
       return;
     }
     box.innerHTML = '<div class="alr-gc-grid">' + accountRows.map(function (r, i) {
-      var img = photoUrl(r.front_photo_path) || (showOfficial(r.game) ? r.official_image_url : null);
+      var img = photoUrl(r.front_photo_path) || (showOfficial(r.game) ? shown(r.game, r.official_image_url, 360) : null);
       return '<div class="alr-gc">' +
         '<div class="alr-gc-img">' + (img ? '<img src="' + esc(img) + '" alt="" loading="lazy">' : '<span class="alr-gc-ph">' + esc(r.grade) + '</span>') + '</div>' +
         '<div class="alr-gc-meta"><div class="alr-gc-name">' + esc(r.card_name) + '</div>' +
@@ -725,7 +745,7 @@
     loadQR: loadQR, qrMatrix: qrMatrix, certUrl: certUrl, photoUrl: photoUrl,
     reportPdf: reportPdf, rowToReport: rowToReport, fileStem: fileStem, saveFile: saveFile,
     gameName: gameName, loadAccount: loadAccount,
-    cardMeta: cardMeta, clearMeta: clearMeta, setMetaFromRow: setMetaFromRow, savePayload: savePayload,
+    cardMeta: cardMeta, clearMeta: clearMeta, detachMeta: detachMeta, setMetaFromRow: setMetaFromRow, savePayload: savePayload,
     syncPhoto: syncPhoto, reportPhoto: reportPhoto, games: GAMES
   };
   // The Account page may have asked for the list before this file finished loading.
