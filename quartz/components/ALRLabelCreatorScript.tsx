@@ -23,12 +23,12 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
   // front = logo, card info, grade; back = logo, grade scale, cert.
   var PRESETS = {
     dark:  { front: { txt:'#ede8de', mut:'#b7b1a6', acc:'#cc785c', p1:'#121110', p2:'#1a1917', p3:'#121110' },
-             back:  { txt:'#ede8de', mut:'#b7b1a6', acc:'#cc785c', scale:'#cc785c', sbox:'#44423f', p1:'#121110', p2:'#1a1917', p3:'#1a1917' } },
+             back:  { txt:'#ede8de', mut:'#b7b1a6', acc:'#cc785c', sbox:'#44423f', p1:'#121110', p2:'#1a1917', p3:'#1a1917' } },
     light: { front: { txt:'#1f1b17', mut:'#504941', acc:'#a85c42', p1:'#f0eee9', p2:'#fffdf8', p3:'#f0eee9' },
-             back:  { txt:'#1f1b17', mut:'#504941', acc:'#a85c42', scale:'#a85c42', sbox:'#d2d0cb', p1:'#f0eee9', p2:'#fffdf8', p3:'#fffdf8' } }
+             back:  { txt:'#1f1b17', mut:'#504941', acc:'#a85c42', sbox:'#d2d0cb', p1:'#f0eee9', p2:'#fffdf8', p3:'#fffdf8' } }
   };
   var FRONT_KEYS = ['txt', 'mut', 'acc', 'p1', 'p2', 'p3'];
-  var BACK_KEYS = ['txt', 'mut', 'acc', 'scale', 'sbox', 'p1', 'p2', 'p3'];
+  var BACK_KEYS = ['txt', 'mut', 'acc', 'sbox', 'p1', 'p2', 'p3'];
 
   function g(id) { return document.getElementById(id); }
   function val(id) { var el = g(id); return el ? el.value : ''; }
@@ -49,7 +49,7 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
   function getB() {
     return {
       txt: val('alr-lc-bctxt'), mut: val('alr-lc-bcmut'), acc: val('alr-lc-bcacc'),
-      scale: val('alr-lc-bcscale'), sbox: val('alr-lc-bcsbox'),
+      sbox: val('alr-lc-bcsbox'),
       p1: val('alr-lc-bcp1'), p2: val('alr-lc-bcp2'), p3: val('alr-lc-bcp3')
     };
   }
@@ -207,11 +207,11 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
   function backInner(v) {
     var d = derive(v), f = getF(), id = 'lb' + Math.random().toString(36).slice(2);
     var gn = Math.floor(parseFloat(f.grade)), lit = isNaN(gn) ? 10 : Math.max(1, Math.min(10, gn));
-    var gtxt = onColour(v.scale), boxes = '', litX = 170, step = Math.min(35, (GX - 170 - 12) / 10), bw = step - 4;
+    var gtxt = onColour(v.acc), boxes = '', litX = 170, step = Math.min(35, (GX - 170 - 12) / 10), bw = step - 4;
     SCALE.forEach(function(s, k) {
       var x = 170 + k * step, on = Number(s[0]) === lit;
       if (on) litX = x;
-      boxes += '<rect x="' + x + '" y="70" width="' + bw + '" height="38" rx="6" fill="' + (on ? v.scale : 'none') + '" stroke="' + (on ? v.scale : v.sbox) + '" stroke-width="2"/>'
+      boxes += '<rect x="' + x + '" y="70" width="' + bw + '" height="38" rx="6" fill="' + (on ? v.acc : 'none') + '" stroke="' + (on ? v.acc : v.sbox) + '" stroke-width="2"/>'
         + t(x + bw / 2, 96, 18, on ? gtxt : v.mut, s[0], { anchor: 'middle', weight: 700 });
     });
     return clipOpen(id)
@@ -222,7 +222,7 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
       + sidePanel(v, d)
       + t(170, 46, 15, v.mut, 'ARCHIVED · GRADED · CERTIFIED', { weight: 600, ls: 0.6 })
       + boxes
-      + t(litX, 138, 17, v.scale, '▲ ' + f.gl, { weight: 700, ls: 0.6 })
+      + t(litX, 138, 17, v.acc, '▲ ' + f.gl, { weight: 700, ls: 0.6 })
       + '<line x1="' + GX + '" y1="0" x2="' + GX + '" y2="200" stroke="' + d.line + '" stroke-width="2"/>'
       + t(GC, 36, 14, v.mut, 'CERT NO.', { anchor: 'middle', weight: 700, ls: 1 })
       + t(GC, 60, Math.max(13, Math.min(18, Math.floor(130 / Math.max(1, f.cert.length * 0.6)))), v.txt, f.cert, { anchor: 'middle', mono: true })
