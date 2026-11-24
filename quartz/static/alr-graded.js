@@ -222,9 +222,9 @@
       } else {
         font('Inter', 'normal', 8.5, MUTED); txt('Made with the ALR Grading Terminal · alrinitiative.com', R, 742, { align: 'right' });
       }
-      if (d.photo && d.photoIsOfficial) {
+      if (photo && d.photoIsOfficial) {
         font('Inter', 'normal', 6.5, [154, 148, 136]);
-        txt('Card image: official card list via optcgapi.com. Card art © its publisher.', L, 778);
+        txt('Card image: ' + (d.photoSource ? d.photoSource + ' (official card database)' : 'official card database') + '. Card art © its publisher.', L, 778);
       }
       return doc.output('blob');
     });
@@ -244,8 +244,9 @@
         name: row.card_name, set: row.set_name, variant: row.printing, cardNumber: row.card_number, game: gameName(row.game),
         grade: row.grade, gradeLabel: row.grade_label, date: row.graded_on, condition: row.condition || {}, notes: row.notes,
         labelPng: labelPng,
-        photo: photoUrl(row.front_photo_path) || row.official_image_url || null,
-        photoIsOfficial: !row.front_photo_path && !!row.official_image_url
+        photo: photoUrl(row.front_photo_path) || (row.official_image_url && GAMES[row.game] && GAMES[row.game].cors ? row.official_image_url : null),
+        photoIsOfficial: !row.front_photo_path && !!row.official_image_url,
+        photoSource: GAMES[row.game] ? GAMES[row.game].source : null
       };
     });
   }
@@ -266,6 +267,318 @@
     setTimeout(function () { URL.revokeObjectURL(url); }, 60000);
     return Promise.resolve(fn);
   }
+
+  // ── card lookup (Grading Terminal) ─────────────────────────────────────────
+  // Free public card databases. `cors` says whether the image host lets us draw the picture into
+  // the PDF; `keep` whether we store its URL with a saved card (YGOPRODeck asks sites not to
+  // hotlink, so Yu-Gi-Oh! images are only shown as thumbnails while picking).
+  var GAMES = {
+    'one-piece': { label: 'One Piece', source: 'optcgapi.com', cors: false, keep: true, hint: 'Name or number, e.g. luffy or OP05-119' },
+    pokemon: { label: 'Pokémon', source: 'pokemontcg.io', cors: true, keep: true, hint: 'Name, or name and number, e.g. charizard 4' },
+    yugioh: { label: 'Yu-Gi-Oh!', source: 'YGOPRODeck', cors: false, keep: false, hint: 'Name, e.g. dark magician' }
+  };
+  // These free databases sometimes answer with a server error and then work a moment later
+  // (pokemontcg.io does this often), so server errors and dropped connections are retried twice.
+  function getJSON(url, tries) {
+    tries = tries == null ? 3 : tries;
+    return fetch(url, { headers: { Accept: 'application/json' } }).then(function (r) {
+      if (r.status === 400 || r.status === 404) return null;            // "nothing found" on these APIs
+      if (!r.ok) { var e = new Error('search ' + r.status); e.retry = r.status >= 500 || r.status === 429; throw e; }
+      return r.json();
+    }).catch(function (e) {
+      if (tries > 1 && (e.retry || e instanceof TypeError)) {
+        return new Promise(function (res) { setTimeout(res, tries === 3 ? 600 : 1500); }).then(function () { return getJSON(url, tries - 1); });
+      }
+      throw e;
+    });
+  }
+  function upper(s) { return String(s || '').toUpperCase(); }
+
+  // One Piece: optcgapi.com. Names look like "Monkey.D.Luffy (119) (Alternate Art)".
+  function opItem(c) {
+    var parts = String(c.card_name || '').split(' ('), base = parts[0];
+    var tags = parts.slice(1).map(function (p) { return p.replace(/\)$/, ''); }).filter(function (p) { return !/^[0-9]+$/.test(p) && p.indexOf('-') < 0; });
+    var printing = [c.rarity].concat(tags).filter(Boolean).join(' · ');
+    return {
+      game: 'one-piece', name: base, number: c.card_set_id, setName: c.set_name, printing: printing,
+      img: c.card_image, title: base, sub: c.card_set_id + ' · ' + (tags.join(' · ') || 'Regular'), sub2: c.set_name,
+      label: { name: upper(base), set: c.card_set_id + ' · EN', variant: upper(printing) }
+    };
+  }
+  function searchOnePiece(q) {
+    var id = /^(OP|ST|EB|PRB|P)-?[0-9]+(-[0-9]+)?$/i.exec(q.replace(/\s+/g, ''));
+    var base = 'https://optcgapi.com/api/';
+    // A card number goes to the one list that holds it: ST = starter decks, P = promos, else sets.
+    var code = id ? upper(q.replace(/\s+/g, '')) : '', pre = id ? upper(id[1]) : '';
+    var reqs = id
+      ? [getJSON(base + (pre === 'ST' ? 'decks' : pre === 'P' ? 'promos' : 'sets') + '/card/' + encodeURIComponent(code) + '/', 1).catch(function () { return null; })]
+      : ['sets/filtered/', 'decks/filtered/', 'promos/filtered/'].map(function (p) { return getJSON(base + p + '?card_name=' + encodeURIComponent(q), 1).catch(function () { return null; }); });
+    return Promise.all(reqs).then(function (lists) {
+      var seen = {}, out = [];
+      lists.forEach(function (l) {
+        (Array.isArray(l) ? l : []).forEach(function (c) {
+          var key = c.card_image_id || c.card_image || c.card_name;
+          if (seen[key]) return; seen[key] = 1; out.push(opItem(c));
+        });
+      });
+      return out.slice(0, 60);
+    });
+  }
+  // Pokémon: pokemontcg.io. Each result is one printing already.
+  function searchPokemon(q) {
+    var words = q.trim().split(/\s+/), num = null;
+    if (words.length > 1 && /^[0-9a-z]+(\/[0-9]+)?$/i.test(words[words.length - 1]) && /[0-9]/.test(words[words.length - 1])) num = words.pop().split('/')[0];
+    var name = words.join(' ').replace(/["\\]/g, '');
+    if (!name) return Promise.resolve([]);
+    var query = 'name:"' + name + '*"' + (num ? ' number:' + num : '');
+    return getJSON('https://api.pokemontcg.io/v2/cards?q=' + encodeURIComponent(query) + '&pageSize=60&orderBy=-set.releaseDate&select=id,name,number,rarity,set,images').then(function (j) {
+      return ((j && j.data) || []).map(function (c) {
+        var set = c.set || {}, total = set.printedTotal ? '/' + set.printedTotal : '', year = String(set.releaseDate || '').slice(0, 4);
+        // the label's set line has room for about 32 characters, so long set names use the set code
+        var setShort = String(set.name || '').length <= 18 ? set.name : (set.ptcgoCode || String(set.id || '').toUpperCase());
+        return {
+          game: 'pokemon', name: c.name, number: c.number + total, setName: set.name, printing: c.rarity || '',
+          img: c.images && c.images.small, imgLarge: c.images && c.images.large,
+          title: c.name, sub: (set.name || '') + ' · ' + c.number + total, sub2: [c.rarity, year].filter(Boolean).join(' · '),
+          label: { name: upper(c.name), set: upper([setShort, c.number + total, year].filter(Boolean).join(' · ')), variant: upper(c.rarity || '') }
+        };
+      });
+    });
+  }
+  // Yu-Gi-Oh!: YGOPRODeck. One result per card; its printings (set code + rarity) are chosen after.
+  function searchYugioh(q) {
+    return getJSON('https://db.ygoprodeck.com/api/v7/cardinfo.php?fname=' + encodeURIComponent(q) + '&num=40&offset=0').then(function (j) {
+      return ((j && j.data) || []).map(function (c) {
+        var sets = (c.card_sets || []).map(function (s) { return { code: s.set_code, set: s.set_name, rarity: s.set_rarity }; });
+        return {
+          game: 'yugioh', name: c.name, number: sets[0] ? sets[0].code : '', setName: sets[0] ? sets[0].set : '', printing: sets[0] ? sets[0].rarity : '',
+          img: c.card_images && c.card_images[0] && c.card_images[0].image_url_small,
+          title: c.name, sub: c.type || '', sub2: sets.length ? sets.length + (sets.length === 1 ? ' printing' : ' printings') : 'No printings listed',
+          printings: sets,
+          label: { name: upper(c.name), set: sets[0] ? upper(sets[0].code + ' · EN') : '', variant: sets[0] ? upper(sets[0].rarity) : '' }
+        };
+      });
+    });
+  }
+  var SEARCH = { 'one-piece': searchOnePiece, pokemon: searchPokemon, yugioh: searchYugioh };
+
+  // What the picked card and photo add to a saved card / report. Read by the Grading Terminal.
+  var meta = { game: null, number: null, setName: null, printing: null, official: null, officialCors: false, keepOfficial: false,
+    photoData: null, photoPath: null, photoRemoved: false };
+  function clearMeta() {
+    meta = { game: null, number: null, setName: null, printing: null, official: null, officialCors: false, keepOfficial: false, photoData: null, photoPath: null, photoRemoved: false };
+    renderPicked(); renderPhoto();
+  }
+  function setMetaFromRow(row) {
+    var gm = GAMES[row.game];
+    meta = { game: gm ? row.game : null, number: row.card_number, setName: row.set_name, printing: row.printing,
+      official: row.official_image_url, officialCors: !!(gm && gm.cors), keepOfficial: !!row.official_image_url,
+      photoData: null, photoPath: row.front_photo_path, photoRemoved: false };
+    renderPicked(); renderPhoto();
+  }
+  function touched() { if (window.ALRLabel && window.ALRLabel.markDirty) window.ALRLabel.markDirty(); }
+
+  var lookup = { game: 'one-piece', items: [], picked: -1, busy: false };
+  function $(id) { return document.getElementById(id); }
+  function setField(id, v) {
+    var el = $(id);
+    if (!el || v == null) return;
+    el.value = v;
+    el.dispatchEvent(new Event('input', { bubbles: true }));   // the label redraws and marks the card changed
+  }
+  function initLookup() {
+    var box = $('alr-lc-find');
+    if (!box || box._alrInit) return;
+    box._alrInit = true;
+    Array.prototype.forEach.call(document.querySelectorAll('#alr-lc-games [data-game]'), function (b) {
+      b.addEventListener('click', function () {
+        lookup.game = b.getAttribute('data-game'); lookup.items = []; lookup.picked = -1;
+        Array.prototype.forEach.call(document.querySelectorAll('#alr-lc-games [data-game]'), function (o) { o.classList.toggle('on', o === b); });
+        var qi = $('alr-lc-q'); if (qi) { qi.placeholder = GAMES[lookup.game].hint; qi.focus(); }
+        renderResults();
+      });
+    });
+    var qi = $('alr-lc-q'), qb = $('alr-lc-qbtn');
+    if (qi) {
+      qi.placeholder = GAMES[lookup.game].hint;
+      qi.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); runSearch(); } });
+    }
+    if (qb) qb.addEventListener('click', runSearch);
+    var file = $('alr-lc-photo');
+    if (file) file.addEventListener('change', function () { if (file.files && file.files[0]) takePhoto(file.files[0]); file.value = ''; });
+    var drop = $('alr-lc-photo-drop');
+    if (drop) {
+      ['dragenter', 'dragover'].forEach(function (t) { drop.addEventListener(t, function (e) { e.preventDefault(); drop.classList.add('drag'); }); });
+      ['dragleave', 'drop'].forEach(function (t) { drop.addEventListener(t, function (e) { e.preventDefault(); drop.classList.remove('drag'); }); });
+      drop.addEventListener('drop', function (e) { var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]; if (f) takePhoto(f); });
+    }
+    renderResults(); renderPicked(); renderPhoto();
+  }
+  function runSearch() {
+    var qi = $('alr-lc-q'), q = qi ? qi.value.trim() : '';
+    if (q.length < 2 || lookup.busy) return;
+    lookup.busy = true; lookup.items = []; lookup.picked = -1;
+    renderResults('Searching ' + GAMES[lookup.game].label + '…');
+    SEARCH[lookup.game](q).then(function (items) {
+      lookup.busy = false; lookup.items = items;
+      renderResults(items.length ? '' : 'No cards found. Try a shorter name or check the spelling.');
+    }).catch(function () {
+      lookup.busy = false;
+      renderResults('Couldn’t reach the ' + GAMES[lookup.game].label + ' card database. Try again in a moment.');
+    });
+  }
+  function renderResults(msg) {
+    var box = $('alr-lc-results');
+    if (!box) return;
+    if (msg) { box.innerHTML = '<div class="alr-lc-find-msg">' + esc(msg) + '</div>'; return; }
+    if (!lookup.items.length) { box.innerHTML = ''; return; }
+    box.innerHTML = '<div class="alr-lc-find-count">' + lookup.items.length + (lookup.items.length === 60 ? '+' : '') + ' results · pick the exact card</div><div class="alr-lc-tiles">' +
+      lookup.items.map(function (it, i) {
+        return '<button type="button" class="alr-lc-tile' + (i === lookup.picked ? ' on' : '') + '" data-pick="' + i + '" title="' + esc(it.title + ' · ' + it.sub) + '">' +
+          (it.img ? '<img src="' + esc(it.img) + '" alt="" loading="lazy" referrerpolicy="no-referrer">' : '<span class="alr-lc-tile-ph"></span>') +
+          '<span class="alr-lc-tile-t">' + esc(it.title) + '</span><span class="alr-lc-tile-s">' + esc(it.sub) + '</span></button>';
+      }).join('') + '</div>' +
+      '<div class="alr-lc-find-src">Card data: ' + esc(GAMES[lookup.game].source) + '</div>';
+    Array.prototype.forEach.call(box.querySelectorAll('[data-pick]'), function (b) {
+      b.addEventListener('click', function () { pickItem(Number(b.getAttribute('data-pick'))); });
+    });
+  }
+  function pickItem(i) {
+    var it = lookup.items[i];
+    if (!it) return;
+    lookup.picked = i;
+    var gm = GAMES[it.game];
+    meta.game = it.game; meta.number = it.number; meta.setName = it.setName; meta.printing = it.printing;
+    meta.official = it.imgLarge || it.img || null; meta.officialCors = gm.cors; meta.keepOfficial = gm.keep && !!meta.official;
+    setField('alr-lc-name', it.label.name.slice(0, 120));
+    setField('alr-lc-set', it.label.set.slice(0, 120));
+    setField('alr-lc-variant', it.label.variant.slice(0, 120));
+    renderResults(); renderPicked(); renderPhoto(); touched();
+  }
+  function pickPrinting(k) {
+    var it = lookup.items[lookup.picked], p = it && it.printings && it.printings[k];
+    if (!p) return;
+    meta.number = p.code; meta.setName = p.set; meta.printing = p.rarity;
+    setField('alr-lc-set', upper(p.code + ' · EN').slice(0, 120));
+    setField('alr-lc-variant', upper(p.rarity).slice(0, 120));
+    renderPicked(); touched();
+  }
+  function renderPicked() {
+    var box = $('alr-lc-picked');
+    if (!box) return;
+    if (!meta.game) { box.innerHTML = ''; return; }
+    var it = lookup.items[lookup.picked], gm = GAMES[meta.game];
+    var img = (it && it.img) || (meta.keepOfficial ? meta.official : null);
+    var printings = it && it.printings && it.printings.length > 1
+      ? '<label class="alr-lc-label" for="alr-lc-printing">Printing</label><select class="alr-lc-input" id="alr-lc-printing">' +
+        it.printings.map(function (p, k) { return '<option value="' + k + '"' + (p.code === meta.number && p.rarity === meta.printing ? ' selected' : '') + '>' + esc(p.code + ' · ' + p.rarity + ' · ' + p.set) + '</option>'; }).join('') + '</select>'
+      : '';
+    box.innerHTML = '<div class="alr-lc-picked">' + (img ? '<img src="' + esc(img) + '" alt="" referrerpolicy="no-referrer">' : '') +
+      '<div><b>' + esc(gm ? gm.label : '') + '</b><span>' + esc([meta.number, meta.printing].filter(Boolean).join(' · ')) + '</span><span>' + esc(meta.setName || '') + '</span>' +
+      '<button type="button" class="alr-lc-linkbtn" id="alr-lc-unpick">Clear card</button></div></div>' + printings;
+    var sel = $('alr-lc-printing');
+    if (sel) sel.addEventListener('change', function () { pickPrinting(Number(sel.value)); });
+    var un = $('alr-lc-unpick');
+    if (un) un.addEventListener('click', function () {
+      meta.game = null; meta.number = null; meta.setName = null; meta.printing = null; meta.official = null; meta.officialCors = false; meta.keepOfficial = false;
+      lookup.picked = -1; renderResults(); renderPicked(); renderPhoto(); touched();
+    });
+  }
+
+  // ── card photo: shrunk to about 300 KB as a JPEG before it goes anywhere ──
+  function shrinkPhoto(file) {
+    return new Promise(function (resolve, reject) {
+      var url = URL.createObjectURL(file), img = new Image();
+      img.onload = function () {
+        URL.revokeObjectURL(url);
+        var sizes = [1600, 1300, 1000], qs = [0.85, 0.75, 0.65, 0.55];
+        function attempt(si, qi) {
+          var s = Math.min(1, sizes[si] / Math.max(img.naturalWidth, img.naturalHeight));
+          var c = document.createElement('canvas');
+          c.width = Math.round(img.naturalWidth * s); c.height = Math.round(img.naturalHeight * s);
+          var ctx = c.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height);
+          ctx.drawImage(img, 0, 0, c.width, c.height);
+          c.toBlob(function (b) {
+            if (!b) { reject(new Error('photo')); return; }
+            if (b.size <= 300 * 1024 || (si === sizes.length - 1 && qi === qs.length - 1)) {
+              var fr = new FileReader();
+              fr.onload = function () { resolve({ data: fr.result, blob: b, w: c.width, h: c.height }); };
+              fr.readAsDataURL(b);
+            } else if (qi < qs.length - 1) attempt(si, qi + 1);
+            else attempt(si + 1, 0);
+          }, 'image/jpeg', qs[qi]);
+        }
+        attempt(0, 0);
+      };
+      img.onerror = function () { URL.revokeObjectURL(url); reject(new Error('This photo format can’t be read here. Try a JPEG or PNG.')); };
+      img.src = url;
+    });
+  }
+  var photoBlob = null;
+  function takePhoto(file) {
+    var st = $('alr-lc-photo-msg');
+    if (!/^image\//.test(file.type || 'image/')) { if (st) st.textContent = 'That isn’t an image.'; return; }
+    if (st) st.textContent = 'Preparing photo…';
+    shrinkPhoto(file).then(function (p) {
+      meta.photoData = p.data; photoBlob = p.blob; meta.photoRemoved = false;
+      renderPhoto('Photo ready · ' + Math.round(p.blob.size / 1024) + ' KB');
+      touched();
+    }).catch(function (e) { if (st) st.textContent = (e && e.message) || 'Couldn’t read that photo.'; });
+  }
+  function renderPhoto(msg) {
+    var box = $('alr-lc-photo-show');
+    if (!box) return;
+    var src = meta.photoData || (!meta.photoRemoved && meta.photoPath ? photoUrl(meta.photoPath) : null);
+    var off = !src && meta.official && meta.keepOfficial ? meta.official : null;
+    box.innerHTML = src
+      ? '<div class="alr-lc-photo-has"><img src="' + esc(src) + '" alt="Your card photo"><div><b>Your photo</b><span>Used on the report and cert page.</span><button type="button" class="alr-lc-linkbtn" id="alr-lc-photo-rm">Remove photo</button></div></div>'
+      : (off ? '<div class="alr-lc-photo-has"><img src="' + esc(off) + '" alt="" referrerpolicy="no-referrer"><div><b>Official image</b><span>Used until you add your own photo.</span></div></div>' : '');
+    var drop = $('alr-lc-photo-drop'); if (drop) drop.style.display = src ? 'none' : '';
+    var st = $('alr-lc-photo-msg'); if (st) st.textContent = msg || '';
+    var rm = $('alr-lc-photo-rm');
+    if (rm) rm.addEventListener('click', function () {
+      if (meta.photoData) { meta.photoData = null; photoBlob = null; } else if (meta.photoPath) meta.photoRemoved = true;
+      renderPhoto(); touched();
+    });
+  }
+  // After a card row is saved: upload a new photo, or remove one the owner took off.
+  function syncPhoto(sb, cardId) {
+    if (photoBlob) {
+      var path = cardId + '/front.jpg';
+      return sb.storage.from('card-photos').upload(path, photoBlob, { upsert: true, contentType: 'image/jpeg', cacheControl: '60' }).then(function (res) {
+        if (res.error) throw res.error;
+        return sb.from('graded_cards').update({ front_photo_path: path }).eq('id', cardId);
+      }).then(function (res) {
+        if (res && res.error) throw res.error;
+        meta.photoPath = path; photoBlob = null; meta.photoData = null; meta.photoRemoved = false; renderPhoto('Photo saved');
+      });
+    }
+    if (meta.photoRemoved && meta.photoPath) {
+      var old = meta.photoPath;
+      return sb.storage.from('card-photos').remove([old]).then(function () {
+        return sb.from('graded_cards').update({ front_photo_path: null }).eq('id', cardId);
+      }).then(function () { meta.photoPath = null; meta.photoRemoved = false; renderPhoto(); });
+    }
+    return Promise.resolve();
+  }
+  // Fields the picked card adds to a saved card.
+  function savePayload() {
+    var o = {};
+    if (meta.game) o.game = meta.game;
+    if (meta.number) o.card_number = String(meta.number).slice(0, 40);
+    if (meta.setName) o.set_name = String(meta.setName).slice(0, 120);
+    if (meta.printing) o.printing = String(meta.printing).slice(0, 120);
+    o.official_image_url = meta.keepOfficial && /^https:\/\//.test(meta.official || '') ? meta.official : null;
+    return o;
+  }
+  // Picture for the report: your photo, else an official image the PDF is allowed to use.
+  function reportPhoto() {
+    if (meta.photoData) return { photo: meta.photoData, official: false };
+    if (meta.photoPath && !meta.photoRemoved) return { photo: photoUrl(meta.photoPath), official: false };
+    if (meta.official && meta.officialCors) return { photo: meta.official, official: true };
+    return { photo: null, official: false };
+  }
+  function cardMeta() { return meta; }
 
   // ── public cert page (/cert?c=124) ──────────────────────────────────────────
   function onCertPage() { return /^\/cert(\.html)?\/?$/.test(location.pathname); }
@@ -398,7 +711,9 @@
   window.ALRGraded = {
     loadQR: loadQR, qrMatrix: qrMatrix, certUrl: certUrl, photoUrl: photoUrl,
     reportPdf: reportPdf, rowToReport: rowToReport, fileStem: fileStem, saveFile: saveFile,
-    gameName: gameName, loadAccount: loadAccount
+    gameName: gameName, loadAccount: loadAccount,
+    cardMeta: cardMeta, clearMeta: clearMeta, setMetaFromRow: setMetaFromRow, savePayload: savePayload,
+    syncPhoto: syncPhoto, reportPhoto: reportPhoto, games: GAMES
   };
   // The Account page may have asked for the list before this file finished loading.
   function initAccount() {
@@ -408,7 +723,7 @@
       return sb.auth.getSession().then(function (res) { if (res.data && res.data.session) loadAccount(sb); });
     }).catch(function () {});
   }
-  function init() { initCert(); initAccount(); }
+  function init() { initCert(); initAccount(); initLookup(); }
   document.addEventListener('DOMContentLoaded', init);
   document.addEventListener('nav', init);
   if (document.readyState !== 'loading') init();

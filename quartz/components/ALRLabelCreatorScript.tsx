@@ -541,13 +541,16 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
   function downloadReport() {
     var s = g('alr-lc-status');
     if (!window.ALRGraded) { if (s) s.textContent = 'Report tools are still loading. Try again in a moment.'; return; }
-    var vf = getF(), r = getReport();
+    var vf = getF(), r = getReport(), rp = window.ALRGraded.reportPhoto();
     if (s) s.textContent = 'Making the report…';
     labelPng(vf).then(function(png) {
       return window.ALRGraded.reportPdf({
         cert: vf.cert, certNo: acct.saved ? acct.saved.cert_no : null,
         name: vf.name, set: vf.set, variant: vf.variant, grade: vf.grade, gradeLabel: vf.gl,
-        date: r.date, condition: r.condition, notes: r.notes, labelPng: png, photo: null
+        date: r.date, condition: r.condition, notes: r.notes, labelPng: png,
+        cardNumber: meta().number, printing: meta().printing, game: meta().game ? window.ALRGraded.gameName(meta().game) : '',
+        photo: rp.photo, photoIsOfficial: rp.official,
+        photoSource: rp.official && meta().game ? window.ALRGraded.games[meta().game].source : null
       });
     }).then(function(blob) {
       return window.ALRGraded.saveFile(blob, window.ALRGraded.fileStem(vf.name, vf.grade) + '_report.pdf');
@@ -583,7 +586,9 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
     o.cert = o.cert || ''; o.grade = String(o.grade || '10'); o.gl = o.gl || '';
     return o;
   }
+  function meta() { return window.ALRGraded ? window.ALRGraded.cardMeta() : {}; }
   window.ALRLabel = {
+    markDirty: function() { markDirty(); },
     frontPng: function(v) { return labelPng(fullFront(v)); },
     frontSvg: function(v) {
       return loadOutliner().then(function(fonts) {
@@ -644,6 +649,10 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
       source: window.ALR_DESKTOP ? 'app' : 'site'
     };
     if (r.date) payload.graded_on = r.date;
+    if (window.ALRGraded) {
+      var extra = window.ALRGraded.savePayload();
+      Object.keys(extra).forEach(function(k) { payload[k] = extra[k]; });
+    }
     acct.busy = true; acct.msg = acct.saved ? 'Updating…' : 'Saving…'; renderAcct();
     var q = acct.saved
       ? acct.sb.from('graded_cards').update(payload).eq('id', acct.saved.id).select('id, cert, cert_no').single()
@@ -651,11 +660,13 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
     q.then(function(res) {
       if (res.error) throw res.error;
       var first = !acct.saved;
-      acct.saved = res.data; acct.dirty = false; acct.busy = false;
+      acct.saved = res.data; acct.dirty = false;
       acct.msg = first ? 'Saved. Your label files now carry cert ' + res.data.cert + ' and its QR code.' : 'Updated.';
       setCertLock();
-      return window.ALRGraded ? window.ALRGraded.loadQR() : null;
-    }).then(function() { render(); renderAcct(); })
+      return window.ALRGraded ? window.ALRGraded.syncPhoto(acct.sb, res.data.id).catch(function() {
+        acct.msg += ' The photo didn’t upload. Try Update card again.';
+      }).then(function() { return window.ALRGraded.loadQR(); }) : null;
+    }).then(function() { acct.busy = false; render(); renderAcct(); })
       .catch(function(e) {
         acct.busy = false;
         acct.msg = 'Couldn’t save: ' + ((e && e.message) || 'check your connection and try again.');
@@ -664,6 +675,7 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
   }
   function newCard() {
     acct.saved = null; acct.dirty = false; acct.msg = '';
+    if (window.ALRGraded) window.ALRGraded.clearMeta();
     var el = g('alr-lc-cert'); if (el) el.value = '0000-ALR';
     if (/[?&]edit=/.test(location.search)) history.replaceState(history.state, '', location.pathname);
     setCertLock(); render(); renderAcct();
@@ -683,6 +695,7 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
       FRONT_KEYS.forEach(function(k) { if (lab.front && lab.front[k]) { setVal('alr-lc-c' + k, lab.front[k]); setVal('alr-lc-h' + k, lab.front[k]); } });
       BACK_KEYS.forEach(function(k) { if (lab.back && lab.back[k]) { setVal('alr-lc-bc' + k, lab.back[k]); setVal('alr-lc-bh' + k, lab.back[k]); } });
       acct.saved = { id: row.id, cert: row.cert, cert_no: row.cert_no }; acct.dirty = false; acct.msg = 'Editing ' + row.cert + '.';
+      if (window.ALRGraded) window.ALRGraded.setMetaFromRow(row);
       setCertLock();
       return window.ALRGraded ? window.ALRGraded.loadQR() : null;
     }).then(function() { render(); renderAcct(); })

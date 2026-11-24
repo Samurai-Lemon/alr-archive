@@ -31,6 +31,22 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
               </div>
               <div class="alr-lc-rule"></div>
 
+              <div class="alr-lc-section-label">Find Card <span class="alr-lc-opt">optional · fills in the details</span></div>
+              <div id="alr-lc-find">
+                <div class="alr-lc-games" id="alr-lc-games" role="group" aria-label="Card game">
+                  <button type="button" data-game="one-piece" class="on">One Piece</button>
+                  <button type="button" data-game="pokemon">Pokémon</button>
+                  <button type="button" data-game="yugioh">Yu-Gi-Oh!</button>
+                </div>
+                <div class="alr-lc-findrow">
+                  <input class="alr-lc-input" id="alr-lc-q" type="search" autocomplete="off" placeholder="Name or card number" />
+                  <button type="button" class="alr-lc-qbtn" id="alr-lc-qbtn">Search</button>
+                </div>
+                <div id="alr-lc-results"></div>
+                <div id="alr-lc-picked"></div>
+              </div>
+              <div class="alr-lc-rule"></div>
+
               <div class="alr-lc-section-label">Card Identity</div>
               <div class="alr-lc-field">
                 <div class="alr-lc-label">Card Name <span class="alr-lc-req">*</span></div>
@@ -95,6 +111,17 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
                 <div class="alr-lc-label">Grader Notes</div>
                 <textarea class="alr-lc-input alr-lc-notes" id="alr-lc-rnotes" rows={3} maxlength={2000} placeholder="Anything worth noting about the card"></textarea>
               </div>
+              <div class="alr-lc-rule"></div>
+
+              <div class="alr-lc-section-label">Card Photo <span class="alr-lc-opt">optional · report and cert page</span></div>
+              <div id="alr-lc-photo-show"></div>
+              <label class="alr-lc-photo-drop" id="alr-lc-photo-drop">
+                <input type="file" id="alr-lc-photo" accept="image/*" hidden />
+                <span class="alr-lc-photo-plus">+</span>
+                <span>Add your photo</span>
+                <span class="alr-lc-photo-sm">Drag it in or choose a file. On a phone this can use the camera.</span>
+              </label>
+              <div class="alr-lc-photo-msg" id="alr-lc-photo-msg"></div>
               <div class="alr-lc-rule"></div>
 
               <div id="alr-lc-colours-front">
@@ -293,6 +320,36 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
         @container (max-width:640px){.alr-lc-actions{grid-template-columns:repeat(2,minmax(0,1fr))}}
         @container (max-width:360px){.alr-lc-actions{grid-template-columns:1fr}}
         .alr-lc-opt{font-weight:400;color:var(--alr-muted);font-size:11px}
+        .alr-lc-games{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--alr-border-strong);border-radius:var(--alr-r-xs);padding:3px;gap:2px}
+        .alr-lc-games button{font-family:var(--bodyFont);font-size:12px;font-weight:600;border:0;border-radius:6px;padding:7px 2px;background:transparent;color:var(--alr-muted);cursor:pointer}
+        .alr-lc-games button.on{background:var(--alr-hover);color:var(--alr-text)}
+        .alr-lc-findrow{display:flex;gap:6px;margin-top:8px}
+        .alr-lc-findrow .alr-lc-input{flex:1;min-width:0}
+        .alr-lc-qbtn{font-family:var(--bodyFont);font-size:13px;font-weight:700;border:0;border-radius:var(--alr-r-xs);padding:0 12px;background:var(--alr-accent);color:var(--alr-on-accent);cursor:pointer}
+        .alr-lc-find-msg,.alr-lc-find-count,.alr-lc-find-src{font-size:11.5px;color:var(--alr-muted);margin:8px 0 6px}
+        .alr-lc-find-src{margin:6px 0 0}
+        .alr-lc-tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;max-height:330px;overflow:auto;padding-right:2px}
+        .alr-lc-tile{display:flex;flex-direction:column;gap:2px;padding:4px;border:1.5px solid var(--alr-border);border-radius:8px;background:var(--alr-bg);cursor:pointer;text-align:center;min-width:0;font-family:var(--bodyFont)}
+        .alr-lc-tile.on{border-color:var(--alr-accent);background:var(--alr-hover)}
+        .alr-lc-tile img,.alr-lc-tile-ph{width:100%;aspect-ratio:63/88;object-fit:cover;border-radius:4px;display:block;background:var(--alr-surface-2)}
+        .alr-lc-tile-t{font-size:10.5px;font-weight:700;color:var(--alr-text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .alr-lc-tile-s{font-size:9.5px;color:var(--alr-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .alr-lc-picked{display:flex;gap:10px;align-items:center;margin-top:10px;padding:8px;border:1px solid var(--alr-border-strong);border-radius:var(--alr-r-xs);background:var(--alr-bg)}
+        .alr-lc-picked img{width:48px;border-radius:4px;flex:none}
+        .alr-lc-picked div{display:flex;flex-direction:column;gap:1px;min-width:0;font-size:11.5px;color:var(--alr-text-2)}
+        .alr-lc-picked b{font-size:12.5px;color:var(--alr-text)}
+        #alr-lc-picked select{margin-top:6px}
+        #alr-lc-picked .alr-lc-label{display:block;margin-top:8px}
+        .alr-lc-linkbtn{background:none;border:0;padding:0;margin-top:3px;color:var(--alr-accent-text);font-size:11.5px;font-weight:600;cursor:pointer;text-align:left;font-family:var(--bodyFont)}
+        .alr-lc-photo-drop{display:flex;flex-direction:column;align-items:center;gap:3px;padding:14px 10px;border:1.5px dashed var(--alr-border-strong);border-radius:var(--alr-r-xs);cursor:pointer;text-align:center;font-size:12.5px;color:var(--alr-text-2)}
+        .alr-lc-photo-drop.drag,.alr-lc-photo-drop:hover{border-color:var(--alr-accent);background:var(--alr-hover)}
+        .alr-lc-photo-plus{font-size:20px;line-height:1;color:var(--alr-accent-text)}
+        .alr-lc-photo-sm{font-size:11px;color:var(--alr-muted)}
+        .alr-lc-photo-has{display:flex;gap:10px;align-items:center;margin-bottom:8px}
+        .alr-lc-photo-has img{width:70px;border-radius:6px;flex:none}
+        .alr-lc-photo-has div{display:flex;flex-direction:column;gap:2px;font-size:11.5px;color:var(--alr-text-2)}
+        .alr-lc-photo-has b{font-size:12.5px;color:var(--alr-text)}
+        .alr-lc-photo-msg{font-size:11.5px;color:var(--alr-muted);min-height:0}
         .alr-lc-notes{resize:vertical;min-height:64px;font-family:var(--bodyFont)}
         .alr-lc-input[readonly]{opacity:.75;cursor:default}
         .alr-lc-account{padding:0 20px 14px}
