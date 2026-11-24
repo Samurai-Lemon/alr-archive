@@ -290,7 +290,11 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
   // ── Cricut export. Design Space ignores a PNG's DPI (it counts 72 pixels per inch) and can't
   //    use text inside an SVG, so this makes a vector SVG with every letter turned into a shape,
   //    sized in px at 72 per inch: it lands at true size and stays sharp. ──
-  var OT_URL = 'https://cdnjs.cloudflare.com/ajax/libs/opentype.js/1.3.4/opentype.min.js';
+  // The ALR Grading desktop app reuses this script; it sets ALR_ASSETS (bundled font and
+  // opentype.js locations) and ALR_SAVE (writes the file to the chosen folder).
+  var ASSETS = window.ALR_ASSETS || {};
+  var OT_URL = ASSETS.opentype || 'https://cdnjs.cloudflare.com/ajax/libs/opentype.js/1.3.4/opentype.min.js';
+  var FONT_DIR = ASSETS.fonts || '/static/fonts';
   var otReady = null;
   var otFonts = null;   // set once the outline fonts have loaded
   function loadOutliner() {
@@ -304,7 +308,7 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
       document.head.appendChild(sc);
     }).then(function() {
       function load(u) { return fetch(u).then(function(r) { if (!r.ok) throw new Error('font'); return r.arrayBuffer(); }).then(function(b) { return window.opentype.parse(b); }); }
-      return Promise.all([load('/static/fonts/inter-500.ttf'), load('/static/fonts/inter-600.ttf'), load('/static/fonts/inter-700.ttf'), load('/static/fonts/jetbrains-mono-400.ttf')]);
+      return Promise.all([load(FONT_DIR + '/inter-500.ttf'), load(FONT_DIR + '/inter-600.ttf'), load(FONT_DIR + '/inter-700.ttf'), load(FONT_DIR + '/jetbrains-mono-400.ttf')]);
     }).then(function(f) { otFonts = { 500: f[0], 600: f[1], 700: f[2], mono: f[3] }; return otFonts; });
     otReady.catch(function() { otReady = null; });
     return otReady;
@@ -494,8 +498,16 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
       if (which === 'front') { svg = buildFront(vf); base = 'alr_label_front'; }
       else if (which === 'back') { svg = buildBack(vb); base = 'alr_label_back'; }
       else { svg = buildFold(vf, vb); base = 'alr_label_foldcut'; win = FOLD_W_IN; hin = FOLD_H_IN; }
-      saveBlob(new Blob([cricutSvg(svg, win, hin, otFonts)], { type: 'image/svg+xml' }), base + '.svg');
-      if (s) s.textContent = 'Downloaded ' + base + '.svg · ' + inch(win) + ' × ' + inch(hin);
+      var out = cricutSvg(svg, win, hin, otFonts), size = inch(win) + ' × ' + inch(hin);
+      if (typeof window.ALR_SAVE === 'function') {
+        if (s) s.textContent = 'Saving…';
+        Promise.resolve(window.ALR_SAVE({ side: which === 'fold' ? 'foldcut' : which, name: vf.name, grade: vf.grade, svg: out }))
+          .then(function(msg) { if (s) s.textContent = (msg || 'Saved') + ' · ' + size; })
+          .catch(function(e) { if (s) s.textContent = 'Could not save: ' + (e && e.message ? e.message : e); });
+        return;
+      }
+      saveBlob(new Blob([out], { type: 'image/svg+xml' }), base + '.svg');
+      if (s) s.textContent = 'Downloaded ' + base + '.svg · ' + size;
     } catch (e) { if (s) s.textContent = 'Could not make the file. Try again.'; }
   }
 
@@ -538,6 +550,7 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
   //    can be installed even when it was reached by an in-site link. Opened as the app
   //    (standalone, or from the app's start link) the site's menus are hidden. ──
   function setupApp() {
+    if (window.ALR_DESKTOP) { document.documentElement.classList.add('alr-app'); return; }
     var head = document.head;
     function ensure(sel, tag, attrs) {
       if (head.querySelector(sel)) return;
