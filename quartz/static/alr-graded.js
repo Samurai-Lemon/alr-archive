@@ -52,8 +52,16 @@
   function fetchB64(url) {
     return fetch(url).then(function (r) { if (!r.ok) throw new Error('fetch ' + url); return r.arrayBuffer(); }).then(toBase64);
   }
+  // Card-database image hosts that don't allow pages to read their images (needed to put them in
+  // the PDF) are fetched through images.weserv.nl, a free image service that adds the header.
+  // It only ever sees the image address.
+  function readableUrl(url) {
+    if (!url || /^data:/.test(url) || url.indexOf(PHOTO_BASE) === 0 || /^https:\/\/images\.pokemontcg\.io\//.test(url) || url.charAt(0) === '/') return url;
+    return 'https://images.weserv.nl/?url=' + encodeURIComponent(url.replace(/^https?:\/\//, '')) + '&w=1000&output=jpg';
+  }
   // An image URL as a data: URL, re-encoded through a canvas (so any format becomes JPEG/PNG).
   function imageData(url, maxPx, type) {
+    url = readableUrl(url);
     return new Promise(function (resolve, reject) {
       var img = new Image();
       img.crossOrigin = 'anonymous';
@@ -244,7 +252,7 @@
         name: row.card_name, set: row.set_name, variant: row.printing, cardNumber: row.card_number, game: gameName(row.game),
         grade: row.grade, gradeLabel: row.grade_label, date: row.graded_on, condition: row.condition || {}, notes: row.notes,
         labelPng: labelPng,
-        photo: photoUrl(row.front_photo_path) || (row.official_image_url && GAMES[row.game] && GAMES[row.game].cors ? row.official_image_url : null),
+        photo: photoUrl(row.front_photo_path) || row.official_image_url || null,
         photoIsOfficial: !row.front_photo_path && !!row.official_image_url,
         photoSource: GAMES[row.game] ? GAMES[row.game].source : null
       };
@@ -272,11 +280,14 @@
   // Free public card databases. `cors` says whether the image host lets us draw the picture into
   // the PDF; `keep` whether we store its URL with a saved card (YGOPRODeck asks sites not to
   // hotlink, so Yu-Gi-Oh! images are only shown as thumbnails while picking).
+  // `show`: whether pages (cert page, Account list) may display the official image; YGOPRODeck
+  // asks sites not to hotlink, so Yu-Gi-Oh! images only appear in the picker and in the PDF.
   var GAMES = {
-    'one-piece': { label: 'One Piece', source: 'optcgapi.com', cors: false, keep: true, hint: 'Name or number, e.g. luffy or OP05-119' },
-    pokemon: { label: 'Pokémon', source: 'pokemontcg.io', cors: true, keep: true, hint: 'Name, or name and number, e.g. charizard 4' },
-    yugioh: { label: 'Yu-Gi-Oh!', source: 'YGOPRODeck', cors: false, keep: false, hint: 'Name, e.g. dark magician' }
+    'one-piece': { label: 'One Piece', source: 'optcgapi.com', cors: true, keep: true, show: true, hint: 'Name or number, e.g. luffy or OP05-119' },
+    pokemon: { label: 'Pokémon', source: 'pokemontcg.io', cors: true, keep: true, show: true, hint: 'Name, or name and number, e.g. charizard 4' },
+    yugioh: { label: 'Yu-Gi-Oh!', source: 'YGOPRODeck', cors: true, keep: true, show: false, hint: 'Name, e.g. dark magician' }
   };
+  function showOfficial(game) { return !!(GAMES[game] && GAMES[game].show); }
   // These free databases sometimes answer with a server error and then work a moment later
   // (pokemontcg.io does this often), so server errors and dropped connections are retried twice.
   function getJSON(url, tries) {
@@ -353,6 +364,7 @@
         return {
           game: 'yugioh', name: c.name, number: sets[0] ? sets[0].code : '', setName: sets[0] ? sets[0].set : '', printing: sets[0] ? sets[0].rarity : '',
           img: c.card_images && c.card_images[0] && c.card_images[0].image_url_small,
+          imgLarge: c.card_images && c.card_images[0] && c.card_images[0].image_url,
           title: c.name, sub: c.type || '', sub2: sets.length ? sets.length + (sets.length === 1 ? ' printing' : ' printings') : 'No printings listed',
           printings: sets,
           label: { name: upper(c.name), set: sets[0] ? upper(sets[0].code + ' · EN') : '', variant: sets[0] ? upper(sets[0].rarity) : '' }
@@ -529,10 +541,11 @@
     var box = $('alr-lc-photo-show');
     if (!box) return;
     var src = meta.photoData || (!meta.photoRemoved && meta.photoPath ? photoUrl(meta.photoPath) : null);
-    var off = !src && meta.official && meta.keepOfficial ? meta.official : null;
+    var off = !src && meta.official && showOfficial(meta.game) ? meta.official : null;
     box.innerHTML = src
       ? '<div class="alr-lc-photo-has"><img src="' + esc(src) + '" alt="Your card photo"><div><b>Your photo</b><span>Used on the report and cert page.</span><button type="button" class="alr-lc-linkbtn" id="alr-lc-photo-rm">Remove photo</button></div></div>'
-      : (off ? '<div class="alr-lc-photo-has"><img src="' + esc(off) + '" alt="" referrerpolicy="no-referrer"><div><b>Official image</b><span>Used until you add your own photo.</span></div></div>' : '');
+      : (off ? '<div class="alr-lc-photo-has"><img src="' + esc(off) + '" alt="" referrerpolicy="no-referrer"><div><b>Official image</b><span>Used until you add your own photo.</span></div></div>'
+        : (meta.official ? '<div class="alr-lc-photo-msg">The official card image goes on the report until you add your own photo.</div>' : ''));
     var drop = $('alr-lc-photo-drop'); if (drop) drop.style.display = src ? 'none' : '';
     var st = $('alr-lc-photo-msg'); if (st) st.textContent = msg || '';
     var rm = $('alr-lc-photo-rm');
@@ -601,7 +614,7 @@
     return '<div class="alr-cert-card alr-cert-empty"><div class="alr-cert-eb">ALR INITIATIVE GRADING</div><h2>' + esc(title) + '</h2><p>' + text + '</p></div>';
   }
   function renderCert(box, row) {
-    var img = photoUrl(row.front_photo_path) || row.official_image_url;
+    var img = photoUrl(row.front_photo_path) || (showOfficial(row.game) ? row.official_image_url : null);
     var cond = row.condition || {}, ck = [['centering', 'Centering'], ['corners', 'Corners'], ['edges', 'Edges'], ['surface', 'Surface']]
       .filter(function (k) { return cond[k[0]]; });
     var rows = [['Cert', '<span class="alr-cert-mono">' + esc(row.cert) + '</span>'], ['Card', esc(row.card_name)], ['Set / Series', esc(row.set_name)],
@@ -649,7 +662,7 @@
   function loadAccount(sb) {
     var box = document.getElementById('alr-account-graded');
     if (!box) return;
-    sb.from('graded_cards').select('id, cert, cert_no, card_name, set_name, printing, grade, grade_label, graded_on, front_photo_path, official_image_url, source')
+    sb.from('graded_cards').select('id, cert, cert_no, game, card_name, set_name, printing, grade, grade_label, graded_on, front_photo_path, official_image_url, source')
       .order('created_at', { ascending: false }).then(function (res) {
         if (res.error) { box.innerHTML = '<div class="alr-reg-empty">Couldn’t load your graded cards.</div>'; return; }
         accountRows = res.data || [];
@@ -664,7 +677,7 @@
       return;
     }
     box.innerHTML = '<div class="alr-gc-grid">' + accountRows.map(function (r, i) {
-      var img = photoUrl(r.front_photo_path) || r.official_image_url;
+      var img = photoUrl(r.front_photo_path) || (showOfficial(r.game) ? r.official_image_url : null);
       return '<div class="alr-gc">' +
         '<div class="alr-gc-img">' + (img ? '<img src="' + esc(img) + '" alt="" loading="lazy">' : '<span class="alr-gc-ph">' + esc(r.grade) + '</span>') + '</div>' +
         '<div class="alr-gc-meta"><div class="alr-gc-name">' + esc(r.card_name) + '</div>' +
