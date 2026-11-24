@@ -38,7 +38,16 @@
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
     });
   }
-  function certUrl(certNo) { return SITE + '/cert?c=' + Number(certNo); }
+  function certUrl(certNo, kind) { return SITE + '/cert?c=' + (kind === 'pregrade' ? 'PRE-' : '') + Number(certNo); }
+  function certPath(certNo, kind) { return '/cert?c=' + (kind === 'pregrade' ? 'PRE-' : '') + Number(certNo); }
+  var COMPANIES = [['psa', 'PSA'], ['tag', 'TAG'], ['bgs', 'Beckett'], ['cgc', 'CGC']];
+  function fmtG(v) { return v == null || v === '' ? '—' : String(v); }
+  // "Est. PSA 9 · TAG 9.5 · BGS 9 · CGC 9" from a pre-grade's estimates.
+  function estLine(pg, short) {
+    var e = (pg && pg.est) || {};
+    return COMPANIES.filter(function (c) { return e[c[0]] && e[c[0]].g != null; })
+      .map(function (c) { return (short && c[0] === 'bgs' ? 'BGS' : c[1]) + ' ' + e[c[0]].g; }).join(' · ');
+  }
   function photoUrl(path) { return path ? PHOTO_BASE + String(path).split('/').map(encodeURIComponent).join('/') : null; }
   function fmtDate(d) {
     if (!d) return '';
@@ -130,10 +139,11 @@
       // header
       if (icon) doc.addImage(icon, 'PNG', L, 36, 38, 38, 'icon', 'FAST');
       font('Mono', 'normal', 8, ACC); spaced('ALR INITIATIVE GRADING', L + 48, 50, 1.2);
-      font('Inter', 'bold', 19); txt('Grading Report', L + 48, 70);
+      var isPre = d.kind === 'pregrade', pg = d.pregrade || {};
+      font('Inter', 'bold', 19); txt(isPre ? 'Pre-grade Report' : 'Grading Report', L + 48, 70);
       font('Mono', 'normal', 8, ACC); spaced('CERT NO.', R, 50, 1.2, { align: 'right' });
       font('Mono', 'normal', 15); txt(d.cert || '', R, 70, { align: 'right' });
-      if (!needsQR) { font('Inter', 'normal', 7.5, MUTED); txt('Not registered to an ALR account', R, 82, { align: 'right' }); }
+      if (!needsQR) { font('Inter', 'normal', 7.5, MUTED); txt(isPre ? 'Not saved to an ALR account' : 'Not registered to an ALR account', R, 82, { align: 'right' }); }
       doc.setDrawColor.apply(doc, INK); doc.setLineWidth(1.5); doc.line(L, 90, R, 90);
 
       // photo (if any) on the left, grade + details on the right
@@ -157,7 +167,7 @@
       var gl = String(d.gradeLabel || ''), glw = doc.getTextWidth(gl) + 1 * gl.length + 16;
       doc.setDrawColor.apply(doc, ACC); doc.setLineWidth(1.8); doc.roundedRect(gx, top + 18, glw, 22, 2, 2, 'S');
       spaced(gl, gx + 8, top + 33.5, 1);
-      font('Inter', 'normal', 8.5, MUTED); txt('Archive grade · 1 to 10 scale', gx, top + 56);
+      font('Inter', 'normal', 8.5, MUTED); txt(isPre ? 'Estimate · ' + estLine(pg, true) : 'Archive grade · 1 to 10 scale', gx, top + 56);
 
       // details
       var y = top + 96, rows = [['Card', d.name, true], ['Set / Series', d.set], ['Variant / Edition', d.variant],
@@ -182,6 +192,31 @@
       }
       y = Math.max(y + 19, leftBottom) + 22;
 
+      // pre-grade measurements
+      if (isPre) {
+        var c = pg.centering || {}, f = c.front || {}, b = c.back || {}, sub = pg.sub || {}, est = pg.est || {};
+        font('Mono', 'normal', 7.5, MUTED); spaced('PRE-GRADE · MEASUREMENTS', L, y, 1.3); y += 8;
+        var boxes = [
+          ['FRONT CENTERING', (f.lr || '—') + ' · ' + (f.tb || '—')],
+          ['BACK CENTERING', (b.lr || '—') + ' · ' + (b.tb || '—')],
+          ['SUB-GRADES', [sub.centering, sub.corners, sub.edges, sub.surface].map(fmtG).join(' · ')],
+          ['ESTIMATE', COMPANIES.filter(function (k) { return est[k[0]]; }).slice(0, 2).map(function (k) { return (k[0] === 'bgs' ? 'BGS' : k[1]) + ' ' + est[k[0]].g; }).join(' · ') || '—']
+        ], bw2 = (W - 3 * 8) / 4;
+        boxes.forEach(function (bx, i) {
+          var cx = L + i * (bw2 + 8);
+          doc.setFillColor(255, 254, 251); doc.setDrawColor.apply(doc, LINE); doc.setLineWidth(0.6);
+          doc.roundedRect(cx, y, bw2, 40, 6, 6, 'FD');
+          font('Inter', 'normal', 7, MUTED); spaced(bx[0], cx + 9, y + 14, 0.5);
+          font('Inter', 'bold', 11); txt(doc.splitTextToSize(bx[1], bw2 - 16)[0], cx + 9, y + 31);
+        });
+        y += 40 + 10;
+        var per = COMPANIES.filter(function (k) { return est[k[0]]; }).map(function (k) {
+          var e = est[k[0]]; return k[1] + ' ' + e.g + (e.hi && e.hi !== e.g ? ' (' + e.hi + ' possible)' : '');
+        }).join('     ');
+        if (per) { font('Inter', 'normal', 9, INK); txt(per, L, y + 4); y += 12; }
+        if (pg.weak) { font('Inter', 'normal', 8.5, MUTED); txt(doc.splitTextToSize('Weakest areas: ' + pg.weak, W)[0], L, y + 4); y += 12; }
+        y += 12;
+      }
       // condition
       var cond = d.condition || {}, keys = [['centering', 'CENTERING'], ['corners', 'CORNERS'], ['edges', 'EDGES'], ['surface', 'SURFACE']];
       if (keys.some(function (k) { return cond[k[0]]; })) {
@@ -218,7 +253,7 @@
       doc.setDrawColor.apply(doc, INK); doc.setLineWidth(0.8); doc.line(L, 742, L + 190, 742);
       font('Inter', 'normal', 8.5, MUTED); txt('Grader signature', L, 755);
       if (needsQR) {
-        var m = qrMatrix(certUrl(d.certNo)), size = 64, cell = size / m.length, qx = R - size, qy = 700;
+        var m = qrMatrix(certUrl(d.certNo, d.kind)), size = 64, cell = size / m.length, qx = R - size, qy = 700;
         doc.setFillColor.apply(doc, INK);
         m.forEach(function (row, r) {
           var c = 0;
@@ -229,9 +264,13 @@
           }
         });
         font('Inter', 'normal', 8.5, MUTED); txt('Look up this cert', qx - 10, 722, { align: 'right' });
-        font('Inter', 'bold', 9); txt(certUrl(d.certNo).replace('https://', ''), qx - 10, 735, { align: 'right' });
+        font('Inter', 'bold', 9); txt(certUrl(d.certNo, d.kind).replace('https://', ''), qx - 10, 735, { align: 'right' });
       } else {
         font('Inter', 'normal', 8.5, MUTED); txt('Made with the ALR Grading Terminal · alrinitiative.com', R, 742, { align: 'right' });
+      }
+      if (isPre) {
+        font('Inter', 'normal', 6.5, [154, 148, 136]);
+        txt('Pre-grade estimate by the ALR Grading app. Not affiliated with PSA, TAG, Beckett or CGC; their grades can differ.', L, 769);
       }
       if (photo && d.photoIsOfficial) {
         font('Inter', 'normal', 6.5, [154, 148, 136]);
@@ -251,6 +290,7 @@
     var png = window.ALRLabel && window.ALRLabel.frontPng ? window.ALRLabel.frontPng(v).catch(function () { return null; }) : Promise.resolve(null);
     return png.then(function (labelPng) {
       return {
+        kind: row.kind || 'grade', pregrade: row.pregrade || null,
         cert: row.cert, certNo: row.cert_no != null ? row.cert_no : Number(String(row.cert).replace(/[^0-9]/g, '')),
         name: row.card_name, set: row.set_name, variant: row.printing, cardNumber: row.card_number, game: gameName(row.game),
         grade: row.grade, gradeLabel: row.grade_label, date: row.graded_on, condition: row.condition || {}, notes: row.notes,
@@ -637,6 +677,7 @@
     var img = photoUrl(row.front_photo_path) || (showOfficial(row.game) ? shown(row.game, row.official_image_url) : null);
     var cond = row.condition || {}, ck = [['centering', 'Centering'], ['corners', 'Corners'], ['edges', 'Edges'], ['surface', 'Surface']]
       .filter(function (k) { return cond[k[0]]; });
+    var isPre = row.kind === 'pregrade', pg = row.pregrade || {};
     var rows = [['Cert', '<span class="alr-cert-mono">' + esc(row.cert) + '</span>'], ['Card', esc(row.card_name)], ['Set / Series', esc(row.set_name)],
       ['Variant / Edition', esc(row.printing)], ['Card number', esc(row.card_number)], ['Game', esc(gameName(row.game))], ['Graded', esc(fmtDate(row.graded_on))]]
       .filter(function (r) { return r[1]; });
@@ -649,23 +690,40 @@
       labelV.name = row.card_name; labelV.set = lab.set || row.set_name || ''; labelV.variant = lab.variant || row.printing || '';
       labelV.cert = row.cert; labelV.grade = String(row.grade); labelV.gl = row.grade_label;
     }
+    var preBlock = '';
+    if (isPre) {
+      var cf = (pg.centering || {}).front || {}, cb = (pg.centering || {}).back || {}, sub = pg.sub || {}, est = pg.est || {};
+      var estCells = COMPANIES.filter(function (k) { return est[k[0]]; }).map(function (k) {
+        var e = est[k[0]];
+        return '<div><span>' + k[1] + '</span><b>' + esc(e.g) + '</b>' + (e.hi && e.hi !== e.g ? '<small>' + esc(e.hi) + ' possible</small>' : '') + '</div>';
+      }).join('');
+      preBlock = '<div class="alr-cert-sub">ESTIMATED GRADES</div><div class="alr-cert-cond alr-cert-est">' + estCells + '</div>' +
+        '<div class="alr-cert-sub">MEASUREMENTS</div><table class="alr-cert-table">' +
+        '<tr><td>Front centering</td><td>' + esc((cf.lr || '—') + ' · ' + (cf.tb || '—')) + '</td></tr>' +
+        '<tr><td>Back centering</td><td>' + esc((cb.lr || '—') + ' · ' + (cb.tb || '—')) + '</td></tr>' +
+        '<tr><td>Sub-grades</td><td>Centering ' + esc(fmtG(sub.centering)) + ' · Corners ' + esc(fmtG(sub.corners)) + ' · Edges ' + esc(fmtG(sub.edges)) + ' · Surface ' + esc(fmtG(sub.surface)) + '</td></tr>' +
+        (pg.weak ? '<tr><td>Weakest areas</td><td>' + esc(pg.weak) + '</td></tr>' : '') + '</table>' +
+        '<div class="alr-cert-app">Pre-grades are made with the ALR Grading desktop app. They’re estimates, not a final grade, and ALR isn’t affiliated with PSA, TAG, Beckett or CGC. <a href="/label-creator#alr-lc-desk" class="internal">Get the app →</a></div>';
+    }
     box.innerHTML =
       '<div class="alr-cert-card">' +
-        '<div class="alr-cert-head"><img src="/static/app/icon-192.png" alt="" width="40" height="40"><div><div class="alr-cert-eb">ALR INITIATIVE GRADING</div><div class="alr-cert-title">Grading Report</div></div>' +
+        '<div class="alr-cert-head"><img src="/static/app/icon-192.png" alt="" width="40" height="40"><div><div class="alr-cert-eb">ALR INITIATIVE GRADING</div><div class="alr-cert-title">' + (isPre ? 'Pre-grade Report' : 'Grading Report') + '</div></div>' +
           '<div class="alr-cert-no"><div class="alr-cert-eb">CERT NO.</div><div class="alr-cert-mono alr-cert-big">' + esc(row.cert) + '</div></div></div>' +
-        '<div class="alr-cert-ok">✓ Recorded in the ALR archive</div>' +
+        (isPre ? '<div class="alr-cert-ok alr-cert-pre">PRE-GRADE · ESTIMATE</div>' : '<div class="alr-cert-ok">✓ Recorded in the ALR archive</div>') +
         '<div class="alr-cert-main">' +
           (img ? '<figure class="alr-cert-photo"><img src="' + esc(img) + '" alt="' + esc(row.card_name) + '"><figcaption>' + (row.front_photo_path ? 'Front photo' : 'Official card image') + '</figcaption></figure>' : '') +
           '<div class="alr-cert-info">' +
-            '<div class="alr-cert-grade"><span class="alr-cert-num">' + esc(row.grade) + '</span><div><div class="alr-cert-name">' + esc(row.card_name) + '</div><span class="alr-cert-stamp">' + esc(row.grade_label) + '</span></div></div>' +
+            '<div class="alr-cert-grade"><span class="alr-cert-num">' + esc(row.grade) + '</span><div><div class="alr-cert-name">' + esc(row.card_name) + '</div><span class="alr-cert-stamp">' + esc(row.grade_label) + '</span>' +
+              (isPre && estLine(pg) ? '<div class="alr-cert-estline">Est. ' + esc(estLine(pg)) + '</div>' : '') + '</div></div>' +
             '<table class="alr-cert-table">' + rows.map(function (r) { return '<tr><td>' + r[0] + '</td><td>' + r[1] + '</td></tr>'; }).join('') + '</table>' +
           '</div>' +
         '</div>' +
+        preBlock +
         (ck.length ? '<div class="alr-cert-sub">CONDITION</div><div class="alr-cert-cond">' + ck.map(function (k) { return '<div><span>' + k[1] + '</span><b>' + esc(cond[k[0]]) + '</b></div>'; }).join('') + '</div>' : '') +
         (row.notes ? '<div class="alr-cert-sub">GRADER NOTES</div><div class="alr-cert-notes">' + esc(row.notes) + '</div>' : '') +
         (labelV ? '<div class="alr-cert-sub">LABEL</div><div class="alr-cert-label" id="alr-cert-label"></div>' : '') +
         '<div class="alr-cert-actions"><button type="button" class="alr-cert-btn" id="alr-cert-pdf">Download report (PDF)</button><span id="alr-cert-status"></span></div>' +
-        '<div class="alr-cert-foot">This page shows the grading report only. alrinitiative.com</div>' +
+        '<div class="alr-cert-foot">This page shows the ' + (isPre ? 'pre-grade' : 'grading') + ' report only. alrinitiative.com</div>' +
       '</div>';
     if (labelV) {
       window.ALRLabel.frontSvg(labelV).then(function (svg) {
@@ -689,11 +747,11 @@
   }
 
   // ── Account page: Your Graded Cards ────────────────────────────────────────
-  var accountRows = [];
+  var accountRows = [], gcFilter = 'all';
   function loadAccount(sb) {
     var box = document.getElementById('alr-account-graded');
     if (!box) return;
-    sb.from('graded_cards').select('id, cert, cert_no, game, card_name, set_name, printing, grade, grade_label, graded_on, front_photo_path, official_image_url, source')
+    sb.from('graded_cards').select('id, kind, cert, cert_no, game, card_name, set_name, printing, grade, grade_label, graded_on, front_photo_path, official_image_url, source, pregrade')
       .order('created_at', { ascending: false }).then(function (res) {
         if (res.error) { box.innerHTML = '<div class="alr-reg-empty">Couldn’t load your graded cards.</div>'; return; }
         accountRows = res.data || [];
@@ -709,18 +767,25 @@
         : '<div class="alr-reg-empty">No graded cards yet. Make a label in the <a href="/label-creator" class="internal">Grading Terminal</a> and choose Save card.</div>';
       return;
     }
-    box.innerHTML = '<div class="alr-gc-grid">' + accountRows.map(function (r, i) {
+    var hasPre = accountRows.some(function (r) { return r.kind === 'pregrade'; });
+    var filters = hasPre ? '<div class="alr-gc-filters">' + [['all', 'All'], ['pregrade', 'Pre-grades'], ['grade', 'Graded']].map(function (f) {
+      return '<button type="button" data-gc-filter="' + f[0] + '"' + (gcFilter === f[0] ? ' class="on"' : '') + '>' + f[1] + '</button>';
+    }).join('') + '</div>' : '';
+    box.innerHTML = filters + '<div class="alr-gc-grid">' + accountRows.map(function (r, i) {
+      if (gcFilter !== 'all' && (r.kind || 'grade') !== gcFilter) return '';
+      var pre = r.kind === 'pregrade';
       var img = photoUrl(r.front_photo_path) || (showOfficial(r.game) ? shown(r.game, r.official_image_url, 360) : null);
       return '<div class="alr-gc">' +
-        '<div class="alr-gc-img">' + (img ? '<img src="' + esc(img) + '" alt="" loading="lazy">' : '<span class="alr-gc-ph">' + esc(r.grade) + '</span>') + '</div>' +
+        '<div class="alr-gc-img">' + (img ? '<img src="' + esc(img) + '" alt="" loading="lazy">' : '<span class="alr-gc-ph">' + esc(r.grade) + '</span>') +
+          '<span class="alr-gc-tag ' + (pre ? 'pre' : 'fin') + '">' + (pre ? 'PRE-GRADE' : 'GRADED') + '</span></div>' +
         '<div class="alr-gc-meta"><div class="alr-gc-name">' + esc(r.card_name) + '</div>' +
           '<div class="alr-gc-sub"><span class="alr-gc-mono">' + esc(r.cert) + '</span>' + (r.set_name ? ' · ' + esc(r.set_name) : '') + '</div>' +
-          '<div class="alr-gc-grade"><b>' + esc(r.grade) + '</b><span>' + esc(r.grade_label) + '</span></div>' +
+          '<div class="alr-gc-grade' + (pre ? ' pre' : '') + '"><b>' + esc(r.grade) + '</b><span>' + esc(r.grade_label) + '</span>' + (pre && estLine(r.pregrade, true) ? '<em>' + esc(estLine(r.pregrade, true)) + '</em>' : '') + '</div>' +
           '<div class="alr-gc-actions">' +
-            '<a href="' + (window.ALR_DESKTOP ? certUrl(r.cert_no) : '/cert?c=' + Number(r.cert_no)) + '" target="_blank" rel="noopener">Report page ↗</a>' +
+            '<a href="' + (window.ALR_DESKTOP ? certUrl(r.cert_no, r.kind) : certPath(r.cert_no, r.kind)) + '" target="_blank" rel="noopener">Report page ↗</a>' +
             (typeof window.ALR_openEdit === 'function'
               ? '<button type="button" data-gc-edit="' + i + '">Edit</button>'
-              : '<a href="/label-creator?edit=' + encodeURIComponent(r.id) + '" class="internal">Edit</a>') +
+              : (pre ? '' : '<a href="/label-creator?edit=' + encodeURIComponent(r.id) + '" class="internal">Edit</a>')) +
             (window.ALR_DESKTOP && window.ALRLabel && window.ALRLabel.saveLabels ? '<button type="button" data-gc-labels="' + i + '">Labels</button>' : '') +
             '<button type="button" data-gc-pdf="' + i + '">PDF</button>' +
             '<button type="button" data-gc-del="' + i + '" class="alr-gc-del">Delete</button>' +
@@ -759,7 +824,10 @@
       });
     });
     Array.prototype.forEach.call(box.querySelectorAll('[data-gc-edit]'), function (b) {
-      b.addEventListener('click', function () { window.ALR_openEdit(accountRows[Number(b.getAttribute('data-gc-edit'))].id); });
+      b.addEventListener('click', function () { var r = accountRows[Number(b.getAttribute('data-gc-edit'))]; window.ALR_openEdit(r.id, r.kind || 'grade'); });
+    });
+    Array.prototype.forEach.call(box.querySelectorAll('[data-gc-filter]'), function (b) {
+      b.addEventListener('click', function () { gcFilter = b.getAttribute('data-gc-filter'); renderAccount(box, sb); });
     });
     Array.prototype.forEach.call(box.querySelectorAll('[data-gc-labels]'), function (b) {
       b.addEventListener('click', function () {
@@ -779,7 +847,9 @@
     reportPdf: reportPdf, rowToReport: rowToReport, fileStem: fileStem, saveFile: saveFile,
     gameName: gameName, loadAccount: loadAccount,
     cardMeta: cardMeta, clearMeta: clearMeta, detachMeta: detachMeta, resetLookup: resetLookup, setMetaFromRow: setMetaFromRow, savePayload: savePayload,
-    syncPhoto: syncPhoto, reportPhoto: reportPhoto, games: GAMES
+    syncPhoto: syncPhoto, reportPhoto: reportPhoto, games: GAMES,
+    search: function (game, q) { return SEARCH[game](q); }, shrinkPhoto: shrinkPhoto, shown: shown,
+    estLine: estLine, certPath: certPath, imageData: imageData
   };
   // The Account page may have asked for the list before this file finished loading.
   function initAccount() {

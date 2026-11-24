@@ -79,6 +79,22 @@ body[data-slug="cert"] h1.article-title, body[data-slug="cert"] p.content-meta, 
 .alr-gc-actions a, .alr-gc-actions button { font-size: 12px; padding: 5px 9px; border-radius: 8px; background: var(--alr-hover); color: var(--alr-text) !important; border: 0; cursor: pointer; text-decoration: none !important; font-family: inherit; }
 .alr-gc-actions .alr-gc-del { color: #e27a5e !important; }
 .alr-gc-status { font-size: 11.5px; color: var(--alr-muted); min-height: 1em; }
+.alr-gc-img { position: relative; }
+.alr-gc-tag { position: absolute; top: 8px; left: 8px; font-size: 9px; font-weight: 800; letter-spacing: .6px; padding: 2px 6px; border-radius: 4px; }
+.alr-gc-tag.pre { background: #3a2a10; color: #d9a441; border: 1px solid #5a4318; }
+.alr-gc-tag.fin { background: #1f2a1f; color: #9fd18f; border: 1px solid #2f4a2f; }
+.alr-gc-grade.pre span { border-color: #d9a441; color: #d9a441; }
+.alr-gc-grade em { font-style: normal; font-size: 11px; color: var(--alr-muted); }
+.alr-gc-filters { display: flex; gap: 6px; padding: 14px 14px 0; }
+.alr-gc-filters button { font-family: inherit; font-size: 12px; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--alr-border-strong); background: transparent; color: var(--alr-muted); cursor: pointer; }
+.alr-gc-filters button.on { background: var(--alr-text); color: var(--alr-bg); border-color: var(--alr-text); }
+/* pre-grade cert page */
+.alr-cert-pre { color: #8a5a12 !important; background: #fbefd6 !important; border-color: #eacb8a !important; }
+[saved-theme="dark"] .alr-cert-pre { color: #e5c26e !important; background: #2a2210 !important; border-color: #5a4318 !important; }
+.alr-cert-estline { margin-top: 6px; font-size: 13px; font-weight: 700; color: var(--alr-accent-text); }
+.alr-cert-est div { text-align: center; }
+.alr-cert-est small { display: block; font-size: 11px; color: var(--alr-muted); }
+.alr-cert-app { margin-top: 14px; font-size: 12.5px; color: var(--alr-text-2); background: var(--alr-surface-2); border: 1px dashed var(--alr-border-strong); border-radius: 10px; padding: 10px 12px; line-height: 1.5; }
 `
 
 export const ALRGradedCardsScript: QuartzComponent = () => (
