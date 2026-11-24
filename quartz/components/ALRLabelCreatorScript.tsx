@@ -222,7 +222,7 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
       + sidePanel(v, d)
       + t(170, 46, 15, v.mut, 'ARCHIVED · GRADED · CERTIFIED', { weight: 600, ls: 0.6 })
       + boxes
-      + t(litX, 138, 17, v.acc, '▲ ' + f.gl, { weight: 700, ls: 0.6 })
+      + t(lit === 10 ? litX : litX + bw / 2, 138, 17, v.acc, lit === 10 ? '▲ ' + f.gl : '▲', { anchor: lit === 10 ? null : 'middle', weight: 700, ls: lit === 10 ? 0.6 : 0 })
       + '<line x1="' + GX + '" y1="0" x2="' + GX + '" y2="200" stroke="' + d.line + '" stroke-width="2"/>'
       + t(GC, 36, 14, v.mut, 'CERT NO.', { anchor: 'middle', weight: 700, ls: 1 })
       + t(GC, 60, Math.max(13, Math.min(18, Math.floor(130 / Math.max(1, f.cert.length * 0.6)))), v.txt, f.cert, { anchor: 'middle', mono: true })
@@ -528,10 +528,27 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
       var n = el.cloneNode(true); el.parentNode.replaceChild(n, el); return n;
     }
 
-    ['name','set','variant','cert','grade','gl'].forEach(function(id) {
+    ['name','set','variant','cert','gl'].forEach(function(id) {
       var el = freshBtn('alr-lc-' + id);
       if (el) el.addEventListener('input', render);
     });
+    // Grade: whole numbers 1 to 10 only, and each level fills in its own name.
+    var gr = freshBtn('alr-lc-grade');
+    if (gr) {
+      var fix = function(final) {
+        if (gr.value === '' && !final) return;
+        var n = Math.round(Number(gr.value));
+        if (isNaN(n)) n = 10;
+        n = Math.max(1, Math.min(10, n));
+        if (String(n) !== gr.value) gr.value = String(n);
+        var name = SCALE[10 - n][1], gl = g('alr-lc-gl');
+        if (gl) gl.value = name;
+        render();
+      };
+      gr.addEventListener('input', function() { fix(false); });
+      gr.addEventListener('change', function() { fix(true); });
+      gr.addEventListener('blur', function() { fix(true); });
+    }
 
     var genBtn = freshBtn('alr-lc-cert-gen');
     if (genBtn) genBtn.addEventListener('click', function() {

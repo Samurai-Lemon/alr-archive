@@ -57,7 +57,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
               <div class="alr-lc-two">
                 <div class="alr-lc-field">
                   <div class="alr-lc-label">Grade</div>
-                  <input class="alr-lc-input" id="alr-lc-grade" type="number" value="10" />
+                  <input class="alr-lc-input" id="alr-lc-grade" type="number" min="1" max="10" step="1" inputmode="numeric" value="10" />
                 </div>
                 <div class="alr-lc-field">
                   <div class="alr-lc-label">Grade Label</div>
@@ -211,12 +211,15 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
         .alr-lc-svgwrap svg{width:100%;height:auto;display:block}
         .alr-lc-foldline{width:100%;max-width:520px;display:flex;align-items:center;gap:8px;font-size:9px;color:var(--gray);letter-spacing:1.5px}
         .alr-lc-foldline-dash{flex:1;border-top:1px dashed var(--gray)}
-        .alr-lc-actions{border-top:1px solid var(--alr-border);padding:12px 20px;display:flex;gap:8px;align-items:center;background:transparent;flex-wrap:wrap}
+        .alr-lc-right{container-type:inline-size}
+        .alr-lc-actions{border-top:1px solid var(--alr-border);padding:12px 20px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;align-items:center;background:transparent}
+        .alr-lc-actions button{width:100%;white-space:nowrap}
+        @container (max-width:470px){.alr-lc-actions{grid-template-columns:1fr}}
         .alr-lc-btn-primary{font-family:var(--bodyFont);font-size:14px;font-weight:600;min-height:40px;padding:0 16px;border-radius:var(--alr-r-sm);cursor:pointer;background:var(--alr-accent);border:none;color:var(--alr-on-accent);transition:all .15s}
         .alr-lc-btn-primary:hover{background:var(--alr-accent-text)}
         .alr-lc-btn-ghost{font-family:var(--bodyFont);font-size:14px;font-weight:500;min-height:40px;padding:0 16px;border-radius:var(--alr-r-sm);cursor:pointer;background:var(--alr-hover);border:none;color:var(--alr-text);transition:all .15s}
         .alr-lc-btn-ghost:hover{background:var(--alr-border-strong)}
-        .alr-lc-status{font-size:12px;color:var(--alr-accent-text);margin-left:auto}
+        .alr-lc-status{grid-column:1/-1;font-size:12px;color:var(--alr-accent-text);text-align:right}
         #alr-lc-colours-front,#alr-lc-colours-back{display:flex;flex-direction:column;gap:8px}
         .alr-lc-cert-row{display:flex;gap:6px;align-items:center}
         .alr-lc-cert-row .alr-lc-input{flex:1}
