@@ -278,6 +278,10 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
     a.href = url; a.download = fn; a.rel = 'noopener'; a.style.display = 'none';
+    // The site's page router treats any same-site link as a page change and would swallow this
+    // click (a blob: URL counts as same-site), so it's told to leave the link alone.
+    a.setAttribute('data-router-ignore', '');
+    a.addEventListener('click', function(e) { e.stopPropagation(); });
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
     setTimeout(function() { URL.revokeObjectURL(url); }, 60000);
   }
@@ -288,6 +292,7 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
   //    sized in px at 72 per inch: it lands at true size and stays sharp. ──
   var OT_URL = 'https://cdnjs.cloudflare.com/ajax/libs/opentype.js/1.3.4/opentype.min.js';
   var otReady = null;
+  var otFonts = null;   // set once the outline fonts have loaded
   function loadOutliner() {
     if (otReady) return otReady;
     otReady = new Promise(function(resolve, reject) {
@@ -300,7 +305,7 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
     }).then(function() {
       function load(u) { return fetch(u).then(function(r) { if (!r.ok) throw new Error('font'); return r.arrayBuffer(); }).then(function(b) { return window.opentype.parse(b); }); }
       return Promise.all([load('/static/fonts/inter-500.ttf'), load('/static/fonts/inter-600.ttf'), load('/static/fonts/inter-700.ttf'), load('/static/fonts/jetbrains-mono-400.ttf')]);
-    }).then(function(f) { return { 500: f[0], 600: f[1], 700: f[2], mono: f[3] }; });
+    }).then(function(f) { otFonts = { 500: f[0], 600: f[1], 700: f[2], mono: f[3] }; return otFonts; });
     otReady.catch(function() { otReady = null; });
     return otReady;
   }
@@ -473,20 +478,27 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
 
   // One download: a vector SVG with text as shapes, transparent background, and drawing units
   // at 72 per inch so Cricut Design Space opens it at the label's real size.
+  // The file is built and saved inside the click itself. Safari only honours the file name
+  // (and saves instead of opening a tab) while it still counts as the user's click, so the
+  // fonts are loaded ahead of time when the page opens.
   function download(which) {
     var s = g('alr-lc-status');
-    if (s) s.textContent = 'Preparing…';
-    loadOutliner().then(function(otf) {
+    if (!otFonts) {
+      if (s) s.textContent = 'Loading fonts… click again in a moment.';
+      loadOutliner().then(function() { if (s) s.textContent = 'Ready'; })
+        .catch(function() { if (s) s.textContent = 'Could not load the fonts. Check your connection.'; });
+      return;
+    }
+    try {
       var vf = getF(), vb = getB(), svg, base, win = LABEL_W_IN, hin = LABEL_H_IN;
       if (which === 'front') { svg = buildFront(vf); base = 'alr_label_front'; }
       else if (which === 'back') { svg = buildBack(vb); base = 'alr_label_back'; }
       else { svg = buildFold(vf, vb); base = 'alr_label_foldcut'; win = FOLD_W_IN; hin = FOLD_H_IN; }
-      // Sent as a generic file type, not image/svg+xml, so browsers (Safari especially) save it
-      // straight to Downloads like the mod jars instead of opening it as a picture in a tab.
-      saveBlob(new Blob([cricutSvg(svg, win, hin, otf)], { type: 'application/octet-stream' }), base + '.svg');
-      if (s) s.textContent = 'Downloaded SVG · ' + inch(win) + ' × ' + inch(hin);
-    }).catch(function() { if (s) s.textContent = 'Could not make the file. Try again.'; });
+      saveBlob(new Blob([cricutSvg(svg, win, hin, otFonts)], { type: 'image/svg+xml' }), base + '.svg');
+      if (s) s.textContent = 'Downloaded ' + base + '.svg · ' + inch(win) + ' × ' + inch(hin);
+    } catch (e) { if (s) s.textContent = 'Could not make the file. Try again.'; }
   }
+
 
   function setPreset(name) {
     var p = PRESETS[name];
@@ -524,6 +536,7 @@ const ALRLabelCreatorScript: QuartzComponent = () => {
 
   function init() {
     if (!g('alr-lc-tool')) return;
+    loadOutliner().catch(function() {});   // get the download fonts ready now
 
     function freshBtn(id) {
       var el = g(id); if (!el) return null;
