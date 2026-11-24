@@ -1,5 +1,15 @@
 // @ts-nocheck
 import { QuartzComponent, QuartzComponentConstructor } from "./types"
+import { readFileSync } from "fs"
+import { createHash } from "crypto"
+import { join } from "path"
+
+// A version stamp from the script's contents, so browsers fetch the new file as soon as it
+// changes instead of reusing a cached copy for up to 10 minutes.
+let VERSION = "1"
+try {
+  VERSION = createHash("sha1").update(readFileSync(join(process.cwd(), "quartz", "static", "alr-graded.js"))).digest("hex").slice(0, 10)
+} catch (_e) {}
 
 // Always rendered (afterBody), like the other ALR scripts: Quartz's in-site navigation doesn't
 // re-run scripts, so /static/alr-graded.js loads once and reacts to "nav" itself. It powers the
@@ -74,7 +84,7 @@ body[data-slug="cert"] h1.article-title, body[data-slug="cert"] p.content-meta, 
 export const ALRGradedCardsScript: QuartzComponent = () => (
   <>
     <style dangerouslySetInnerHTML={{ __html: CSS }} />
-    <script src="/static/alr-graded.js" defer></script>
+    <script src={"/static/alr-graded.js?v=" + VERSION} defer></script>
   </>
 )
 ALRGradedCardsScript.displayName = "ALRGradedCardsScript"
