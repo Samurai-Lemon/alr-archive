@@ -34,15 +34,15 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
               <div class="alr-lc-section-label">Card Identity</div>
               <div class="alr-lc-field">
                 <div class="alr-lc-label">Card Name <span class="alr-lc-req">*</span></div>
-                <input class="alr-lc-input" id="alr-lc-name" value="CARD NAME" />
+                <input class="alr-lc-input" id="alr-lc-name" value="CARD NAME" maxlength="120" />
               </div>
               <div class="alr-lc-field">
                 <div class="alr-lc-label">Set / Series</div>
-                <input class="alr-lc-input" id="alr-lc-set" value="SET - SERIES - EN - YEAR" />
+                <input class="alr-lc-input" id="alr-lc-set" value="SET - SERIES - EN - YEAR" maxlength="120" />
               </div>
               <div class="alr-lc-field">
                 <div class="alr-lc-label">Variant / Edition</div>
-                <input class="alr-lc-input" id="alr-lc-variant" value="VARIANT / EDITION" />
+                <input class="alr-lc-input" id="alr-lc-variant" value="VARIANT / EDITION" maxlength="120" />
               </div>
               <div class="alr-lc-field">
                 <div class="alr-lc-label">Cert Number</div>
@@ -61,8 +61,39 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
                 </div>
                 <div class="alr-lc-field">
                   <div class="alr-lc-label">Grade Label</div>
-                  <input class="alr-lc-input" id="alr-lc-gl" value="GEM MINT" />
+                  <input class="alr-lc-input" id="alr-lc-gl" value="GEM MINT" maxlength="40" />
                 </div>
+              </div>
+              <div class="alr-lc-rule"></div>
+
+              <div class="alr-lc-section-label">Report <span class="alr-lc-opt">optional · not printed on the label</span></div>
+              <div class="alr-lc-field">
+                <div class="alr-lc-label">Date Graded</div>
+                <input class="alr-lc-input" id="alr-lc-rdate" type="date" />
+              </div>
+              <div class="alr-lc-two">
+                <div class="alr-lc-field">
+                  <div class="alr-lc-label">Centering</div>
+                  <input class="alr-lc-input" id="alr-lc-rcen" placeholder="55/45" maxlength="40" />
+                </div>
+                <div class="alr-lc-field">
+                  <div class="alr-lc-label">Corners</div>
+                  <input class="alr-lc-input" id="alr-lc-rcor" placeholder="Sharp" maxlength="40" />
+                </div>
+              </div>
+              <div class="alr-lc-two">
+                <div class="alr-lc-field">
+                  <div class="alr-lc-label">Edges</div>
+                  <input class="alr-lc-input" id="alr-lc-redg" placeholder="Clean" maxlength="40" />
+                </div>
+                <div class="alr-lc-field">
+                  <div class="alr-lc-label">Surface</div>
+                  <input class="alr-lc-input" id="alr-lc-rsur" placeholder="No marks" maxlength="40" />
+                </div>
+              </div>
+              <div class="alr-lc-field">
+                <div class="alr-lc-label">Grader Notes</div>
+                <textarea class="alr-lc-input alr-lc-notes" id="alr-lc-rnotes" rows={3} maxlength={2000} placeholder="Anything worth noting about the card"></textarea>
               </div>
               <div class="alr-lc-rule"></div>
 
@@ -161,8 +192,10 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
                 <button class="alr-lc-btn-primary" id="alr-lc-dl-front">Download Front</button>
                 <button class="alr-lc-btn-ghost" id="alr-lc-dl-back">Download Back</button>
                 <button class="alr-lc-btn-ghost" id="alr-lc-dl-fold">Download Fold</button>
+                <button class="alr-lc-btn-ghost" id="alr-lc-dl-report">Download Report</button>
                 <span class="alr-lc-status" id="alr-lc-status">Ready</span>
               </div>
+              <div class="alr-lc-account" id="alr-lc-account" hidden></div>
             </div>
           </div>
         </div>
@@ -255,9 +288,23 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
         html.alr-app .center{max-width:1100px!important;width:auto!important;margin:0 auto!important;padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))!important}
         html.alr-app .center > hr{display:none}
         html.alr-app .alr-lc-wrap{margin-top:0}
-        .alr-lc-actions{border-top:1px solid var(--alr-border);padding:12px 20px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;align-items:center;background:transparent}
+        .alr-lc-actions{border-top:1px solid var(--alr-border);padding:12px 20px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;align-items:center;background:transparent}
         .alr-lc-actions button{width:100%;white-space:nowrap}
-        @container (max-width:470px){.alr-lc-actions{grid-template-columns:1fr}}
+        @container (max-width:640px){.alr-lc-actions{grid-template-columns:repeat(2,minmax(0,1fr))}}
+        @container (max-width:360px){.alr-lc-actions{grid-template-columns:1fr}}
+        .alr-lc-opt{font-weight:400;color:var(--alr-muted);font-size:11px}
+        .alr-lc-notes{resize:vertical;min-height:64px;font-family:var(--bodyFont)}
+        .alr-lc-input[readonly]{opacity:.75;cursor:default}
+        .alr-lc-account{padding:0 20px 14px}
+        .alr-lc-acct{display:flex;align-items:center;gap:10px;flex-wrap:wrap;border:1px solid var(--alr-border-strong);border-radius:var(--alr-r-sm);padding:12px 14px;background:var(--alr-bg)}
+        .alr-lc-acct-txt{flex:1;min-width:200px;display:flex;flex-direction:column;gap:2px}
+        .alr-lc-acct-txt b{font-size:13.5px;color:var(--alr-text)}
+        .alr-lc-acct-txt span{font-size:12px;color:var(--alr-text-2);line-height:1.45}
+        .alr-lc-acct-ok b{color:#5d9a55}
+        .alr-lc-acct-btn{font-family:var(--bodyFont);font-size:13px;font-weight:700;min-height:36px;padding:0 14px;border-radius:var(--alr-r-xs);border:0;cursor:pointer;background:var(--alr-accent);color:var(--alr-on-accent)!important;text-decoration:none!important;display:inline-flex;align-items:center;white-space:nowrap}
+        .alr-lc-acct-btn.alr-lc-acct-ghost{background:transparent;border:1px solid var(--alr-accent);color:var(--alr-accent-text)!important}
+        .alr-lc-acct-btn[disabled]{opacity:.6;cursor:default}
+        .alr-lc-acct-msg{font-size:12px;color:var(--alr-muted);margin-top:6px}
         .alr-lc-btn-primary{font-family:var(--bodyFont);font-size:14px;font-weight:600;min-height:40px;padding:0 16px;border-radius:var(--alr-r-sm);cursor:pointer;background:var(--alr-accent);border:none;color:var(--alr-on-accent);transition:all .15s}
         .alr-lc-btn-primary:hover{background:var(--alr-accent-text)}
         .alr-lc-btn-ghost{font-family:var(--bodyFont);font-size:14px;font-weight:500;min-height:40px;padding:0 16px;border-radius:var(--alr-r-sm);cursor:pointer;background:var(--alr-hover);border:none;color:var(--alr-text);transition:all .15s}

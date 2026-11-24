@@ -107,6 +107,16 @@ const ALRAccount: QuartzComponent = (_props: QuartzComponentProps) => {
           </div>
           <div id="alr-account-submission-detail" class="alr-reg-detail alr-account-shared-detail" style="display:none"></div>
 
+          <div class="alr-reg-table-wrap" style="margin-bottom:16px">
+            <div class="alr-reg-table-head" style="display:flex;align-items:center;justify-content:space-between">
+              <div class="alr-reg-th">Your Graded Cards</div>
+              <span class="alr-reg-th" id="alr-account-graded-count" style="text-transform:none;letter-spacing:0"></span>
+            </div>
+            <div id="alr-account-graded">
+              <div class="alr-reg-empty">Loading graded cards...</div>
+            </div>
+          </div>
+
           <div class="alr-reg-table-wrap">
             <div class="alr-reg-table-head">
               <div class="alr-reg-th">Your Badges</div>

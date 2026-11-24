@@ -63,6 +63,9 @@ const AccountScript: QuartzComponent = () => {
     return clientPromise;
   }
 
+  // Shared with the Grading Terminal, the cert page and the graded-cards list (alr-graded.js).
+  window.ALR_supabase = getClient;
+
   function escapeHtml(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function(c) {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
@@ -439,6 +442,7 @@ const AccountScript: QuartzComponent = () => {
     sb.from("badges").select("*").order("awarded_at", { ascending: false }).then(function(res) {
       renderBadges(res.data || []);
     });
+    if (window.ALRGraded) window.ALRGraded.loadAccount(sb);
   }
 
   function claimAndLoad(sb) {

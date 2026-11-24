@@ -13,6 +13,7 @@ import ALRModFiles from "./quartz/components/mods/ALRModFiles"
 import ALRModsScript from "./quartz/components/mods/ALRModsScript"
 import ALRPageBanner, { hasPageBanner } from "./quartz/components/broadcast/ALRPageBanner"
 import ALRBroadcastScript from "./quartz/components/broadcast/ALRBroadcastScript"
+import { GradedCardsScript, CertPage } from "./quartz/components/ALRGradedCards"
 
 const isHome = (page: any) => page.fileData.slug === "index" || page.fileData.slug === ""
 const isEchoRegistry = (page: any) => page.fileData.slug === "Index/ECHO-Registry"
@@ -23,6 +24,7 @@ const isReality = (page: any) => page.fileData.frontmatter?.type === "reality"
 const isShop = (page: any) => page.fileData.slug === "Shop"
 const isLabelCreator = (page: any) => page.fileData.slug === "label-creator"
 const isAccount = (page: any) => page.fileData.slug === "Account"
+const isCert = (page: any) => page.fileData.slug === "cert"
 const isAdmin = (page: any) => page.fileData.slug === "Admin"
 const isMod = (page: any) => page.fileData.frontmatter?.type === "mod"
 const isModsIndex = (page: any) => page.fileData.slug === "Mods/index"
@@ -46,6 +48,7 @@ export const sharedPageComponents: SharedLayout = {
     Component.ALRMobileNav(),
     Component.ALRShopScript(),
     Component.AccountScript(),
+    GradedCardsScript(),
     Component.ALRReadingProgress(),
     Component.ALRSubmitWizard(),
     Component.ConditionalRender({
@@ -70,7 +73,7 @@ export const defaultContentPageLayout: PageLayout = {
   beforeBody: [
     Component.ConditionalRender({
       component: Component.ALRBanner(),
-      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isOrdo(page) && !isEcho(page) && !isShop(page) && !isLabelCreator(page) && !isAccount(page) && !isAdmin(page) && !isMod(page) && !isModsIndex(page) && !isBannerPage(page),
+      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isOrdo(page) && !isEcho(page) && !isShop(page) && !isLabelCreator(page) && !isCert(page) && !isAccount(page) && !isAdmin(page) && !isMod(page) && !isModsIndex(page) && !isBannerPage(page),
     }),
     Component.ConditionalRender({
       component: ALRPageBanner(),
@@ -121,6 +124,10 @@ export const defaultContentPageLayout: PageLayout = {
       condition: isAccount,
     }),
     Component.ConditionalRender({
+      component: CertPage(),
+      condition: isCert,
+    }),
+    Component.ConditionalRender({
       component: Component.ALRAdmin(),
       condition: isAdmin,
     }),
@@ -136,7 +143,7 @@ export const defaultListPageLayout: PageLayout = {
   beforeBody: [
     Component.ConditionalRender({
       component: Component.ALRBanner(),
-      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isOrdo(page) && !isEcho(page) && !isShop(page) && !isLabelCreator(page) && !isAccount(page) && !isAdmin(page) && !isMod(page) && !isModsIndex(page) && !isBannerPage(page),
+      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isOrdo(page) && !isEcho(page) && !isShop(page) && !isLabelCreator(page) && !isCert(page) && !isAccount(page) && !isAdmin(page) && !isMod(page) && !isModsIndex(page) && !isBannerPage(page),
     }),
     Component.ConditionalRender({
       component: ALRPageBanner(),
@@ -180,11 +187,11 @@ export const defaultListPageLayout: PageLayout = {
     }),
     Component.ConditionalRender({
       component: Component.ArticleTitle(),
-      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isEcho(page) && !isShop(page) && !isLabelCreator(page) && !isAccount(page) && !isAdmin(page) && !isMod(page) && !isModsIndex(page),
+      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isEcho(page) && !isShop(page) && !isLabelCreator(page) && !isCert(page) && !isAccount(page) && !isAdmin(page) && !isMod(page) && !isModsIndex(page),
     }),
     Component.ConditionalRender({
       component: Component.ContentMeta(),
-      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isEcho(page) && !isShop(page) && !isLabelCreator(page) && !isAccount(page) && !isAdmin(page) && !isMod(page) && !isModsIndex(page),
+      condition: (page) => !isHome(page) && !isEchoRegistry(page) && !isRealityRegistry(page) && !isEcho(page) && !isShop(page) && !isLabelCreator(page) && !isCert(page) && !isAccount(page) && !isAdmin(page) && !isMod(page) && !isModsIndex(page),
     }),
   ],
   left: [

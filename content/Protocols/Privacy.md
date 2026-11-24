@@ -69,6 +69,8 @@ The [[ALR Initiative]] does not endorse or assume responsibility for data practi
 
 **Accounts.** If you create an account, your email address and password are handled by [Supabase](https://supabase.com/privacy), our account and database provider, and are used only to sign you in and link you to your submissions. Passwords are never visible to us.
 
+**Saved grading cards.** If you save a card from the Grading Terminal, its details (card name, set, grade, condition, notes, label design and any photos you add) are stored with your account. Each saved card gets a public report page at alrinitiative.com/cert, which anyone with its cert number or QR code can view. That page never shows your name, email or account. Deleting the card from your Account page removes the report page.
+
 **Shop.** Product listings are loaded from our online store. Purchases are completed on the store's own checkout, which handles payment and shipping details under its own privacy policy. This site never sees your payment information.
 
 **Your choices.** You can block or delete cookies in your browser settings, and you can ask for your account and submissions to be deleted at any time using the contact below.
