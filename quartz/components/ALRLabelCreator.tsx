@@ -181,7 +181,7 @@ const ALRLabelCreator: QuartzComponent = (_props: QuartzComponentProps) => {
           <div class="alr-lc-desk-sub" id="alr-lc-desk-sub">Mac and Windows</div>
           <div class="alr-lc-desk-oth" id="alr-lc-desk-oth"><a href="https://github.com/Samurai-Lemon/alr-grading-app/releases/latest" target="_blank" rel="noopener">All versions ↗</a></div>
         </div>
-        <div class="alr-lc-desk-note">Not code-signed yet · Mac: right-click › Open the first time · Windows: More info › Run anyway</div>
+        <div class="alr-lc-desk-note">Not code-signed yet · Mac: open once, then System Settings › Privacy &amp; Security › Open Anyway · Windows: More info › Run anyway</div>
       </div>
 
       <style dangerouslySetInnerHTML={{ __html: `
