@@ -85,6 +85,8 @@ body[data-slug="cert"] h1.article-title, body[data-slug="cert"] p.content-meta, 
 .alr-gc-tag.fin { background: #1f2a1f; color: #9fd18f; border: 1px solid #2f4a2f; }
 .alr-gc-grade.pre span { border-color: #d9a441; color: #d9a441; }
 .alr-gc-grade em { font-style: normal; font-size: 11px; color: var(--alr-muted); }
+.alr-gc-grade { flex-wrap: wrap; }
+.alr-gc-grade em.alr-gc-real { color: var(--alr-text); font-weight: 700; }
 .alr-gc-filters { display: flex; gap: 6px; padding: 14px 14px 0; }
 .alr-gc-filters button { font-family: inherit; font-size: 12px; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--alr-border-strong); background: transparent; color: var(--alr-muted); cursor: pointer; }
 .alr-gc-filters button.on { background: var(--alr-text); color: var(--alr-bg); border-color: var(--alr-text); }

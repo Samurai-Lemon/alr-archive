@@ -48,6 +48,12 @@
     return COMPANIES.filter(function (c) { return e[c[0]] && e[c[0]].g != null; })
       .map(function (c) { return (short && c[0] === 'bgs' ? 'BGS' : c[1]) + ' ' + e[c[0]].g; }).join(' · ');
   }
+  // "PSA 10" once the owner has entered the grade the card came back with (pre-grades only)
+  function realLine(pg) {
+    var r = pg && pg.real;
+    if (!r || r.g == null) return '';
+    return (r.co === 'bgs' ? 'BGS' : String(r.co || '').toUpperCase()) + ' ' + r.g;
+  }
   function photoUrl(path) { return path ? PHOTO_BASE + String(path).split('/').map(encodeURIComponent).join('/') : null; }
   function fmtDate(d) {
     if (!d) return '';
@@ -215,6 +221,7 @@
         }).join('     ');
         if (per) { font('Inter', 'normal', 9, INK); txt(per, L, y + 4); y += 12; }
         if (pg.weak) { font('Inter', 'normal', 8.5, MUTED); txt(doc.splitTextToSize('Weakest areas: ' + pg.weak, W)[0], L, y + 4); y += 12; }
+        if (realLine(pg)) { font('Inter', 'bold', 9, ACC); txt('Graded ' + realLine(pg) + (pg.real.cert ? ' · cert ' + pg.real.cert : '') + (pg.real.on ? ' · back ' + fmtDate(pg.real.on) : '') + ' (entered by the owner)', L, y + 4); y += 12; }
         y += 12;
       }
       // condition
@@ -753,7 +760,13 @@
         var e = est[k[0]];
         return '<div><span>' + k[1] + '</span><b>' + esc(e.g) + '</b>' + (e.hi && e.hi !== e.g ? '<small>' + esc(e.hi) + ' possible</small>' : '') + '</div>';
       }).join('');
-      preBlock = '<div class="alr-cert-sub">ESTIMATED GRADES</div><div class="alr-cert-cond alr-cert-est">' + estCells + '</div>' +
+      var real = pg.real, rl = realLine(pg);
+      preBlock = (rl ? '<div class="alr-cert-sub">REAL GRADE</div><table class="alr-cert-table">' +
+          '<tr><td>Graded</td><td><b>' + esc(rl) + '</b>' + (est[real.co] && est[real.co].g != null ? ' · pre-grade said ' + esc((real.co === 'bgs' ? 'BGS' : String(real.co).toUpperCase()) + ' ' + est[real.co].g) : '') + '</td></tr>' +
+          (real.cert ? '<tr><td>Their cert</td><td><span class="alr-cert-mono">' + esc(real.cert) + '</span></td></tr>' : '') +
+          (real.on ? '<tr><td>Back on</td><td>' + esc(fmtDate(real.on)) + '</td></tr>' : '') +
+          '<tr><td></td><td>Entered by the card’s owner.</td></tr></table>' : '') +
+        '<div class="alr-cert-sub">ESTIMATED GRADES</div><div class="alr-cert-cond alr-cert-est">' + estCells + '</div>' +
         '<div class="alr-cert-sub">MEASUREMENTS</div><table class="alr-cert-table">' +
         '<tr><td>Front centering</td><td>' + esc((cf.lr || '—') + ' · ' + (cf.tb || '—')) + '</td></tr>' +
         '<tr><td>Back centering</td><td>' + esc((cb.lr || '—') + ' · ' + (cb.tb || '—')) + '</td></tr>' +
@@ -770,7 +783,8 @@
           (img ? '<figure class="alr-cert-photo"><img src="' + esc(img) + '" alt="' + esc(row.card_name) + '"><figcaption>' + (row.official_image_url ? 'Official card image' : 'Front photo') + '</figcaption></figure>' : '') +
           '<div class="alr-cert-info">' +
             '<div class="alr-cert-grade"><span class="alr-cert-num">' + esc(row.grade) + '</span><div><div class="alr-cert-name">' + esc(row.card_name) + '</div><span class="alr-cert-stamp">' + esc(row.grade_label) + '</span>' +
-              (isPre && estLine(pg) ? '<div class="alr-cert-estline">Est. ' + esc(estLine(pg)) + '</div>' : '') + '</div></div>' +
+              (isPre && estLine(pg) ? '<div class="alr-cert-estline">Est. ' + esc(estLine(pg)) + '</div>' : '') +
+              (isPre && realLine(pg) ? '<div class="alr-cert-estline"><b>Graded ' + esc(realLine(pg)) + '</b></div>' : '') + '</div></div>' +
             '<table class="alr-cert-table">' + rows.map(function (r) { return '<tr><td>' + r[0] + '</td><td>' + r[1] + '</td></tr>'; }).join('') + '</table>' +
           '</div>' +
         '</div>' +
@@ -836,7 +850,8 @@
           '<span class="alr-gc-tag ' + (pre ? 'pre' : 'fin') + '">' + (pre ? 'PRE-GRADE' : 'GRADED') + '</span></div>' +
         '<div class="alr-gc-meta"><div class="alr-gc-name">' + esc(r.card_name) + '</div>' +
           '<div class="alr-gc-sub"><span class="alr-gc-mono">' + esc(r.cert) + '</span>' + (r.set_name ? ' · ' + esc(r.set_name) : '') + '</div>' +
-          '<div class="alr-gc-grade' + (pre ? ' pre' : '') + '"><b>' + esc(r.grade) + '</b><span>' + esc(r.grade_label) + '</span>' + (pre && estLine(r.pregrade, true) ? '<em>' + esc(estLine(r.pregrade, true)) + '</em>' : '') + '</div>' +
+          '<div class="alr-gc-grade' + (pre ? ' pre' : '') + '"><b>' + esc(r.grade) + '</b><span>' + esc(r.grade_label) + '</span>' + (pre && estLine(r.pregrade, true) ? '<em>' + esc(estLine(r.pregrade, true)) + '</em>' : '') +
+            (pre && realLine(r.pregrade) ? '<em class="alr-gc-real">Graded ' + esc(realLine(r.pregrade)) + '</em>' : '') + '</div>' +
           '<div class="alr-gc-actions">' +
             '<a href="' + (window.ALR_DESKTOP ? certUrl(r.cert_no, r.kind) : certPath(r.cert_no, r.kind)) + '" target="_blank" rel="noopener">Report page ↗</a>' +
             (typeof window.ALR_openEdit === 'function'
@@ -905,7 +920,9 @@
     cardMeta: cardMeta, setCard: setCard, readableUrl: readableUrl, clearMeta: clearMeta, detachMeta: detachMeta, resetLookup: resetLookup, setMetaFromRow: setMetaFromRow, savePayload: savePayload,
     syncPhoto: syncPhoto, reportPhoto: reportPhoto, games: GAMES,
     search: function (game, q) { return SEARCH[game](q); }, getJSON: getJSON, opItem: opItem, pokemonQuery: pokemonQuery, shrinkPhoto: shrinkPhoto, shown: shown,
-    estLine: estLine, certPath: certPath, imageData: imageData
+    estLine: estLine, certPath: certPath, imageData: imageData, realLine: realLine,
+    // PDF pieces for the app's other PDFs (batch submission list)
+    loadPdf: loadPdf, loadPdfFonts: loadPdfFonts, loadIcon: loadIcon
   };
   // The Account page may have asked for the list before this file finished loading.
   function initAccount() {
