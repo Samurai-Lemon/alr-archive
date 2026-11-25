@@ -276,6 +276,38 @@
         font('Inter', 'normal', 6.5, [154, 148, 136]);
         txt('Card image: ' + (d.photoSource ? d.photoSource + ' (official card database)' : 'official card database') + '. Card art © its publisher.', L, 778);
       }
+      // Close-ups from the ALR Grading app's whitening finder (app reports only): one page per side.
+      (d.closeups || []).forEach(function (cu) {
+        doc.addPage();
+        if (icon) doc.addImage(icon, 'PNG', L, 36, 30, 30, 'icon', 'FAST');
+        font('Mono', 'normal', 8, ACC); spaced('ALR INITIATIVE GRADING', L + 40, 47, 1.2);
+        font('Inter', 'bold', 16); txt(cu.side + ' · corner & edge close-ups', L + 40, 64);
+        font('Mono', 'normal', 11); txt(d.cert || '', R, 64, { align: 'right' });
+        doc.setDrawColor.apply(doc, INK); doc.setLineWidth(1.5); doc.line(L, 80, R, 80);
+        var y2 = 104, cs = (W - 3 * 10) / 4;
+        font('Mono', 'normal', 7.5, MUTED); spaced('CORNERS', L, y2, 1.3); y2 += 8;
+        cu.corners.forEach(function (t, i) {
+          var cx = L + i * (cs + 10);
+          doc.setDrawColor.apply(doc, t.flag ? ACC : EDGE); doc.setLineWidth(t.flag ? 1.5 : 0.75);
+          doc.addImage(t.url, 'JPEG', cx, y2, cs, cs * t.h / t.w);
+          doc.rect(cx, y2, cs, cs * t.h / t.w, 'S');
+          font('Inter', 'bold', 8.5); txt(t.label, cx, y2 + cs + 13);
+          font('Inter', 'normal', 8, t.flag ? ACC : MUTED); txt(t.note, cx + cs, y2 + cs + 13, { align: 'right' });
+        });
+        y2 += cs + 36;
+        font('Mono', 'normal', 7.5, MUTED); spaced('EDGES · LAID FLAT, OUTER EDGE AT THE TOP', L, y2, 1.3); y2 += 8;
+        cu.edges.forEach(function (t) {
+          var h = W * t.h / t.w;
+          doc.setDrawColor.apply(doc, t.flag ? ACC : EDGE); doc.setLineWidth(t.flag ? 1.5 : 0.75);
+          doc.addImage(t.url, 'JPEG', L, y2, W, h);
+          doc.rect(L, y2, W, h, 'S');
+          font('Inter', 'bold', 8.5); txt(t.label, L, y2 + h + 13);
+          font('Inter', 'normal', 8, t.flag ? ACC : MUTED); txt(t.note, R, y2 + h + 13, { align: 'right' });
+          y2 += h + 28;
+        });
+        font('Inter', 'normal', 7.5, MUTED);
+        txt(doc.splitTextToSize('Circled spots were found automatically and are suggestions only. The finder looks for whitening on corners and edges; it can’t see surface scratches, print lines or dents.', W), L, Math.max(y2 + 4, 740));
+      });
       return doc.output('blob');
     });
   }
@@ -354,6 +386,16 @@
     });
   }
   function upper(s) { return String(s || '').toUpperCase(); }
+  // a price from a card database, in US dollars; null when it has none
+  function num(v) { var n = Number(v); return isFinite(n) && n > 0 ? Math.round(n * 100) / 100 : null; }
+  function tcgMarket(t) {
+    var pr = t && t.prices;
+    if (!pr) return null;
+    var order = ['holofoil', 'normal', 'reverseHolofoil', '1stEditionHolofoil', 'unlimitedHolofoil', '1stEditionNormal', 'unlimited'];
+    for (var i = 0; i < order.length; i++) if (pr[order[i]] && num(pr[order[i]].market || pr[order[i]].mid)) return num(pr[order[i]].market || pr[order[i]].mid);
+    for (var k in pr) if (pr[k] && num(pr[k].market || pr[k].mid)) return num(pr[k].market || pr[k].mid);
+    return null;
+  }
 
   // One Piece: optcgapi.com. Names look like "Monkey.D.Luffy (119) (Alternate Art)".
   function opItem(c) {
@@ -363,6 +405,7 @@
     return {
       game: 'one-piece', name: base, number: c.card_set_id, setName: c.set_name, printing: printing,
       img: c.card_image, title: base, sub: c.card_set_id + ' · ' + (tags.join(' · ') || 'Regular'), sub2: c.set_name,
+      price: num(c.market_price) || num(c.inventory_price),
       label: { name: upper(base), set: c.card_set_id + ' · EN', variant: upper(printing) }
     };
   }
@@ -395,14 +438,14 @@
   }
   // Any pokemontcg.io query, as picker items.
   function pokemonQuery(query) {
-    return getJSON('https://api.pokemontcg.io/v2/cards?q=' + encodeURIComponent(query) + '&pageSize=60&orderBy=-set.releaseDate&select=id,name,number,rarity,set,images', 5).then(function (j) {
+    return getJSON('https://api.pokemontcg.io/v2/cards?q=' + encodeURIComponent(query) + '&pageSize=60&orderBy=-set.releaseDate&select=id,name,number,rarity,set,images,tcgplayer', 5).then(function (j) {
       return ((j && j.data) || []).map(function (c) {
         var set = c.set || {}, total = set.printedTotal ? '/' + set.printedTotal : '', year = String(set.releaseDate || '').slice(0, 4);
         // the label's set line has room for about 32 characters, so long set names use the set code
         var setShort = String(set.name || '').length <= 18 ? set.name : (set.ptcgoCode || String(set.id || '').toUpperCase());
         return {
           game: 'pokemon', name: c.name, number: c.number + total, setName: set.name, printing: c.rarity || '',
-          img: c.images && c.images.small, imgLarge: c.images && c.images.large,
+          img: c.images && c.images.small, imgLarge: c.images && c.images.large, price: tcgMarket(c.tcgplayer),
           title: c.name, sub: (set.name || '') + ' · ' + c.number + total, sub2: [c.rarity, year].filter(Boolean).join(' · '),
           label: { name: upper(c.name), set: upper([setShort, c.number + total, year].filter(Boolean).join(' · ')), variant: upper(c.rarity || '') }
         };
@@ -413,13 +456,13 @@
   function searchYugioh(q) {
     return getJSON('https://db.ygoprodeck.com/api/v7/cardinfo.php?fname=' + encodeURIComponent(q) + '&num=40&offset=0').then(function (j) {
       return ((j && j.data) || []).map(function (c) {
-        var sets = (c.card_sets || []).map(function (s) { return { code: s.set_code, set: s.set_name, rarity: s.set_rarity }; });
+        var sets = (c.card_sets || []).map(function (s) { return { code: s.set_code, set: s.set_name, rarity: s.set_rarity, price: num(s.set_price) }; });
         return {
           game: 'yugioh', name: c.name, number: sets[0] ? sets[0].code : '', setName: sets[0] ? sets[0].set : '', printing: sets[0] ? sets[0].rarity : '',
           img: c.card_images && c.card_images[0] && c.card_images[0].image_url_small,
           imgLarge: c.card_images && c.card_images[0] && c.card_images[0].image_url,
           title: c.name, sub: c.type || '', sub2: sets.length ? sets.length + (sets.length === 1 ? ' printing' : ' printings') : 'No printings listed',
-          printings: sets,
+          printings: sets, price: num(c.card_prices && c.card_prices[0] && c.card_prices[0].tcgplayer_price),
           label: { name: upper(c.name), set: sets[0] ? upper(sets[0].code + ' · EN') : '', variant: sets[0] ? upper(sets[0].rarity) : '' }
         };
       });
